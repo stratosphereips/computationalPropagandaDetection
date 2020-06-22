@@ -1,5 +1,5 @@
 import sqlite3
-conn = sqlite3.connect('example.db')
+conn = sqlite3.connect('propaganda.db')
 c = conn.cursor()
 # Create table
 c.execute('''CREATE TABLE URLS (
