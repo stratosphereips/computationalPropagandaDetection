@@ -4,12 +4,19 @@ import sys
 from datetime import datetime
 from googlesearch import search
 import time
+import requests
+
 
 class URLs():
     def __init__(self):
         pass
+
     def children(self, parent: str, children: str):
         print(f'\tNew children in object: {parent} -> {children}')
+
+    def store_content(self, parent: str, content: str):
+        print(f'\tNew content in url: {parent}')
+
 
 def get_data_google(url):
     """
@@ -46,17 +53,27 @@ if __name__ == "__main__":
         URLs = URLs()
         # Get everything
         for url in urls_to_search:
+            # Get the content of the url and store it
+            content = requests.get(url).text
+            URLs.store_content(url, content)
+            # Get the date when this url was created
+            # not sure how yet
+            # Get other links to this URL for the next round (children)
             print(f'Searching for data for url: {url}')
             googledata = get_data_google(url)
             for children_url in googledata:
-                # Get the date when this url was created
+                # Add the children to the DB
                 URLs.children(url, children_url)
-                # Get the content of the url
-                # Get other links to this URL in the next round
-                urls_to_search.append(children_url)
-            # Forget this URL
-            urls_to_search.remove(url)
+                # Check that the children was not seen before in this call
+                try:
+                    if urls_to_search.index(children_url) < 0:
+                        # We dont have it, so append it
+                        urls_to_search.append(children_url)
+                except ValueError:
+                    pass
+            # Dont overload google
             time.sleep(4)
 
     except Exception as e:
         print(f"Error in main(): {e}")
+        print(f"{type(e)}")
