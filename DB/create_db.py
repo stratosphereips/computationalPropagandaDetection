@@ -3,15 +3,15 @@ conn = sqlite3.connect('propaganda.db')
 c = conn.cursor()
 # Create table
 c.execute('''CREATE TABLE URLS (
-	url_id INTEGER PRIMARY KEY AUTOINCREMENT,
+	url_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	url TEXT NOT NULL,
-	CONTENT TEXT NOT NULL,
+	CONTENT TEXT,
 	date_published DATE,
-	date_of_query DATE NOT NULL
+	date_of_query DATE
 );''')
 # Insert a row of data
 c.execute("""CREATE TABLE LINKS (
-	link_id INTEGER PRIMARY KEY AUTOINCREMENT,
+	link_id INTEGER PRIMARY KEY AUTOINCREMENT  NOT NULL,
 	parent_id INTEGER NOT NULL,
 	child_id INTEGER NOT NULL,
 	SOURCE TEXT,
