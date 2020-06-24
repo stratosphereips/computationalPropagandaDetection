@@ -6,13 +6,13 @@ from googlesearch import search
 import time
 import requests
 from DB.propaganda_db import DB
+import traceback
 
 
 class URLs():
     def __init__(self, file_db):
         self.urls = {}
         self.db = DB(file_db)
-        pass
 
     def set_child(self, parent: str, child: str):
         print(f'\tNew children in object: {parent} -> {child}')
@@ -77,56 +77,56 @@ def downloadContent(url):
 
 
 if __name__ == "__main__":
-    #try:
-    # Receive the first URL to search
-    #search_string = ' '.join(sys.argv[1:])
-    search_string = "https://www.fondsk.ru/news/2020/03/25/borba-s-koronavirusom-i-bolshoj-brat-50441.html"
+    try:
+        # Receive the first URL to search
+        search_string = ' '.join(sys.argv[1:])
 
-    # Here we keep the list of URLs still to search
-    urls_to_search = []
+        # Here we keep the list of URLs still to search
+        urls_to_search = []
 
-    # Store the first url
-    urls_to_search.append(search_string)
+        # Store the first url
+        urls_to_search.append(search_string)
 
-    # Get the URLs object
-    URLs = URLs("DB/propaganda.db")
-    iteration = 0
-    # Get everything
-    for url in urls_to_search:
-        print(f'Searching data for url: {url}')
-        URLs.add_url(url)
-        # Keep track of the iteration level
-        iteration += 1
-        # Get the content of the url and store it
-        content = downloadContent(url)
-        URLs.store_content(url, content)
-        # Get the date when this url was created
-        # not sure how yet
-        # Get other links to this URL for the next round (children)
-        googledata = get_data_google(url)
-        # googledata = ['http://aaa.com','http://ccc.com','http://bbb.com','http://aaa.com']
-        for children_url in googledata:
-            # Add the children to the DB
-            URLs.set_child(url, children_url)
-            # Check that the children was not seen before in this call
-            try:
-                _ = urls_to_search.index(children_url)
-                # We hav, so ignore
-                print(f'Repeated url: {children_url}')
-            except ValueError:
-                # The url was not in the list. Append
-                urls_to_search.append(children_url)
-            except Exception as e:
-                print(f"Error type {type(e)}")
-                print(f"Error {e}")
-        print(f'Urls after searching for th {iteration} URL: {urls_to_search}')
-        # Dont overload google
-        time.sleep(60)
+        # Get the URLs object
+        URLs = URLs("DB/propaganda.db")
+        iteration = 0
+        # Get everything
+        for url in urls_to_search:
+            print(f'Searching data for url: {url}')
+            URLs.add_url(url)
+            # Keep track of the iteration level
+            iteration += 1
+            # Get the content of the url and store it
+            content = downloadContent(url)
+            URLs.store_content(url, content)
+            # Get the date when this url was created
+            # not sure how yet
+            # Check that we dont have this node yet
+            # Get other links to this URL for the next round (children)
+            # googledata = get_data_google(url)
+            googledata = ['http://aaa.com']
+            for children_url in googledata:
+                # Add the children to the DB
+                URLs.set_child(url, children_url)
+                # Check that the children was not seen before in this call
+                try:
+                    _ = urls_to_search.index(children_url)
+                    # We hav, so ignore
+                    print(f'Repeated url: {children_url}')
+                except ValueError:
+                    # The url was not in the list. Append
+                    urls_to_search.append(children_url)
+                except Exception as e:
+                    print(f"Error type {type(e)}")
+                    print(f"Error {e}")
+            print(f'Urls after searching for th {iteration} URL: {urls_to_search}')
+            # Dont overload google
+            time.sleep(60)
 
-    print('Finished with all the graph of URLs')
-    print('Final list of urls')
-    URLs.show_urls()
-
-    # except Exception as e:
-    #     print(f"Error in main(): {e}")
-    #     print(f"{type(e)}")
+        print('Finished with all the graph of URLs')
+        print('Final list of urls')
+        URLs.show_urls()
+    except Exception as e:
+        print(f"Error in main(): {e}")
+        print(f"{type(e)}")
+        print(traceback.format_exc())
