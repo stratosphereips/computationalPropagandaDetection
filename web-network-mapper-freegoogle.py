@@ -5,32 +5,37 @@ from datetime import datetime
 from googlesearch import search
 import time
 import requests
+from DB.propaganda_db import DB
 
 
 class URLs():
-    def __init__(self):
+    def __init__(self, file_db):
         self.urls = {}
+        self.db = DB(file_db)
         pass
 
-    def children(self, parent: str, children: str):
-        print(f'\tNew children in object: {parent} -> {children}')
-        self.urls[parent]['children'] = children
+    def set_child(self, parent: str, child: str):
+        print(f'\tNew children in object: {parent} -> {child}')
+        self.urls[parent]['children'] = child
+        self.db.insert_link_urls(parent_url=parent, child_url=child, source="G")
 
     def store_content(self, parent: str, content: str):
         print(f'\tNew content in url: {parent}')
         self.urls[parent]['content'] = content
+        self.db.update_url_content(parent, content)
 
     def show_urls(self):
         """ Show all the urls in store """
         for url in self.urls:
             print(f'\tURL: {url}')
 
-    def addParent(self, url):
+    def add_url(self, url):
         """ Add only a parent
         so we can store other things before having a child
         Also if case of a url without children!
         """
         self.urls[url] = {}
+        self.db.insert_url(url=url)
 
 
 def get_data_google(url):
@@ -72,55 +77,56 @@ def downloadContent(url):
 
 
 if __name__ == "__main__":
-    try:
-        # Receive the first URL to search
-        search_string = ' '.join(sys.argv[1:])
+    #try:
+    # Receive the first URL to search
+    #search_string = ' '.join(sys.argv[1:])
+    search_string = "https://www.fondsk.ru/news/2020/03/25/borba-s-koronavirusom-i-bolshoj-brat-50441.html"
 
-        # Here we keep the list of URLs still to search
-        urls_to_search = []
+    # Here we keep the list of URLs still to search
+    urls_to_search = []
 
-        # Store the first url
-        urls_to_search.append(search_string)
+    # Store the first url
+    urls_to_search.append(search_string)
 
-        # Get the URLs object
-        URLs = URLs()
-        iteration = 0
-        # Get everything
-        for url in urls_to_search:
-            print(f'Searching data for url: {url}')
-            URLs.addParent(url)
-            # Keep track of the iteration level
-            iteration += 1
-            # Get the content of the url and store it
-            content = downloadContent(url)
-            URLs.store_content(url, content)
-            # Get the date when this url was created
-            # not sure how yet
-            # Get other links to this URL for the next round (children)
-            googledata = get_data_google(url)
-            # googledata = ['http://aaa.com','http://ccc.com','http://bbb.com','http://aaa.com']
-            for children_url in googledata:
-                # Add the children to the DB
-                URLs.children(url, children_url)
-                # Check that the children was not seen before in this call
-                try:
-                    _ = urls_to_search.index(children_url)
-                    # We hav, so ignore
-                    print(f'Repeated url: {children_url}')
-                except ValueError:
-                    # The url was not in the list. Append
-                    urls_to_search.append(children_url)
-                except Exception as e:
-                    print(f"Error type {type(e)}")
-                    print(f"Error {e}")
-            print(f'Urls after searching for th {iteration} URL: {urls_to_search}')
-            # Dont overload google
-            time.sleep(60)
+    # Get the URLs object
+    URLs = URLs("DB/propaganda.db")
+    iteration = 0
+    # Get everything
+    for url in urls_to_search:
+        print(f'Searching data for url: {url}')
+        URLs.add_url(url)
+        # Keep track of the iteration level
+        iteration += 1
+        # Get the content of the url and store it
+        content = downloadContent(url)
+        URLs.store_content(url, content)
+        # Get the date when this url was created
+        # not sure how yet
+        # Get other links to this URL for the next round (children)
+        googledata = get_data_google(url)
+        # googledata = ['http://aaa.com','http://ccc.com','http://bbb.com','http://aaa.com']
+        for children_url in googledata:
+            # Add the children to the DB
+            URLs.set_child(url, children_url)
+            # Check that the children was not seen before in this call
+            try:
+                _ = urls_to_search.index(children_url)
+                # We hav, so ignore
+                print(f'Repeated url: {children_url}')
+            except ValueError:
+                # The url was not in the list. Append
+                urls_to_search.append(children_url)
+            except Exception as e:
+                print(f"Error type {type(e)}")
+                print(f"Error {e}")
+        print(f'Urls after searching for th {iteration} URL: {urls_to_search}')
+        # Dont overload google
+        time.sleep(60)
 
-        print('Finished with all the graph of URLs')
-        print('Final list of urls')
-        URLs.show_urls()
+    print('Finished with all the graph of URLs')
+    print('Final list of urls')
+    URLs.show_urls()
 
-    except Exception as e:
-        print(f"Error in main(): {e}")
-        print(f"{type(e)}")
+    # except Exception as e:
+    #     print(f"Error in main(): {e}")
+    #     print(f"{type(e)}")

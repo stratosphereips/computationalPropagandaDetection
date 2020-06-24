@@ -5,16 +5,16 @@ import sqlalchemy
 class DB:
     def __init__(self, db_file):
         self.db_file = db_file
-        self.conn =  sqlite3.connect(self.db_file )
+        self.conn = sqlite3.connect(self.db_file )
         self.c = self.conn.cursor()
 
     def url_exist(self, url):
-        url_exist = db.c.execute("""SELECT url_id FROM URLS WHERE url=(?);""", (url,))
+        url_exist = self.c.execute("""SELECT url_id FROM URLS WHERE url=(?);""", (url,))
         if len(url_exist.fetchall()) > 0:
             return True
         return False
     def link_exist(self, parent_id, child_id):
-        url_exist = db.c.execute("""SELECT LINK_ID FROM LINKS WHERE parent_id=(?) and child_id=(?);""", (parent_id,child_id))
+        url_exist = self.c.execute("""SELECT LINK_ID FROM LINKS WHERE parent_id=(?) and child_id=(?);""", (parent_id,child_id))
         if len(url_exist.fetchall()) > 0:
             return True
 
@@ -28,6 +28,10 @@ class DB:
             raise Exception("URLS is not in DB")
         else:
             return ids[0][0]
+
+    def update_url_content(self, url, content):
+        self.c.execute("""UPDATE URLS SET content = ?  WHERE url = ?""", (content, url))
+        self.commit()
 
 
     def insert_url(self, url, content=None, date_published=None, date_of_query=None):
@@ -53,8 +57,9 @@ class DB:
 
         child_id = self.get_url_key(child_url)
         parent_id = self.get_url_key(parent_url)
-        if not db.link_exist(child_id, parent_id):
+        if not self.link_exist(child_id, parent_id):
             self.insert_link_id(child_id, parent_id, source)
+        self.commit()
 
     def commit(self):
         self.conn.commit()
@@ -65,16 +70,8 @@ class DB:
 
 if __name__ == '__main__':
     db = DB("propaganda.db")
-    s = 'sebas.html'
-    e = "elnaz.html"
-    db.insert_url(s)
-    db.insert_url(e)
-    db.insert_url(e)
-    print(db.c.execute("""SELECT * FROM URLS;""").fetchall())
-    db.insert_link_urls(s,e, "G")
+    print(db.c.execute("""SELECT URL FROM URLS;""").fetchall())
     print(db.c.execute("""SELECT * FROM LINKS;""").fetchall())
-
-    print(db.get_url_key(s))
     # #db.insert_url()
     #
     # print('INSERT INTO URLS(url) VALUES {}'.format(s.replace('"', '""')))
