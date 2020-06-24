@@ -16,7 +16,7 @@ import argparse
 
 # Read the serapi api key
 f = open('serapi.key')
-SERAPI_KEY = f.readline()[:-1]
+SERAPI_KEY = f.readline()
 f.close()
 
 
@@ -213,7 +213,7 @@ if __name__ == "__main__":
             # Get the content of the url and store it
             content = downloadContent(url)
             URLs.store_content(url, content)
-            # Get the date when this url was created
+
             # Get other links to this URL for the next round (children)
             data = trigger_api(url)
             urls = []
