@@ -79,6 +79,7 @@ def downloadContent(url):
         content = requests.get(url).text
     except requests.exceptions.ConnectionError:
         print('Error in getting content')
+        content = ''
     except Exception as e:
         print('Error getting the content of the web.')
         print(f'{e}')
