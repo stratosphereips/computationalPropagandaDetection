@@ -115,7 +115,7 @@ if __name__ == "__main__":
             URLs.store_content(url, content)
             # Get the date when this url was created
             # Get other links to this URL for the next round (children)
-            data = trigger_api(search_string)
+            data = trigger_api(url)
             urls = []
             for result in data['organic_results']:
                 urls.append(result['link'])
