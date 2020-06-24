@@ -86,7 +86,7 @@ def downloadContent(url):
         print(f'{type(e)}')
     name_file = url.split('/')[2]
     timemodifier = str(datetime.now().second)
-    file = open(name_file + '_' + timemodifier + '-content.html', 'w')
+    file = open('contents/' + name_file + '_' + timemodifier + '-content.html', 'w')
     file.write(content)
     file.close()
 
