@@ -70,6 +70,18 @@ class URLs():
         self.urls[url] = {}
         self.db.insert_url(url=url)
 
+    def set_datetime(self, url, datetime):
+        """
+        Set the datetime when the result was published
+        """
+        self.urls[url] = {'publication_date': datetime}
+
+    def set_search_datetime(self, url, result_search_date):
+        """
+        Set the datetime when we searched for this
+        """
+        self.urls[url] = {'search_date': result_search_date}
+
 
 def downloadContent(url):
     """
