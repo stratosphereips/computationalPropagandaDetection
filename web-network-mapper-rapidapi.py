@@ -64,10 +64,10 @@ if __name__ == "__main__":
         # Save json to disk
         modificator_time = str(datetime.now().hour) + ':' + str(datetime.now().minute) + ':' + str(datetime.now().second)
 
-        # Write the results to a json file so we dont lose them
+        # write the results to a json file so we dont lose them
         with open('results-' + modificator_time + '.json', 'w') as f:
             json.dump(data, f)
-            print('Json written to file')
+            print('json written to file')
 
         # Show results
         show_results(data)
