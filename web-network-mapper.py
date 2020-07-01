@@ -21,24 +21,43 @@ f.close()
 
 
 def build_a_graph(all_links, search_link):
+    """
+    Builds a graph based on the links between the urls.
+    """
 
     def filter_name(url):
+        # Takes out 'www' from the domain name in the URL.
+        # First finds the domain in the URL
         basename = url.split('/')[2]
+        # Takes out the 'www'
         if "www" == basename[:3]:
             return basename[4:]
         return basename
+
+    # Labels for each node. In this case it is the basename domain of the URL
     labels = {}
+    # Not sure what are the levels. Levels in the graph?
     levels = {search_link: 0}
+
+    # Create graph
     G = nx.DiGraph()
     G.add_edges_from(all_links)
+
+    # Manage colors. They are used for the levels of linkage
     colors = ["black"]
     possible_colors = ["red", "green", "c", "m", "y"]
 
+    # For each link, add a label and a color
     for (from_link, to_link) in all_links:
+        # Add labels to the node
         labels[from_link] = filter_name(from_link)
         labels[to_link] = filter_name(to_link)
+
+        # Count the levels
         if to_link not in levels:
+            # Add as level, the level of the parent + 1. So level is 0, 1, 2, etc.
             levels[to_link] = levels[from_link] + 1
+            # Based on the levels, add a color
             colors.append(possible_colors[levels[to_link] % len(possible_colors)])
     print(levels)
     nx.draw(G, labels=labels, node_color=colors, with_labels=True)
@@ -46,6 +65,7 @@ def build_a_graph(all_links, search_link):
     # pos = nx.spring_layout(G)
     # nx.draw_networkx_labels(G, pos, labels, font_size=16)
     plt.show()
+
 
 def trigger_api(search_leyword):
     """
