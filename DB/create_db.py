@@ -7,7 +7,8 @@ c.execute('''CREATE TABLE URLS (
 	url TEXT NOT NULL,
 	CONTENT TEXT,
 	date_published DATE,
-	date_of_query DATE
+	date_of_query DATE,
+	is_propaganda INT
 );''')
 # Insert a row of data
 c.execute("""CREATE TABLE LINKS (
@@ -24,6 +25,7 @@ c.execute("""CREATE TABLE LINKS (
          ON DELETE CASCADE
          ON UPDATE CASCADE
 );""")
+
 # Save (commit) the changes
 conn.commit()
 # We can also close the connection if we are done with it.

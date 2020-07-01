@@ -9,6 +9,9 @@ from serpapi.google_search_results import GoogleSearchResults
 import json
 import networkx as nx
 import matplotlib.pyplot as plt
+import matplotlib._color_data as mcd
+
+import argparse
 
 
 # Read the serapi api key
@@ -16,6 +19,33 @@ f = open('serapi.key')
 SERAPI_KEY = f.readline()[:-1]
 f.close()
 
+
+def build_a_graph(all_links, search_link):
+
+    def filter_name(url):
+        basename = url.split('/')[2]
+        if "www" == basename[:3]:
+            return basename[4:]
+        return basename
+    labels = {}
+    levels = {search_link: 0}
+    G = nx.DiGraph()
+    G.add_edges_from(all_links)
+    colors = ["black"]
+    possible_colors = ["red", "green", "c", "m", "y"]
+
+    for (from_link, to_link) in all_links:
+        labels[from_link] = filter_name(from_link)
+        labels[to_link] = filter_name(to_link)
+        if to_link not in levels:
+            levels[to_link] = levels[from_link] + 1
+            colors.append(possible_colors[levels[to_link] % len(possible_colors)])
+    print(levels)
+    nx.draw(G, labels=labels, node_color=colors, with_labels=True)
+    # nx.draw_spectral(G)
+    # pos = nx.spring_layout(G)
+    # nx.draw_networkx_labels(G, pos, labels, font_size=16)
+    plt.show()
 
 def trigger_api(search_leyword):
     """
@@ -80,13 +110,13 @@ class URLs():
         for url in self.urls:
             print(f'\tURL: {url}')
 
-    def add_url(self, url):
+    def add_url(self, url, is_propaganda=None):
         """ Add only a parent
         so we can store other things before having a child
         Also if case of a url without children!
         """
         self.urls[url] = {}
-        self.db.insert_url(url=url)
+        self.db.insert_url(url=url, is_propaganda=is_propaganda)
 
     def set_datetime(self, url, datetime):
         """
@@ -99,6 +129,7 @@ class URLs():
         Set the datetime when we searched for this
         """
         self.urls[url] = {'search_date': result_search_date}
+
 
 
 def downloadContent(url):
@@ -122,7 +153,13 @@ def downloadContent(url):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-l","--link", help = "link to build a graph", type=str)
+    parser.add_argument("-p","--is_propaganda", help = "link to build a graph", action="store_true")
+    parser.add_argument("-n","--number_of_iterations", help = "link to build a graph", type=int,)
+    args = parser.parse_args()
     try:
+
         # Create the dot object to plot a graph
         G = nx.Graph()
         # G = nx.cubical_graph()
@@ -132,36 +169,26 @@ if __name__ == "__main__":
         # Blacklist of pages to ignore
         blacklist = {'robots.txt', 'sitemap.xml'}
 
-        # Receive the first URL to search
-        search_string = ' '.join(sys.argv[1:])
-
-        # Here we keep the list of URLs still to search
-        urls_to_search = []
-
-        # Store the first url
-        urls_to_search.append(search_string)
-
         # Get the URLs object
         URLs = URLs("DB/propaganda.db")
-        iteration = 0
-        # Get everything
-        for url in urls_to_search:
+
+        URLs.add_url(args.link, int(args.is_propaganda))
+
+        # Here we keep the list of URLs still to search
+        urls_to_search = [args.link]
+
+        all_links = []
+
+        for iteration, url in enumerate(urls_to_search):
             # For now, dont go in an infinite search for the Internet.
-            if iteration == 30:
+            if iteration == args.number_of_iterations:
                 break
-            # Keep track of the iteration level
-            iteration += 1
 
             print('\n==========================================')
             print(f'Searching data for url: {url}')
 
             # Add this url
             URLs.add_url(url)
-
-            # Add the node
-            G.add_node(url)
-            # Add the label
-            labels[url] = url.split('/')[2]
 
             # Get the content of the url and store it
             content = downloadContent(url)
@@ -185,14 +212,7 @@ if __name__ == "__main__":
                 # The page is the text after the last /
                 if children_url.split('/')[-1] in blacklist:
                     continue
-
-                # Add the node
-                G.add_node(children_url)
-                # Add the label
-                labels[children_url] = children_url.split('/')[2]
-
-                # Add the edge
-                G.add_edge(url, children_url)
+                all_links.append([url, children_url])
 
                 # Add the children to the DB
                 URLs.set_child(url, children_url)
@@ -227,14 +247,13 @@ if __name__ == "__main__":
         print('Finished with all the graph of URLs')
         print('Final list of urls')
         URLs.show_urls()
+        build_a_graph(all_links, args.link)
 
-        # Generate the graph
-        nx.draw(G, labels=labels, with_labels=True)
-        # nx.draw_spectral(G)
-        # pos = nx.spring_layout(G)
-        # nx.draw_networkx_labels(G, pos, labels, font_size=16)
-        plt.show()
     except Exception as e:
         print(f"Error in main(): {e}")
         print(f"{type(e)}")
         print(traceback.format_exc())
+
+
+
+

@@ -34,11 +34,11 @@ class DB:
         self.commit()
 
 
-    def insert_url(self, url, content=None, date_published=None, date_of_query=None):
+    def insert_url(self, url, content=None, date_published=None, date_of_query=None, is_propaganda=None):
         url_exist = self.url_exist(url)
         if not url_exist:
-            self.c.execute(f"""INSERT INTO URLS(url, content, date_published, date_of_query) VALUES 
-            (?, ?, ?, ?) """, (url, content, date_published, date_of_query))
+            self.c.execute(f"""INSERT INTO URLS(url, content, date_published, date_of_query, is_propaganda) VALUES 
+            (?, ?, ?, ?, ?) """, (url, content, date_published, date_of_query, is_propaganda))
             self.commit()
 
     def insert_link_id(self, parent_id, child_id,  source=None):
@@ -70,7 +70,9 @@ class DB:
 
 if __name__ == '__main__':
     db = DB("propaganda.db")
+    print(db.c.execute("""SELECT COUNT(URL) FROM URLS;""").fetchall())
     print(db.c.execute("""SELECT URL FROM URLS;""").fetchall())
+
     print(db.c.execute("""SELECT * FROM LINKS;""").fetchall())
     # #db.insert_url()
     #
