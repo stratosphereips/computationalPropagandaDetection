@@ -59,8 +59,16 @@ def build_a_graph(all_links, search_link):
             levels[to_link] = levels[from_link] + 1
             # Based on the levels, add a color
             colors.append(possible_colors[levels[to_link] % len(possible_colors)])
-    print(levels)
-    nx.draw(G, labels=labels, node_color=colors, with_labels=True)
+    # print(levels)
+    # nx.draw(G, labels=labels, node_color=colors, with_labels=True)
+    # nx.draw_spring(G, labels=labels, node_color=colors)
+    # nx.draw_kamada_kawai(G, node_color=colors)
+    nx.draw_planar(G, labels=labels, node_color=colors)
+    # nx.draw_random(G, node_color=colors)
+    # nx.draw_shell(G, node_color=colors)
+    # nx.draw_spectral(G, node_color=colors)
+    # nx.draw_circular(G, node_color=colors)
+    # nx.draw_networkx_labels(G, node_color=colors)
     # nx.draw_spectral(G)
     # pos = nx.spring_layout(G)
     # nx.draw_networkx_labels(G, pos, labels, font_size=16)
@@ -150,7 +158,7 @@ def trigger_api(search_leyword):
             amount_of_results_so_far += len(new_results['organic_results'])
             # print(f' == Results retrieved so far: {amount_of_results_so_far}')
 
-        print(f'\t\tTotal amount of results retrieved: {amount_of_results_so_far}')
+        print(f'\tTotal amount of results retrieved: {amount_of_results_so_far}')
         # Store the results of the api for future comparison
         modificator_time = str(datetime.now().hour) + ':' + \
             str(datetime.now().minute) + ':' + \
@@ -181,7 +189,7 @@ class URLs():
         self.db.insert_link_urls(parent_url=parent, child_url=child, source="G")
 
     def store_content(self, parent: str, content: str):
-        print(f'\tNew content in url: {parent}')
+        print(f'\tNew content stored for url: {parent}')
         self.urls[parent]['content'] = content
         self.db.update_url_content(parent, content)
 
@@ -236,6 +244,7 @@ if __name__ == "__main__":
     parser.add_argument("-l", "--link", help="link to build a graph", type=str)
     parser.add_argument("-p", "--is_propaganda", help="link to build a graph", action="store_true")
     parser.add_argument("-n", "--number_of_iterations", help="link to build a graph", type=int,)
+    parser.add_argument("-c", "--dont_store_content", help="Do not store the content of pages to disk", action="store_true", default=False)
     args = parser.parse_args()
     try:
 
@@ -270,8 +279,9 @@ if __name__ == "__main__":
             URLs.add_url(url)
 
             # Get the content of the url and store it
-            content = downloadContent(url)
-            URLs.store_content(url, content)
+            if not args.dont_store_content:
+                content = downloadContent(url)
+                URLs.store_content(url, content)
 
             # Get other links to this URL for the next round (children)
             data = trigger_api(url)
@@ -326,8 +336,8 @@ if __name__ == "__main__":
             # print(f'\tUrls after searching for th {iteration} URL: {urls_to_search}')
 
         print('Finished with all the graph of URLs')
-        print('Final list of urls')
-        URLs.show_urls()
+        # print('Final list of urls')
+        # URLs.show_urls()
         build_a_graph(all_links, args.link)
 
     except Exception as e:
