@@ -16,7 +16,7 @@ import argparse
 
 # Read the serapi api key
 f = open('serapi.key')
-SERAPI_KEY = f.readline()[:-1]
+SERAPI_KEY = f.readline()
 f.close()
 
 
@@ -69,14 +69,17 @@ def build_a_graph(all_links, search_link):
 
 def trigger_api(search_leyword):
     """
-    Bing using BingSearchResults class
-    Baidu using BaiduSearchResults class
-    Yahoo using YahooSearchResults class
-    Ebay using EbaySearchResults class
-    Yandex using YandexSearchResults class
-    GoogleScholar using GoogleScholarSearchResults class
+    Access to the API of serapi
 
-    This api has
+    The API can do
+        Bing using BingSearchResults class
+        Baidu using BaiduSearchResults class
+        Yahoo using YahooSearchResults class
+        Ebay using EbaySearchResults class
+        Yandex using YandexSearchResults class
+        GoogleScholar using GoogleScholarSearchResults class
+
+    This api has as parameters
     "position": 8,
     "title": "COVID-19 и Мишель Фуко (некоторые мысли вслух ...",
     "link": "https://www.geopolitica.ru/article/covid-19-i-mishel-fuko-nekotorye-mysli-vsluh",
@@ -88,20 +91,77 @@ def trigger_api(search_leyword):
 
     """
     try:
+        # print(f' == Retriving results for {search_leyword}')
         params = {
                   "engine": "google",
                   "q": search_leyword,
                   "google_domain": "google.com",
                   "api_key": SERAPI_KEY
                 }
+
+        # Here we store all the results of all the search pages returned.
+        # We concatenate in this variable
+        all_results = []
+
+        # Get first results
         client = GoogleSearchResults(params)
         results = client.get_dict()
+        # Store this batch of results in the final list
+        all_results.append(results['organic_results'])
+
+        # Since the results came in batches of 10, get all the 'pages'
+        # together before continuing
+
+        amount_total_results = results['search_information']['total_results']
+        # The amount of results starts with 1, ends with 10 if there are > 10
+        amount_of_results_so_far = len(results['organic_results'])
+        # print(f' == Total amount of results: {amount_total_results}')
+        # print(f' == Results retrieved so far: {amount_of_results_so_far}')
+
+        # Threshold of maxium amount of results to retrieve. Now 100.
+        # Some pages can have 100000's
+        max_results = 100
+
+        # While we have results to get, get them
+        while (amount_of_results_so_far < amount_total_results) and \
+              (amount_of_results_so_far < max_results):
+            # print(' == Searching 10 more...')
+            # New params
+            params = {
+                      "engine": "google",
+                      "q": search_leyword,
+                      "google_domain": "google.com",
+                      "start": str(amount_of_results_so_far + 1),
+                      "api_key": SERAPI_KEY
+                    }
+            client = GoogleSearchResults(params)
+            new_results = client.get_dict()
+            # Store this batch of results in the final list
+            try:
+                all_results.append(new_results['organic_results'])
+            except KeyError:
+                # We dont have results. It can happen because search engines
+                # report an amount of results that has a lot of
+                # repetitions. So you can only access a part
+                # print(f'Error accessing organic results.
+                # Results: {new_results}')
+                break
+
+            amount_of_results_so_far += len(new_results['organic_results'])
+            # print(f' == Results retrieved so far: {amount_of_results_so_far}')
+
+        print(f'\t\tTotal amount of results retrieved: {amount_of_results_so_far}')
         # Store the results of the api for future comparison
-        modificator_time = str(datetime.now().hour) + ':' + str(datetime.now().minute) + ':' + str(datetime.now().second)
+        modificator_time = str(datetime.now().hour) + ':' + \
+            str(datetime.now().minute) + ':' + \
+            str(datetime.now().second)
         # write the results to a json file so we dont lose them
-        with open('results-' + modificator_time + '.json', 'w') as f:
+        with open('results-' + search_leyword.split('/')[2] + '_' +
+                  modificator_time + '.json', 'w') as f:
             json.dump(results, f)
-        return results
+
+        return all_results
+
     except Exception as e:
         print('Error in trigger_api()')
         print(f'{e}')
@@ -115,7 +175,7 @@ class URLs():
         self.db = DB(file_db)
 
     def set_child(self, parent: str, child: str):
-        #print(f'\tNew children in object: {parent} -> {child}')
+        # print(f'\tNew children in object: {parent} -> {child}')
         print(f'\tNew children in object: > {child}')
         self.urls[parent]['children'] = child
         self.db.insert_link_urls(parent_url=parent, child_url=child, source="G")
@@ -151,7 +211,6 @@ class URLs():
         self.urls[url] = {'search_date': result_search_date}
 
 
-
 def downloadContent(url):
     """
     Downlod the content of the web page
@@ -167,16 +226,16 @@ def downloadContent(url):
         print(f'{type(e)}')
     name_file = url.split('/')[2]
     timemodifier = str(datetime.now().second)
-    file = open('contents/' + name_file + '_' + timemodifier + '-content.html', 'w')
+    file = open('contents/' + name_file + '_' + timemodifier + '-content.html','w')
     file.write(content)
     file.close()
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-l","--link", help = "link to build a graph", type=str)
-    parser.add_argument("-p","--is_propaganda", help = "link to build a graph", action="store_true")
-    parser.add_argument("-n","--number_of_iterations", help = "link to build a graph", type=int,)
+    parser.add_argument("-l", "--link", help="link to build a graph", type=str)
+    parser.add_argument("-p", "--is_propaganda", help="link to build a graph", action="store_true")
+    parser.add_argument("-n", "--number_of_iterations", help="link to build a graph", type=int,)
     args = parser.parse_args()
     try:
 
@@ -205,7 +264,7 @@ if __name__ == "__main__":
                 break
 
             print('\n==========================================')
-            print(f'Searching data for url: {url}')
+            print(f'URL search number {iteration}. Searching data for url: {url}')
 
             # Add this url
             URLs.add_url(url)
@@ -213,14 +272,16 @@ if __name__ == "__main__":
             # Get the content of the url and store it
             content = downloadContent(url)
             URLs.store_content(url, content)
-            # Get the date when this url was created
+
             # Get other links to this URL for the next round (children)
             data = trigger_api(url)
-            urls = []
+
             # From all the jsons, get only the links to continue
+            urls = []
             try:
-                for result in data['organic_results']:
-                    urls.append(result['link'])
+                for page in data:
+                    for result in page:
+                        urls.append(result['link'])
             except KeyError:
                 # There are no organic_results
                 pass
@@ -262,7 +323,7 @@ if __name__ == "__main__":
                 except Exception as e:
                     print(f"Error type {type(e)}")
                     print(f"Error {e}")
-            print(f'\tUrls after searching for th {iteration} URL: {urls_to_search}')
+            # print(f'\tUrls after searching for th {iteration} URL: {urls_to_search}')
 
         print('Finished with all the graph of URLs')
         print('Final list of urls')
