@@ -9,7 +9,8 @@ from serpapi.google_search_results import GoogleSearchResults
 import json
 import networkx as nx
 import matplotlib.pyplot as plt
-import matplotlib._color_data as mcd
+import os
+import hashlib
 
 import argparse
 
@@ -19,7 +20,6 @@ f = open('serapi.key')
 SERAPI_KEY = f.readline()[:-1]
 f.close()
 
-
 def build_a_graph(all_links, search_link):
 
     def filter_name(url):
@@ -27,11 +27,12 @@ def build_a_graph(all_links, search_link):
         if "www" == basename[:3]:
             return basename[4:]
         return basename
-    labels = {}
-    levels = {search_link: 0}
     G = nx.DiGraph()
     G.add_edges_from(all_links)
+
     colors = ["black"]
+    labels = {}
+    levels = {search_link: 0}
     possible_colors = ["red", "green", "c", "m", "y"]
 
     for (from_link, to_link) in all_links:
@@ -39,13 +40,14 @@ def build_a_graph(all_links, search_link):
         labels[to_link] = filter_name(to_link)
         if to_link not in levels:
             levels[to_link] = levels[from_link] + 1
-            colors.append(possible_colors[levels[to_link] % len(possible_colors)])
-    print(levels)
-    nx.draw(G, labels=labels, node_color=colors, with_labels=True)
-    # nx.draw_spectral(G)
-    # pos = nx.spring_layout(G)
-    # nx.draw_networkx_labels(G, pos, labels, font_size=16)
+            colors.append(possible_colors[levels[to_link] % len(possible_colors)-1])
+    print(len(labels),len(levels), len(colors),  len(G.nodes), len(G.edges), len(all_links))
+    nx.draw_spring(G,  node_color=colors, labels=labels, with_labels=True)
     plt.show()
+    if not os.path.exists("graphs"):
+        os.makedirs("graphs")
+    fig_name_hashed_link = hashlib.md5(search_link.encode()).hexdigest()
+    plt.savefig(os.path.join("graphs", fig_name_hashed_link))
 
 def trigger_api(search_leyword):
     """
