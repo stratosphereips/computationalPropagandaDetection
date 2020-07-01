@@ -2,6 +2,11 @@
 
 A set of tools to work on computational propaganda detection
 
+##Running scirpt
+```python web-network-mapper.py -l LINK -n NUMBER_OF_ITERATIONS -p (include if it is propaganda)```
+Example of propaganda
+```python web-network-mapper.py -l https://euvsdisinfo.eu/report/despite-promises-to-the-contrary-nato-has-been-expanding-further-eastwards/ -p -n 30```
+
 
 ## Useful Info
 - https://towardsdatascience.com/current-google-search-packages-using-python-3-7-a-simple-tutorial-3606e459e0d4

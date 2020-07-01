@@ -156,9 +156,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-l","--link", help = "link to build a graph", type=str)
     parser.add_argument("-p","--is_propaganda", help = "link to build a graph", action="store_true")
-
+    parser.add_argument("-n","--number_of_iterations", help = "link to build a graph", type=int,)
     args = parser.parse_args()
     try:
+
         # Create the dot object to plot a graph
         G = nx.Graph()
         # G = nx.cubical_graph()
@@ -180,7 +181,7 @@ if __name__ == "__main__":
 
         for iteration, url in enumerate(urls_to_search):
             # For now, dont go in an infinite search for the Internet.
-            if iteration == 3:
+            if iteration == args.number_of_iterations:
                 break
 
             print('\n==========================================')
