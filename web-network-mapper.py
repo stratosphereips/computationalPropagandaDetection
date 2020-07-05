@@ -115,16 +115,19 @@ def trigger_api(search_leyword):
         client = GoogleSearchResults(params)
         results = client.get_dict()
         # Store this batch of results in the final list
-        all_results.append(results['organic_results'])
-
-        # Since the results came in batches of 10, get all the 'pages'
-        # together before continuing
-
-        amount_total_results = results['search_information']['total_results']
-        # The amount of results starts with 1, ends with 10 if there are > 10
-        amount_of_results_so_far = len(results['organic_results'])
-        # print(f' == Total amount of results: {amount_total_results}')
-        # print(f' == Results retrieved so far: {amount_of_results_so_far}')
+        try:
+            all_results.append(results['organic_results'])
+            # Since the results came in batches of 10, get all the 'pages'
+            # together before continuing
+            amount_total_results = results['search_information']['total_results']
+            # The amount of results starts with 1, ends with 10 if there are > 10
+            amount_of_results_so_far = len(results['organic_results'])
+            # print(f' == Total amount of results: {amount_total_results}')
+            # print(f' == Results retrieved so far: {amount_of_results_so_far}')
+        except KeyError:
+            # There are no 'organic_results' for this result
+            amount_total_results = 0
+            amount_of_results_so_far = 0
 
         # Threshold of maxium amount of results to retrieve. Now 100.
         # Some pages can have 100000's
