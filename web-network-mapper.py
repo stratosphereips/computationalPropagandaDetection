@@ -181,18 +181,20 @@ def trigger_api(search_leyword):
 
 
 class URLs():
-    def __init__(self, file_db):
+    def __init__(self, file_db, verbosity):
         self.urls = {}
         self.db = DB(file_db)
+        self.verbosity = verbosity
 
     def set_child(self, parent: str, child: str):
-        # print(f'\tNew children in object: {parent} -> {child}')
-        print(f'\tNew children in object: > {child}')
+        if self.verbosity > 2:
+            print(f'\tNew children in object: > {child}')
         self.urls[parent]['children'] = child
         self.db.insert_link_urls(parent_url=parent, child_url=child, source="G")
 
     def store_content(self, parent: str, content: str):
-        print(f'\tNew content stored for url: {parent}')
+        if self.verbosity > 2:
+            print(f'\tNew content stored for url: {parent}')
         self.urls[parent]['content'] = content
         self.db.update_url_content(parent, content)
 
@@ -244,10 +246,11 @@ def downloadContent(url):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-l", "--link", help="link to build a graph", type=str)
-    parser.add_argument("-p", "--is_propaganda", help="link to build a graph", action="store_true")
-    parser.add_argument("-n", "--number_of_iterations", help="link to build a graph", type=int,)
+    parser.add_argument("-l", "--link", help="URL to check is distribution pattern", type=str)
+    parser.add_argument("-p", "--is_propaganda", help="If the URL is propaganda . If absent, is not propaganda.", action="store_true")
+    parser.add_argument("-n", "--number_of_levels", help="How many 'ring' levels around the URL we are going to search", type=int)
     parser.add_argument("-c", "--dont_store_content", help="Do not store the content of pages to disk", action="store_true", default=False)
+    parser.add_argument("-v", "--verbosity", help="Verbosity level", type=int, default=0)
     args = parser.parse_args()
     try:
 
@@ -261,22 +264,41 @@ if __name__ == "__main__":
         blacklist = {'robots.txt', 'sitemap.xml'}
 
         # Get the URLs object
-        URLs = URLs("DB/propaganda.db")
+        URLs = URLs('DB/propaganda.db', args.verbosity)
 
         URLs.add_url(args.link, int(args.is_propaganda))
 
         # Here we keep the list of URLs still to search
-        urls_to_search = [args.link]
+        # We store the level of the URL
+        # The level is how far away it is from the original URL that we
+        # started from. So the original URL has level 0, and all the
+        # URLS linking to it have level 1, etc.
+        # We need a list so we can loop through it whil is changing and we
+        # need a dictionary to keep the levels. Is horrible to need both!
+        # But I dont know how to do better
 
+        # Keep only the urls
+        urls_to_search = []
+        urls_to_search.append(args.link)
+        # Keep the urls and their levels
+        urls_to_search_level = {}
+        urls_to_search_level[args.link] = 0
+
+        # Here we store all the pair of links as [link, link], so we can
+        # build the graph later
         all_links = []
 
-        for iteration, url in enumerate(urls_to_search):
-            # For now, dont go in an infinite search for the Internet.
-            if iteration == args.number_of_iterations:
+        for url in urls_to_search:
+
+            # If we reached the amount of 'ring' levels around the URL
+            # that we want, then stop
+            # We compared agains the args.number_of_levels - 1 because we always ask and add the leaves
+            # So if you want to see only the level 1, we only SEARCH until level 0 (origin URL)
+            if urls_to_search_level[url] > args.number_of_levels - 1:
                 break
 
             print('\n==========================================')
-            print(f'URL search number {iteration}. Searching data for url: {url}')
+            print(f'URL search level {urls_to_search_level[url]}. Searching data for url: {url}')
 
             # Add this url
             URLs.add_url(url)
@@ -296,8 +318,12 @@ if __name__ == "__main__":
                     for result in page:
                         urls.append(result['link'])
             except KeyError:
-                # There are no organic_results
+                # There are no 'organic_results' in this result
+                # just continue
                 pass
+
+            if args.verbosity > 1:
+                print(f'\tThere are {len(urls)} urls still to search.')
 
             for children_url in urls:
 
@@ -313,7 +339,6 @@ if __name__ == "__main__":
 
                 # Set the datetime for the url
                 # For now it is a string like "Mar 25, 2020"
-                result_date = ''
                 try:
                     result_date = result['date']
                 except KeyError:
@@ -326,17 +351,16 @@ if __name__ == "__main__":
                 URLs.set_search_datetime(url, result_search_date)
 
                 # Check that the children was not seen before in this call
-                try:
-                    _ = urls_to_search.index(children_url)
+                if children_url in urls_to_search:
                     # We hav, so ignore
-                    print(f'\tRepeated url: {children_url}')
-                except ValueError:
-                    # The url was not in the list. Append
+                    if args.verbosity > 2:
+                        print(f'\tRepeated url: {children_url}')
+                else:
+                    # The child should have the level of the parent + 1
+                    urls_to_search_level[children_url] = urls_to_search_level[url] + 1
                     urls_to_search.append(children_url)
-                except Exception as e:
-                    print(f"Error type {type(e)}")
-                    print(f"Error {e}")
-            # print(f'\tUrls after searching for th {iteration} URL: {urls_to_search}')
+                    if args.verbosity > 1:
+                        print(f'\tAdding the URL {children_url} with level {urls_to_search_level[children_url]}')
 
         print('Finished with all the graph of URLs')
         # print('Final list of urls')
