@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import sys
 from datetime import datetime
 import requests
 from DB.propaganda_db import DB
@@ -9,8 +8,6 @@ from serpapi.google_search_results import GoogleSearchResults
 import json
 import networkx as nx
 import matplotlib.pyplot as plt
-import matplotlib._color_data as mcd
-
 import argparse
 
 
@@ -28,7 +25,13 @@ def build_a_graph(all_links, search_link):
     def filter_name(url):
         # Takes out 'www' from the domain name in the URL.
         # First finds the domain in the URL
-        basename = url.split('/')[2]
+        if 'http' in url:
+            # we are searching a domain
+            basename = url.split('/')[2]
+        else:
+            # if a title, just the first word
+            basename = url.split(' ')[0]
+            pass
         # Takes out the 'www'
         if "www" == basename[:3]:
             return basename[4:]
@@ -115,16 +118,19 @@ def trigger_api(search_leyword):
         client = GoogleSearchResults(params)
         results = client.get_dict()
         # Store this batch of results in the final list
-        all_results.append(results['organic_results'])
-
-        # Since the results came in batches of 10, get all the 'pages'
-        # together before continuing
-
-        amount_total_results = results['search_information']['total_results']
-        # The amount of results starts with 1, ends with 10 if there are > 10
-        amount_of_results_so_far = len(results['organic_results'])
-        # print(f' == Total amount of results: {amount_total_results}')
-        # print(f' == Results retrieved so far: {amount_of_results_so_far}')
+        try:
+            all_results.append(results['organic_results'])
+            # Since the results came in batches of 10, get all the 'pages'
+            # together before continuing
+            amount_total_results = results['search_information']['total_results']
+            # The amount of results starts with 1, ends with 10 if there are > 10
+            amount_of_results_so_far = len(results['organic_results'])
+            # print(f' == Total amount of results: {amount_total_results}')
+            # print(f' == Results retrieved so far: {amount_of_results_so_far}')
+        except KeyError:
+            # There are no 'organic_results' for this result
+            amount_total_results = 0
+            amount_of_results_so_far = 0
 
         # Threshold of maxium amount of results to retrieve. Now 100.
         # Some pages can have 100000's
@@ -160,12 +166,22 @@ def trigger_api(search_leyword):
 
         print(f'\tTotal amount of results retrieved: {amount_of_results_so_far}')
         # Store the results of the api for future comparison
-        modificator_time = str(datetime.now().hour) + ':' + \
-            str(datetime.now().minute) + ':' + \
-            str(datetime.now().second)
+        #modificator_time = str(datetime.) + '_'+ str(datetime.now().hour) + ':' + \
+            #str(datetime.now().minute) + ':' + \
+            #str(datetime.now().second)
+        modificator_time = str(datetime.now()).replace(' ', '_')
         # write the results to a json file so we dont lose them
-        with open('results-' + search_leyword.split('/')[2] + '_' +
-                  modificator_time + '.json', 'w') as f:
+        if 'http' in search_leyword:
+            # we are searching a domain
+            for_file_name = search_leyword.split('/')[2]
+        else:
+            # if a title, just the first word
+            for_file_name = search_leyword.split(' ')[0]
+        file_name_jsons = 'results-' + for_file_name + '_' + \
+            modificator_time + '.json'
+        if args.verbosity > 1:
+            print(f'Storing the results of api in {file_name_jsons}')
+        with open(file_name_jsons, 'w') as f:
             json.dump(results, f)
 
         return all_results
@@ -178,18 +194,20 @@ def trigger_api(search_leyword):
 
 
 class URLs():
-    def __init__(self, file_db):
+    def __init__(self, file_db, verbosity):
         self.urls = {}
         self.db = DB(file_db)
+        self.verbosity = verbosity
 
     def set_child(self, parent: str, child: str):
-        # print(f'\tNew children in object: {parent} -> {child}')
-        print(f'\tNew children in object: > {child}')
+        if self.verbosity > 2:
+            print(f'\tNew children in object: > {child}')
         self.urls[parent]['children'] = child
         self.db.insert_link_urls(parent_url=parent, child_url=child, source="G")
 
     def store_content(self, parent: str, content: str):
-        print(f'\tNew content stored for url: {parent}')
+        if self.verbosity > 2:
+            print(f'\tNew content stored for url: {parent}')
         self.urls[parent]['content'] = content
         self.db.update_url_content(parent, content)
 
@@ -232,19 +250,27 @@ def downloadContent(url):
         print('Error getting the content of the web.')
         print(f'{e}')
         print(f'{type(e)}')
-    name_file = url.split('/')[2]
+
+    if 'http' in url:
+        # We are searching a domain
+        for_file_name = url.split('/')[2]
+    else:
+        # If a title, just the first word
+        for_file_name = url.split(' ')[0]
+
     timemodifier = str(datetime.now().second)
-    file = open('contents/' + name_file + '_' + timemodifier + '-content.html','w')
+    file = open('contents/' + for_file_name + '_' + timemodifier + '-content.html','w')
     file.write(content)
     file.close()
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-l", "--link", help="link to build a graph", type=str)
-    parser.add_argument("-p", "--is_propaganda", help="link to build a graph", action="store_true")
-    parser.add_argument("-n", "--number_of_iterations", help="link to build a graph", type=int,)
+    parser.add_argument("-l", "--link", help="URL to check is distribution pattern", type=str)
+    parser.add_argument("-p", "--is_propaganda", help="If the URL is propaganda . If absent, is not propaganda.", action="store_true")
+    parser.add_argument("-n", "--number_of_levels", help="How many 'ring' levels around the URL we are going to search", type=int)
     parser.add_argument("-c", "--dont_store_content", help="Do not store the content of pages to disk", action="store_true", default=False)
+    parser.add_argument("-v", "--verbosity", help="Verbosity level", type=int, default=0)
     args = parser.parse_args()
     try:
 
@@ -258,22 +284,41 @@ if __name__ == "__main__":
         blacklist = {'robots.txt', 'sitemap.xml'}
 
         # Get the URLs object
-        URLs = URLs("DB/propaganda.db")
+        URLs = URLs('DB/propaganda.db', args.verbosity)
 
         URLs.add_url(args.link, int(args.is_propaganda))
 
         # Here we keep the list of URLs still to search
-        urls_to_search = [args.link]
+        # We store the level of the URL
+        # The level is how far away it is from the original URL that we
+        # started from. So the original URL has level 0, and all the
+        # URLS linking to it have level 1, etc.
+        # We need a list so we can loop through it whil is changing and we
+        # need a dictionary to keep the levels. Is horrible to need both!
+        # But I dont know how to do better
 
+        # Keep only the urls
+        urls_to_search = []
+        urls_to_search.append(args.link)
+        # Keep the urls and their levels
+        urls_to_search_level = {}
+        urls_to_search_level[args.link] = 0
+
+        # Here we store all the pair of links as [link, link], so we can
+        # build the graph later
         all_links = []
 
-        for iteration, url in enumerate(urls_to_search):
-            # For now, dont go in an infinite search for the Internet.
-            if iteration == args.number_of_iterations:
+        for url in urls_to_search:
+
+            # If we reached the amount of 'ring' levels around the URL
+            # that we want, then stop
+            # We compared agains the args.number_of_levels - 1 because we always ask and add the leaves
+            # So if you want to see only the level 1, we only SEARCH until level 0 (origin URL)
+            if urls_to_search_level[url] > args.number_of_levels - 1:
                 break
 
             print('\n==========================================')
-            print(f'URL search number {iteration}. Searching data for url: {url}')
+            print(f'URL search level {urls_to_search_level[url]}. Searching data for url: {url}')
 
             # Add this url
             URLs.add_url(url)
@@ -293,16 +338,26 @@ if __name__ == "__main__":
                     for result in page:
                         urls.append(result['link'])
             except KeyError:
-                # There are no organic_results
+                # There are no 'organic_results' in this result
+                # just continue
                 pass
+
+            if args.verbosity > 1:
+                print(f'\tThere are {len(urls)} urls still to search.')
 
             for children_url in urls:
 
                 # Apply some black list of the pages we dont want, such as
                 # sitemap.xml and robots.txt , because they only have links
                 # The page is the text after the last /
-                if children_url.split('/')[-1] in blacklist:
-                    continue
+                if 'http' in url:
+                    # We are searching a domain
+                    if children_url.split('/')[-1] in blacklist:
+                        continue
+                else:
+                    # If a title, go
+                    pass
+
                 all_links.append([url, children_url])
 
                 # Add the children to the DB
@@ -310,7 +365,6 @@ if __name__ == "__main__":
 
                 # Set the datetime for the url
                 # For now it is a string like "Mar 25, 2020"
-                result_date = ''
                 try:
                     result_date = result['date']
                 except KeyError:
@@ -323,28 +377,26 @@ if __name__ == "__main__":
                 URLs.set_search_datetime(url, result_search_date)
 
                 # Check that the children was not seen before in this call
-                try:
-                    _ = urls_to_search.index(children_url)
+                if children_url in urls_to_search:
                     # We hav, so ignore
-                    print(f'\tRepeated url: {children_url}')
-                except ValueError:
-                    # The url was not in the list. Append
+                    if args.verbosity > 2:
+                        print(f'\tRepeated url: {children_url}')
+                else:
+                    # The child should have the level of the parent + 1
+                    urls_to_search_level[children_url] = urls_to_search_level[url] + 1
                     urls_to_search.append(children_url)
-                except Exception as e:
-                    print(f"Error type {type(e)}")
-                    print(f"Error {e}")
-            # print(f'\tUrls after searching for th {iteration} URL: {urls_to_search}')
+                    if args.verbosity > 1:
+                        print(f'\tAdding the URL {children_url} with level {urls_to_search_level[children_url]}')
 
         print('Finished with all the graph of URLs')
         # print('Final list of urls')
         # URLs.show_urls()
         build_a_graph(all_links, args.link)
 
+    except KeyboardInterrupt:
+        # If ctrl-c is pressed, do the graph anyway
+        build_a_graph(all_links, args.link)
     except Exception as e:
         print(f"Error in main(): {e}")
         print(f"{type(e)}")
         print(traceback.format_exc())
-
-
-
-
