@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import sys
 from datetime import datetime
 import requests
 from DB.propaganda_db import DB
@@ -9,7 +8,6 @@ from serpapi.google_search_results import GoogleSearchResults
 import json
 import networkx as nx
 import matplotlib.pyplot as plt
-import matplotlib._color_data as mcd
 
 import argparse
 
@@ -28,7 +26,13 @@ def build_a_graph(all_links, search_link):
     def filter_name(url):
         # Takes out 'www' from the domain name in the URL.
         # First finds the domain in the URL
-        basename = url.split('/')[2]
+        if 'http' in url:
+            # we are searching a domain
+            basename = url.split('/')[2]
+        else:
+            # if a title, just the first word
+            basename = url.split(' ')[0]
+            pass
         # Takes out the 'www'
         if "www" == basename[:3]:
             return basename[4:]
@@ -163,12 +167,22 @@ def trigger_api(search_leyword):
 
         print(f'\tTotal amount of results retrieved: {amount_of_results_so_far}')
         # Store the results of the api for future comparison
-        modificator_time = str(datetime.now().hour) + ':' + \
-            str(datetime.now().minute) + ':' + \
-            str(datetime.now().second)
+        #modificator_time = str(datetime.) + '_'+ str(datetime.now().hour) + ':' + \
+            #str(datetime.now().minute) + ':' + \
+            #str(datetime.now().second)
+        modificator_time = str(datetime.now()).replace(' ', '_')
         # write the results to a json file so we dont lose them
-        with open('results-' + search_leyword.split('/')[2] + '_' +
-                  modificator_time + '.json', 'w') as f:
+        if 'http' in search_leyword:
+            # we are searching a domain
+            for_file_name = search_leyword.split('/')[2]
+        else:
+            # if a title, just the first word
+            for_file_name = search_leyword.split(' ')[0]
+        file_name_jsons = 'results-' + for_file_name + '_' + \
+            modificator_time + '.json'
+        if args.verbosity > 1:
+            print(f'Storing the results of api in {file_name_jsons}')
+        with open(file_name_jsons, 'w') as f:
             json.dump(results, f)
 
         return all_results
@@ -237,9 +251,16 @@ def downloadContent(url):
         print('Error getting the content of the web.')
         print(f'{e}')
         print(f'{type(e)}')
-    name_file = url.split('/')[2]
+
+    if 'http' in url:
+        # We are searching a domain
+        for_file_name = url.split('/')[2]
+    else:
+        # If a title, just the first word
+        for_file_name = url.split(' ')[0]
+
     timemodifier = str(datetime.now().second)
-    file = open('contents/' + name_file + '_' + timemodifier + '-content.html','w')
+    file = open('contents/' + for_file_name + '_' + timemodifier + '-content.html','w')
     file.write(content)
     file.close()
 
@@ -330,8 +351,14 @@ if __name__ == "__main__":
                 # Apply some black list of the pages we dont want, such as
                 # sitemap.xml and robots.txt , because they only have links
                 # The page is the text after the last /
-                if children_url.split('/')[-1] in blacklist:
-                    continue
+                if 'http' in url:
+                    # We are searching a domain
+                    if children_url.split('/')[-1] in blacklist:
+                        continue
+                else:
+                    # If a title, go
+                    pass
+
                 all_links.append([url, children_url])
 
                 # Add the children to the DB
