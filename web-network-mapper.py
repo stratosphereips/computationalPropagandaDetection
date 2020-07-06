@@ -8,7 +8,6 @@ from serpapi.google_search_results import GoogleSearchResults
 import json
 import networkx as nx
 import matplotlib.pyplot as plt
-
 import argparse
 
 
