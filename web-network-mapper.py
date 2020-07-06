@@ -394,11 +394,10 @@ if __name__ == "__main__":
         # URLs.show_urls()
         build_a_graph(all_links, args.link)
 
+    except KeyboardInterrupt:
+        # If ctrl-c is pressed, do the graph anyway
+        build_a_graph(all_links, args.link)
     except Exception as e:
         print(f"Error in main(): {e}")
         print(f"{type(e)}")
         print(traceback.format_exc())
-
-
-
-
