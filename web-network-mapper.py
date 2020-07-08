@@ -1,14 +1,15 @@
 #!/usr/bin/env python
-
+import os
 from datetime import datetime
 import requests
-from DB.propaganda_db import DB
 import traceback
 from serpapi.google_search_results import GoogleSearchResults
 import json
 import networkx as nx
-import matplotlib.pyplot as plt
 import argparse
+from graph import build_a_graph
+from urls import URLs
+from utils import get_hash_for_url
 
 
 # Read the serapi api key
@@ -16,66 +17,35 @@ f = open('serapi.key')
 SERAPI_KEY = f.readline()
 f.close()
 
+def sanity_check(url):
+    # Blacklist of pages to ignore
+    blacklist = {'robots.txt', 'sitemap.xml'}
 
-def build_a_graph(all_links, search_link):
-    """
-    Builds a graph based on the links between the urls.
-    """
+    if "sitemap" in url:
+        return False
+    #Remove general sites like https://www.poolecommunity.com/
+    if len(url.split(".")[-1].split("/")[-1])>2:
+        return False
 
-    def filter_name(url):
-        # Takes out 'www' from the domain name in the URL.
-        # First finds the domain in the URL
-        if 'http' in url:
-            # we are searching a domain
-            basename = url.split('/')[2]
-        else:
-            # if a title, just the first word
-            basename = url.split(' ')[0]
-            pass
-        # Takes out the 'www'
-        if "www" == basename[:3]:
-            return basename[4:]
-        return basename
 
-    # Labels for each node. In this case it is the basename domain of the URL
-    labels = {}
-    # Not sure what are the levels. Levels in the graph?
-    levels = {search_link: 0}
+    # Apply some black list of the pages we dont want, such as
+    # sitemap.xml and robots.txt , because they only have links
+    # The page is the text after the last /
+    if url.split('/')[-1] in blacklist:
+        return False
 
-    # Create graph
-    G = nx.DiGraph()
-    G.add_edges_from(all_links)
+    if url.split(".")[-1] == ".xml":
+        return False
+    if "twitter" in url:
+        if "status" not in url:
+            return False
+    if "4chan" in url:
+        if "thread" not in url:
+            return False
 
-    # Manage colors. They are used for the levels of linkage
-    colors = ["black"]
-    possible_colors = ["red", "green", "c", "m", "y"]
+    return True
 
-    # For each link, add a label and a color
-    for (from_link, to_link) in all_links:
-        # Add labels to the node
-        labels[from_link] = filter_name(from_link)
-        labels[to_link] = filter_name(to_link)
 
-        # Count the levels
-        if to_link not in levels:
-            # Add as level, the level of the parent + 1. So level is 0, 1, 2, etc.
-            levels[to_link] = levels[from_link] + 1
-            # Based on the levels, add a color
-            colors.append(possible_colors[levels[to_link] % len(possible_colors)])
-    # print(levels)
-    # nx.draw(G, labels=labels, node_color=colors, with_labels=True)
-    # nx.draw_spring(G, labels=labels, node_color=colors)
-    # nx.draw_kamada_kawai(G, node_color=colors)
-    nx.draw_planar(G, labels=labels, node_color=colors)
-    # nx.draw_random(G, node_color=colors)
-    # nx.draw_shell(G, node_color=colors)
-    # nx.draw_spectral(G, node_color=colors)
-    # nx.draw_circular(G, node_color=colors)
-    # nx.draw_networkx_labels(G, node_color=colors)
-    # nx.draw_spectral(G)
-    # pos = nx.spring_layout(G)
-    # nx.draw_networkx_labels(G, pos, labels, font_size=16)
-    plt.show()
 
 
 def trigger_api(search_leyword):
@@ -181,7 +151,9 @@ def trigger_api(search_leyword):
             modificator_time + '.json'
         if args.verbosity > 1:
             print(f'Storing the results of api in {file_name_jsons}')
-        with open(file_name_jsons, 'w') as f:
+        if not os.path.exists("results"):
+            os.makedirs("results")
+        with open(os.path.join("results", file_name_jsons), 'w') as f:
             json.dump(results, f)
 
         return all_results
@@ -192,49 +164,6 @@ def trigger_api(search_leyword):
         print(f'{type(e)}')
         print(traceback.format_exc())
 
-
-class URLs():
-    def __init__(self, file_db, verbosity):
-        self.urls = {}
-        self.db = DB(file_db)
-        self.verbosity = verbosity
-
-    def set_child(self, parent: str, child: str):
-        if self.verbosity > 2:
-            print(f'\tNew children in object: > {child}')
-        self.urls[parent]['children'] = child
-        self.db.insert_link_urls(parent_url=parent, child_url=child, source="G")
-
-    def store_content(self, parent: str, content: str):
-        if self.verbosity > 2:
-            print(f'\tNew content stored for url: {parent}')
-        self.urls[parent]['content'] = content
-        self.db.update_url_content(parent, content)
-
-    def show_urls(self):
-        """ Show all the urls in store """
-        for url in self.urls:
-            print(f'\tURL: {url}')
-
-    def add_url(self, url, is_propaganda=None):
-        """ Add only a parent
-        so we can store other things before having a child
-        Also if case of a url without children!
-        """
-        self.urls[url] = {}
-        self.db.insert_url(url=url, is_propaganda=is_propaganda)
-
-    def set_datetime(self, url, datetime):
-        """
-        Set the datetime when the result was published
-        """
-        self.urls[url] = {'publication_date': datetime}
-
-    def set_search_datetime(self, url, result_search_date):
-        """
-        Set the datetime when we searched for this
-        """
-        self.urls[url] = {'search_date': result_search_date}
 
 
 def downloadContent(url):
@@ -280,9 +209,6 @@ if __name__ == "__main__":
         # Labels for the nx graph
         labels = {}
 
-        # Blacklist of pages to ignore
-        blacklist = {'robots.txt', 'sitemap.xml'}
-
         # Get the URLs object
         URLs = URLs('DB/propaganda.db', args.verbosity)
 
@@ -307,6 +233,9 @@ if __name__ == "__main__":
         # Here we store all the pair of links as [link, link], so we can
         # build the graph later
         all_links = []
+
+        # Links which failed sanity check
+        failed_links = []
 
         for url in urls_to_search:
 
@@ -342,56 +271,53 @@ if __name__ == "__main__":
                 # just continue
                 pass
 
+            # Set the datetime for the url
+            # For now it is a string like "Mar 25, 2020"
+            try:
+                result_date = result['date']
+            except KeyError:
+                # There is no date field in the results
+                result_date = ''
+            URLs.set_datetime(url, result_date)
+
             if args.verbosity > 1:
                 print(f'\tThere are {len(urls)} urls still to search.')
 
-            for children_url in urls:
+            for child_url in urls:
 
-                # Apply some black list of the pages we dont want, such as
-                # sitemap.xml and robots.txt , because they only have links
-                # The page is the text after the last /
-                if 'http' in url:
-                    # We are searching a domain
-                    if children_url.split('/')[-1] in blacklist:
-                        continue
+
+                if sanity_check(child_url):
+                    all_links.append([url, child_url])
+
+                    # Add the children to the DB
+                    URLs.set_child(url, child_url)
+
+                    # Set the time we asked for the results
+                    result_search_date = datetime.now()
+                    URLs.set_search_datetime(url, result_search_date)
+
+                    # Check that the children was not seen before in this call
+                    if child_url in urls_to_search:
+                        # We hav, so ignore
+                        if args.verbosity > 2:
+                            print(f'\tRepeated url: {child_url}')
+                    else:
+                        # The child should have the level of the parent + 1
+                        urls_to_search_level[child_url] = urls_to_search_level[url] + 1
+                        urls_to_search.append(child_url)
+                        if args.verbosity > 1:
+                            print(f'\tAdding the URL {child_url} with level {urls_to_search_level[child_url]}')
                 else:
-                    # If a title, go
-                    pass
+                    failed_links.append(child_url)
 
-                all_links.append([url, children_url])
-
-                # Add the children to the DB
-                URLs.set_child(url, children_url)
-
-                # Set the datetime for the url
-                # For now it is a string like "Mar 25, 2020"
-                try:
-                    result_date = result['date']
-                except KeyError:
-                    # There is no date field in the results
-                    result_date = ''
-                URLs.set_datetime(url, result_date)
-
-                # Set the time we asked for the results
-                result_search_date = datetime.now()
-                URLs.set_search_datetime(url, result_search_date)
-
-                # Check that the children was not seen before in this call
-                if children_url in urls_to_search:
-                    # We hav, so ignore
-                    if args.verbosity > 2:
-                        print(f'\tRepeated url: {children_url}')
-                else:
-                    # The child should have the level of the parent + 1
-                    urls_to_search_level[children_url] = urls_to_search_level[url] + 1
-                    urls_to_search.append(children_url)
-                    if args.verbosity > 1:
-                        print(f'\tAdding the URL {children_url} with level {urls_to_search_level[children_url]}')
-
-        print('Finished with all the graph of URLs')
+        print('Finished with all the graph of URLs. Total number of unique links are %d' % (len(all_links)))
         # print('Final list of urls')
         # URLs.show_urls()
         build_a_graph(all_links, args.link)
+        if not os.path.exists("removed_urls"):
+            os.makedirs("removed_urls")
+        with open(os.path.join("removed_urls", get_hash_for_url(args.link)), "w") as f:
+            f.write("\n".join(failed_links))
 
     except KeyboardInterrupt:
         # If ctrl-c is pressed, do the graph anyway
