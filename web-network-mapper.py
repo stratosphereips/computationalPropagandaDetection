@@ -16,34 +16,43 @@ f = open('serapi.key')
 SERAPI_KEY = f.readline()
 f.close()
 
+
 def sanity_check(url):
+    """
+    Check if we should or not download this URL by
+    applying different blacklists
+    """
     # Blacklist of pages to ignore
-    blacklist = {'robots.txt', 'sitemap.xml'}
+    blacklist = {'robots.txt'}
 
-    if "sitemap" in url:
-        return False
-    # Remove general sites like https://www.poolecommunity.com/
-    if len(url.split(".")[-1].split("/")[-1]) > 2:
-        return False
+    # The url_path is 'site.xml' in
+    # https://www.test.com/adf/otr/mine/site.xml
+    url_path = url.split('/')[-1]
+    domain = url.split('/')[2]
 
-    # Apply some black list of the pages we dont want, such as
-    # sitemap.xml and robots.txt , because they only have links
-    # The page is the text after the last /
-    if url.split('/')[-1] in blacklist:
+    # Apply blacklists of the pages we dont want
+    if url_path in blacklist:
         return False
 
-    if url.split(".")[-1] == ".xml":
+    # Remove homepages and folders
+    if url[-1] == '/':
         return False
-    if "twitter" in url:
+
+    # Delete all '.xml' pages
+    if url_path.split(".")[-1] == ".xml":
+        return False
+
+    # Delete twitter links that are not posts
+    if "twitter" in domain:
         if "status" not in url:
             return False
-    if "4chan" in url:
+
+    # Delete 4chan links that are not posts
+    if "4chan" in domain:
         if "thread" not in url:
             return False
 
     return True
-
-
 
 
 def trigger_api(search_leyword):
