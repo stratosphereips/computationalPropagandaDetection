@@ -178,6 +178,11 @@ def downloadContent(url):
     """
     try:
         content = requests.get(url).text
+        content = ''
+        # Download up to 5MB per page
+        headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
+        # Timeout waiting for an answer is 15 seconds
+        content = requests.get(url, timeout=15, headers=headers).text
     except requests.exceptions.ConnectionError:
         print('Error in getting content')
         content = ''
