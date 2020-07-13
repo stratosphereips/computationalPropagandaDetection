@@ -244,6 +244,10 @@ if __name__ == "__main__":
         # Links which failed sanity check
         failed_links = []
 
+        # Get the content of the url and store it
+        if not args.dont_store_content:
+            content = downloadContent(args.link)
+            URLs.store_content(args.link, content)
         for url in urls_to_search:
 
             # If we reached the amount of 'ring' levels around the URL
