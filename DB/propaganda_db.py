@@ -1,11 +1,11 @@
-
 import sqlite3
-import sqlalchemy
+from typing import List, Tuple
+
 
 class DB:
     def __init__(self, db_file):
         self.db_file = db_file
-        self.conn = sqlite3.connect(self.db_file )
+        self.conn = sqlite3.connect(self.db_file)
         self.c = self.conn.cursor()
 
     def url_exist(self, url):
@@ -13,15 +13,19 @@ class DB:
         if len(url_exist.fetchall()) > 0:
             return True
         return False
+
+    def get_url_by_id(self, url_id):
+        return self.c.execute("""SELECT url FROM URLS WHERE url_id=(?)""", (url_id,)).fetchall()
+
     def link_exist(self, parent_id, child_id):
-        url_exist = self.c.execute("""SELECT LINK_ID FROM LINKS WHERE parent_id=(?) and child_id=(?);""", (parent_id,child_id))
+        url_exist = self.c.execute("""SELECT LINK_ID FROM LINKS WHERE parent_id=(?) and child_id=(?);""", (parent_id, child_id))
         if len(url_exist.fetchall()) > 0:
             return True
 
         return False
 
-    def get_url_key(self, url):
-        ids = self.c.execute("""SELECT URL_ID FROM URLS WHERE url=(?)""", (url, )).fetchall()
+    def get_url_id(self, url):
+        ids = self.c.execute("""SELECT URL_ID FROM URLS WHERE url=(?)""", (url,)).fetchall()
         if len(ids) > 1:
             raise Exception("There are multiple ids for this url")
         if len(ids) == 0:
@@ -33,19 +37,21 @@ class DB:
         self.c.execute("""UPDATE URLS SET content = ?  WHERE url = ?""", (content, url))
         self.commit()
 
-
     def insert_url(self, url, content=None, date_published=None, date_of_query=None, is_propaganda=None):
         url_exist = self.url_exist(url)
         if not url_exist:
-            self.c.execute(f"""INSERT INTO URLS(url, content, date_published, date_of_query, is_propaganda) VALUES 
-            (?, ?, ?, ?, ?) """, (url, content, date_published, date_of_query, is_propaganda))
+            self.c.execute(
+                """INSERT INTO URLS(url, content, date_published, date_of_query, is_propaganda) VALUES
+            (?, ?, ?, ?, ?) """,
+                (url, content, date_published, date_of_query, is_propaganda),
+            )
             self.commit()
 
-    def insert_link_id(self, parent_id, child_id,  source=None):
-        self.c.execute(f"""INSERT INTO LINKS(parent_id, child_id, source) VALUES 
-                    (?, ?, ?) """, (parent_id, child_id,  source))
+    def insert_link_id(self, parent_id, child_id, source=None):
+        self.c.execute(
+            """INSERT INTO LINKS(parent_id, child_id, source) VALUES (?, ?, ?) """, (parent_id, child_id, source),
+        )
         self.commit()
-
 
     def insert_link_urls(self, parent_url, child_url, source):
         parent_url_exist = self.url_exist(parent_url)
@@ -55,10 +61,10 @@ class DB:
         if not child_url_exist:
             self.insert_url(child_url)
 
-        child_id = self.get_url_key(child_url)
-        parent_id = self.get_url_key(parent_url)
+        child_id = self.get_url_id(child_url)
+        parent_id = self.get_url_id(parent_url)
         if not self.link_exist(child_id, parent_id):
-            self.insert_link_id(child_id, parent_id, source)
+            self.insert_link_id(parent_id, child_id, source)
         self.commit()
 
     def commit(self):
@@ -67,16 +73,37 @@ class DB:
     def close(self):
         self.conn.close()
 
+    def get_tree(self, main_url: str) -> List[Tuple[str, str]]:
+        """
+        Function which return edges in form of [from_url, to_url] of subtree, where root of the tree is main url.
+        :param main_url: the root of the tree
+        :return: List of edges in form of [from_url, to_url]
+        """
+        main_id = self.get_url_id(main_url)  # id of this url in DB
+        parent_id_queue = [main_id]  # list od ids to be opened
+        visited_parents = [main_id]  # list od ids which already visited
+        edges = []  # edges of the subtree
+        for parent_id in parent_id_queue:
 
-if __name__ == '__main__':
+            visited_parents.append(parent_id)
+            # getting all childrens which start from the parent_id
+            # returns in the form of List[Tuples]
+            children_ids = self.c.execute("""SELECT child_id FROM LINKS WHERE parent_id=(?);""", (parent_id,)).fetchall()
+            parent_url = self.get_url_by_id(parent_id)[0][0]
+            for child_tuple in children_ids:
+                child_id = child_tuple[0]
+                # if the child was already expend, dont add it to the queue
+                if child_id not in visited_parents and child_id not in parent_id_queue:
+                    parent_id_queue.append(child_id)
+                child_url = self.get_url_by_id(child_id)[0][0]
+                edges.append((parent_url, child_url))
+        return edges
+
+
+if __name__ == "__main__":
     db = DB("propaganda.db")
-    print(db.c.execute("""SELECT COUNT(URL) FROM URLS;""").fetchall())
-    print(db.c.execute("""SELECT URL FROM URLS;""").fetchall())
-
-    print(db.c.execute("""SELECT * FROM LINKS;""").fetchall())
+    print(db.get_tree("https://www.bbc.com/news/world-europe-53332225"))
     # #db.insert_url()
     #
     # print('INSERT INTO URLS(url) VALUES {}'.format(s.replace('"', '""')))
     #
-
-
