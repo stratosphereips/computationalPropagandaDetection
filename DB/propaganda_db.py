@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sqlite3
 from typing import List, Tuple
 

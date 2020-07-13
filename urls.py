@@ -13,11 +13,11 @@ class URLs():
         self.urls[parent]['children'] = child
         self.db.insert_link_urls(parent_url=parent, child_url=child, source="G")
 
-    def store_content(self, parent: str, content: str):
+    def store_content(self, url: str, content: str):
         if self.verbosity > 2:
-            print(f'\tNew content stored for url: {parent}')
-        self.urls[parent]['content'] = content
-        self.db.update_url_content(parent, content)
+            print(f'\tNew content stored for url: {url}')
+        self.urls[url]['content'] = content
+        self.db.update_url_content(url, content)
 
     def show_urls(self):
         """ Show all the urls in store """

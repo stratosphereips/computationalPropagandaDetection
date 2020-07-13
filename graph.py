@@ -1,9 +1,11 @@
+#!/usr/bin/env python
 import os
 import networkx as nx
 import argparse
 from DB.propaganda_db import DB
 import matplotlib.pyplot as plt
 from utils import get_hash_for_url
+
 
 def filter_name(url):
     # Takes out 'www' from the domain name in the URL.
@@ -19,7 +21,6 @@ def filter_name(url):
     if "www" == basename[:3]:
         return basename[4:]
     return basename
-
 
 
 def build_a_graph(all_links, search_link):
@@ -76,13 +77,11 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-l", "--link", help="URL to check is distribution pattern", type=str)
-    parser.add_argument("-d", "--path_to_db", default="DB/propaganda.db" ,help="Path to Database", type=str)
+    parser.add_argument("-d", "--path_to_db", default="DB/propaganda.db", help="Path to Database", type=str)
 
     args = parser.parse_args()
-
 
     db = DB(args.path_to_db)
 
     all_links = db.get_tree(args.link)
     build_a_graph(all_links, args.link)
-

@@ -5,7 +5,6 @@ import requests
 import traceback
 from serpapi.google_search_results import GoogleSearchResults
 import json
-import networkx as nx
 import argparse
 from graph import build_a_graph
 from urls import URLs
@@ -17,35 +16,46 @@ f = open('serapi.key')
 SERAPI_KEY = f.readline()
 f.close()
 
+
 def sanity_check(url):
+    """
+    Check if we should or not download this URL by
+    applying different blacklists
+    """
     # Blacklist of pages to ignore
-    blacklist = {'robots.txt', 'sitemap.xml'}
+    blacklist = {'robots.txt'}
 
-    if "sitemap" in url:
-        return False
-    #Remove general sites like https://www.poolecommunity.com/
-    if len(url.split(".")[-1].split("/")[-1])>2:
-        return False
+    # The url_path is 'site.xml' in
+    # https://www.test.com/adf/otr/mine/site.xml
+    url_path = url.split('/')[-1]
+    domain = url.split('/')[2]
 
-
-    # Apply some black list of the pages we dont want, such as
-    # sitemap.xml and robots.txt , because they only have links
-    # The page is the text after the last /
-    if url.split('/')[-1] in blacklist:
+    # Apply blacklists of the pages we dont want
+    if url_path in blacklist:
         return False
 
-    if url.split(".")[-1] == ".xml":
+    # Remove homepages
+    # http://te.co has 3 splits
+    # http://te.co/ has 4 splits
+    if len(url.split('/')) == 3 or \
+            (len(url.split('/')) == 4 and url[-1] == '/'):
         return False
-    if "twitter" in url:
+
+    # Delete all '.xml' pages
+    if url_path.split(".")[-1] == "xml":
+        return False
+
+    # Delete twitter links that are not posts
+    if "twitter" in domain:
         if "status" not in url:
             return False
-    if "4chan" in url:
+
+    # Delete 4chan links that are not posts
+    if "4chan" in domain:
         if "thread" not in url:
             return False
 
     return True
-
-
 
 
 def trigger_api(search_leyword):
@@ -136,9 +146,6 @@ def trigger_api(search_leyword):
 
         print(f'\tTotal amount of results retrieved: {amount_of_results_so_far}')
         # Store the results of the api for future comparison
-        #modificator_time = str(datetime.) + '_'+ str(datetime.now().hour) + ':' + \
-            #str(datetime.now().minute) + ':' + \
-            #str(datetime.now().second)
         modificator_time = str(datetime.now()).replace(' ', '_')
         # write the results to a json file so we dont lose them
         if 'http' in search_leyword:
@@ -150,7 +157,7 @@ def trigger_api(search_leyword):
         file_name_jsons = 'results-' + for_file_name + '_' + \
             modificator_time + '.json'
         if args.verbosity > 1:
-            print(f'Storing the results of api in {file_name_jsons}')
+            print(f'\tStoring the results of api in {file_name_jsons}')
         if not os.path.exists("results"):
             os.makedirs("results")
         with open(os.path.join("results", file_name_jsons), 'w') as f:
@@ -163,7 +170,7 @@ def trigger_api(search_leyword):
         print(f'{e}')
         print(f'{type(e)}')
         print(traceback.format_exc())
-
+        return False
 
 
 def downloadContent(url):
@@ -171,64 +178,63 @@ def downloadContent(url):
     Downlod the content of the web page
     """
     try:
-        content = requests.get(url).text
-    except requests.exceptions.ConnectionError:
-        print('Error in getting content')
         content = ''
+        # Download up to 5MB per page
+        headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
+        # Timeout waiting for an answer is 15 seconds
+        content = requests.get(url, timeout=15, headers=headers).text
+    except requests.exceptions.ConnectionError:
+        return False
+        print('Error in getting content')
+    except requests.exceptions.ReadTimeout:
+        return False
+        print('Timeout waiting for the web server to answer. We ignore and continue')
     except Exception as e:
+        return False
         print('Error getting the content of the web.')
         print(f'{e}')
         print(f'{type(e)}')
 
-    if 'http' in url:
-        # We are searching a domain
-        for_file_name = url.split('/')[2]
-    else:
-        # If a title, just the first word
-        for_file_name = url.split(' ')[0]
+    url_hash = get_hash_for_url(url)
 
-    timemodifier = str(datetime.now().second)
-    file = open('contents/' + for_file_name + '_' + timemodifier + '-content.html','w')
+    timemodifier = str(datetime.now()).replace(' ', '_')
+    file_name = 'contents/' + url_hash + '_' + timemodifier + '-content.html'
+    if args.verbosity > 1:
+        print(f'\tStoring the content of url {url} in file {file_name}')
+    file = open(file_name, 'w')
     file.write(content)
     file.close()
+    return content
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-l", "--link", help="URL to check is distribution pattern", type=str)
+    parser.add_argument("-l", "--link", help="URL to check is distribution pattern.", type=str, required=True)
     parser.add_argument("-p", "--is_propaganda", help="If the URL is propaganda . If absent, is not propaganda.", action="store_true")
-    parser.add_argument("-n", "--number_of_levels", help="How many 'ring' levels around the URL we are going to search", type=int)
+    parser.add_argument("-n", "--number_of_levels", help="How many 'ring' levels around the URL we are going to search. Defaults to 2.", type=int, default=2)
     parser.add_argument("-c", "--dont_store_content", help="Do not store the content of pages to disk", action="store_true", default=False)
     parser.add_argument("-v", "--verbosity", help="Verbosity level", type=int, default=0)
     args = parser.parse_args()
     try:
 
-        # Create the dot object to plot a graph
-        G = nx.Graph()
-        # G = nx.cubical_graph()
-        # Labels for the nx graph
-        labels = {}
+        if args.verbosity > 1:
+            print(f'Searching the distribution graph of URL {args.link}\n\n')
 
         # Get the URLs object
         URLs = URLs('DB/propaganda.db', args.verbosity)
 
         URLs.add_url(args.link, int(args.is_propaganda))
 
-        # Here we keep the list of URLs still to search
-        # We store the level of the URL
-        # The level is how far away it is from the original URL that we
-        # started from. So the original URL has level 0, and all the
-        # URLS linking to it have level 1, etc.
-        # We need a list so we can loop through it whil is changing and we
-        # need a dictionary to keep the levels. Is horrible to need both!
-        # But I dont know how to do better
-
         # Keep only the urls
         urls_to_search = []
         urls_to_search.append(args.link)
         # Keep the urls and their levels
+        # The level is how far away it is from the original URL
         urls_to_search_level = {}
         urls_to_search_level[args.link] = 0
+        # We need a list so we can loop through it whil is changing and we
+        # need a dictionary to keep the levels. Is horrible to need both!
+        # But I dont know how to do better
 
         # Here we store all the pair of links as [link, link], so we can
         # build the graph later
@@ -237,38 +243,39 @@ if __name__ == "__main__":
         # Links which failed sanity check
         failed_links = []
 
+        # Get the content of the url and store it
+        if not args.dont_store_content:
+            content = downloadContent(args.link)
+            URLs.store_content(args.link, content)
+
+        # First we search for results using the URL
         for url in urls_to_search:
 
             # If we reached the amount of 'ring' levels around the URL
             # that we want, then stop
-            # We compared agains the args.number_of_levels - 1 because we always ask and add the leaves
-            # So if you want to see only the level 1, we only SEARCH until level 0 (origin URL)
+            # We compared against the args.number_of_levels - 1 because
+            # we always must ask and add the 'leaves' webpages
             if urls_to_search_level[url] > args.number_of_levels - 1:
                 break
 
             print('\n==========================================')
             print(f'URL search level {urls_to_search_level[url]}. Searching data for url: {url}')
 
-            # Add this url
-            URLs.add_url(url)
-
-            # Get the content of the url and store it
-            if not args.dont_store_content:
-                content = downloadContent(url)
-                URLs.store_content(url, content)
-
-            # Get other links to this URL for the next round (children)
+            # Get links to this URL (children)
             data = trigger_api(url)
 
             # From all the jsons, get only the links to continue
             urls = []
             try:
-                for page in data:
-                    for result in page:
-                        urls.append(result['link'])
+                if data:
+                    for page in data:
+                        for result in page:
+                            urls.append(result['link'])
+                else:
+                    print(f'The API returned False because of some error. Continue with next URL')
+                    continue
             except KeyError:
                 # There are no 'organic_results' in this result
-                # just continue
                 pass
 
             # Set the datetime for the url
@@ -284,9 +291,26 @@ if __name__ == "__main__":
                 print(f'\tThere are {len(urls)} urls still to search.')
 
             for child_url in urls:
-
+                print(f'Searching for url {child_url}')
+                # Check that the children was not seen before in this call
+                if child_url in urls_to_search:
+                    if args.verbosity > 2:
+                        print(f'\tRepeated url: {child_url}')
+                        continue
 
                 if sanity_check(child_url):
+
+                    # Get the content of the url and store it
+                    # We ask here so we have the content of each child
+                    if not args.dont_store_content:
+                        content = downloadContent(child_url)
+
+                    # Verify that the link is meaningful
+                    if content and url not in content:
+                        print(f'\tThe URL {url} is not in the content of site {child_url}')
+                        # Consider deleting the downloaded content from disk
+                        continue
+
                     all_links.append([url, child_url])
 
                     # Add the children to the DB
@@ -296,24 +320,27 @@ if __name__ == "__main__":
                     result_search_date = datetime.now()
                     URLs.set_search_datetime(url, result_search_date)
 
-                    # Check that the children was not seen before in this call
-                    if child_url in urls_to_search:
-                        # We hav, so ignore
-                        if args.verbosity > 2:
-                            print(f'\tRepeated url: {child_url}')
-                    else:
-                        # The child should have the level of the parent + 1
-                        urls_to_search_level[child_url] = urls_to_search_level[url] + 1
-                        urls_to_search.append(child_url)
-                        if args.verbosity > 1:
-                            print(f'\tAdding the URL {child_url} with level {urls_to_search_level[child_url]}')
+                    # The child should have the level of the parent + 1
+                    urls_to_search_level[child_url] = urls_to_search_level[url] + 1
+                    urls_to_search.append(child_url)
+
+                    # Add this url to the DB. Since we are going to search for it
+                    URLs.add_url(child_url)
+
+                    # Store the content kafter storing the child)
+                    URLs.store_content(child_url, content)
+
+                    if args.verbosity > 1:
+                        print(f'\tAdding the URL {child_url} with level {urls_to_search_level[child_url]}')
                 else:
                     failed_links.append(child_url)
 
+        # Second we search for results using the title of the main URL
+
         print('Finished with all the graph of URLs. Total number of unique links are %d' % (len(all_links)))
-        # print('Final list of urls')
-        # URLs.show_urls()
         build_a_graph(all_links, args.link)
+
+        # Stored the removed URLs in a file
         if not os.path.exists("removed_urls"):
             os.makedirs("removed_urls")
         with open(os.path.join("removed_urls", get_hash_for_url(args.link)), "w") as f:

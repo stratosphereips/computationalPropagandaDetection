@@ -4,3 +4,7 @@ propaganda.db
 serapi.key
 *-content.html
 results*.json
+.DS_store
+*.swp
+*.png
+*backup*
