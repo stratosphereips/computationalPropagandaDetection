@@ -12,7 +12,7 @@ from utils import get_hash_for_url
 
 
 # Read the serapi api key
-f = open('serapi.key')
+f = open("serapi.key")
 SERAPI_KEY = f.readline()
 f.close()
 
@@ -23,12 +23,12 @@ def sanity_check(url):
     applying different blacklists
     """
     # Blacklist of pages to ignore
-    blacklist = {'robots.txt'}
+    blacklist = {"robots.txt"}
 
     # The url_path is 'site.xml' in
     # https://www.test.com/adf/otr/mine/site.xml
-    url_path = url.split('/')[-1]
-    domain = url.split('/')[2]
+    url_path = url.split("/")[-1]
+    domain = url.split("/")[2]
 
     # Apply blacklists of the pages we dont want
     if url_path in blacklist:
@@ -37,8 +37,7 @@ def sanity_check(url):
     # Remove homepages
     # http://te.co has 3 splits
     # http://te.co/ has 4 splits
-    if len(url.split('/')) == 3 or \
-            (len(url.split('/')) == 4 and url[-1] == '/'):
+    if len(url.split("/")) == 3 or (len(url.split("/")) == 4 and url[-1] == "/"):
         return False
 
     # Delete all '.xml' pages
@@ -83,12 +82,7 @@ def trigger_api(search_leyword):
     """
     try:
         # print(f' == Retriving results for {search_leyword}')
-        params = {
-                  "engine": "google",
-                  "q": search_leyword,
-                  "google_domain": "google.com",
-                  "api_key": SERAPI_KEY
-                }
+        params = {"engine": "google", "q": search_leyword, "google_domain": "google.com", "api_key": SERAPI_KEY}
 
         # Here we store all the results of all the search pages returned.
         # We concatenate in this variable
@@ -99,12 +93,12 @@ def trigger_api(search_leyword):
         results = client.get_dict()
         # Store this batch of results in the final list
         try:
-            all_results.append(results['organic_results'])
+            all_results.append(results["organic_results"])
             # Since the results came in batches of 10, get all the 'pages'
             # together before continuing
-            amount_total_results = results['search_information']['total_results']
+            amount_total_results = results["search_information"]["total_results"]
             # The amount of results starts with 1, ends with 10 if there are > 10
-            amount_of_results_so_far = len(results['organic_results'])
+            amount_of_results_so_far = len(results["organic_results"])
             # print(f' == Total amount of results: {amount_total_results}')
             # print(f' == Results retrieved so far: {amount_of_results_so_far}')
         except KeyError:
@@ -117,22 +111,21 @@ def trigger_api(search_leyword):
         max_results = 100
 
         # While we have results to get, get them
-        while (amount_of_results_so_far < amount_total_results) and \
-              (amount_of_results_so_far < max_results):
+        while (amount_of_results_so_far < amount_total_results) and (amount_of_results_so_far < max_results):
             # print(' == Searching 10 more...')
             # New params
             params = {
-                      "engine": "google",
-                      "q": search_leyword,
-                      "google_domain": "google.com",
-                      "start": str(amount_of_results_so_far + 1),
-                      "api_key": SERAPI_KEY
-                    }
+                "engine": "google",
+                "q": search_leyword,
+                "google_domain": "google.com",
+                "start": str(amount_of_results_so_far + 1),
+                "api_key": SERAPI_KEY,
+            }
             client = GoogleSearchResults(params)
             new_results = client.get_dict()
             # Store this batch of results in the final list
             try:
-                all_results.append(new_results['organic_results'])
+                all_results.append(new_results["organic_results"])
             except KeyError:
                 # We dont have results. It can happen because search engines
                 # report an amount of results that has a lot of
@@ -141,34 +134,33 @@ def trigger_api(search_leyword):
                 # Results: {new_results}')
                 break
 
-            amount_of_results_so_far += len(new_results['organic_results'])
+            amount_of_results_so_far += len(new_results["organic_results"])
             # print(f' == Results retrieved so far: {amount_of_results_so_far}')
 
-        print(f'\tTotal amount of results retrieved: {amount_of_results_so_far}')
+        print(f"\tTotal amount of results retrieved: {amount_of_results_so_far}")
         # Store the results of the api for future comparison
-        modificator_time = str(datetime.now()).replace(' ', '_')
+        modificator_time = str(datetime.now()).replace(" ", "_")
         # write the results to a json file so we dont lose them
-        if 'http' in search_leyword:
+        if "http" in search_leyword:
             # we are searching a domain
-            for_file_name = search_leyword.split('/')[2]
+            for_file_name = search_leyword.split("/")[2]
         else:
             # if a title, just the first word
-            for_file_name = search_leyword.split(' ')[0]
-        file_name_jsons = 'results-' + for_file_name + '_' + \
-            modificator_time + '.json'
+            for_file_name = search_leyword.split(" ")[0]
+        file_name_jsons = "results-" + for_file_name + "_" + modificator_time + ".json"
         if args.verbosity > 1:
-            print(f'\tStoring the results of api in {file_name_jsons}')
+            print(f"\tStoring the results of api in {file_name_jsons}")
         if not os.path.exists("results"):
             os.makedirs("results")
-        with open(os.path.join("results", file_name_jsons), 'w') as f:
+        with open(os.path.join("results", file_name_jsons), "w") as f:
             json.dump(results, f)
 
         return all_results
 
     except Exception as e:
-        print('Error in trigger_api()')
-        print(f'{e}')
-        print(f'{type(e)}')
+        print("Error in trigger_api()")
+        print(f"{e}")
+        print(f"{type(e)}")
         print(traceback.format_exc())
         return False
 
@@ -178,30 +170,30 @@ def downloadContent(url):
     Downlod the content of the web page
     """
     try:
-        content = ''
+        content = ""
         # Download up to 5MB per page
         headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
         # Timeout waiting for an answer is 15 seconds
         content = requests.get(url, timeout=15, headers=headers).text
     except requests.exceptions.ConnectionError:
         return False
-        print('Error in getting content')
+        print("Error in getting content")
     except requests.exceptions.ReadTimeout:
         return False
-        print('Timeout waiting for the web server to answer. We ignore and continue')
+        print("Timeout waiting for the web server to answer. We ignore and continue")
     except Exception as e:
         return False
-        print('Error getting the content of the web.')
-        print(f'{e}')
-        print(f'{type(e)}')
+        print("Error getting the content of the web.")
+        print(f"{e}")
+        print(f"{type(e)}")
 
     url_hash = get_hash_for_url(url)
 
-    timemodifier = str(datetime.now()).replace(' ', '_')
-    file_name = 'contents/' + url_hash + '_' + timemodifier + '-content.html'
+    timemodifier = str(datetime.now()).replace(" ", "_")
+    file_name = "contents/" + url_hash + "_" + timemodifier + "-content.html"
     if args.verbosity > 1:
-        print(f'\tStoring the content of url {url} in file {file_name}')
-    file = open(file_name, 'w')
+        print(f"\tStoring the content of url {url} in file {file_name}")
+    file = open(file_name, "w")
     file.write(content)
     file.close()
     return content
@@ -211,17 +203,19 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-l", "--link", help="URL to check is distribution pattern.", type=str, required=True)
     parser.add_argument("-p", "--is_propaganda", help="If the URL is propaganda . If absent, is not propaganda.", action="store_true")
-    parser.add_argument("-n", "--number_of_levels", help="How many 'ring' levels around the URL we are going to search. Defaults to 2.", type=int, default=2)
+    parser.add_argument(
+        "-n", "--number_of_levels", help="How many 'ring' levels around the URL we are going to search. Defaults to 2.", type=int, default=2
+    )
     parser.add_argument("-c", "--dont_store_content", help="Do not store the content of pages to disk", action="store_true", default=False)
     parser.add_argument("-v", "--verbosity", help="Verbosity level", type=int, default=0)
     args = parser.parse_args()
     try:
 
         if args.verbosity > 1:
-            print(f'Searching the distribution graph of URL {args.link}\n\n')
+            print(f"Searching the distribution graph of URL {args.link}\n\n")
 
         # Get the URLs object
-        URLs = URLs('DB/propaganda.db', args.verbosity)
+        URLs = URLs("DB/propaganda.db", args.verbosity)
 
         URLs.add_url(args.link, int(args.is_propaganda))
 
@@ -258,8 +252,8 @@ if __name__ == "__main__":
             if urls_to_search_level[url] > args.number_of_levels - 1:
                 break
 
-            print('\n==========================================')
-            print(f'URL search level {urls_to_search_level[url]}. Searching data for url: {url}')
+            print("\n==========================================")
+            print(f"URL search level {urls_to_search_level[url]}. Searching data for url: {url}")
 
             # Get links to this URL (children)
             data = trigger_api(url)
@@ -270,9 +264,9 @@ if __name__ == "__main__":
                 if data:
                     for page in data:
                         for result in page:
-                            urls.append(result['link'])
+                            urls.append(result["link"])
                 else:
-                    print(f'The API returned False because of some error. Continue with next URL')
+                    print("The API returned False because of some error. Continue with next URL")
                     continue
             except KeyError:
                 # There are no 'organic_results' in this result
@@ -281,21 +275,21 @@ if __name__ == "__main__":
             # Set the datetime for the url
             # For now it is a string like "Mar 25, 2020"
             try:
-                result_date = result['date']
+                result_date = result["date"]
             except KeyError:
                 # There is no date field in the results
-                result_date = ''
+                result_date = ""
             URLs.set_datetime(url, result_date)
 
             if args.verbosity > 1:
-                print(f'\tThere are {len(urls)} urls still to search.')
+                print(f"\tThere are {len(urls)} urls still to search.")
 
             for child_url in urls:
-                print(f'Searching for url {child_url}')
+                print(f"Searching for url {child_url}")
                 # Check that the children was not seen before in this call
                 if child_url in urls_to_search:
                     if args.verbosity > 2:
-                        print(f'\tRepeated url: {child_url}')
+                        print(f"\tRepeated url: {child_url}")
                         continue
 
                 if sanity_check(child_url):
@@ -307,7 +301,7 @@ if __name__ == "__main__":
 
                     # Verify that the link is meaningful
                     if content and url not in content:
-                        print(f'\tThe URL {url} is not in the content of site {child_url}')
+                        print(f"\tThe URL {url} is not in the content of site {child_url}")
                         # Consider deleting the downloaded content from disk
                         continue
 
@@ -331,13 +325,13 @@ if __name__ == "__main__":
                     URLs.store_content(child_url, content)
 
                     if args.verbosity > 1:
-                        print(f'\tAdding the URL {child_url} with level {urls_to_search_level[child_url]}')
+                        print(f"\tAdding the URL {child_url} with level {urls_to_search_level[child_url]}")
                 else:
                     failed_links.append(child_url)
 
         # Second we search for results using the title of the main URL
 
-        print('Finished with all the graph of URLs. Total number of unique links are %d' % (len(all_links)))
+        print("Finished with all the graph of URLs. Total number of unique links are %d" % (len(all_links)))
         build_a_graph(all_links, args.link)
 
         # Stored the removed URLs in a file
