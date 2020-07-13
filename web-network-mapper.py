@@ -5,7 +5,6 @@ import requests
 import traceback
 from serpapi.google_search_results import GoogleSearchResults
 import json
-import networkx as nx
 import argparse
 from graph import build_a_graph
 from urls import URLs
@@ -23,10 +22,9 @@ def sanity_check(url):
 
     if "sitemap" in url:
         return False
-    #Remove general sites like https://www.poolecommunity.com/
-    if len(url.split(".")[-1].split("/")[-1])>2:
+    # Remove general sites like https://www.poolecommunity.com/
+    if len(url.split(".")[-1].split("/")[-1]) > 2:
         return False
-
 
     # Apply some black list of the pages we dont want, such as
     # sitemap.xml and robots.txt , because they only have links
@@ -147,7 +145,7 @@ def trigger_api(search_leyword):
         else:
             # if a title, just the first word
             for_file_name = search_leyword.split(' ')[0]
-        file_name_jsons = 'results-' + for_file_name + '_' + \
+        file_name_jsons = 'results/results-' + for_file_name + '_' + \
             modificator_time + '.json'
         if args.verbosity > 1:
             print(f'Storing the results of api in {file_name_jsons}')
@@ -188,7 +186,7 @@ def downloadContent(url):
         for_file_name = url.split(' ')[0]
 
     timemodifier = str(datetime.now().second)
-    file = open('contents/' + for_file_name + '_' + timemodifier + '-content.html','w')
+    file = open('contents/' + for_file_name + '_' + timemodifier + '-content.html', 'w')
     file.write(content)
     file.close()
 
@@ -202,12 +200,6 @@ if __name__ == "__main__":
     parser.add_argument("-v", "--verbosity", help="Verbosity level", type=int, default=0)
     args = parser.parse_args()
     try:
-
-        # Create the dot object to plot a graph
-        G = nx.Graph()
-        # G = nx.cubical_graph()
-        # Labels for the nx graph
-        labels = {}
 
         # Get the URLs object
         URLs = URLs('DB/propaganda.db', args.verbosity)
@@ -284,8 +276,6 @@ if __name__ == "__main__":
                 print(f'\tThere are {len(urls)} urls still to search.')
 
             for child_url in urls:
-
-
                 if sanity_check(child_url):
                     all_links.append([url, child_url])
 
