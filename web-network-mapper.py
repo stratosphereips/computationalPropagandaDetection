@@ -143,9 +143,6 @@ def trigger_api(search_leyword):
 
         print(f'\tTotal amount of results retrieved: {amount_of_results_so_far}')
         # Store the results of the api for future comparison
-        #modificator_time = str(datetime.) + '_'+ str(datetime.now().hour) + ':' + \
-            #str(datetime.now().minute) + ':' + \
-            #str(datetime.now().second)
         modificator_time = str(datetime.now()).replace(' ', '_')
         # write the results to a json file so we dont lose them
         if 'http' in search_leyword:
@@ -154,7 +151,7 @@ def trigger_api(search_leyword):
         else:
             # if a title, just the first word
             for_file_name = search_leyword.split(' ')[0]
-        file_name_jsons = 'results/results-' + for_file_name + '_' + \
+        file_name_jsons = 'results-' + for_file_name + '_' + \
             modificator_time + '.json'
         if args.verbosity > 1:
             print(f'Storing the results of api in {file_name_jsons}')
@@ -170,7 +167,6 @@ def trigger_api(search_leyword):
         print(f'{e}')
         print(f'{type(e)}')
         print(traceback.format_exc())
-
 
 
 def downloadContent(url):
