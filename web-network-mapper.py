@@ -177,31 +177,33 @@ def downloadContent(url):
     Downlod the content of the web page
     """
     try:
-        content = requests.get(url).text
         content = ''
         # Download up to 5MB per page
         headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
         # Timeout waiting for an answer is 15 seconds
         content = requests.get(url, timeout=15, headers=headers).text
     except requests.exceptions.ConnectionError:
+        return False
         print('Error in getting content')
-        content = ''
+    except requests.exceptions.ReadTimeout:
+        return False
+        print('Timeout waiting for the web server to answer. We ignore and continue')
     except Exception as e:
+        return False
         print('Error getting the content of the web.')
         print(f'{e}')
         print(f'{type(e)}')
 
-    if 'http' in url:
-        # We are searching a domain
-        for_file_name = url.split('/')[2]
-    else:
-        # If a title, just the first word
-        for_file_name = url.split(' ')[0]
+    url_hash = get_hash_for_url(url)
 
-    timemodifier = str(datetime.now().second)
-    file = open('contents/' + for_file_name + '_' + timemodifier + '-content.html', 'w')
+    timemodifier = str(datetime.now()).replace(' ', '_')
+    file_name = 'contents/' + url_hash + '_' + timemodifier + '-content.html'
+    if args.verbosity > 1:
+        print(f'\tStoring the content of url {url} in file {file_name}')
+    file = open(file_name, 'w')
     file.write(content)
     file.close()
+    return content
 
 
 if __name__ == "__main__":
