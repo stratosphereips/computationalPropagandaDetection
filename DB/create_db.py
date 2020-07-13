@@ -1,23 +1,28 @@
 #!/usr/bin/env python
 import sqlite3
-conn = sqlite3.connect('propaganda.db')
+
+conn = sqlite3.connect("propaganda.db")
 c = conn.cursor()
 # Create table
-c.execute('''CREATE TABLE URLS (
-	url_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	url TEXT NOT NULL,
-	CONTENT TEXT,
-	date_published DATE,
-	date_of_query DATE,
-	is_propaganda INT
-);''')
+c.execute(
+    """CREATE TABLE URLS (
+    url_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    url TEXT NOT NULL,
+    content TEXT,
+    date_published DATE,
+    date_of_query DATE,
+    is_propaganda INT
+);"""
+)
 # Insert a row of data
-c.execute("""CREATE TABLE LINKS (
-	link_id INTEGER PRIMARY KEY AUTOINCREMENT  NOT NULL,
-	parent_id INTEGER NOT NULL,
-	child_id INTEGER NOT NULL,
-	SOURCE TEXT,
-	FOREIGN KEY (parent_id)
+c.execute(
+    """CREATE TABLE LINKS (
+    link_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    parent_id INTEGER NOT NULL,
+    child_id INTEGER NOT NULL,
+    date DATE,
+    SOURCE TEXT,
+    FOREIGN KEY (parent_id)
       REFERENCES URLS(url_id)
          ON DELETE CASCADE
          ON UPDATE CASCADE,
@@ -25,7 +30,8 @@ c.execute("""CREATE TABLE LINKS (
       REFERENCES URLS(url_id)
          ON DELETE CASCADE
          ON UPDATE CASCADE
-);""")
+);"""
+)
 
 # Save (commit) the changes
 conn.commit()
