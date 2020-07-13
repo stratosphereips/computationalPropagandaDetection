@@ -1,11 +1,11 @@
-
+#!/usr/bin/env python
 import sqlite3
-import sqlalchemy
+
 
 class DB:
     def __init__(self, db_file):
         self.db_file = db_file
-        self.conn = sqlite3.connect(self.db_file )
+        self.conn = sqlite3.connect(self.db_file)
         self.c = self.conn.cursor()
 
     def url_exist(self, url):
@@ -13,8 +13,9 @@ class DB:
         if len(url_exist.fetchall()) > 0:
             return True
         return False
+
     def link_exist(self, parent_id, child_id):
-        url_exist = self.c.execute("""SELECT LINK_ID FROM LINKS WHERE parent_id=(?) and child_id=(?);""", (parent_id,child_id))
+        url_exist = self.c.execute("""SELECT LINK_ID FROM LINKS WHERE parent_id=(?) and child_id=(?);""", (parent_id, child_id))
         if len(url_exist.fetchall()) > 0:
             return True
 
@@ -33,7 +34,6 @@ class DB:
         self.c.execute("""UPDATE URLS SET content = ?  WHERE url = ?""", (content, url))
         self.commit()
 
-
     def insert_url(self, url, content=None, date_published=None, date_of_query=None, is_propaganda=None):
         url_exist = self.url_exist(url)
         if not url_exist:
@@ -45,7 +45,6 @@ class DB:
         self.c.execute(f"""INSERT INTO LINKS(parent_id, child_id, source) VALUES 
                     (?, ?, ?) """, (parent_id, child_id,  source))
         self.commit()
-
 
     def insert_link_urls(self, parent_url, child_url, source):
         parent_url_exist = self.url_exist(parent_url)
@@ -78,5 +77,4 @@ if __name__ == '__main__':
     #
     # print('INSERT INTO URLS(url) VALUES {}'.format(s.replace('"', '""')))
     #
-
-
+    print(db.c.execute("""SELECT CONTENT FROM URLS;""").fetchall())
