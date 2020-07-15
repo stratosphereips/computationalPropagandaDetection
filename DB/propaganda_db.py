@@ -121,6 +121,6 @@ class DB:
         if len(dates) > 0:
             return dates[0][0]
 
-
 if __name__ == '__main__':
     db = DB("propaganda.db")
+
