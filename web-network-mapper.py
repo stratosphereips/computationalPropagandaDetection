@@ -331,7 +331,7 @@ if __name__ == "__main__":
                     # Add this url to the DB. Since we are going to search for it
                     URLs.add_url(child_url)
 
-                    # Store the content kafter storing the child)
+                    # Store the content (after storing the child)
                     URLs.store_content(child_url, content)
 
                     if args.verbosity > 1:
@@ -340,8 +340,68 @@ if __name__ == "__main__":
                     failed_links.append(child_url)
 
         # Second we search for results using the title of the main URL
+        print("\n\n==========Second Phase Search for Title=========")
+        # Get links to this URL (children)
+        data = trigger_api(main_title)
 
-        print("Finished with all the graph of URLs. Total number of unique links are %d" % (len(all_links)))
+        # When we search for the title, we dont store the date of search 
+        # or publication because it was already stored when we search
+        # using the URL
+
+        # From all the jsons, get only the links to continue
+        urls = []
+        try:
+            if data:
+                for page in data:
+                    for result in page:
+                        urls.append(result["link"])
+            else:
+                print("The API returned False because of some error. \
+                        Continue with next URL")
+        except KeyError:
+            # There are no 'organic_results' in this result
+            pass
+
+        for child_url in urls:
+            print(f"Analyzing url {child_url}")
+            # Check that the children was not seen before in this call
+            if child_url in urls_to_search:
+                if args.verbosity > 2:
+                    print(f"\tRepeated url: {child_url}")
+                    continue
+
+            if sanity_check(child_url):
+
+                # Get the content of the url and store it
+                # We ask here so we have the content of each child
+                if not args.dont_store_content:
+                    (content, title) = downloadContent(child_url)
+
+                # Verify that the link is meaningful
+                urls_distance = distance.compare_content(main_content, content)
+                if urls_distance <= args.urls_threshold:
+                    print(f"\tThe content of {args.link} has distance with {child_url} of : {urls_distance}. Discarding.")
+                    # Consider deleting the downloaded content from disk
+                    continue
+
+                all_links.append([url, child_url])
+
+                # Add the children to the DB
+                result_search_date = datetime.now()
+                URLs.set_child(url, child_url, result_search_date)
+
+                # Add this url to the DB
+                URLs.add_url(child_url)
+
+                # Store the content (after storing the child)
+                URLs.store_content(child_url, content)
+
+                if args.verbosity > 1:
+                    print(f"\tAdding the URL {child_url}")
+            else:
+                failed_links.append(child_url)
+
+        print(f"Finished with all the graph of URLs. Total number of unique links are {len(all_links)}")
         build_a_graph(all_links, args.link)
 
         # Stored the removed URLs in a file
