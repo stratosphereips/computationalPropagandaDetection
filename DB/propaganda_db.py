@@ -41,17 +41,11 @@ class DB:
     def insert_url(self, url, content=None, date_published=None, date_of_query=None, is_propaganda=None):
         url_exist = self.url_exist(url)
         if not url_exist:
-            self.c.execute(
-                """INSERT INTO URLS(url, content, date_published, date_of_query, is_propaganda) VALUES
-            (?, ?, ?, ?, ?) """,
-                (url, content, date_published, date_of_query, is_propaganda),
-            )
+            self.c.execute("""INSERT INTO URLS(url, content, date_published, date_of_query, is_propaganda) VALUES  (?, ?, ?, ?, ?) """, (url, content, date_published, date_of_query, is_propaganda))
             self.commit()
 
-    def insert_link_id(self, parent_id, child_id, source=None):
-        self.c.execute(
-            """INSERT INTO LINKS(parent_id, child_id, source) VALUES (?, ?, ?) """, (parent_id, child_id, source),
-        )
+    def insert_link_id(self, parent_id: int, child_id: int, link_date: str, source: str = None):
+        self.c.execute("""INSERT INTO LINKS(parent_id, child_id, date, source) VALUES (?, ?, ?, ?) """, (parent_id, child_id, link_date, source))
         self.commit()
 
     def insert_link_urls(self, parent_url, child_url, source):
@@ -103,8 +97,4 @@ class DB:
 
 if __name__ == "__main__":
     db = DB("propaganda.db")
-    print(db.get_tree("https://www.bbc.com/news/world-europe-53332225"))
-    # #db.insert_url()
-    #
-    # print('INSERT INTO URLS(url) VALUES {}'.format(s.replace('"', '""')))
-    #
+    print(db.c.execute("""SELECT date_of_query FROM URLS WHERE URL='https://www.bbc.com/news/world-europe-53332225';""").fetchall())
