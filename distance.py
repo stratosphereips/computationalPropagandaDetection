@@ -4,13 +4,18 @@ import Levenshtein
 from bs4 import BeautifulSoup
 import argparse
 import traceback
+from utils import timeit
 
 
+@timeit
 def compare_content(content1, content2):
     """
     Compare the content of two pages
     """
+    # Hard limit the contents to max 10k chars
     try:
+        content1 = content1[:10000]
+        content2 = content2[:10000]
         distance = Levenshtein.ratio(content1, content2)
         return distance
     except TypeError:
@@ -48,7 +53,7 @@ if __name__ == "__main__":
         print(f'Distance between file {args.first_file} and {args.second_file} = {distance}')
 
     except KeyboardInterrupt:
-        pass
+        raise
     except Exception as e:
         print(f"Error in main(): {e}")
         print(f"{type(e)}")
