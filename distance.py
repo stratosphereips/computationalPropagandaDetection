@@ -10,8 +10,13 @@ def compare_content(content1, content2):
     """
     Compare the content of two pages
     """
-    distance = Levenshtein.ratio(content1, content2)
-    return distance
+    try:
+        distance = Levenshtein.ratio(content1, content2)
+        return distance
+    except TypeError:
+        # The contents were not strings
+        print('The content of the pages were not string. Verify.')
+        return False
 
 
 if __name__ == "__main__":
