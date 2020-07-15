@@ -248,8 +248,8 @@ if __name__ == "__main__":
 
         # Get the content of the url and store it
         if not args.dont_store_content:
-            content = downloadContent(args.link)
-            URLs.store_content(args.link, content)
+            (main_content, main_title) = downloadContent(args.link)
+            URLs.store_content(args.link, main_content)
 
         # First we search for results using the URL
         for url in urls_to_search:
@@ -266,7 +266,6 @@ if __name__ == "__main__":
 
             # Get links to this URL (children)
             data = trigger_api(url)
-
 
             # Set the time we asked for the results
             result_search_date = datetime.now()
@@ -311,7 +310,7 @@ if __name__ == "__main__":
                     # Get the content of the url and store it
                     # We ask here so we have the content of each child
                     if not args.dont_store_content:
-                        content = downloadContent(child_url)
+                        (content, title) = downloadContent(child_url)
 
                     # Verify that the link is meaningful
                     if content and url not in content:
