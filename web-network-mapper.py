@@ -57,6 +57,7 @@ def sanity_check(url):
     return True
 
 
+@timeit
 def trigger_api(search_leyword):
     """
     Access to the API of serapi
@@ -165,6 +166,7 @@ def trigger_api(search_leyword):
         return False
 
 
+@timeit
 def downloadContent(url):
     """
     Downlod the content of the web page
