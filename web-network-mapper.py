@@ -26,7 +26,7 @@ def sanity_check(url):
     applying different blacklists
     """
     # Blacklist of pages to ignore
-    blacklist = {"robots.txt"}
+    blacklist = {"robots.txt", "sitemap"}
 
     # The url_path is 'site.xml' in
     # https://www.test.com/adf/otr/mine/site.xml
@@ -58,7 +58,6 @@ def sanity_check(url):
             return False
 
     return True
-
 
 @timeit
 def trigger_api(search_leyword):
@@ -216,7 +215,7 @@ if __name__ == "__main__":
     )
     parser.add_argument("-c", "--dont_store_content", help="Do not store the content of pages to disk", action="store_true", default=False)
     parser.add_argument("-v", "--verbosity", help="Verbosity level", type=int, default=0)
-    parser.add_argument("-u", "--urls_threshold", help="Threshold distance between the content of two pages when searching with title", type=int, default=0.5)
+    parser.add_argument("-u", "--urls_threshold", help="Threshold distance between the content of two pages when searching with title", type=int, default=0.3)
     args = parser.parse_args()
     try:
 
