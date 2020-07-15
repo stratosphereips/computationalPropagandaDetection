@@ -258,6 +258,11 @@ if __name__ == "__main__":
             # Get links to this URL (children)
             data = trigger_api(url)
 
+
+            # Set the time we asked for the results
+            result_search_date = datetime.now()
+            URLs.set_query_datetime(url, result_search_date)
+
             # From all the jsons, get only the links to continue
             urls = []
             try:
@@ -308,11 +313,8 @@ if __name__ == "__main__":
                     all_links.append([url, child_url])
 
                     # Add the children to the DB
-                    URLs.set_child(url, child_url)
-
-                    # Set the time we asked for the results
                     result_search_date = datetime.now()
-                    URLs.set_search_datetime(url, result_search_date)
+                    URLs.set_child(url, child_url, result_search_date)
 
                     # The child should have the level of the parent + 1
                     urls_to_search_level[child_url] = urls_to_search_level[url] + 1
