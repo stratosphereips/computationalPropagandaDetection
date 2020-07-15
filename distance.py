@@ -6,6 +6,13 @@ import argparse
 import traceback
 
 
+def compare_content(content1, content2):
+    """
+    Compare the content of two pages
+    """
+    distance = Levenshtein.ratio(content1, content2)
+    return distance
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
