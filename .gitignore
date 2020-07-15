@@ -2,9 +2,10 @@ api-google.txt
 rapidapi-api.txt
 propaganda.db
 serapi.key
-*-content.html
+*content.html
 results*.json
 .DS_store
 *.swp
 *.png
 *backup*
+*.pyc

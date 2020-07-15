@@ -9,6 +9,9 @@ import argparse
 from graph import build_a_graph
 from urls import URLs
 from utils import get_hash_for_url
+from utils import timeit
+import distance
+from lxml.html import fromstring
 
 
 # Read the serapi api key
@@ -23,7 +26,7 @@ def sanity_check(url):
     applying different blacklists
     """
     # Blacklist of pages to ignore
-    blacklist = {"robots.txt"}
+    blacklist = {"robots.txt", "sitemap"}
 
     # The url_path is 'site.xml' in
     # https://www.test.com/adf/otr/mine/site.xml
@@ -56,7 +59,7 @@ def sanity_check(url):
 
     return True
 
-
+@timeit
 def trigger_api(search_leyword):
     """
     Access to the API of serapi
@@ -165,6 +168,7 @@ def trigger_api(search_leyword):
         return False
 
 
+@timeit
 def downloadContent(url):
     """
     Downlod the content of the web page
@@ -174,18 +178,21 @@ def downloadContent(url):
         # Download up to 5MB per page
         headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
         # Timeout waiting for an answer is 15 seconds
-        content = requests.get(url, timeout=15, headers=headers).text
+        page_content = requests.get(url, timeout=15, headers=headers)
+        text_content = page_content.text
+        tree = fromstring(page_content.content)
+        title = tree.findtext('.//title')
     except requests.exceptions.ConnectionError:
-        return False
-        print("Error in getting content")
+        print('Error in getting content')
+        return (False, False)
     except requests.exceptions.ReadTimeout:
-        return False
-        print("Timeout waiting for the web server to answer. We ignore and continue")
+        print('Timeout waiting for the web server to answer. We ignore and continue')
+        return (False, False)
     except Exception as e:
-        return False
-        print("Error getting the content of the web.")
-        print(f"{e}")
-        print(f"{type(e)}")
+        print('Error getting the content of the web.')
+        print(f'{e}')
+        print(f'{type(e)}')
+        return (False, False)
 
     url_hash = get_hash_for_url(url)
 
@@ -196,7 +203,7 @@ def downloadContent(url):
     file = open(file_name, "w")
     file.write(content)
     file.close()
-    return content
+    return (text_content, title)
 
 
 if __name__ == "__main__":
@@ -208,6 +215,7 @@ if __name__ == "__main__":
     )
     parser.add_argument("-c", "--dont_store_content", help="Do not store the content of pages to disk", action="store_true", default=False)
     parser.add_argument("-v", "--verbosity", help="Verbosity level", type=int, default=0)
+    parser.add_argument("-u", "--urls_threshold", help="Threshold distance between the content of two pages when searching with title", type=int, default=0.3)
     args = parser.parse_args()
     try:
 
@@ -239,8 +247,8 @@ if __name__ == "__main__":
 
         # Get the content of the url and store it
         if not args.dont_store_content:
-            content = downloadContent(args.link)
-            URLs.store_content(args.link, content)
+            (main_content, main_title) = downloadContent(args.link)
+            URLs.store_content(args.link, main_content)
 
         # First we search for results using the URL
         for url in urls_to_search:
@@ -257,7 +265,6 @@ if __name__ == "__main__":
 
             # Get links to this URL (children)
             data = trigger_api(url)
-
 
             # Set the time we asked for the results
             result_search_date = datetime.now()
@@ -302,7 +309,7 @@ if __name__ == "__main__":
                     # Get the content of the url and store it
                     # We ask here so we have the content of each child
                     if not args.dont_store_content:
-                        content = downloadContent(child_url)
+                        (content, title) = downloadContent(child_url)
 
                     # Verify that the link is meaningful
                     if content and url not in content:
@@ -323,7 +330,7 @@ if __name__ == "__main__":
                     # Add this url to the DB. Since we are going to search for it
                     URLs.add_url(child_url)
 
-                    # Store the content kafter storing the child)
+                    # Store the content (after storing the child)
                     URLs.store_content(child_url, content)
 
                     if args.verbosity > 1:
@@ -332,8 +339,68 @@ if __name__ == "__main__":
                     failed_links.append(child_url)
 
         # Second we search for results using the title of the main URL
+        print("\n\n==========Second Phase Search for Title=========")
+        # Get links to this URL (children)
+        data = trigger_api(main_title)
 
-        print("Finished with all the graph of URLs. Total number of unique links are %d" % (len(all_links)))
+        # When we search for the title, we dont store the date of search 
+        # or publication because it was already stored when we search
+        # using the URL
+
+        # From all the jsons, get only the links to continue
+        urls = []
+        try:
+            if data:
+                for page in data:
+                    for result in page:
+                        urls.append(result["link"])
+            else:
+                print("The API returned False because of some error. \
+                        Continue with next URL")
+        except KeyError:
+            # There are no 'organic_results' in this result
+            pass
+
+        for child_url in urls:
+            print(f"Analyzing url {child_url}")
+            # Check that the children was not seen before in this call
+            if child_url in urls_to_search:
+                if args.verbosity > 2:
+                    print(f"\tRepeated url: {child_url}")
+                    continue
+
+            if sanity_check(child_url):
+
+                # Get the content of the url and store it
+                # We ask here so we have the content of each child
+                if not args.dont_store_content:
+                    (content, title) = downloadContent(child_url)
+
+                # Verify that the link is meaningful
+                urls_distance = distance.compare_content(main_content, content)
+                if urls_distance <= args.urls_threshold:
+                    print(f"\tThe content of {args.link} has distance with {child_url} of : {urls_distance}. Discarding.")
+                    # Consider deleting the downloaded content from disk
+                    continue
+
+                all_links.append([url, child_url])
+
+                # Add the children to the DB
+                result_search_date = datetime.now()
+                URLs.set_child(url, child_url, result_search_date)
+
+                # Add this url to the DB
+                URLs.add_url(child_url)
+
+                # Store the content (after storing the child)
+                URLs.store_content(child_url, content)
+
+                if args.verbosity > 1:
+                    print(f"\tAdding the URL {child_url}")
+            else:
+                failed_links.append(child_url)
+
+        print(f"Finished with all the graph of URLs. Total number of unique links are {len(all_links)}")
         build_a_graph(all_links, args.link)
 
         # Stored the removed URLs in a file
