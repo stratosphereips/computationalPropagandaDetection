@@ -174,18 +174,21 @@ def downloadContent(url):
         # Download up to 5MB per page
         headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
         # Timeout waiting for an answer is 15 seconds
-        content = requests.get(url, timeout=15, headers=headers).text
+        page_content = requests.get(url, timeout=15, headers=headers)
+        text_content = page_content.text
+        tree = fromstring(page_content.content)
+        title = tree.findtext('.//title')
     except requests.exceptions.ConnectionError:
-        return False
-        print("Error in getting content")
+        print('Error in getting content')
+        return (False, False)
     except requests.exceptions.ReadTimeout:
-        return False
-        print("Timeout waiting for the web server to answer. We ignore and continue")
+        print('Timeout waiting for the web server to answer. We ignore and continue')
+        return (False, False)
     except Exception as e:
-        return False
-        print("Error getting the content of the web.")
-        print(f"{e}")
-        print(f"{type(e)}")
+        print('Error getting the content of the web.')
+        print(f'{e}')
+        print(f'{type(e)}')
+        return (False, False)
 
     url_hash = get_hash_for_url(url)
 
@@ -196,7 +199,7 @@ def downloadContent(url):
     file = open(file_name, "w")
     file.write(content)
     file.close()
-    return content
+    return (text_content, title)
 
 
 if __name__ == "__main__":
