@@ -40,21 +40,19 @@ class DB:
 
     def insert_url(self, url, content=None, date_published=None, date_of_query=None, is_propaganda=None):
         url_exist = self.url_exist(url)
-        if not url_exist:
-            self.c.execute(
-                """INSERT INTO URLS(url, content, date_published, date_of_query, is_propaganda) VALUES
-            (?, ?, ?, ?, ?) """,
-                (url, content, date_published, date_of_query, is_propaganda),
-            )
-            self.commit()
 
-    def insert_link_id(self, parent_id, child_id, source=None):
-        self.c.execute(
-            """INSERT INTO LINKS(parent_id, child_id, source) VALUES (?, ?, ?) """, (parent_id, child_id, source),
-        )
+        if not url_exist:
+            self.c.execute("""INSERT INTO URLS(url, content, date_published, date_of_query, is_propaganda) VALUES  (?, ?, ?, ?, ?) """, (url, content, date_published, date_of_query, is_propaganda))
+            self.commit()
+        else:
+            # assuming that the new date_of_query will be always newer which is already in DB, we will change it with the new date
+            self.update_date_of_query(url, date_of_query)
+
+    def insert_link_id(self, parent_id: int, child_id: int, link_date: str, source: str = None):
+        self.c.execute("""INSERT INTO LINKS(parent_id, child_id, date, source) VALUES (?, ?, ?, ?) """, (parent_id, child_id, link_date, source))
         self.commit()
 
-    def insert_link_urls(self, parent_url, child_url, source):
+    def insert_link_urls(self, parent_url: str, child_url: str, link_date: str, source: str=None):
         parent_url_exist = self.url_exist(parent_url)
         child_url_exist = self.url_exist(child_url)
         if not parent_url_exist:
@@ -65,7 +63,7 @@ class DB:
         child_id = self.get_url_id(child_url)
         parent_id = self.get_url_id(parent_url)
         if not self.link_exist(child_id, parent_id):
-            self.insert_link_id(parent_id, child_id, source)
+            self.insert_link_id(parent_id=parent_id, child_id=child_id, link_date=link_date, source=source)
         self.commit()
 
     def commit(self):
@@ -100,11 +98,29 @@ class DB:
                 edges.append((parent_url, child_url))
         return edges
 
+    def update_date_published(self, url:str, date_of_publication: str):
+        self.c.execute("""UPDATE URLS SET date_published = ?  WHERE url = ?""", (date_of_publication, url))
+        self.commit()
 
-if __name__ == "__main__":
+    def update_date_of_query(self, url:str, date_of_query: str):
+        self.c.execute("""UPDATE URLS SET date_of_query = ?  WHERE url = ?""", (date_of_query, url))
+        self.commit()
+
+    def get_date_of_query_url(self, url:str) -> str:
+        dates = self.c.execute("""SELECT date_of_query FROM URLS WHERE url=?""", (url, )).fetchall()
+
+        if len(dates) > 0:
+            return dates[0][0]
+        else:
+            return None
+
+    def get_date_of_link(self, parent_url:str, child_url:str) -> str:
+        child_id = self.get_url_key(child_url)
+        parent_id = self.get_url_key(parent_url)
+        dates = self.c.execute("""SELECT date FROM LINKS WHERE parent_id=? and child_id=?""", (parent_id,child_id )).fetchall()
+        if len(dates) > 0:
+            return dates[0][0]
+
+if __name__ == '__main__':
     db = DB("propaganda.db")
-    print(db.get_tree("https://www.bbc.com/news/world-europe-53332225"))
-    # #db.insert_url()
-    #
-    # print('INSERT INTO URLS(url) VALUES {}'.format(s.replace('"', '""')))
-    #
+
