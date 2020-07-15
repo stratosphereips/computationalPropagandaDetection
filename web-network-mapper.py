@@ -9,6 +9,9 @@ import argparse
 from graph import build_a_graph
 from urls import URLs
 from utils import get_hash_for_url
+from utils import timeit
+import distance
+from lxml.html import fromstring
 
 
 # Read the serapi api key
