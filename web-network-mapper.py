@@ -267,6 +267,7 @@ if __name__ == "__main__":
 
             print("\n==========================================")
             print(f"URL search level {urls_to_search_level[url]}. Searching data for url: {url}")
+            link_type = 'link'
 
             # Get links to this URL (children)
             data = trigger_api(url)
@@ -281,7 +282,7 @@ if __name__ == "__main__":
                 if data:
                     for page in data:
                         for result in page:
-                            urls.append(result["link"])
+                            urls.append(result[link_type])
                 else:
                     print("The API returned False because of some error. Continue with next URL")
                     continue
@@ -326,7 +327,7 @@ if __name__ == "__main__":
 
                     # Add the children to the DB
                     result_search_date = datetime.now()
-                    URLs.set_child(url, child_url, result_search_date)
+                    URLs.set_child(url, child_url, result_search_date, link_type)
 
                     # The child should have the level of the parent + 1
                     urls_to_search_level[child_url] = urls_to_search_level[url] + 1
@@ -347,6 +348,7 @@ if __name__ == "__main__":
         print("\n\n==========Second Phase Search for Title=========")
         # Get links to this URL (children)
         data = trigger_api(main_title)
+        link_type = 'title'
 
         # When we search for the title, we dont store the date of search 
         # or publication because it was already stored when we search
@@ -358,7 +360,7 @@ if __name__ == "__main__":
             if data:
                 for page in data:
                     for result in page:
-                        urls.append(result["link"])
+                        urls.append(result[link_type])
             else:
                 print("The API returned False because of some error. \
                         Continue with next URL")
@@ -393,7 +395,7 @@ if __name__ == "__main__":
 
                 # Add the children to the DB
                 result_search_date = datetime.now()
-                URLs.set_child(url, child_url, result_search_date)
+                URLs.set_child(url, child_url, result_search_date, link_type)
 
                 # Add this url to the DB
                 URLs.add_url(child_url)
