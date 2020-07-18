@@ -12,6 +12,11 @@ from utils import get_hash_for_url
 from utils import timeit
 import distance
 from lxml.html import fromstring
+from colorama import init
+from colorama import Fore, Back, Style
+
+# Init colorama
+init()
 
 
 # Read the serapi api key
@@ -199,7 +204,7 @@ def downloadContent(url):
     timemodifier = str(datetime.now()).replace(" ", "_")
     file_name = "contents/" + url_hash + "_" + timemodifier + "-content.html"
     if args.verbosity > 1:
-        print(f"\tStoring the content of url {url} in file {file_name}")
+        print(f"\t\tStoring the content of url {url} in file {file_name}")
     file = open(file_name, "w")
     file.write(content)
     file.close()
@@ -297,11 +302,11 @@ if __name__ == "__main__":
                 print(f"\tThere are {len(urls)} urls still to search.")
 
             for child_url in urls:
-                print(f"Searching for url {child_url}")
+                print(f"\tSearching for url {child_url}")
                 # Check that the children was not seen before in this call
                 if child_url in urls_to_search:
                     if args.verbosity > 2:
-                        print(f"\tRepeated url: {child_url}")
+                        print(f"\t\tRepeated url: {child_url}")
                         continue
 
                 if sanity_check(child_url):
@@ -313,7 +318,7 @@ if __name__ == "__main__":
 
                     # Verify that the link is meaningful
                     if content and url not in content:
-                        print(f"\tThe URL {url} is not in the content of site {child_url}")
+                        print(f"\t\tThe URL {url} is not in the content of site {child_url}")
                         # Consider deleting the downloaded content from disk
                         continue
 
@@ -379,9 +384,10 @@ if __name__ == "__main__":
                 # Verify that the link is meaningful
                 urls_distance = distance.compare_content(main_content, content)
                 if urls_distance <= args.urls_threshold:
-                    print(f"\tThe content of {args.link} has distance with {child_url} of : {urls_distance}. Discarding.")
+                    print(f"\tThe content of {args.link} has distance with {child_url} of : {urls_distance}. {Fore.RED}Discarding.{Style.RESET_ALL}")
                     # Consider deleting the downloaded content from disk
                     continue
+                print(f"\tThe content of {args.link} has distance with {child_url} of : {urls_distance}. {Fore.BLUE}Keeping.{Style.RESET_ALL}")
 
                 all_links.append([url, child_url])
 
