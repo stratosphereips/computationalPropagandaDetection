@@ -28,8 +28,6 @@ class URLs:
         return True
 
     def store_content(self, url: str, content: str):
-        if self.verbosity > 2:
-            print(f"\tNew content stored for url: {url}")
         self.urls[url]["content"] = content
         self.db.update_url_content(url, content)
 
