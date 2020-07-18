@@ -2,3 +2,4 @@ googlesearch
 requests
 graphviz
 networkx
+colorama
