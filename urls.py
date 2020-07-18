@@ -7,13 +7,14 @@ class URLs:
         self.db = DB(file_db)
         self.verbosity = verbosity
 
-    def set_child(self, parent: str, child: str, link_type: str):
+    def set_child(self, parent: str, child: str, link_date: str, link_type: str):
         """
         Add a relationship, 'link', between a parent URL and a
         child URL.
         Input:
         - parent URL
         - child URL
+        - link_date
         - link_type of link. It can be 'link' meaning the link was search
           or it can be 'title' meaning the title was search
 
@@ -24,7 +25,7 @@ class URLs:
         if self.verbosity > 2:
             print(f'\tNew children in object: > {child}')
         self.urls[parent]['children'] = child
-        self.db.insert_link_urls(parent_url=parent, child_url=child, source="G")
+        self.db.insert_link_urls(parent_url=parent, child_url=child, link_date=link_date, source=link_type)
         return True
 
     def store_content(self, url: str, content: str):
