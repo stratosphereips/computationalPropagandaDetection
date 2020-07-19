@@ -9,3 +9,5 @@ results*.json
 *.png
 *backup*
 *.pyc
+.idea/
+logs
