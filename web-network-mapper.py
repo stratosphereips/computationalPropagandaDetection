@@ -14,6 +14,9 @@ import distance
 from lxml.html import fromstring
 from colorama import init
 from colorama import Fore, Back, Style
+import PyPDF2
+import textract
+import binascii
 
 # Init colorama
 init()
@@ -64,6 +67,7 @@ def sanity_check(url):
 
     return True
 
+
 @timeit
 def trigger_api(search_leyword):
     """
@@ -99,6 +103,7 @@ def trigger_api(search_leyword):
         # Get first results
         client = GoogleSearchResults(params)
         results = client.get_dict()
+
         # Store this batch of results in the final list
         try:
             all_results.append(results["organic_results"])
@@ -209,6 +214,42 @@ def downloadContent(url):
     file.write(content)
     file.close()
     return (text_content, title)
+def url_in_content(url, content, content_file):
+    """
+    Receive a url and a content and try to see if the url is in the content
+    Depends on the type of data
+    """
+    if content and 'HTML' in content[:60].upper():
+        print(f'{Fore.YELLOW} html doc{Style.RESET_ALL}')
+        all_content = ''.join(content)
+        if url in all_content:
+            return True
+    elif content and '%PDF' in content[:4]:
+        print(f'{Fore.YELLOW} pdf doc{Style.RESET_ALL}')
+        # url_in_hex = binascii.hexlify(url.encode('ascii'))
+        # text = textract.process(content_file, method='tesseract', language='eng')
+        try:
+            pdfReader = PyPDF2.PdfFileReader(content_file)
+        except PyPDF2.utils.PdfReadError:
+            return False
+        num_pages = pdfReader.numPages
+        count = 0
+        text = ""
+        while count < num_pages:
+            pageObj = pdfReader.getPage(count)
+            count += 1
+            text += pageObj.extractText()
+        # text = text.replace('\x','')
+        # print(text)
+        if url in text:
+            return True
+    elif content:
+        print(f'{Fore.YELLOW} other doc{Style.RESET_ALL}')
+        # print(content[:20])
+        # We consider this what?
+        return False
+    else:
+        return False
 
 
 if __name__ == "__main__":
@@ -320,8 +361,11 @@ if __name__ == "__main__":
                     # Verify that the link is meaningful
                     if content and url not in content:
                         print(f"\t\tThe URL {url} is not in the content of site {child_url}")
+                    if not url_in_content(url, content, content_file):
+                        print(f"\t\tThe URL {url} is not in the content of site {child_url} {Fore.RED} Discarding.{Style.RESET_ALL}")
                         # Consider deleting the downloaded content from disk
                         continue
+                    print(f"\t\tThe URL {url} IS in the content of site {child_url} {Fore.BLUE} Keeping.{Style.RESET_ALL}")
 
                     all_links.append([url, child_url])
 
