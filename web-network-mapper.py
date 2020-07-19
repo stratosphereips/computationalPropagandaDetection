@@ -184,7 +184,6 @@ def downloadContent(url):
     Downlod the content of the web page
     """
     try:
-        content = ""
         # Download up to 5MB per page
         headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
         # Timeout waiting for an answer is 15 seconds
@@ -194,26 +193,34 @@ def downloadContent(url):
         title = tree.findtext('.//title')
     except requests.exceptions.ConnectionError:
         print('Error in getting content')
-        return (False, False)
+        return (False, False, False)
     except requests.exceptions.ReadTimeout:
         print('Timeout waiting for the web server to answer. We ignore and continue')
-        return (False, False)
+        return (False, False, False)
     except Exception as e:
         print('Error getting the content of the web.')
         print(f'{e}')
         print(f'{type(e)}')
-        return (False, False)
+        return (False, False, False)
 
     url_hash = get_hash_for_url(url)
 
-    timemodifier = str(datetime.now()).replace(" ", "_")
-    file_name = "contents/" + url_hash + "_" + timemodifier + "-content.html"
-    if args.verbosity > 1:
-        print(f"\t\tStoring the content of url {url} in file {file_name}")
-    file = open(file_name, "w")
-    file.write(content)
-    file.close()
-    return (text_content, title)
+    try:
+        timemodifier = str(datetime.now()).replace(" ", "_").replace(":", "_")
+        file_name = "contents/" + url_hash + "_" + timemodifier + "-content.html"
+        if args.verbosity > 1:
+            print(f"\t\tStoring the content of url {url} in file {file_name}")
+        file = open(file_name, "w")
+        file.write(text_content)
+        file.close()
+        return (text_content, title, file_name)
+    except Exception as e:
+        print('Error saving the content of the webpage.')
+        print(f'{e}')
+        print(f'{type(e)}')
+        return (False, False, False)
+
+
 def url_in_content(url, content, content_file):
     """
     Receive a url and a content and try to see if the url is in the content
@@ -293,7 +300,7 @@ if __name__ == "__main__":
 
         # Get the content of the url and store it
         if not args.dont_store_content:
-            (main_content, main_title) = downloadContent(args.link)
+            (main_content, main_title, content_file) = downloadContent(args.link)
             URLs.store_content(args.link, main_content)
 
         # First we search for results using the URL
@@ -323,7 +330,7 @@ if __name__ == "__main__":
                 if data:
                     for page in data:
                         for result in page:
-                            urls.append(result[link_type])
+                            urls.append(result['link'])
                 else:
                     print("The API returned False because of some error. Continue with next URL")
                     continue
@@ -356,11 +363,9 @@ if __name__ == "__main__":
                     # Get the content of the url and store it
                     # We ask here so we have the content of each child
                     if not args.dont_store_content:
-                        (content, title) = downloadContent(child_url)
+                        (content, title, content_file) = downloadContent(child_url)
 
                     # Verify that the link is meaningful
-                    if content and url not in content:
-                        print(f"\t\tThe URL {url} is not in the content of site {child_url}")
                     if not url_in_content(url, content, content_file):
                         print(f"\t\tThe URL {url} is not in the content of site {child_url} {Fore.RED} Discarding.{Style.RESET_ALL}")
                         # Consider deleting the downloaded content from disk
@@ -404,7 +409,7 @@ if __name__ == "__main__":
             if data:
                 for page in data:
                     for result in page:
-                        urls.append(result[link_type])
+                        urls.append(result['link'])
             else:
                 print("The API returned False because of some error. \
                         Continue with next URL")
@@ -417,7 +422,7 @@ if __name__ == "__main__":
             # Check that the children was not seen before in this call
             if child_url in urls_to_search:
                 if args.verbosity > 2:
-                    print(f"\tRepeated url: {child_url}")
+                    print(f"\tRepeated url: {child_url}. {Fore.RED} Discarding.{Style.RESET_ALL}")
                     continue
 
             if sanity_check(child_url):
@@ -425,7 +430,7 @@ if __name__ == "__main__":
                 # Get the content of the url and store it
                 # We ask here so we have the content of each child
                 if not args.dont_store_content:
-                    (content, title) = downloadContent(child_url)
+                    (content, title, content_file) = downloadContent(child_url)
 
                 # Verify that the link is meaningful
                 urls_distance = distance.compare_content(main_content, content)
