@@ -23,7 +23,7 @@ class URLs:
         if link_type not in ['link', 'title']:
             return False
         if self.verbosity > 2:
-            print(f'\tNew children in object: > {child}')
+            print(f'\t\tNew children in object: > {child}')
         self.urls[parent]['children'] = child
         self.db.insert_link_urls(parent_url=parent, child_url=child, link_date=link_date, source=link_type)
         return True
