@@ -3,3 +3,5 @@ requests
 graphviz
 networkx
 colorama
+PyPDF2
+textract
