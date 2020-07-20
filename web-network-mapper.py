@@ -227,12 +227,12 @@ def url_in_content(url, content, content_file):
     Depends on the type of data
     """
     if content and 'HTML' in content[:60].upper():
-        print(f'{Fore.YELLOW} html doc{Style.RESET_ALL}')
+        # print(f'{Fore.YELLOW} html doc{Style.RESET_ALL}')
         all_content = ''.join(content)
         if url in all_content:
             return True
     elif content and '%PDF' in content[:4]:
-        print(f'{Fore.YELLOW} pdf doc{Style.RESET_ALL}')
+        # print(f'{Fore.YELLOW} pdf doc{Style.RESET_ALL}')
         # url_in_hex = binascii.hexlify(url.encode('ascii'))
         # text = textract.process(content_file, method='tesseract', language='eng')
         try:
@@ -251,7 +251,7 @@ def url_in_content(url, content, content_file):
         if url in text:
             return True
     elif content:
-        print(f'{Fore.YELLOW} other doc{Style.RESET_ALL}')
+        # print(f'{Fore.YELLOW} other doc{Style.RESET_ALL}')
         # print(content[:20])
         # We consider this what?
         return False
