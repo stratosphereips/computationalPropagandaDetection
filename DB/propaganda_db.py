@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sqlite3
 from typing import List, Tuple
+from datetime import datetime
 
 
 class DB:
@@ -62,8 +63,14 @@ class DB:
 
         child_id = self.get_url_id(child_url)
         parent_id = self.get_url_id(parent_url)
-        if not self.link_exist(child_id, parent_id):
+        if not self.link_exist(parent_id=parent_id, child_id=child_id):
             self.insert_link_id(parent_id=parent_id, child_id=child_id, link_date=link_date, source=source)
+        else:
+            old_link_date = self.get_date_of_link_by_ids(parent_id=parent_id, child_id=child_id) # getting date of existing link
+            old_link_date_obj =  datetime.strptime(old_link_date, '%Y-%m-%d %H:%M:%S.%f')
+            # keeping the oldest link
+            if link_date < old_link_date_obj:
+                self.update_date_of_link(parent_id=parent_id, child_id=child_id, date=link_date)
         self.commit()
 
     def commit(self):
@@ -106,6 +113,10 @@ class DB:
         self.c.execute("""UPDATE URLS SET date_of_query = ?  WHERE url = ?""", (date_of_query, url))
         self.commit()
 
+    def update_date_of_link(self, parent_id:int, child_id:int,  date: str):
+        self.c.execute("""UPDATE LINKS SET date = ?  WHERE parent_id = ? and child_id = ?""", (date, parent_id, child_id))
+        self.commit()
+
     def get_date_of_query_url(self, url:str) -> str:
         dates = self.c.execute("""SELECT date_of_query FROM URLS WHERE url=?""", (url, )).fetchall()
 
@@ -114,12 +125,19 @@ class DB:
         else:
             return None
 
+    def get_date_of_link_by_ids(self, parent_id: int, child_id: int) -> str:
+        dates = self.c.execute("""SELECT date FROM LINKS WHERE parent_id=? and child_id=?""",
+                               (parent_id, child_id)).fetchall()
+        if len(dates) > 0:
+            return dates[0][0]
+        return None
+
     def get_date_of_link(self, parent_url:str, child_url:str) -> str:
         child_id = self.get_url_key(child_url)
         parent_id = self.get_url_key(parent_url)
-        dates = self.c.execute("""SELECT date FROM LINKS WHERE parent_id=? and child_id=?""", (parent_id,child_id )).fetchall()
-        if len(dates) > 0:
-            return dates[0][0]
+        return self.get_date_of_link_by_ids(parent_id=parent_id, child_id=child_id)
+
+
 
 if __name__ == '__main__':
     db = DB("propaganda.db")
