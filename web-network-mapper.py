@@ -239,6 +239,11 @@ def url_in_content(url, content, content_file):
             pdfReader = PyPDF2.PdfFileReader(content_file)
         except PyPDF2.utils.PdfReadError:
             return False
+        except Exception as e:
+            print(f"Error in pydf2 call. {e}")
+            print(f"{type(e)}")
+            print(traceback.format_exc())
+            return False
         num_pages = pdfReader.numPages
         count = 0
         text = ""
