@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import os
 from datetime import datetime
-import requests
 import traceback
 from serpapi.google_search_results import GoogleSearchResults
 import json
@@ -9,14 +8,10 @@ import argparse
 from graph import build_a_graph
 from urls import URLs
 from utils import get_hash_for_url
-from utils import timeit
+from utils import timeit, download_content, url_in_content
 import distance
-from lxml.html import fromstring
 from colorama import init
-from colorama import Fore, Back, Style
-import PyPDF2
-import textract
-import binascii
+from colorama import Fore, Style
 
 # Init colorama
 init()
@@ -177,88 +172,6 @@ def trigger_api(search_leyword):
         print(traceback.format_exc())
         return False
 
-
-# @timeit
-def downloadContent(url):
-    """
-    Downlod the content of the web page
-    """
-    try:
-        # Download up to 5MB per page
-        headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
-        # Timeout waiting for an answer is 15 seconds
-        page_content = requests.get(url, timeout=15, headers=headers)
-        text_content = page_content.text
-        tree = fromstring(page_content.content)
-        title = tree.findtext('.//title')
-    except requests.exceptions.ConnectionError:
-        print('Error in getting content')
-        return (False, False, False)
-    except requests.exceptions.ReadTimeout:
-        print('Timeout waiting for the web server to answer. We ignore and continue')
-        return (False, False, False)
-    except Exception as e:
-        print('Error getting the content of the web.')
-        print(f'{e}')
-        print(f'{type(e)}')
-        return (False, False, False)
-
-    url_hash = get_hash_for_url(url)
-
-    try:
-        timemodifier = str(datetime.now()).replace(" ", "_").replace(":", "_")
-        file_name = "contents/" + url_hash + "_" + timemodifier + "-content.html"
-        if args.verbosity > 1:
-            print(f"\t\tStoring the content of url {url} in file {file_name}")
-        file = open(file_name, "w")
-        file.write(text_content)
-        file.close()
-        return (text_content, title, file_name)
-    except Exception as e:
-        print('Error saving the content of the webpage.')
-        print(f'{e}')
-        print(f'{type(e)}')
-        return (False, False, False)
-
-
-def url_in_content(url, content, content_file):
-    """
-    Receive a url and a content and try to see if the url is in the content
-    Depends on the type of data
-    """
-    if content and 'HTML' in content[:60].upper():
-        # print(f'{Fore.YELLOW} html doc{Style.RESET_ALL}')
-        all_content = ''.join(content)
-        if url in all_content:
-            return True
-    elif content and '%PDF' in content[:4]:
-        # print(f'{Fore.YELLOW} pdf doc{Style.RESET_ALL}')
-        # url_in_hex = binascii.hexlify(url.encode('ascii'))
-        # text = textract.process(content_file, method='tesseract', language='eng')
-        try:
-            pdfReader = PyPDF2.PdfFileReader(content_file)
-        except PyPDF2.utils.PdfReadError:
-            return False
-        num_pages = pdfReader.numPages
-        count = 0
-        text = ""
-        while count < num_pages:
-            pageObj = pdfReader.getPage(count)
-            count += 1
-            text += pageObj.extractText()
-        # text = text.replace('\x','')
-        # print(text)
-        if url in text:
-            return True
-    elif content:
-        # print(f'{Fore.YELLOW} other doc{Style.RESET_ALL}')
-        # print(content[:20])
-        # We consider this what?
-        return False
-    else:
-        return False
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-l", "--link", help="URL to check is distribution pattern.", type=str, required=True)
@@ -268,7 +181,9 @@ if __name__ == "__main__":
     )
     parser.add_argument("-c", "--dont_store_content", help="Do not store the content of pages to disk", action="store_true", default=False)
     parser.add_argument("-v", "--verbosity", help="Verbosity level", type=int, default=0)
-    parser.add_argument("-u", "--urls_threshold", help="Threshold distance between the content of two pages when searching with title", type=int, default=0.3)
+    parser.add_argument(
+        "-u", "--urls_threshold", help="Threshold distance between the content of two pages when searching with title", type=int, default=0.3
+    )
     args = parser.parse_args()
     try:
 
@@ -300,7 +215,7 @@ if __name__ == "__main__":
 
         # Get the content of the url and store it
         if not args.dont_store_content:
-            (main_content, main_title, content_file) = downloadContent(args.link)
+            (main_content, main_title, content_file) = download_content(args.link)
             URLs.store_content(args.link, main_content)
 
         # First we search for results using the URL
@@ -315,7 +230,7 @@ if __name__ == "__main__":
 
             print("\n==========================================")
             print(f"URL search level {urls_to_search_level[url]}. Searching data for url: {url}")
-            link_type = 'link'
+            link_type = "link"
 
             # Get links to this URL (children)
             data = trigger_api(url)
@@ -330,7 +245,7 @@ if __name__ == "__main__":
                 if data:
                     for page in data:
                         for result in page:
-                            urls.append(result['link'])
+                            urls.append(result["link"])
                 else:
                     print("The API returned False because of some error. Continue with next URL")
                     continue
@@ -363,7 +278,7 @@ if __name__ == "__main__":
                     # Get the content of the url and store it
                     # We ask here so we have the content of each child
                     if not args.dont_store_content:
-                        (content, title, content_file) = downloadContent(child_url)
+                        (content, title, content_file) = download_content(child_url, verbosity=args.verbosity)
 
                     # Verify that the link is meaningful
                     if not url_in_content(url, content, content_file):
@@ -397,9 +312,9 @@ if __name__ == "__main__":
         print("\n\n==========Second Phase Search for Title=========")
         # Get links to this URL (children)
         data = trigger_api(main_title)
-        link_type = 'title'
+        link_type = "title"
 
-        # When we search for the title, we dont store the date of search 
+        # When we search for the title, we dont store the date of search
         # or publication because it was already stored when we search
         # using the URL
 
@@ -409,10 +324,12 @@ if __name__ == "__main__":
             if data:
                 for page in data:
                     for result in page:
-                        urls.append(result['link'])
+                        urls.append(result["link"])
             else:
-                print("The API returned False because of some error. \
-                        Continue with next URL")
+                print(
+                    "The API returned False because of some error. \
+                        Continue with next URL"
+                )
         except KeyError:
             # There are no 'organic_results' in this result
             pass
@@ -430,7 +347,7 @@ if __name__ == "__main__":
                 # Get the content of the url and store it
                 # We ask here so we have the content of each child
                 if not args.dont_store_content:
-                    (content, title, content_file) = downloadContent(child_url)
+                    (content, title, content_file) = download_content(child_url)
 
                 # Verify that the link is meaningful
                 urls_distance = distance.compare_content(main_content, content)
