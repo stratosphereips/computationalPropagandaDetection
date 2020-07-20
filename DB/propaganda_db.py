@@ -79,8 +79,8 @@ class DB:
         :return: List of edges in form of [from_url, to_url]
         """
         main_id = self.get_url_id(main_url)  # id of this url in DB
-        parent_id_queue = [main_id]  # list od ids to be opened
-        visited_parents = [main_id]  # list od ids which already visited
+        parent_id_queue = [main_id]  # list of ids to be opened
+        visited_parents = [main_id]  # list of ids which already visited
         edges = []  # edges of the subtree
         for parent_id in parent_id_queue:
 
