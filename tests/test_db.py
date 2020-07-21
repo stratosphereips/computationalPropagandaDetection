@@ -20,24 +20,24 @@ def cleanup():
 
 
 def test_times(db):
-    time_1 = datetime.datetime.now()
-    time_2 = datetime.datetime.now() + datetime.timedelta(days=1)
+    time_today = datetime.datetime.now()
+    time_tommorrow = datetime.datetime.now() + datetime.timedelta(days=1)
     link_1 = "link_1"
-    db.insert_url(url=link_1, date_of_query=time_1, is_propaganda=1)
-    db.insert_url(url=link_1, date_of_query=time_2, is_propaganda=1)
+    db.insert_url(url=link_1, date_of_query=time_today, is_propaganda=1)
+    db.insert_url(url=link_1, date_of_query=time_tommorrow, is_propaganda=1)
 
     # for link un URL we save the last date of the query
     returned_time = db.get_date_of_query_url(link_1)
-    assert str(time_2) == returned_time
+    assert str(time_tommorrow) == returned_time
 
     link_2 = "link_2"
-    db.insert_url(url=link_2, date_of_query=time_2, is_propaganda=0)
-    db.insert_link_urls(link_1, link_2, link_date=time_1)
-    db.insert_link_urls(link_1, link_2, link_date=time_2)
+    db.insert_url(url=link_2, date_of_query=time_tommorrow, is_propaganda=0)
+    db.insert_link_urls(link_1, link_2, link_date=time_today)
+    db.insert_link_urls(link_1, link_2, link_date=time_tommorrow)
 
     # for the link we save the first query date
     returned_time = db.get_date_of_link(link_1, link_2)
-    assert str(time_1) == returned_time
+    assert str(time_today) == returned_time
 
     # check if link doesnt exist
     returned_time = db.get_date_of_query_url("not_existing_link1")
