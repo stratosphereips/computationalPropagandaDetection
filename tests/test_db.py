@@ -11,11 +11,7 @@ path = os.path.join(os.path.dirname(__file__), "test_propaganda.db")
 def db():
     create_db(path)
     db = DB(path)
-    return db
-
-
-@pytest.fixture
-def cleanup():
+    yield db
     os.remove(path)
 
 
