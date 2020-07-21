@@ -43,7 +43,10 @@ class DB:
         url_exist = self.url_exist(url)
 
         if not url_exist:
-            self.c.execute("""INSERT INTO URLS(url, content, date_published, date_of_query, is_propaganda) VALUES  (?, ?, ?, ?, ?) """, (url, content, date_published, date_of_query, is_propaganda))
+            self.c.execute(
+                """INSERT INTO URLS(url, content, date_published, date_of_query, is_propaganda) VALUES  (?, ?, ?, ?, ?) """,
+                (url, content, date_published, date_of_query, is_propaganda),
+            )
             self.commit()
         else:
             # assuming that the new date_of_query will be always newer which is already in DB, we will change it with the new date
@@ -53,7 +56,7 @@ class DB:
         self.c.execute("""INSERT INTO LINKS(parent_id, child_id, date, source) VALUES (?, ?, ?, ?) """, (parent_id, child_id, link_date, source))
         self.commit()
 
-    def insert_link_urls(self, parent_url: str, child_url: str, link_date: str, source: str=None):
+    def insert_link_urls(self, parent_url: str, child_url: str, link_date: str, source: str = None):
         parent_url_exist = self.url_exist(parent_url)
         child_url_exist = self.url_exist(child_url)
         if not parent_url_exist:
@@ -66,8 +69,8 @@ class DB:
         if not self.link_exist(parent_id=parent_id, child_id=child_id):
             self.insert_link_id(parent_id=parent_id, child_id=child_id, link_date=link_date, source=source)
         else:
-            old_link_date = self.get_date_of_link_by_ids(parent_id=parent_id, child_id=child_id) # getting date of existing link
-            old_link_date_obj =  datetime.strptime(old_link_date, '%Y-%m-%d %H:%M:%S.%f')
+            old_link_date = self.get_date_of_link_by_ids(parent_id=parent_id, child_id=child_id)  # getting date of existing link
+            old_link_date_obj = datetime.strptime(old_link_date, "%Y-%m-%d %H:%M:%S.%f")
             # keeping the oldest link
             if link_date < old_link_date_obj:
                 self.update_date_of_link(parent_id=parent_id, child_id=child_id, date=link_date)
@@ -105,20 +108,20 @@ class DB:
                 edges.append((parent_url, child_url))
         return edges
 
-    def update_date_published(self, url:str, date_of_publication: str):
+    def update_date_published(self, url: str, date_of_publication: str):
         self.c.execute("""UPDATE URLS SET date_published = ?  WHERE url = ?""", (date_of_publication, url))
         self.commit()
 
-    def update_date_of_query(self, url:str, date_of_query: str):
+    def update_date_of_query(self, url: str, date_of_query: str):
         self.c.execute("""UPDATE URLS SET date_of_query = ?  WHERE url = ?""", (date_of_query, url))
         self.commit()
 
-    def update_date_of_link(self, parent_id:int, child_id:int,  date: str):
+    def update_date_of_link(self, parent_id: int, child_id: int, date: str):
         self.c.execute("""UPDATE LINKS SET date = ?  WHERE parent_id = ? and child_id = ?""", (date, parent_id, child_id))
         self.commit()
 
-    def get_date_of_query_url(self, url:str) -> str:
-        dates = self.c.execute("""SELECT date_of_query FROM URLS WHERE url=?""", (url, )).fetchall()
+    def get_date_of_query_url(self, url: str) -> str:
+        dates = self.c.execute("""SELECT date_of_query FROM URLS WHERE url=?""", (url,)).fetchall()
 
         if len(dates) > 0:
             return dates[0][0]
@@ -126,19 +129,16 @@ class DB:
             return None
 
     def get_date_of_link_by_ids(self, parent_id: int, child_id: int) -> str:
-        dates = self.c.execute("""SELECT date FROM LINKS WHERE parent_id=? and child_id=?""",
-                               (parent_id, child_id)).fetchall()
+        dates = self.c.execute("""SELECT date FROM LINKS WHERE parent_id=? and child_id=?""", (parent_id, child_id)).fetchall()
         if len(dates) > 0:
             return dates[0][0]
         return None
 
-    def get_date_of_link(self, parent_url:str, child_url:str) -> str:
-        child_id = self.get_url_key(child_url)
-        parent_id = self.get_url_key(parent_url)
+    def get_date_of_link(self, parent_url: str, child_url: str) -> str:
+        child_id = self.get_url_id(child_url)
+        parent_id = self.get_url_id(parent_url)
         return self.get_date_of_link_by_ids(parent_id=parent_id, child_id=child_id)
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     db = DB("propaganda.db")
-
