@@ -331,8 +331,8 @@ if __name__ == "__main__":
             data = trigger_api(url)
 
             # Set the time we asked for the results
-            result_search_date = datetime.now()
-            URLs.set_query_datetime(url, result_search_date)
+            search_date = datetime.now()
+            URLs.set_query_datetime(url, search_date)
 
             # From all the jsons, get only the links to continue
             urls = []
@@ -385,8 +385,7 @@ if __name__ == "__main__":
                     all_links.append([url, child_url])
 
                     # Add the children to the DB
-                    result_search_date = datetime.now()
-                    URLs.set_child(url, child_url, result_search_date, link_type)
+                    URLs.set_child(url, child_url, search_date, link_type)
 
                     # The child should have the level of the parent + 1
                     urls_to_search_level[child_url] = urls_to_search_level[url] + 1
@@ -453,8 +452,7 @@ if __name__ == "__main__":
                 all_links.append([url, child_url])
 
                 # Add the children to the DB
-                result_search_date = datetime.now()
-                URLs.set_child(url, child_url, result_search_date, link_type)
+                URLs.set_child(url, child_url, search_date, link_type)
 
                 # Add this url to the DB
                 URLs.add_url(child_url)
