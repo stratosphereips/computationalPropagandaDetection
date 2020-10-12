@@ -367,38 +367,42 @@ if __name__ == "__main__":
             # Get links to this URL (children)
             data = trigger_api(url)
 
-            # Set the time we asked for the results
+            # Set the URL 'date_of_query' to now
             search_date = datetime.now()
             URLs.set_query_datetime(url, search_date)
 
             # From all the jsons, get only the links to continue
-            urls = []
-            try:
-                if data:
-                    for page in data:
-                        for result in page:
-                            urls.append(result['link'])
-                else:
-                    print("The API returned False because of some error. Continue with next URL")
-                    continue
-            except KeyError:
-                # There are no 'organic_results' in this result
-                pass
+            # urls = []
+            urls_to_date = {}
+            if data:
+                for page in data:
+                    for result in page:
+                        # dict for urls and dates
+                        if 'date' in result:
+                            urls_to_date[result['link']] = result['date']
+                        elif 'snippet' in result and '—' in result['snippet'][:16]:
+                            # First try to get it from the snippet
+                            # Usually "Mar 25, 2020"
+                            temp_date = result['snippet'].split('—')[0].strip()
+                            urls_to_date[result['link']] = temp_date
+                        else:
+                            # Get none date for now. TODO: get the date from the content
+                            urls_to_date[result['link']] = None
+            else:
+                print("The API returned False because of some error. Continue with next URL")
+                continue
 
-            # Set the datetime for the url
-            # For now it is a string like "Mar 25, 2020"
-            try:
-                result_date = result["date"]
-            except KeyError:
-                # There is no date field in the results
-                result_date = ""
-            URLs.set_datetime(url, result_date)
+            # Set the publication datetime for the url
+            if args.link == url:
+                formated_date = convert_date(search_date, urls_to_date[url])
+                URLs.set_publication_datetime(url, formated_date)
 
             if args.verbosity > 1:
-                print(f"\tThere are {len(urls)} urls still to search.")
+                print(f"\tThere are {len(urls_to_date)} urls still to search.")
 
-            for child_url in urls:
+            for child_url in urls_to_date.keys():
                 print(f"\tSearching for url {child_url}")
+
                 # Check that the children was not seen before in this call
                 if child_url in urls_to_search:
                     if args.verbosity > 2:
