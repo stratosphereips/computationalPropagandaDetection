@@ -428,6 +428,11 @@ if __name__ == "__main__":
                     # Add the children to the DB
                     URLs.set_child(url, child_url, search_date, link_type)
 
+                    # Store the date of the publication of the URL
+                    formated_date = convert_date(search_date, urls_to_date[child_url])
+                    print(f'URL: {child_url}, Date: {formated_date}')
+                    URLs.set_publication_datetime(child_url, formated_date)
+
                     # The child should have the level of the parent + 1
                     urls_to_search_level[child_url] = urls_to_search_level[url] + 1
                     urls_to_search.append(child_url)
