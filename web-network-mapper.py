@@ -270,6 +270,42 @@ def url_in_content(url, content, content_file):
         return False
 
 
+def convert_date(search_time, google_date):
+    # Convert the date from '2 days ago' to  a real date, compared with the search time
+    if google_date == None:
+        return None
+
+    splitted = google_date.split()
+
+    if len(splitted) == 1 and splitted[0].lower() == 'today':
+        return str(search_time.isoformat())
+    elif len(splitted) == 1 and splitted[0].lower() == 'yesterday':
+        date = search_time - relativedelta(days=1)
+        return str(date.isoformat())
+    elif splitted[1].lower() in ['mins', 'min', 'minutes', 'minute']:
+        date = search_time - relativedelta(minutes=int(splitted[0]))
+    elif splitted[1].lower() in ['hour', 'hours', 'hr', 'hrs', 'h']:
+        date = search_time - relativedelta(hours=int(splitted[0]))
+        return str(date.date().isoformat())
+    elif splitted[1].lower() in ['day', 'days', 'd']:
+        date = search_time - relativedelta(days=int(splitted[0]))
+        return str(date.isoformat())
+    elif splitted[1].lower() in ['wk', 'wks', 'week', 'weeks', 'w']:
+        date = search_time - relativedelta(weeks=int(splitted[0]))
+        return str(date.isoformat())
+    elif splitted[1].lower() in ['mon', 'mons', 'month', 'months', 'm']:
+        date = search_time - relativedelta(months=int(splitted[0]))
+        return str(date.isoformat())
+    elif splitted[1].lower() in ['yrs', 'yr', 'years', 'year', 'y']:
+        date = search_time - relativedelta(years=int(splitted[0]))
+        return str(date.isoformat())
+    elif splitted[0].lower() in ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dec']:
+        date = datetime.strptime(google_date, '%b %d, %Y')
+        return str(date.isoformat())
+    else:
+        return None
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-l", "--link", help="URL to check is distribution pattern.", type=str, required=True)
