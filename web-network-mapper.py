@@ -17,6 +17,7 @@ from colorama import Fore, Back, Style
 import PyPDF2
 import textract
 import binascii
+from dateutil.relativedelta import relativedelta
 
 # Init colorama
 init()
