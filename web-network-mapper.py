@@ -454,7 +454,7 @@ if __name__ == "__main__":
         data = trigger_api(main_title)
         link_type = 'title'
 
-        # When we search for the title, we dont store the date of search 
+        # When we search for the title, we dont store the date of search
         # or publication because it was already stored when we search
         # using the URL
 
