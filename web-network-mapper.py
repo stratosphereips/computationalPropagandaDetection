@@ -74,7 +74,6 @@ def sanity_check(url):
     return True
 
 
-# @timeit
 def trigger_api(search_leyword):
     """
     Access to the API of serapi
@@ -184,7 +183,6 @@ def trigger_api(search_leyword):
         return False
 
 
-# @timeit
 def downloadContent(url):
     """
     Downlod the content of the web page
@@ -406,7 +404,7 @@ if __name__ == "__main__":
                 # Check that the children was not seen before in this call
                 if child_url in urls_to_search:
                     if args.verbosity > 2:
-                        print(f"\t\tRepeated url: {child_url}")
+                        print(f"\t\tRepeated url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
                         continue
 
                 if sanity_check(child_url):
