@@ -22,7 +22,6 @@ if __name__ == "__main__":
 
         if args.link:
             all_links = db.get_tree(args.link)
-            print(all_links)
             previous_level = -1
             previous_parent = ''
             for data in all_links:
