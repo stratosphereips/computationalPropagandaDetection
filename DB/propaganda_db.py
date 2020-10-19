@@ -31,7 +31,7 @@ class DB:
         if len(ids) > 1:
             raise Exception("There are multiple ids for this url")
         if len(ids) == 0:
-            raise Exception("URLS is not in DB")
+            raise Exception("URL is not in DB")
         else:
             return ids[0][0]
 
@@ -89,7 +89,7 @@ class DB:
         :return: Dictionary of levels, each with a list of edges in form of [from_url, to_url]. Example: { [0]:[(url1, url2), (url1, url3)], [1]:[(url2, url4), (url2, url5)] }
         """
         main_id = self.get_url_id(main_url)  # id of this url in DB
-        #visited_parents = [main_id]  # list of parent ids which already visited
+        # visited_parents = [main_id]  # list of parent ids which already visited
         urls_to_retrieve_childs = [main_id]  # list of urls to retrieve childs
         edges = []  # edges of the subtree
         level = {}
@@ -97,7 +97,7 @@ class DB:
 
         for parent_id in urls_to_retrieve_childs:
 
-            #visited_parents.append(parent_id)
+            # visited_parents.append(parent_id)
             parent_url = self.get_url_by_id(parent_id)[0][0]
 
             # getting all childrens which start from the parent_id
@@ -125,13 +125,18 @@ class DB:
         self.c.execute("""UPDATE LINKS SET date = ?  WHERE parent_id = ? and child_id = ?""", (date, parent_id, child_id))
         self.commit()
 
-    def get_date_of_query_url(self, url: str) -> str:
-        dates = self.c.execute("""SELECT date_of_query FROM URLS WHERE url=?""", (url,)).fetchall()
-
+    def __get_date_url(self, url: str, type_of_date: str) -> str:
+        dates = self.c.execute(f"""SELECT {type_of_date} FROM URLS WHERE url=?""", (url,)).fetchall()
         if len(dates) > 0:
             return dates[0][0]
         else:
             return None
+
+    def get_date_of_query_url(self, url: str) -> str:
+        return self.__get_date_url(url, "date_published")
+
+    def get_date_published_url(self, url: str) -> str:
+        return self.__get_date_url(url, "date_of_query")
 
     def get_date_of_link_by_ids(self, parent_id: int, child_id: int) -> str:
         dates = self.c.execute("""SELECT date FROM LINKS WHERE parent_id=? and child_id=?""", (parent_id, child_id)).fetchall()
