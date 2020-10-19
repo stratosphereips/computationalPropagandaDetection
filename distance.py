@@ -7,7 +7,6 @@ import traceback
 from utils import timeit
 
 
-@timeit
 def compare_content(content1, content2):
     """
     Compare the content of two pages
