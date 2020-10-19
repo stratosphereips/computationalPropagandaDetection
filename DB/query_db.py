@@ -2,7 +2,7 @@
 import traceback
 import argparse
 from colorama import init
-from colorama import Fore, Back, Style
+from colorama import Fore, Style
 from propaganda_db import DB
 
 
@@ -22,14 +22,20 @@ if __name__ == "__main__":
 
         if args.link:
             all_links = db.get_tree(args.link)
+            print(all_links)
+            previous_level = -1
             previous_parent = ''
-            for result in all_links:
-                if previous_parent == result[0]:
-                    print(f'\t{Fore.YELLOW}-> {result[1]}{Style.RESET_ALL}')
+            for data in all_links:
+                spaces = '  '*data[0]
+                if data[0] != previous_level:
+                    print(f'{spaces}{Fore.RED}Level {data[0]}{Style.RESET_ALL}')
+                    previous_level = data[0]
+                if previous_parent != data[1]:
+                    print(f'{spaces}{Fore.CYAN}{data[1]}{Style.RESET_ALL}')
+                    print(f'{spaces} {Fore.YELLOW}-> {data[2]}{Style.RESET_ALL}')
                 else:
-                    print(f'{Fore.CYAN}{result[0]}{Style.RESET_ALL}')
-                    print(f'\t{Fore.YELLOW}-> {result[1]}{Style.RESET_ALL}')
-                    previous_parent = result[0]
+                    print(f'{spaces} {Fore.YELLOW}-> {data[2]}{Style.RESET_ALL}')
+                previous_parent = data[1]
         elif args.links:
             pass
 
