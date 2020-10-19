@@ -86,26 +86,31 @@ class DB:
         """
         Function which return edges in form of [from_url, to_url] of subtree, where root of the tree is main url.
         :param main_url: the root of the tree
-        :return: List of edges in form of [from_url, to_url]
+        :return: Dictionary of levels, each with a list of edges in form of [from_url, to_url]. Example: { [0]:[(url1, url2), (url1, url3)], [1]:[(url2, url4), (url2, url5)] }
         """
         main_id = self.get_url_id(main_url)  # id of this url in DB
-        parent_id_queue = [main_id]  # list of ids to be opened
-        visited_parents = [main_id]  # list of ids which already visited
+        #visited_parents = [main_id]  # list of parent ids which already visited
+        urls_to_retrieve_childs = [main_id]  # list of urls to retrieve childs
         edges = []  # edges of the subtree
-        for parent_id in parent_id_queue:
+        level = {}
+        level[main_id] = 0
 
-            visited_parents.append(parent_id)
-            # getting all childrens which start from the parent_id
-            # returns in the form of List[Tuples]
-            children_ids = self.c.execute("""SELECT child_id FROM LINKS WHERE parent_id=(?);""", (parent_id,)).fetchall()
+        for parent_id in urls_to_retrieve_childs:
+
+            #visited_parents.append(parent_id)
             parent_url = self.get_url_by_id(parent_id)[0][0]
+
+            # getting all childrens which start from the parent_id
+            children_ids = self.c.execute("""SELECT child_id FROM LINKS WHERE parent_id=(?);""", (parent_id,)).fetchall()
+
             for child_tuple in children_ids:
                 child_id = child_tuple[0]
+                level[child_id] = level[parent_id] + 1
                 # if the child was already expend, dont add it to the queue
-                if child_id not in visited_parents and child_id not in parent_id_queue:
-                    parent_id_queue.append(child_id)
+                if child_id not in urls_to_retrieve_childs:
+                    urls_to_retrieve_childs.append(child_id)
                 child_url = self.get_url_by_id(child_id)[0][0]
-                edges.append((parent_url, child_url))
+                edges.append((level[child_id], parent_url, child_url))
         return edges
 
     def update_date_published(self, url: str, date_of_publication: str):
