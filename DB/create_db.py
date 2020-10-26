@@ -11,6 +11,7 @@ def create_db(file_path):
         url_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         url TEXT NOT NULL,
         content TEXT,
+        title TEXT,
         date_published DATE,
         date_of_query DATE,
         is_propaganda INT
