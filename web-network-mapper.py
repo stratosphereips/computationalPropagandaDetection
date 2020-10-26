@@ -210,6 +210,7 @@ def downloadContent(url):
     url_hash = get_hash_for_url(url)
 
     try:
+        # Store the file
         timemodifier = str(datetime.now()).replace(" ", "_").replace(":", "_")
         file_name = "contents/" + url_hash + "_" + timemodifier + "-content.html"
         if args.verbosity > 1:
@@ -217,12 +218,13 @@ def downloadContent(url):
         file = open(file_name, "w")
         file.write(text_content)
         file.close()
-        return (text_content, title, file_name)
     except Exception as e:
         print('Error saving the content of the webpage.')
         print(f'{e}')
         print(f'{type(e)}')
         return (False, False, False)
+
+    return (text_content, title, file_name)
 
 
 def url_in_content(url, content, content_file):
@@ -347,6 +349,7 @@ if __name__ == "__main__":
         if not args.dont_store_content:
             (main_content, main_title, content_file) = downloadContent(args.link)
             URLs.store_content(args.link, main_content)
+            URLs.store_title(args.link, main_title)
 
         # First we search for results using the URL
         for url in urls_to_search:
@@ -440,6 +443,7 @@ if __name__ == "__main__":
 
                     # Store the content (after storing the child)
                     URLs.store_content(child_url, content)
+                    URLs.store_title(child_url, title)
 
                     if args.verbosity > 1:
                         print(f"\tAdding the URL {child_url} with level {urls_to_search_level[child_url]}")
@@ -503,6 +507,7 @@ if __name__ == "__main__":
 
                 # Store the content (after storing the child)
                 URLs.store_content(child_url, content)
+                URLs.store_title(child_url, title)
 
                 if args.verbosity > 1:
                     print(f"\tAdding the URL {child_url}")
