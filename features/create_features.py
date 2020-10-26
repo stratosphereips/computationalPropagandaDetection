@@ -8,6 +8,18 @@ from datetime import datetime
 def flatten(list_of_lists):
     return [l for a_list in list_of_lists for l in a_list]
 
+def get_number_of_urls_published_before_source(url_to_date:  Dict[str, datetime], main_url:str):
+    main_url_date = url_to_date[main_url]
+    number_of_urls_published_before_source = 0
+    for url, date in url_to_date.items():
+        if date is None:
+            continue
+        print(date, main_url_date, date < main_url_date)
+        if date < main_url_date:
+            number_of_urls_published_before_source += 1
+    return number_of_urls_published_before_source
+
+
 
 def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[int, int], main_url: str, max_level: int) -> Dict:
     # we calculate time histogram for each level
@@ -86,4 +98,5 @@ if __name__ == "__main__":
     for url in urls:
         date = get_date(url)
         url_to_date[url] = date
+    print(url_to_date)
     minutes_hist, hour_hist, day_hist, more_than_30_days = get_time_hist(url_to_date, url_to_level, main_url, max_level)

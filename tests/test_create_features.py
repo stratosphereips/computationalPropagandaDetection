@@ -1,4 +1,4 @@
-from features.create_features import get_time_hist, get_level
+from features.create_features import get_time_hist, get_number_of_urls_published_before_source
 import pandas as pd
 
 
@@ -9,6 +9,19 @@ def get_indecies(l):
             ids.append(i)
     return ids
 
+def test_get_number_of_urls_published_before_source():
+    dates_to_url = {
+        "main_url": pd.to_datetime("2020-08-10 09:00:00"),
+        "1_day_before": pd.to_datetime("2020-08-09 00:00:00"),
+        "1_day_after": pd.to_datetime("2020-08-11 00:00:05"),
+        "5_hours_before": pd.to_datetime("2020-08-10 05:00:00"),
+        "None": None
+    }
+    main_url = "main_url"
+
+    expected_number = 2
+    actual_number = get_number_of_urls_published_before_source(dates_to_url, main_url)
+    assert expected_number==actual_number
 
 def test_get_time_hist():
     dates_to_url = {
