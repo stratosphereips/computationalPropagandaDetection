@@ -1,4 +1,4 @@
-from features.create_features import get_time_hist, get_number_of_urls_published_before_source
+from features.create_features import get_time_hist, get_number_of_urls_published_before_source, get_total_number_of_urls_in_level
 import pandas as pd
 
 
@@ -22,6 +22,22 @@ def test_get_number_of_urls_published_before_source():
     expected_number = 2
     actual_number = get_number_of_urls_published_before_source(dates_to_url, main_url)
     assert expected_number==actual_number
+
+def test_get_total_number_of_urls_in_level():
+    url_to_level = {
+        "main_url": -1,
+        "5_second_later_url": 2,
+        "5_second_later_url_2": 1,
+        "1_hour_later_url": 2,
+        "1_day_3_hours_34_seconds_later": 0,
+        "3_days_later": 2,
+        "5_days_5h_6_minutes_later": 0,
+        "13_days_later": 0,
+        "36_dayes_later": 1,
+    }
+    expect_list = [3, 2,3 ]
+    actual_list = get_total_number_of_urls_in_level(url_to_level, max_level=3)
+    assert expect_list==actual_list
 
 def test_get_time_hist():
     dates_to_url = {

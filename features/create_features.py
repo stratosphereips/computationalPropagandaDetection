@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 def flatten(list_of_lists):
-    return [l for a_list in list_of_lists for l in a_list]
+    return [el for a_list in list_of_lists for el in a_list]
 
 def get_number_of_urls_published_before_source(url_to_date:  Dict[str, datetime], main_url:str):
     main_url_date = url_to_date[main_url]
@@ -20,8 +20,24 @@ def get_number_of_urls_published_before_source(url_to_date:  Dict[str, datetime]
     return number_of_urls_published_before_source
 
 
+def get_total_number_of_urls_in_level(url_to_level: Dict[str, int], max_level):
+    """
+    Total Number of urls in each level.
+    :param url_to_level: dictionary, where key is url, and value is level
+    :param max_level: number of levels to consider
+    :return: list of size max_level
+    """
+    total_number_of_urls_in_level = [0] * max_level
+    for _,level in url_to_level.items():
+        if level>=0: #main_url has level = -1
+            total_number_of_urls_in_level[level] +=1
+    return total_number_of_urls_in_level
 
-def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[int, int], main_url: str, max_level: int) -> Dict:
+
+
+
+
+def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[str, int], main_url: str, max_level: int) -> Dict:
     # we calculate time histogram for each level
     # by this we are saving as time information so connection
     main_url_date = url_to_date[main_url]
