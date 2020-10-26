@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import pandas as pd
 import numpy as np
+import argparse
 from DB.propaganda_db import DB
 from typing import Dict, List
 from datetime import datetime
@@ -9,19 +10,24 @@ from datetime import datetime
 def flatten(list_of_lists):
     return [el for a_list in list_of_lists for el in a_list]
 
-def get_number_of_urls_published_before_source(url_to_date:  Dict[str, datetime], main_url:str):
+def get_number_of_urls_published_before_source(url_to_date:  Dict[str, datetime], main_url:str) -> int:
+    """
+    Get count how many urls were published before the source date
+    :param url_to_date: dictionary, where key is url, and value is date
+    :param main_url: source urls
+    :return: int
+    """
     main_url_date = url_to_date[main_url]
     number_of_urls_published_before_source = 0
     for url, date in url_to_date.items():
         if date is None:
             continue
-        print(date, main_url_date, date < main_url_date)
         if date < main_url_date:
             number_of_urls_published_before_source += 1
     return number_of_urls_published_before_source
 
 
-def get_total_number_of_urls_in_level(url_to_level: Dict[str, int], max_level):
+def get_total_number_of_urls_in_level(url_to_level: Dict[str, int], max_level) -> List[int]:
     """
     Total Number of urls in each level.
     :param url_to_level: dictionary, where key is url, and value is level
@@ -33,9 +39,6 @@ def get_total_number_of_urls_in_level(url_to_level: Dict[str, int], max_level):
         if level>=0: #main_url has level = -1
             total_number_of_urls_in_level[level] +=1
     return total_number_of_urls_in_level
-
-
-
 
 
 def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[str, int], main_url: str, max_level: int) -> Dict:
@@ -103,8 +106,13 @@ def get_date(url):
 
 
 if __name__ == "__main__":
-    db = DB("DB/propaganda.db")
-    main_url = "https://www.fondsk.ru/news/2020/03/25/borba-s-koronavirusom-i-bolshoj-brat-50441.html"
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-l", "--link", help="URL to build features from graph", type=str, required=True)
+    parser.add_argument("-d", "--database_path", help="Path to the database", type=str, required=True)
+    args = parser.parse_args()
+
+    db = DB(args.database_path)
+    main_url = args.link
     links = db.get_tree(main_url)
     urls = get_unique_urls(links)
 
@@ -117,12 +125,12 @@ if __name__ == "__main__":
         date = get_date(url)
         url_to_date[url] = date
     print(url_to_date)
-    data = get_time_hist(url_to_date, url_to_level, main_url, max_level)
-    minute_hist = data['minute_hist']
-    hour_hist = data['hour_hist']
-    day_hist = data['day_hist']
-    more_than_30_days = data['more_than_30_days']
-    print(minute_hist)
-    print(hour_hist)
-    print(day_hist)
-    print(more_than_30_days)
+
+    hist_features = get_time_hist(url_to_date, url_to_level, main_url, max_level)
+    print(hist_features)
+    number_of_urls_published_before_source = get_number_of_urls_published_before_source(url_to_date, main_url)
+    print("Number of urls published before source", number_of_urls_published_before_source)
+    number_of_urls_in_level = get_total_number_of_urls_in_level(url_to_level, max_level)
+    print("Number of urls in level", number_of_urls_in_level)
+
+
