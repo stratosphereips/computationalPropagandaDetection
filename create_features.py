@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import pandas as pd
 import numpy as np
 from DB.propaganda_db import DB
@@ -76,7 +77,8 @@ def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[str, int]
     minutes_hist = minutes_hist_per_level.flatten().tolist()
     hour_hist = hours_hist_per_level.flatten().tolist()
     day_hist = days_hist_per_level.flatten().tolist()
-    return {"minute_hist": minutes_hist, "hour_hist": hour_hist, "day_hist": day_hist, "more_than_30_days": more_than_30_days_per_level.tolist()}
+    data = {"minute_hist": minutes_hist, "hour_hist": hour_hist, "day_hist": day_hist, "more_than_30_days": more_than_30_days_per_level.tolist()}
+    return data
 
 
 def get_level(links: List[tuple], main_url: str) -> Dict[str, int]:
@@ -101,7 +103,7 @@ def get_date(url):
 
 
 if __name__ == "__main__":
-    db = DB("../DB/propaganda.db")
+    db = DB("DB/propaganda.db")
     main_url = "https://www.fondsk.ru/news/2020/03/25/borba-s-koronavirusom-i-bolshoj-brat-50441.html"
     links = db.get_tree(main_url)
     urls = get_unique_urls(links)
@@ -115,4 +117,12 @@ if __name__ == "__main__":
         date = get_date(url)
         url_to_date[url] = date
     print(url_to_date)
-    minutes_hist, hour_hist, day_hist, more_than_30_days = get_time_hist(url_to_date, url_to_level, main_url, max_level)
+    data = get_time_hist(url_to_date, url_to_level, main_url, max_level)
+    minute_hist = data['minute_hist']
+    hour_hist = data['hour_hist']
+    day_hist = data['day_hist']
+    more_than_30_days = data['more_than_30_days']
+    print(minute_hist)
+    print(hour_hist)
+    print(day_hist)
+    print(more_than_30_days)
