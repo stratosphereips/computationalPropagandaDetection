@@ -133,10 +133,10 @@ class DB:
             return None
 
     def get_date_of_query_url(self, url: str) -> str:
-        return self.__get_date_url(url, "date_published")
+        return self.__get_date_url(url, "date_of_query")
 
     def get_date_published_url(self, url: str) -> str:
-        return self.__get_date_url(url, "date_of_query")
+        return self.__get_date_url(url, "date_published")
 
     def get_date_of_link_by_ids(self, parent_id: int, child_id: int) -> str:
         dates = self.c.execute("""SELECT date FROM LINKS WHERE parent_id=? and child_id=?""", (parent_id, child_id)).fetchall()

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sqlite3
 
+
 def create_db(file_path):
     conn = sqlite3.connect(file_path)
     c = conn.cursor()
@@ -40,5 +41,6 @@ def create_db(file_path):
     # Just be sure any changes have been committed or they will be lost.
     conn.close()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     create_db(file_path="propaganda.db")
