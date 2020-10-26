@@ -35,6 +35,10 @@ class DB:
         else:
             return ids[0][0]
 
+    def update_url_title(self, url, title):
+        self.c.execute("""UPDATE URLS SET title = ?  WHERE url = ?""", (title, url))
+        self.commit()
+
     def update_url_content(self, url, content):
         self.c.execute("""UPDATE URLS SET content = ?  WHERE url = ?""", (content, url))
         self.commit()
