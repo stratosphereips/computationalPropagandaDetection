@@ -184,15 +184,45 @@ def trigger_api(search_leyword):
         return False
 
 
-def extract_date_from_webpage(tree):
+def extract_date_from_webpage(url, tree):
     """
-    Receive a page content structure and try to find the date of publication
+    Receive an URL and tree HTM: structure and try to find the date of
+    publication in several heuristic ways
     """
     publication_date = False
+    years_to_monitor = ['2020']
+
+    # First try in the url
+    for year_to_monitor in years_to_monitor:
+        y_position = url.find(year_to_monitor)
+        if y_position:
+            # Is it 2020/03/02? (slash doesnt matter)
+            year_first = url[y_position:y_position+10]
+            try:
+                parsed_date = dateutil.parser.parse(year_first)
+                break
+            except dateutil.parser._parser.ParserError:
+                # Is it 03/02/2020?
+                year_last = url[y_position-6:y_position+4]
+                try:
+                    parsed_date = dateutil.parser.parse(year_last)
+                    break
+                except dateutil.parser._parser.ParserError:
+                    # None of above. Weird
+                    parsed_date = False
+    print(f'Date found in the URL: {parsed_date}')
+
     title = tree.findtext('.//title')
     if title and 'telegram' in title.lower():
         # Telegram page
         print('Telegram')
+        try:
+            pass
+        except Exception as e:
+            print(f'{Fore.MAGENTA}! Error getting the publication data of the web.{Style.RESET_ALL}')
+            print(f'{Fore.MAGENTA}! {e}{Style.RESET_ALL}')
+            print(f'{type(e)}')
+            return False
 
     return publication_date
 
