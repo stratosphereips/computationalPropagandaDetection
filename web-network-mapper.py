@@ -502,7 +502,7 @@ if __name__ == "__main__":
                 # Get the content of the url and store it
                 # We ask here so we have the content of each child
                 if not args.dont_store_content:
-                    (content, title, content_file) = downloadContent(child_url)
+                    (content, title, content_file, publication_date) = downloadContent(child_url)
 
                 # Verify that the link is meaningful
                 urls_distance = distance.compare_content(main_content, content)
