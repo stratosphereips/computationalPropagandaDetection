@@ -240,16 +240,16 @@ def downloadContent(url):
         tree = fromstring(page_content.content)
         title = tree.findtext('.//title')
         # Get the date of publication of the webpage
-        publication_date = extract_date_from_webpage(tree)
+        publication_date = extract_date_from_webpage(url, tree)
     except requests.exceptions.ConnectionError:
-        print(f'{Fore.magenta}! Error in getting content.{Style.RESET_ALL}')
+        print(f'{Fore.MAGENTA}! Error in getting content.{Style.RESET_ALL}')
         return (False, False, False, False)
     except requests.exceptions.ReadTimeout:
-        print(f'{Fore.magenta}! Timeout waiting for the web server to answer. We ignore and continue.{Style.RESET_ALL}')
+        print(f'{Fore.MAGENTA}! Timeout waiting for the web server to answer.  We ignore and continue.{Style.RESET_ALL}')
         return (False, False, False, False)
     except Exception as e:
-        print(f'{Fore.magenta}! Error getting the content of the web.{Style.RESET_ALL}')
-        print(f'{Fore.magenta}!{e}{Style.RESET_ALL}')
+        print(f'{Fore.MAGENTA}! Error getting the content of the web.{Style.RESET_ALL}')
+        print(f'{Fore.MAGENTA}! {e}{Style.RESET_ALL}')
         print(f'{type(e)}')
         return (False, False, False, False)
 
