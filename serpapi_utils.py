@@ -1,4 +1,3 @@
-
 from serpapi.google_search_results import GoogleSearchResults
 import json
 import requests
@@ -14,6 +13,8 @@ from lxml.html import fromstring
 f = open("serapi.key")
 SERAPI_KEY = f.readline()
 f.close()
+
+
 def get_hash_for_url(url):
     return hashlib.md5(url.encode()).hexdigest()
 
@@ -210,4 +211,3 @@ def url_in_content(url, content, content_file):
         return False
     else:
         return False
-

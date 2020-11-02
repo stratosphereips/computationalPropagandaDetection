@@ -13,7 +13,7 @@ def convert_date(search_time, google_date):
         return None
 
     try:
-        date = str(parse(google_date).isoformat()) #what is if is a date "2020-05-13" or "08.31.2020"
+        date = str(parse(google_date).isoformat())  # what is if is a date "2020-05-13" or "08.31.2020"
         return date
     except:
         pass
@@ -113,7 +113,6 @@ def sanity_check(url):
     return True
 
 
-
 def get_links_from_results(data):
     urls = []
     try:
@@ -131,17 +130,18 @@ def get_links_from_results(data):
         pass
     return urls
 
+
 def check_content(child_url, parent_url, content, content_file):
     # Get the content of the url and store it
     # We ask here so we have the content of each child
     if not url_in_content(parent_url, content, content_file):
-        print(
-            f"\t\tThe URL {parent_url} is not in the content of site {child_url} {Fore.RED} Discarding.{Style.RESET_ALL}")
+        print(f"\t\tThe URL {parent_url} is not in the content of site {child_url} {Fore.RED} Discarding.{Style.RESET_ALL}")
         # Consider deleting the downloaded content from disk
         return False
 
     print(f"\t\tThe URL {parent_url} IS in the content of site {child_url} {Fore.BLUE} Keeping.{Style.RESET_ALL}")
     return True
+
 
 def add_child_to_db(URLs, child_url, parent_url, search_date, publication_date, link_type, content):
     # Add the children to the DB
@@ -153,27 +153,30 @@ def add_child_to_db(URLs, child_url, parent_url, search_date, publication_date, 
     URLs.add_url(child_url)
     # Store the content (after storing the child)
     URLs.store_content(child_url, content)
-    #Store the search date
+    # Store the search date
     URLs.set_query_datetime(child_url, search_date)
 
-def extract_and_save_twitter_data(driver,URLs, searched_string, parent_url, type):
+
+def extract_and_save_twitter_data(driver, URLs, searched_string, parent_url, type):
     twitter_info = driver.get_twitter_data(searched_string)
     search_date = datetime.now()
     for one_tweet in twitter_info:
-        add_child_to_db(URLs= URLs, child_url=one_tweet["link"],
-                        parent_url=parent_url,
-                        search_date= search_date,
-                        publication_date=one_tweet["published_date"],
-                        content = one_tweet["text"], link_type=type)
+        add_child_to_db(
+            URLs=URLs,
+            child_url=one_tweet["link"],
+            parent_url=parent_url,
+            search_date=search_date,
+            publication_date=one_tweet["published_date"],
+            content=one_tweet["text"],
+            link_type=type,
+        )
 
 
 def check_text_similiarity(main_content, main_url, child_url, content, threshold):
     urls_distance = distance.compare_content(main_content, content)
     if urls_distance <= threshold:
-        print(
-            f"\tThe content of {main_url} has distance with {child_url} of : {urls_distance}. {Fore.RED}Discarding.{Style.RESET_ALL}")
+        print(f"\tThe content of {main_url} has distance with {child_url} of : {urls_distance}. {Fore.RED}Discarding.{Style.RESET_ALL}")
         # Consider deleting the downloaded content from disk
         return False
-    print(
-        f"\tThe content of {main_url} has distance with {child_url} of : {urls_distance}. {Fore.BLUE}Keeping.{Style.RESET_ALL}")
+    print(f"\tThe content of {main_url} has distance with {child_url} of : {urls_distance}. {Fore.BLUE}Keeping.{Style.RESET_ALL}")
     return True

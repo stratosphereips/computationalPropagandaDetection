@@ -6,6 +6,7 @@ import argparse
 import traceback
 import time
 
+
 def timeit(method):
     def timed(*args, **kw):
         ts = time.time()
