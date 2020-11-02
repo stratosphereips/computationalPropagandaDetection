@@ -4,7 +4,21 @@ import Levenshtein
 from bs4 import BeautifulSoup
 import argparse
 import traceback
-from utils import timeit
+import time
+
+def timeit(method):
+    def timed(*args, **kw):
+        ts = time.time()
+        result = method(*args, **kw)
+        te = time.time()
+        if "log_time" in kw:
+            name = kw.get("log_name", method.__name__.upper())
+            kw["log_time"][name] = int((te - ts) * 1000)
+        else:
+            print(f"\t\033[1;32;40mFunction {method.__name__}() took {(te - ts) * 1000:2.2f}ms\033[00m")
+        return result
+
+    return timed
 
 
 def compare_content(content1, content2):
@@ -19,7 +33,7 @@ def compare_content(content1, content2):
         return distance
     except TypeError:
         # The contents were not strings
-        print('The content of the pages were not string. Verify.')
+        print("The content of the pages were not string. Verify.")
         return False
 
 
@@ -33,23 +47,23 @@ if __name__ == "__main__":
         # file1_name = 'contents/politanalyze.com-1.content.html'
         # file2_name = 'contents/fondsk.ru.atlaq.com_23-content.html'
 
-        file1 = open(args.first_file, 'r')
-        file2 = open(args.second_file, 'r')
+        file1 = open(args.first_file, "r")
+        file2 = open(args.second_file, "r")
 
         # Read the lines
         file1_html = file1.readlines()
         file2_html = file2.readlines()
 
         # Get all the text together, since it comes in arrays
-        file1_html_join = ''.join(file1_html)
-        file2_html_join = ''.join(file2_html)
+        file1_html_join = "".join(file1_html)
+        file2_html_join = "".join(file2_html)
 
         # Get rid of all the tags, and keep the human readable text
         file1_content = BeautifulSoup(file1_html_join, features="lxml").get_text()
         file2_content = BeautifulSoup(file2_html_join, features="lxml").get_text()
 
         distance = Levenshtein.ratio(file1_content, file2_content)
-        print(f'Distance between file {args.first_file} and {args.second_file} = {distance}')
+        print(f"Distance between file {args.first_file} and {args.second_file} = {distance}")
 
     except KeyboardInterrupt:
         raise

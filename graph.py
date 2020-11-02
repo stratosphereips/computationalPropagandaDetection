@@ -4,18 +4,18 @@ import networkx as nx
 import argparse
 from DB.propaganda_db import DB
 import matplotlib.pyplot as plt
-from utils import get_hash_for_url
+from serpapi_utils import get_hash_for_url
 
 
 def filter_name(url):
     # Takes out 'www' from the domain name in the URL.
     # First finds the domain in the URL
-    if 'http' in url:
+    if "http" in url:
         # we are searching a domain
-        basename = url.split('/')[2]
+        basename = url.split("/")[2]
     else:
         # if a title, just the first word
-        basename = url.split(' ')[0]
+        basename = url.split(" ")[0]
         pass
     # Takes out the 'www'
     if "www" == basename[:3]:
@@ -73,7 +73,7 @@ def build_a_graph(all_links, search_link):
     plt.savefig(os.path.join("graphs", fig_name_hashed_link))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-l", "--link", help="URL to check is distribution pattern", type=str)
