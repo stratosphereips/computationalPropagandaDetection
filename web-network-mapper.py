@@ -183,6 +183,19 @@ def trigger_api(search_leyword):
         return False
 
 
+def extract_date_from_webpage(tree):
+    """
+    Receive a page content structure and try to find the date of publication
+    """
+    publication_date = False
+    title = tree.findtext('.//title')
+    if title and 'telegram' in title.lower():
+        # Telegram page
+        print('Telegram')
+
+    return publication_date
+
+
 def downloadContent(url):
     """
     Downlod the content of the web page
@@ -226,7 +239,7 @@ def downloadContent(url):
         print(f'{type(e)}')
         return (False, False, False)
 
-    return (text_content, title, file_name)
+    return (text_content, title, file_name, publication_date)
 
 
 def url_in_content(url, content, content_file):
@@ -349,7 +362,7 @@ if __name__ == "__main__":
 
         # Get the content of the url and store it
         if not args.dont_store_content:
-            (main_content, main_title, content_file) = downloadContent(args.link)
+            (main_content, main_title, content_file, publication_date) = downloadContent(args.link)
             URLs.store_content(args.link, main_content)
             URLs.store_title(args.link, main_title)
 
@@ -417,7 +430,7 @@ if __name__ == "__main__":
                     # Get the content of the url and store it
                     # We ask here so we have the content of each child
                     if not args.dont_store_content:
-                        (content, title, content_file) = downloadContent(child_url)
+                        (content, title, content_file, publication_date) = downloadContent(child_url)
 
                     # Verify that the link is meaningful
                     if not url_in_content(url, content, content_file):
