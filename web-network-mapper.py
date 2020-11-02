@@ -19,6 +19,7 @@ import PyPDF2
 # import binascii
 from dateutil.relativedelta import relativedelta
 import dateutil.parser
+import re
 
 # Init colorama
 init()
