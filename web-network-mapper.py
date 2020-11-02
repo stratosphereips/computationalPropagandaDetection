@@ -377,7 +377,7 @@ if __name__ == "__main__":
                 break
 
             print("\n==========================================")
-            print(f"URL search level {urls_to_search_level[url]}. Searching data for url: {url}")
+            print(f"URL search level {urls_to_search_level[url]}. Searching links to URL: {url}")
             link_type = 'link'
 
             # Get links to this URL (children)
