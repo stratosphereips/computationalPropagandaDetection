@@ -15,9 +15,10 @@ from lxml.html import fromstring
 from colorama import init
 from colorama import Fore, Back, Style
 import PyPDF2
-import textract
-import binascii
+# import textract
+# import binascii
 from dateutil.relativedelta import relativedelta
+import dateutil.parser
 
 # Init colorama
 init()
