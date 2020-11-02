@@ -195,17 +195,19 @@ def downloadContent(url):
         text_content = page_content.text
         tree = fromstring(page_content.content)
         title = tree.findtext('.//title')
+        # Get the date of publication of the webpage
+        publication_date = extract_date_from_webpage(tree)
     except requests.exceptions.ConnectionError:
-        print('Error in getting content')
-        return (False, False, False)
+        print(f'{Fore.ORANGE}! Error in getting content.{Style.RESET_ALL}')
+        return (False, False, False, False)
     except requests.exceptions.ReadTimeout:
-        print('Timeout waiting for the web server to answer. We ignore and continue')
-        return (False, False, False)
+        print(f'{Fore.ORANGE}! Timeout waiting for the web server to answer. We ignore and continue.{Style.RESET_ALL}')
+        return (False, False, False, False)
     except Exception as e:
-        print('Error getting the content of the web.')
-        print(f'{e}')
+        print(f'{Fore.ORANGE}! Error getting the content of the web.{Style.RESET_ALL}')
+        print(f'{Fore.ORANGE}!{e}{Style.RESET_ALL}')
         print(f'{type(e)}')
-        return (False, False, False)
+        return (False, False, False, False)
 
     url_hash = get_hash_for_url(url)
 
