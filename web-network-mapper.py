@@ -238,17 +238,6 @@ def extract_date_from_webpage(url, page_content):
     publication in several heuristic ways
     """
     publication_date = False
-
-    # First try to find the date in the url
-    parsed_date = parse_date_from_string(url)
-    if parsed_date:
-        print(f'\t\tDate found in the URL: {parsed_date}')
-    elif not parsed_date:
-        # Secodn try to find the date in the content of the web
-        parsed_date = parse_date_from_string(page_content.text)
-        if parsed_date:
-            print(f'\t\tDate found in the content of the page: {parsed_date}')
-
     # If this is a specific website, suchas telegram or twitter, 
     # do a better search
     tree = fromstring(page_content.content)
@@ -259,6 +248,17 @@ def extract_date_from_webpage(url, page_content):
     elif title and 'twitter' in title.lower():
         # Plug here a call to Eli's code
         print('\t\tIs Twitter. Call Eli')
+
+    if not publication_date:
+        # First try to find the date in the url
+        parsed_date = parse_date_from_string(url)
+        if parsed_date:
+            print(f'\t\tDate found in the URL: {parsed_date}')
+        elif not parsed_date:
+            # Secodn try to find the date in the content of the web
+            parsed_date = parse_date_from_string(page_content.text)
+            if parsed_date:
+                print(f'\t\tDate found in the content of the page: {parsed_date}')
 
     return publication_date
 
