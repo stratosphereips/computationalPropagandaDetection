@@ -6,23 +6,58 @@ import argparse
 from graph import build_a_graph
 from urls import URLs
 from colorama import init as init_colorama
-from colorama import Fore, Back, Style
+from colorama import Fore, Style
 import logging
 from twitter_api import Firefox
 from utils import (
     sanity_check,
-    extract_and_save_twitter_data,
     check_content,
     convert_date,
     get_links_from_results,
     get_dates_from_results,
     check_text_similiarity,
-    add_child_to_db,
 )
 from serpapi_utils import downloadContent, trigger_api, get_hash_for_url
 
 # Init colorama
 init_colorama()
+
+
+# Read the serapi api key
+f = open("serapi.key")
+SERAPI_KEY = f.readline()
+f.close()
+
+
+def add_child_to_db(URLs, child_url, parent_url, search_date, publication_date, link_type, content, title):
+    # Add the children to the DB
+    URLs.set_child(parent_url, child_url, search_date, link_type)
+    # Store the date of the publication of the URL
+    formated_date = convert_date(search_date, publication_date)
+    URLs.set_publication_datetime(child_url, formated_date)
+    # Add this url to the DB. Since we are going to search for it
+    URLs.add_url(child_url)
+    # Store the content (after storing the child)
+    URLs.store_content(child_url, content)
+    # Store the search date
+    URLs.set_query_datetime(child_url, search_date)
+    URLs.store_title(child_url, title)
+
+
+def extract_and_save_twitter_data(driver, URLs, searched_string, parent_url, type):
+    twitter_info = driver.get_twitter_data(searched_string)
+    search_date = datetime.now()
+    for one_tweet in twitter_info:
+        add_child_to_db(
+            URLs=URLs,
+            child_url=one_tweet["link"],
+            parent_url=parent_url,
+            search_date=search_date,
+            publication_date=one_tweet["published_date"],
+            content=one_tweet["text"],
+            link_type=type,
+            title=None,
+        )
 
 
 if __name__ == "__main__":
@@ -75,8 +110,9 @@ if __name__ == "__main__":
 
         # Get the content of the url and store it
         if not args.dont_store_content:
-            (main_content, main_title, content_file) = downloadContent(args.link)
-            URLs.store_content(main_url, main_content)
+            (main_content, main_title, content_file, publication_date) = downloadContent(args.link)
+            URLs.store_content(args.link, main_content)
+            URLs.store_title(args.link, main_title)
 
         # First we search for results using the URL
         for url in urls_to_search:
@@ -125,7 +161,10 @@ if __name__ == "__main__":
                     extract_and_save_twitter_data(driver, URLs, child_url, url, link_type)
 
                     if not args.dont_store_content:
-                        (content, title, content_file) = downloadContent(child_url)
+                        (content, title, content_file, publication_date) = downloadContent(child_url)
+                        if urls_to_date[child_url] is None:
+                            urls_to_date[child_url] = publication_date
+
                     if check_content(child_url, url, content, content_file):
                         add_child_to_db(
                             URLs=URLs,
@@ -135,6 +174,7 @@ if __name__ == "__main__":
                             publication_date=urls_to_date[child_url],
                             link_type=link_type,
                             content=content,
+                            title=title,
                         )
                         # The child should have the level of the parent + 1
 
@@ -143,7 +183,6 @@ if __name__ == "__main__":
                         urls_to_search.append(child_url)
 
                         logging.info(f"\tAdding the URL {child_url} with level {urls_to_search_level[child_url]}")
-
                 else:
                     failed_links.append(child_url)
 
@@ -172,7 +211,10 @@ if __name__ == "__main__":
                 continue
             if sanity_check(child_url):
                 if not args.dont_store_content:
-                    (content, title, content_file) = downloadContent(child_url)
+                    (content, title, content_file, publication_date) = downloadContent(child_url)
+                    if urls_to_date[child_url] is None:
+                        urls_to_date[child_url] = publication_date
+
                 if check_text_similiarity(
                     main_content=main_content, content=content, main_url=main_url, child_url=child_url, threshold=args.urls_threshold
                 ):
@@ -184,6 +226,7 @@ if __name__ == "__main__":
                         publication_date=urls_to_date[child_url],
                         link_type=link_type,
                         content=content,
+                        title=title,
                     )
 
                     all_links.append([main_url, child_url])

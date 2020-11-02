@@ -35,6 +35,10 @@ class DB:
         else:
             return ids[0][0]
 
+    def update_url_title(self, url, title):
+        self.c.execute("""UPDATE URLS SET title = ?  WHERE url = ?""", (title, url))
+        self.commit()
+
     def update_url_content(self, url, content):
         self.c.execute("""UPDATE URLS SET content = ?  WHERE url = ?""", (content, url))
         self.commit()
@@ -69,11 +73,17 @@ class DB:
         if not self.link_exist(parent_id=parent_id, child_id=child_id):
             self.insert_link_id(parent_id=parent_id, child_id=child_id, link_date=link_date, source=source)
         else:
-            old_link_date = self.get_date_of_link_by_ids(parent_id=parent_id, child_id=child_id)  # getting date of existing link
-            old_link_date_obj = datetime.strptime(old_link_date, "%Y-%m-%d %H:%M:%S.%f")
-            # keeping the oldest link
-            if link_date < old_link_date_obj:
-                self.update_date_of_link(parent_id=parent_id, child_id=child_id, date=link_date)
+            # If the link types are different, insert
+            old_link_type = self.get_type_of_link_by_ids(parent_id=parent_id, child_id=child_id)
+            if source != old_link_type:
+                self.insert_link_id(parent_id=parent_id, child_id=child_id, link_date=link_date, source=source)
+            else:
+                # If the link types are the same, check the date
+                old_link_date = self.get_date_of_link_by_ids(parent_id=parent_id, child_id=child_id)  # getting date of existing link
+                old_link_date_obj = datetime.strptime(old_link_date, "%Y-%m-%d %H:%M:%S.%f")
+                # keeping the oldest link
+                if link_date < old_link_date_obj:
+                    self.update_date_of_link(parent_id=parent_id, child_id=child_id, date=link_date)
         self.commit()
 
     def commit(self):
@@ -143,6 +153,11 @@ class DB:
         if len(dates) > 0:
             return dates[0][0]
         return None
+
+    def get_type_of_link_by_ids(self, parent_id: int, child_id: int) -> str:
+        link_type = self.c.execute("""SELECT source FROM LINKS WHERE parent_id=? and child_id=?""", (parent_id, child_id)).fetchall()
+        if len(link_type) > 0:
+            return link_type[0][0]
 
     def get_date_of_link(self, parent_url: str, child_url: str) -> str:
         child_id = self.get_url_id(child_url)

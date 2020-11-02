@@ -32,6 +32,10 @@ class URLs:
         self.urls[url]["content"] = content
         self.db.update_url_content(url, content)
 
+    def store_title(self, url: str, title: str):
+        self.urls[url]["title"] = title
+        self.db.update_url_title(url, title)
+
     def show_urls(self):
         """ Show all the urls in store """
         for url in self.urls:
