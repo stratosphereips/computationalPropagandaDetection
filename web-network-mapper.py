@@ -190,7 +190,7 @@ def parse_date_from_string(text):
     Receive a string and give back a date
     object if we can find any date
     """
-    years_to_monitor = ['2020']
+    years_to_monitor = ['2020', '2019']
     # Even if we find a text date, after the conversion into object, it can be
     # that is wrong, for example the text 854.052020 triggers errors
     # So we need to control that de date is more than a minimum
@@ -205,6 +205,7 @@ def parse_date_from_string(text):
                 if not parsed_date:
                     # Is it like 2020/03/02? (slash doesnt matter)
                     year_first = text[y_position:y_position+10]
+                    # print(year_first)
                     try:
                         parsed_date = dateutil.parser.parse(year_first)
                         if parsed_date < control_min_date:
@@ -215,6 +216,7 @@ def parse_date_from_string(text):
                 if not parsed_date:
                     # Is it like 03/02/2020?
                     year_last = text[y_position-6:y_position+4]
+                    # print(year_last)
                     try:
                         parsed_date = dateutil.parser.parse(year_last)
                         if parsed_date < control_min_date:
@@ -225,10 +227,21 @@ def parse_date_from_string(text):
                 if not parsed_date:
                     # Is it like 'Mar. 27th, 2020'?
                     text_type_1 = text[y_position-11:y_position+4]
+                    # print(text_type_1)
                     try:
                         parsed_date = dateutil.parser.parse(text_type_1)
                     except dateutil.parser._parser.ParserError:
                         parsed_date = False
+
+                if not parsed_date:
+                    # Is it like 'November 10 2020'
+                    text_type_1 = text[y_position-12:y_position+4]
+                    # print(text_type_1)
+                    try:
+                        parsed_date = dateutil.parser.parse(text_type_1)
+                    except dateutil.parser._parser.ParserError:
+                        parsed_date = False
+
     return parsed_date
 
 
@@ -238,16 +251,6 @@ def extract_date_from_webpage(url, page_content):
     publication in several heuristic ways
     """
     publication_date = False
-    # If this is a specific website, suchas telegram or twitter, 
-    # do a better search
-    tree = fromstring(page_content.content)
-    title = tree.findtext('.//title')
-    if title and 'telegram' in title.lower():
-        # Plug here a call to Eli's code
-        print('\t\tIs Telegram. Call Eli')
-    elif title and 'twitter' in title.lower():
-        # Plug here a call to Eli's code
-        print('\t\tIs Twitter. Call Eli')
 
     if not publication_date:
         # First try to find the date in the url
