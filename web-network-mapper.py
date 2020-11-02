@@ -198,14 +198,14 @@ def downloadContent(url):
         # Get the date of publication of the webpage
         publication_date = extract_date_from_webpage(tree)
     except requests.exceptions.ConnectionError:
-        print(f'{Fore.ORANGE}! Error in getting content.{Style.RESET_ALL}')
+        print(f'{Fore.magenta}! Error in getting content.{Style.RESET_ALL}')
         return (False, False, False, False)
     except requests.exceptions.ReadTimeout:
-        print(f'{Fore.ORANGE}! Timeout waiting for the web server to answer. We ignore and continue.{Style.RESET_ALL}')
+        print(f'{Fore.magenta}! Timeout waiting for the web server to answer. We ignore and continue.{Style.RESET_ALL}')
         return (False, False, False, False)
     except Exception as e:
-        print(f'{Fore.ORANGE}! Error getting the content of the web.{Style.RESET_ALL}')
-        print(f'{Fore.ORANGE}!{e}{Style.RESET_ALL}')
+        print(f'{Fore.magenta}! Error getting the content of the web.{Style.RESET_ALL}')
+        print(f'{Fore.magenta}!{e}{Style.RESET_ALL}')
         print(f'{type(e)}')
         return (False, False, False, False)
 
