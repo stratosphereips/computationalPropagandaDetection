@@ -173,7 +173,9 @@ if __name__ == "__main__":
             if sanity_check(child_url):
                 if not args.dont_store_content:
                     (content, title, content_file) = downloadContent(child_url)
-                if check_text_similiarity(main_content, content):
+                if check_text_similiarity(
+                    main_content=main_content, content=content, main_url=main_url, child_url=child_url, threshold=args.urls_threshold
+                ):
                     add_child_to_db(
                         URLs=URLs,
                         child_url=child_url,
