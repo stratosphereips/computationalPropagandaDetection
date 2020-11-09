@@ -136,45 +136,56 @@ def parse_date_from_string(text):
     Receive a string and give back a date
     object if we can find any date
     """
-    years_to_monitor = ["2020"]
+    years_to_monitor = ["2020", "2019"]
     # Even if we find a text date, after the conversion into object, it can be
     # that is wrong, for example the text 854.052020 triggers errors
     # So we need to control that de date is more than a minimum
-    control_min_date = dateutil.parser.parse("2000/01/01")
+    # However, we can't compare only dates with datetimes, so we need two
+    control_min_date_naive = dateutil.parser.parse("2000/01/01")
+    control_min_date = dateutil.parser.parse("2000/01/01T00:00:00+00:00")
     parsed_date = None
+
+    def __parse_date_string(text_to_parse, min_date):
+        parsed_date = None
+        try:
+            parsed_date = dateutil.parser.parse(text_to_parse)
+            if parsed_date < min_date:
+                parsed_date = None
+        except dateutil.parser._parser.ParserError:
+            pass
+        return parsed_date
+
     for year_to_monitor in years_to_monitor:
         # y_position = text.find(year_to_monitor)
         y_positions = [m.start() for m in re.finditer(year_to_monitor, text)]
         for y_position in y_positions:
             if y_position:
 
-                if not parsed_date:
+                if parsed_date is None:
+                    # Is it like 2020-03-26T01:02:12+03:00?
+                    year_first = text[y_position : y_position + 25]
+                    parsed_date = __parse_date_string(year_first, control_min_date)
+
+                if parsed_date is None:
                     # Is it like 2020/03/02? (slash doesnt matter)
                     year_first = text[y_position : y_position + 10]
-                    try:
-                        parsed_date = dateutil.parser.parse(year_first)
-                        if parsed_date < control_min_date:
-                            parsed_date = None
-                    except dateutil.parser._parser.ParserError:
-                        parsed_date = None
+                    parsed_date = __parse_date_string(year_first, control_min_date_naive)
 
-                if not parsed_date:
+                if parsed_date is None:
                     # Is it like 03/02/2020?
                     year_last = text[y_position - 6 : y_position + 4]
-                    try:
-                        parsed_date = dateutil.parser.parse(year_last)
-                        if parsed_date < control_min_date:
-                            parsed_date = None
-                    except dateutil.parser._parser.ParserError:
-                        parsed_date = None
+                    parsed_date = __parse_date_string(year_last, control_min_date_naive)
 
-                if not parsed_date:
+                if parsed_date is None:
                     # Is it like 'Mar. 27th, 2020'?
                     text_type_1 = text[y_position - 11 : y_position + 4]
-                    try:
-                        parsed_date = dateutil.parser.parse(text_type_1)
-                    except dateutil.parser._parser.ParserError:
-                        parsed_date = None
+                    parsed_date = __parse_date_string(text_type_1, control_min_date_naive)
+
+                if parsed_date is None:
+                    # Is it like 'November 10 2020'
+                    text_type_1 = text[y_position - 12 : y_position + 4]
+                    parsed_date = __parse_date_string(text_type_1, control_min_date_naive)
+
     return parsed_date
 
 
