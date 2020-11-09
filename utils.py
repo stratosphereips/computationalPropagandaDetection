@@ -143,35 +143,6 @@ def check_content(child_url, parent_url, content, content_file):
     return True
 
 
-def add_child_to_db(URLs, child_url, parent_url, search_date, publication_date, link_type, content):
-    # Add the children to the DB
-    URLs.set_child(parent_url, child_url, search_date, link_type)
-    # Store the date of the publication of the URL
-    formated_date = convert_date(search_date, publication_date)
-    URLs.set_publication_datetime(child_url, formated_date)
-    # Add this url to the DB. Since we are going to search for it
-    URLs.add_url(child_url)
-    # Store the content (after storing the child)
-    URLs.store_content(child_url, content)
-    # Store the search date
-    URLs.set_query_datetime(child_url, search_date)
-
-
-def extract_and_save_twitter_data(driver, URLs, searched_string, parent_url, type):
-    twitter_info = driver.get_twitter_data(searched_string)
-    search_date = datetime.now()
-    for one_tweet in twitter_info:
-        add_child_to_db(
-            URLs=URLs,
-            child_url=one_tweet["link"],
-            parent_url=parent_url,
-            search_date=search_date,
-            publication_date=one_tweet["published_date"],
-            content=one_tweet["text"],
-            link_type=type,
-        )
-
-
 def check_text_similiarity(main_content, main_url, child_url, content, threshold):
     urls_distance = distance.compare_content(main_content, content)
     if urls_distance <= threshold:

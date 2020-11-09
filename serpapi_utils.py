@@ -7,6 +7,10 @@ import traceback
 import hashlib
 import PyPDF2
 from lxml.html import fromstring
+from dateutil.relativedelta import relativedelta
+from colorama import Fore, Style
+import dateutil.parser
+import re
 
 
 # Read the serapi api key
@@ -128,6 +132,84 @@ def trigger_api(search_leyword):
         return False
 
 
+def parse_date_from_string(text):
+    """
+    Receive a string and give back a date
+    object if we can find any date
+    """
+    years_to_monitor = ["2020"]
+    # Even if we find a text date, after the conversion into object, it can be
+    # that is wrong, for example the text 854.052020 triggers errors
+    # So we need to control that de date is more than a minimum
+    control_min_date = dateutil.parser.parse("2000/01/01")
+    parsed_date = False
+    for year_to_monitor in years_to_monitor:
+        # y_position = text.find(year_to_monitor)
+        y_positions = [m.start() for m in re.finditer(year_to_monitor, text)]
+        for y_position in y_positions:
+            if y_position:
+
+                if not parsed_date:
+                    # Is it like 2020/03/02? (slash doesnt matter)
+                    year_first = text[y_position : y_position + 10]
+                    try:
+                        parsed_date = dateutil.parser.parse(year_first)
+                        if parsed_date < control_min_date:
+                            parsed_date = False
+                    except dateutil.parser._parser.ParserError:
+                        parsed_date = False
+
+                if not parsed_date:
+                    # Is it like 03/02/2020?
+                    year_last = text[y_position - 6 : y_position + 4]
+                    try:
+                        parsed_date = dateutil.parser.parse(year_last)
+                        if parsed_date < control_min_date:
+                            parsed_date = False
+                    except dateutil.parser._parser.ParserError:
+                        parsed_date = False
+
+                if not parsed_date:
+                    # Is it like 'Mar. 27th, 2020'?
+                    text_type_1 = text[y_position - 11 : y_position + 4]
+                    try:
+                        parsed_date = dateutil.parser.parse(text_type_1)
+                    except dateutil.parser._parser.ParserError:
+                        parsed_date = False
+    return parsed_date
+
+
+def extract_date_from_webpage(url, page_content):
+    """
+    Receive an URL and tree HTM: structure and try to find the date of
+    publication in several heuristic ways
+    """
+    publication_date = False
+    # If this is a specific website, suchas telegram or twitter,
+    # do a better search
+    tree = fromstring(page_content.content)
+    title = tree.findtext(".//title")
+    if title and "telegram" in title.lower():
+        # Plug here a call to Eli's code
+        print("\t\tIs Telegram. Call Eli")
+    elif title and "twitter" in title.lower():
+        # Plug here a call to Eli's code
+        print("\t\tIs Twitter. Call Eli")
+
+    if not publication_date:
+        # First try to find the date in the url
+        parsed_date = parse_date_from_string(url)
+        if parsed_date:
+            print(f"\t\tDate found in the URL: {parsed_date}")
+        elif not parsed_date:
+            # Secodn try to find the date in the content of the web
+            parsed_date = parse_date_from_string(page_content.text)
+            if parsed_date:
+                print(f"\t\tDate found in the content of the page: {parsed_date}")
+
+    return publication_date
+
+
 def downloadContent(url):
     """
     Downlod the content of the web page
@@ -140,21 +222,24 @@ def downloadContent(url):
         text_content = page_content.text
         tree = fromstring(page_content.content)
         title = tree.findtext(".//title")
+        # Get the date of publication of the webpage
+        publication_date = extract_date_from_webpage(url, page_content)
     except requests.exceptions.ConnectionError:
-        print("Error in getting content")
-        return (False, False, False)
+        print(f"{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}")
+        return (False, False, False, False)
     except requests.exceptions.ReadTimeout:
-        print("Timeout waiting for the web server to answer. We ignore and continue")
-        return (False, False, False)
+        print(f"{Fore.MAGENTA}! Timeout waiting for the web server to answer.  We ignore and continue.{Style.RESET_ALL}")
+        return (False, False, False, False)
     except Exception as e:
-        print("Error getting the content of the web.")
-        print(f"{e}")
+        print(f"{Fore.MAGENTA}! Error getting the content of the web.{Style.RESET_ALL}")
+        print(f"{Fore.MAGENTA}! {e}{Style.RESET_ALL}")
         print(f"{type(e)}")
-        return (False, False, False)
+        return (False, False, False, False)
 
     url_hash = get_hash_for_url(url)
 
     try:
+        # Store the file
         timemodifier = str(datetime.now()).replace(" ", "_").replace(":", "_")
         file_name = "contents/" + url_hash + "_" + timemodifier + "-content.html"
         # if args.verbosity > 1:
@@ -162,12 +247,13 @@ def downloadContent(url):
         file = open(file_name, "w")
         file.write(text_content)
         file.close()
-        return (text_content, title, file_name)
     except Exception as e:
         print("Error saving the content of the webpage.")
         print(f"{e}")
         print(f"{type(e)}")
         return (False, False, False)
+
+    return (text_content, title, file_name, publication_date)
 
 
 def url_in_content(url, content, content_file):
