@@ -15,12 +15,11 @@ class Firefox:
         seen_urls = set()
         self.driver.get(url)
 
-        time.sleep(2)
+        time.sleep(1.2)
         for scrolling_number in range(5):  # we will scroll 5 times full screen
             time.sleep(1)
             # print(f"Scrolling number {scrolling_number}")
             for i in range(1, 10):  # and take first 10 links for each scroll
-                number_of_extracting_tweet = scrolling_number * 10 + i
                 try:
                     date_element = self.driver.find_element_by_xpath(
                         f"/html/body/div/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[{i}]/div/div/article/div/div/div/div[2]/div[2]/div[1]/div/div/div[1]/a/time"
@@ -44,6 +43,9 @@ class Firefox:
                 except:
                     # Sometimes there are ads
                     pass
+            if len(twitter_info) == 0:  # if we didnt extract in the first scroll, there is nothing there
+                break
+
             self.driver.execute_script("window.scrollTo(0, 1080)")
         print(f"Total extracted tweets {len(seen_urls)}: {seen_urls}")
         return twitter_info
