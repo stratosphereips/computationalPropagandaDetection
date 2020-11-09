@@ -9,19 +9,21 @@ def get_indecies(l):
             ids.append(i)
     return ids
 
+
 def test_get_number_of_urls_published_before_source():
     dates_to_url = {
         "main_url": pd.to_datetime("2020-08-10 09:00:00"),
         "1_day_before": pd.to_datetime("2020-08-09 00:00:00"),
         "1_day_after": pd.to_datetime("2020-08-11 00:00:05"),
         "5_hours_before": pd.to_datetime("2020-08-10 05:00:00"),
-        "None": None
+        "None": None,
     }
     main_url = "main_url"
 
     expected_number = 2
     actual_number = get_number_of_urls_published_before_source(dates_to_url, main_url)
-    assert expected_number==actual_number
+    assert expected_number == actual_number
+
 
 def test_get_total_number_of_urls_in_level():
     url_to_level = {
@@ -35,9 +37,10 @@ def test_get_total_number_of_urls_in_level():
         "13_days_later": 0,
         "36_dayes_later": 1,
     }
-    expect_list = [3, 2,3 ]
+    expect_list = [3, 2, 3]
     actual_list = get_total_number_of_urls_in_level(url_to_level, max_level=3)
-    assert expect_list==actual_list
+    assert expect_list == actual_list
+
 
 def test_get_time_hist():
     dates_to_url = {
