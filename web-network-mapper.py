@@ -157,15 +157,16 @@ if __name__ == "__main__":
 
                 if sanity_check(child_url):
 
-                    print("Extracting twitter data")
-                    extract_and_save_twitter_data(driver, URLs, child_url, url, link_type)
-
                     if not args.dont_store_content:
                         (content, title, content_file, publication_date) = downloadContent(child_url)
                         if urls_to_date[child_url] is None:
                             urls_to_date[child_url] = publication_date
 
                     if check_content(child_url, url, content, content_file):
+                        print("Extracting twitter data")
+                        extract_and_save_twitter_data(driver, URLs, child_url, url, link_type)
+                        print("Twitter data extracted. Continue with google search.")
+
                         add_child_to_db(
                             URLs=URLs,
                             child_url=child_url,
