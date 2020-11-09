@@ -7,7 +7,6 @@ import traceback
 import hashlib
 import PyPDF2
 from lxml.html import fromstring
-from dateutil.relativedelta import relativedelta
 from colorama import Fore, Style
 import dateutil.parser
 import re
@@ -142,7 +141,7 @@ def parse_date_from_string(text):
     # that is wrong, for example the text 854.052020 triggers errors
     # So we need to control that de date is more than a minimum
     control_min_date = dateutil.parser.parse("2000/01/01")
-    parsed_date = False
+    parsed_date = None
     for year_to_monitor in years_to_monitor:
         # y_position = text.find(year_to_monitor)
         y_positions = [m.start() for m in re.finditer(year_to_monitor, text)]
@@ -155,9 +154,9 @@ def parse_date_from_string(text):
                     try:
                         parsed_date = dateutil.parser.parse(year_first)
                         if parsed_date < control_min_date:
-                            parsed_date = False
+                            parsed_date = None
                     except dateutil.parser._parser.ParserError:
-                        parsed_date = False
+                        parsed_date = None
 
                 if not parsed_date:
                     # Is it like 03/02/2020?
@@ -165,9 +164,9 @@ def parse_date_from_string(text):
                     try:
                         parsed_date = dateutil.parser.parse(year_last)
                         if parsed_date < control_min_date:
-                            parsed_date = False
+                            parsed_date = None
                     except dateutil.parser._parser.ParserError:
-                        parsed_date = False
+                        parsed_date = None
 
                 if not parsed_date:
                     # Is it like 'Mar. 27th, 2020'?
@@ -175,7 +174,7 @@ def parse_date_from_string(text):
                     try:
                         parsed_date = dateutil.parser.parse(text_type_1)
                     except dateutil.parser._parser.ParserError:
-                        parsed_date = False
+                        parsed_date = None
     return parsed_date
 
 
@@ -184,7 +183,7 @@ def extract_date_from_webpage(url, page_content):
     Receive an URL and tree HTM: structure and try to find the date of
     publication in several heuristic ways
     """
-    publication_date = False
+    publication_date = None
     # If this is a specific website, suchas telegram or twitter,
     # do a better search
     tree = fromstring(page_content.content)
@@ -192,20 +191,22 @@ def extract_date_from_webpage(url, page_content):
     if title and "telegram" in title.lower():
         # Plug here a call to Eli's code
         print("\t\tIs Telegram. Call Eli")
+        publication_date = None
     elif title and "twitter" in title.lower():
         # Plug here a call to Eli's code
         print("\t\tIs Twitter. Call Eli")
+        publication_date = None
 
-    if not publication_date:
+    if publication_date is None:
         # First try to find the date in the url
-        parsed_date = parse_date_from_string(url)
-        if parsed_date:
-            print(f"\t\tDate found in the URL: {parsed_date}")
-        elif not parsed_date:
+        publication_date = parse_date_from_string(url)
+        if publication_date is None:
+            print(f"\t\tDate found in the URL: {publication_date}")
+        else:
             # Secodn try to find the date in the content of the web
-            parsed_date = parse_date_from_string(page_content.text)
-            if parsed_date:
-                print(f"\t\tDate found in the content of the page: {parsed_date}")
+            publication_date = parse_date_from_string(page_content.text)
+            if publication_date is None:
+                print(f"\t\tDate found in the content of the page: {publication_date}")
 
     return publication_date
 
