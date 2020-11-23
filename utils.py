@@ -51,6 +51,12 @@ def convert_date(search_time, google_date):
 
 
 def get_dates_from_results(data):
+    """
+    Receive a data object from the serpapi API
+    For each url search for a date in the results of the API
+    If there is a field 'date' use it, if not search the field
+    'snippet' and try to extract the date from there
+    """
     urls_to_date = {}
     for page in data:
         for result in page:
