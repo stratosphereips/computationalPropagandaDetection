@@ -135,6 +135,8 @@ if __name__ == "__main__":
             link_type = "link"
             # Get links to this URL (children)
             data = trigger_api(url)
+            amount_of_results_retrieved = len(data)
+            amount_of_results_to_proceess = amount_of_results_retrieved - 1
             # Set the URL 'date_of_query' to now
             search_date = datetime.now()
 
@@ -154,7 +156,8 @@ if __name__ == "__main__":
 
             for child_url in urls_to_date.keys():
 
-                print(f"\tSearching for url {child_url}")
+                print(f"\t[{Fore.YELLOW}Result {amount_of_results_retrieved - amount_of_results_to_proceess}]{Style.RESET_ALL} Procesing URL {child_url}")
+                amount_of_results_to_proceess -= 1
 
                 # Check that the children was not seen before in this call
                 if child_url in urls_to_search:
@@ -201,6 +204,8 @@ if __name__ == "__main__":
         extract_and_save_twitter_data(driver, URLs, main_title, main_url, "title")
 
         data = trigger_api(main_title)
+        amount_of_results_retrieved = len(data)
+        amount_of_results_to_proceess = amount_of_results_retrieved - 1
         search_date = datetime.now()
 
         urls_to_date = {}
@@ -211,7 +216,9 @@ if __name__ == "__main__":
 
         urls = get_links_from_results(data)
         for child_url in urls:
-            print(f"Analyzing url {child_url}")
+            print(f"\t[{Fore.YELLOW}Result {amount_of_results_retrieved - amount_of_results_to_proceess}]{Style.RESET_ALL} Procesing URL {child_url}")
+            amount_of_results_to_proceess -= 1
+
             # Check that the children was not seen before in this call
             if child_url in urls_to_search:
                 logging.debug(f"\tRepeated url: {child_url}. {Fore.RED} Discarding.{Style.RESET_ALL}")
