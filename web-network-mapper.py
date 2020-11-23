@@ -1,28 +1,26 @@
 #!/usr/bin/env python
 import os
 from datetime import datetime
-import requests
 import traceback
-from serpapi.google_search_results import GoogleSearchResults
-import json
 import argparse
 from graph import build_a_graph
 from urls import URLs
-from utils import get_hash_for_url
-from utils import timeit
-import distance
-from lxml.html import fromstring
-from colorama import init
-from colorama import Fore, Back, Style
-import PyPDF2
-# import textract
-# import binascii
-from dateutil.relativedelta import relativedelta
-import dateutil.parser
-import re
+from colorama import init as init_colorama
+from colorama import Fore, Style
+import logging
+from twitter_api import Firefox
+from utils import (
+    sanity_check,
+    check_content,
+    convert_date,
+    get_links_from_results,
+    get_dates_from_results,
+    check_text_similiarity,
+)
+from serpapi_utils import downloadContent, trigger_api, get_hash_for_url
 
 # Init colorama
-init()
+init_colorama()
 
 
 # Read the serapi api key
@@ -31,376 +29,35 @@ SERAPI_KEY = f.readline()
 f.close()
 
 
-def sanity_check(url):
-    """
-    Check if we should or not download this URL by
-    applying different blacklists
-    """
-    # Blacklist of pages to ignore
-    blacklist = {"robots.txt", "sitemap"}
-
-    # The url_path is 'site.xml' in
-    # https://www.test.com/adf/otr/mine/site.xml
-    url_path = url.split("/")[-1]
-    domain = url.split("/")[2]
-
-    # Apply blacklists of the pages we dont want
-    if url_path in blacklist:
-        return False
-
-    # Remove homepages
-    # http://te.co has 3 splits
-    # http://te.co/ has 4 splits
-    if len(url.split("/")) == 3 or (len(url.split("/")) == 4 and url[-1] == "/"):
-        return False
-
-    # Delete all '.xml' pages
-    if url_path.split(".")[-1] == "xml":
-        return False
-
-    # Delete twitter links that are not posts
-    if "twitter" in domain:
-        if "status" not in url:
-            return False
-
-    # Delete 4chan links that are not posts
-    if "4chan" in domain:
-        if "thread" not in url:
-            return False
-
-    # Google searches in books and the web includes the link to the
-    # original search, so is kind of a loop sometimes.
-    # if 'books.google.com' in domain:
-    # return False
-
-    return True
+def add_child_to_db(URLs, child_url, parent_url, search_date, publication_date, link_type, content, title):
+    # Add the children to the DB
+    URLs.set_child(parent_url, child_url, search_date, link_type)
+    # Store the date of the publication of the URL
+    formated_date = convert_date(search_date, publication_date)
+    URLs.set_publication_datetime(child_url, formated_date)
+    # Add this url to the DB. Since we are going to search for it
+    URLs.add_url(child_url)
+    # Store the content (after storing the child)
+    URLs.store_content(child_url, content)
+    # Store the search date
+    URLs.set_query_datetime(child_url, search_date)
+    URLs.store_title(child_url, title)
 
 
-def trigger_api(search_leyword):
-    """
-    Access to the API of serapi
-
-    The API can do
-        Bing using BingSearchResults class
-        Baidu using BaiduSearchResults class
-        Yahoo using YahooSearchResults class
-        Ebay using EbaySearchResults class
-        Yandex using YandexSearchResults class
-        GoogleScholar using GoogleScholarSearchResults class
-
-    This api has as parameters
-    "position": 8,
-    "title": "COVID-19 и Мишель Фуко (некоторые мысли вслух ...",
-    "link": "https://www.geopolitica.ru/article/covid-19-i-mishel-fuko-nekotorye-mysli-vsluh",
-    "displayed_link": "www.geopolitica.ru › article › covid-...",
-    "thumbnail": null,
-    "date": "Apr 5, 2020",
-    "snippet": "... проект ID2020 (почитать о нем можно здесь - https://www.fondsk.ru/news/2020/03/25/borba-s-koronavirusom-i-bolshoj-brat-50441.html).",
-    "cached_page_link": "https://webcache.googleusercontent.com/search?q=cache:rrzBOTKH5BsJ:https://www.geopolitica.ru/article/covid-19-i-mishel-fuko-nekotorye-mysli-vsluh+&cd=8&hl=en&ct=clnk&gl=us"
-
-    """
-    try:
-        # print(f' == Retriving results for {search_leyword}')
-        params = {"engine": "google", "q": search_leyword, "google_domain": "google.com", "api_key": SERAPI_KEY}
-
-        # Here we store all the results of all the search pages returned.
-        # We concatenate in this variable
-        all_results = []
-
-        # Get first results
-        client = GoogleSearchResults(params)
-        results = client.get_dict()
-
-        # Store this batch of results in the final list
-        try:
-            all_results.append(results["organic_results"])
-            # Since the results came in batches of 10, get all the 'pages'
-            # together before continuing
-            amount_total_results = results["search_information"]["total_results"]
-            # The amount of results starts with 1, ends with 10 if there are > 10
-            amount_of_results_so_far = len(results["organic_results"])
-            # print(f' == Total amount of results: {amount_total_results}')
-            # print(f' == Results retrieved so far: {amount_of_results_so_far}')
-        except KeyError:
-            # There are no 'organic_results' for this result
-            amount_total_results = 0
-            amount_of_results_so_far = 0
-
-        # Threshold of maxium amount of results to retrieve. Now 100.
-        # Some pages can have 100000's
-        max_results = 100
-
-        # While we have results to get, get them
-        while (amount_of_results_so_far < amount_total_results) and (amount_of_results_so_far < max_results):
-            # print(' == Searching 10 more...')
-            # New params
-            params = {
-                "engine": "google",
-                "q": search_leyword,
-                "google_domain": "google.com",
-                "start": str(amount_of_results_so_far + 1),
-                "api_key": SERAPI_KEY,
-            }
-            client = GoogleSearchResults(params)
-            new_results = client.get_dict()
-            # Store this batch of results in the final list
-            try:
-                all_results.append(new_results["organic_results"])
-            except KeyError:
-                # We dont have results. It can happen because search engines
-                # report an amount of results that has a lot of
-                # repetitions. So you can only access a part
-                # print(f'Error accessing organic results.
-                # Results: {new_results}')
-                break
-
-            amount_of_results_so_far += len(new_results["organic_results"])
-            # print(f' == Results retrieved so far: {amount_of_results_so_far}')
-
-        print(f"\tTotal amount of results retrieved: {amount_of_results_so_far}")
-        # Store the results of the api for future comparison
-        modificator_time = str(datetime.now()).replace(" ", "_")
-        # write the results to a json file so we dont lose them
-        if "http" in search_leyword:
-            # we are searching a domain
-            for_file_name = search_leyword.split("/")[2]
-        else:
-            # if a title, just the first word
-            for_file_name = search_leyword.split(" ")[0]
-        file_name_jsons = "results-" + for_file_name + "_" + modificator_time + ".json"
-        if args.verbosity > 1:
-            print(f"\tStoring the results of api in {file_name_jsons}")
-        if not os.path.exists("results"):
-            os.makedirs("results")
-        with open(os.path.join("results", file_name_jsons), "w") as f:
-            json.dump(results, f)
-
-        return all_results
-
-    except Exception as e:
-        print("Error in trigger_api()")
-        print(f"{e}")
-        print(f"{type(e)}")
-        print(traceback.format_exc())
-        return False
-
-
-def parse_date_from_string(text):
-    """
-    Receive a string and give back a date
-    object if we can find any date
-    """
-    years_to_monitor = ['2020', '2019']
-    # Even if we find a text date, after the conversion into object, it can be
-    # that is wrong, for example the text 854.052020 triggers errors
-    # So we need to control that de date is more than a minimum
-    # However, we can't compare only dates with datetimes, so we need two
-    control_min_date_naive = dateutil.parser.parse('2000/01/01')
-    control_min_date = dateutil.parser.parse('2000/01/01T00:00:00+00:00')
-    parsed_date = False
-    for year_to_monitor in years_to_monitor:
-        # y_position = text.find(year_to_monitor)
-        y_positions = [m.start() for m in re.finditer(year_to_monitor, text)]
-        for y_position in y_positions:
-            if y_position:
-
-                if not parsed_date:
-                    # Is it like 2020-03-26T01:02:12+03:00?
-                    year_first = text[y_position:y_position+25]
-                    try:
-                        parsed_date = dateutil.parser.parse(year_first)
-                        if parsed_date < control_min_date:
-                            parsed_date = False
-                    except dateutil.parser._parser.ParserError:
-                        parsed_date = False
-
-                if not parsed_date:
-                    # Is it like 2020/03/02? (slash doesnt matter)
-                    year_first = text[y_position:y_position+10]
-                    try:
-                        parsed_date = dateutil.parser.parse(year_first)
-                        if parsed_date < control_min_date_naive:
-                            parsed_date = False
-                    except dateutil.parser._parser.ParserError:
-                        parsed_date = False
-
-                if not parsed_date:
-                    # Is it like 03/02/2020?
-                    year_last = text[y_position-6:y_position+4]
-                    try:
-                        parsed_date = dateutil.parser.parse(year_last)
-                        if parsed_date < control_min_date_naive:
-                            parsed_date = False
-                    except dateutil.parser._parser.ParserError:
-                        parsed_date = False
-
-                if not parsed_date:
-                    # Is it like 'Mar. 27th, 2020'?
-                    text_type_1 = text[y_position-11:y_position+4]
-                    try:
-                        parsed_date = dateutil.parser.parse(text_type_1)
-                        if parsed_date < control_min_date_naive:
-                            parsed_date = False
-                    except dateutil.parser._parser.ParserError:
-                        parsed_date = False
-
-                if not parsed_date:
-                    # Is it like 'November 10 2020'
-                    text_type_1 = text[y_position-12:y_position+4]
-                    try:
-                        parsed_date = dateutil.parser.parse(text_type_1)
-                        if parsed_date < control_min_date_naive:
-                            parsed_date = False
-                    except dateutil.parser._parser.ParserError:
-                        parsed_date = False
-
-    return parsed_date
-
-
-def extract_date_from_webpage(url, page_content):
-    """
-    Receive an URL and tree HTM: structure and try to find the date of
-    publication in several heuristic ways
-    """
-    publication_date = False
-
-    if not publication_date:
-        # First try to find the date in the url
-        parsed_date = parse_date_from_string(url)
-        if parsed_date:
-            print(f'\t\tDate found in the URL: {parsed_date}')
-        elif not parsed_date:
-            # Secodn try to find the date in the content of the web
-            parsed_date = parse_date_from_string(page_content.text)
-            if parsed_date:
-                print(f'\t\tDate found in the content of the page: {parsed_date}')
-
-    return publication_date
-
-
-def downloadContent(url):
-    """
-    Downlod the content of the web page
-    """
-    try:
-        # Download up to 5MB per page
-        headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
-        # Timeout waiting for an answer is 15 seconds
-        page_content = requests.get(url, timeout=15, headers=headers)
-        text_content = page_content.text
-        tree = fromstring(page_content.content)
-        title = tree.findtext('.//title')
-        # Get the date of publication of the webpage
-        publication_date = extract_date_from_webpage(url, page_content)
-    except requests.exceptions.ConnectionError:
-        print(f'{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}')
-        return (False, False, False, False)
-    except requests.exceptions.ReadTimeout:
-        print(f'{Fore.MAGENTA}! Timeout waiting for the web server to answer.  We ignore and continue.{Style.RESET_ALL}')
-        return (False, False, False, False)
-    except Exception as e:
-        print(f'{Fore.MAGENTA}! Error getting the content of the web.{Style.RESET_ALL}')
-        print(f'{Fore.MAGENTA}! {e}{Style.RESET_ALL}')
-        print(f'{type(e)}')
-        return (False, False, False, False)
-
-    url_hash = get_hash_for_url(url)
-
-    try:
-        # Store the file
-        timemodifier = str(datetime.now()).replace(" ", "_").replace(":", "_")
-        file_name = "contents/" + url_hash + "_" + timemodifier + "-content.html"
-        if args.verbosity > 1:
-            print(f"\t\tStoring the content of url {url} in file {file_name}")
-        file = open(file_name, "w")
-        file.write(text_content)
-        file.close()
-    except Exception as e:
-        print('Error saving the content of the webpage.')
-        print(f'{e}')
-        print(f'{type(e)}')
-        return (False, False, False)
-
-    return (text_content, title, file_name, publication_date)
-
-
-def url_in_content(url, content, content_file):
-    """
-    Receive a url and a content and try to see if the url is in the content
-    Depends on the type of data
-    """
-    if content and 'HTML' in content[:60].upper():
-        # print(f'{Fore.YELLOW} html doc{Style.RESET_ALL}')
-        all_content = ''.join(content)
-        if url in all_content:
-            return True
-    elif content and '%PDF' in content[:4]:
-        # print(f'{Fore.YELLOW} pdf doc{Style.RESET_ALL}')
-        # url_in_hex = binascii.hexlify(url.encode('ascii'))
-        # text = textract.process(content_file, method='tesseract', language='eng')
-        try:
-            pdfReader = PyPDF2.PdfFileReader(content_file)
-        except PyPDF2.utils.PdfReadError:
-            return False
-        except Exception as e:
-            print(f"Error in pydf2 call. {e}")
-            print(f"{type(e)}")
-            print(traceback.format_exc())
-            return False
-        num_pages = pdfReader.numPages
-        count = 0
-        text = ""
-        while count < num_pages:
-            pageObj = pdfReader.getPage(count)
-            count += 1
-            text += pageObj.extractText()
-        # text = text.replace('\x','')
-        # print(text)
-        if url in text:
-            return True
-    elif content:
-        # print(f'{Fore.YELLOW} other doc{Style.RESET_ALL}')
-        # print(content[:20])
-        # We consider this what?
-        return False
-    else:
-        return False
-
-
-def convert_date(search_time, google_date):
-    # Convert the date from '2 days ago' to  a real date, compared with the search time
-    if google_date == None:
-        return None
-
-    splitted = google_date.split()
-
-    if len(splitted) == 1 and splitted[0].lower() == 'today':
-        return str(search_time.isoformat())
-    elif len(splitted) == 1 and splitted[0].lower() == 'yesterday':
-        date = search_time - relativedelta(days=1)
-        return str(date.isoformat())
-    elif splitted[1].lower() in ['mins', 'min', 'minutes', 'minute']:
-        date = search_time - relativedelta(minutes=int(splitted[0]))
-    elif splitted[1].lower() in ['hour', 'hours', 'hr', 'hrs', 'h']:
-        date = search_time - relativedelta(hours=int(splitted[0]))
-        return str(date.date().isoformat())
-    elif splitted[1].lower() in ['day', 'days', 'd']:
-        date = search_time - relativedelta(days=int(splitted[0]))
-        return str(date.isoformat())
-    elif splitted[1].lower() in ['wk', 'wks', 'week', 'weeks', 'w']:
-        date = search_time - relativedelta(weeks=int(splitted[0]))
-        return str(date.isoformat())
-    elif splitted[1].lower() in ['mon', 'mons', 'month', 'months', 'm']:
-        date = search_time - relativedelta(months=int(splitted[0]))
-        return str(date.isoformat())
-    elif splitted[1].lower() in ['yrs', 'yr', 'years', 'year', 'y']:
-        date = search_time - relativedelta(years=int(splitted[0]))
-        return str(date.isoformat())
-    elif splitted[0].lower() in ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dec']:
-        date = datetime.strptime(google_date, '%b %d, %Y')
-        return str(date.isoformat())
-    else:
-        return None
+def extract_and_save_twitter_data(driver, URLs, searched_string, parent_url, type):
+    twitter_info = driver.get_twitter_data(searched_string)
+    search_date = datetime.now()
+    for one_tweet in twitter_info:
+        add_child_to_db(
+            URLs=URLs,
+            child_url=one_tweet["link"],
+            parent_url=parent_url,
+            search_date=search_date,
+            publication_date=one_tweet["published_date"],
+            content=one_tweet["text"],
+            link_type=type,
+            title=None,
+        )
 
 
 if __name__ == "__main__":
@@ -412,12 +69,21 @@ if __name__ == "__main__":
     )
     parser.add_argument("-c", "--dont_store_content", help="Do not store the content of pages to disk", action="store_true", default=False)
     parser.add_argument("-v", "--verbosity", help="Verbosity level", type=int, default=0)
-    parser.add_argument("-u", "--urls_threshold", help="Threshold distance between the content of two pages when searching with title", type=int, default=0.3)
+    parser.add_argument(
+        "-u", "--urls_threshold", help="Threshold distance between the content of two pages when searching with title", type=int, default=0.3
+    )
     args = parser.parse_args()
+    main_url = args.link
+    if args.verbosity == 1:
+        logging.basicConfig(level=logging.INFO)
+    if args.verbosity == 2:
+        logging.basicConfig(level=logging.DEBUG)
+
+    driver = Firefox()
+
     try:
 
-        if args.verbosity > 1:
-            print(f"Searching the distribution graph of URL {args.link}\n\n")
+        logging.info(f"Searching the distribution graph of URL {args.link}\n\n")
 
         # Get the URLs object
         URLs = URLs("DB/propaganda.db", args.verbosity)
@@ -459,157 +125,117 @@ if __name__ == "__main__":
                 break
 
             print("\n==========================================")
-            print(f"URL search level {urls_to_search_level[url]}. Searching links to URL: {url}")
-            link_type = 'link'
-
+            print(f"URL search level {urls_to_search_level[url]}. Searching data for url: {url}")
+            link_type = "link"
             # Get links to this URL (children)
             data = trigger_api(url)
-
             # Set the URL 'date_of_query' to now
             search_date = datetime.now()
-            URLs.set_query_datetime(url, search_date)
 
-            # From all the jsons, get only the links to continue
-            # urls = []
             urls_to_date = {}
             if data:
-                for page in data:
-                    for result in page:
-                        # dict for urls and dates
-                        if 'date' in result:
-                            urls_to_date[result['link']] = result['date']
-                        elif 'snippet' in result and '—' in result['snippet'][:16]:
-                            # First try to get it from the snippet
-                            # Usually "Mar 25, 2020"
-                            temp_date = result['snippet'].split('—')[0].strip()
-                            urls_to_date[result['link']] = temp_date
-                        else:
-                            # Get none date for now. TODO: get the date from the content
-                            urls_to_date[result['link']] = None
+                urls_to_date = get_dates_from_results(data)
             else:
                 print("The API returned False because of some error. Continue with next URL")
                 continue
 
-            # Set the publication datetime for the url
+            # Set the publication datetime for the main url
             if args.link == url:
                 formated_date = convert_date(search_date, urls_to_date[url])
                 URLs.set_publication_datetime(url, formated_date)
 
-            if args.verbosity > 1:
-                print(f"\tThere are {len(urls_to_date)} urls still to search.")
+            logging.info(f"\tThere are {len(urls_to_date)} urls still to search.")
 
             for child_url in urls_to_date.keys():
+
                 print(f"\tSearching for url {child_url}")
 
                 # Check that the children was not seen before in this call
                 if child_url in urls_to_search:
-                    if args.verbosity > 2:
-                        print(f"\t\tRepeated url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
-                        continue
+                    logging.debug(f"\t\tRepeated url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
+                    continue
 
                 if sanity_check(child_url):
 
-                    # Get the content of the url and store it
-                    # We ask here so we have the content of each child
                     if not args.dont_store_content:
                         (content, title, content_file, publication_date) = downloadContent(child_url)
+                        if urls_to_date[child_url] is None:
+                            urls_to_date[child_url] = publication_date
 
-                    # Verify that the link is meaningful
-                    if not url_in_content(url, content, content_file):
-                        print(f"\t\tThe URL {url} is not in the content of site {child_url} {Fore.RED} Discarding.{Style.RESET_ALL}")
-                        # Consider deleting the downloaded content from disk
-                        continue
-                    print(f"\t\tThe URL {url} IS in the content of site {child_url} {Fore.BLUE} Keeping.{Style.RESET_ALL}")
+                    if check_content(child_url, url, content, content_file):
+                        print("Extracting twitter data")
+                        extract_and_save_twitter_data(driver, URLs, child_url, url, link_type)
+                        print("Twitter data extracted. Continue with google search.")
 
-                    all_links.append([url, child_url])
+                        add_child_to_db(
+                            URLs=URLs,
+                            child_url=child_url,
+                            parent_url=url,
+                            search_date=search_date,
+                            publication_date=urls_to_date[child_url],
+                            link_type=link_type,
+                            content=content,
+                            title=title,
+                        )
+                        # The child should have the level of the parent + 1
 
-                    # Add the children to the DB
-                    URLs.set_child(url, child_url, search_date, link_type)
+                        all_links.append([url, child_url])
+                        urls_to_search_level[child_url] = urls_to_search_level[url] + 1
+                        urls_to_search.append(child_url)
 
-                    # Store the date of the publication of the URL
-                    formated_date = convert_date(search_date, urls_to_date[child_url])
-                    print(f'URL: {child_url}, Date: {formated_date}')
-                    URLs.set_publication_datetime(child_url, formated_date)
-
-                    # The child should have the level of the parent + 1
-                    urls_to_search_level[child_url] = urls_to_search_level[url] + 1
-                    urls_to_search.append(child_url)
-
-                    # Add this url to the DB. Since we are going to search for it
-                    URLs.add_url(child_url)
-
-                    # Store the content (after storing the child)
-                    URLs.store_content(child_url, content)
-                    URLs.store_title(child_url, title)
-
-                    if args.verbosity > 1:
-                        print(f"\tAdding the URL {child_url} with level {urls_to_search_level[child_url]}")
+                        logging.info(f"\tAdding the URL {child_url} with level {urls_to_search_level[child_url]}")
                 else:
                     failed_links.append(child_url)
 
         # Second we search for results using the title of the main URL
         print("\n\n==========Second Phase Search for Title=========")
         # Get links to this URL (children)
+        link_type = "title"
+        print("First lets extract Twitter data")
+        extract_and_save_twitter_data(driver, URLs, main_title, main_url, "title")
+
         data = trigger_api(main_title)
-        link_type = 'title'
+        search_date = datetime.now()
 
-        # When we search for the title, we dont store the date of search
-        # or publication because it was already stored when we search
-        # using the URL
+        urls_to_date = {}
+        if data:
+            urls_to_date = get_dates_from_results(data)
+        else:
+            print("The API returned False because of some error. Continue with next URL")
 
-        # From all the jsons, get only the links to continue
-        urls = []
-        try:
-            if data:
-                for page in data:
-                    for result in page:
-                        urls.append(result['link'])
-            else:
-                print("The API returned False because of some error. \
-                        Continue with next URL")
-        except KeyError:
-            # There are no 'organic_results' in this result
-            pass
-
+        urls = get_links_from_results(data)
         for child_url in urls:
             print(f"Analyzing url {child_url}")
             # Check that the children was not seen before in this call
             if child_url in urls_to_search:
-                if args.verbosity > 2:
-                    print(f"\tRepeated url: {child_url}. {Fore.RED} Discarding.{Style.RESET_ALL}")
-                    continue
-
+                logging.debug(f"\tRepeated url: {child_url}. {Fore.RED} Discarding.{Style.RESET_ALL}")
+                continue
             if sanity_check(child_url):
-
-                # Get the content of the url and store it
-                # We ask here so we have the content of each child
                 if not args.dont_store_content:
                     (content, title, content_file, publication_date) = downloadContent(child_url)
+                    if urls_to_date[child_url] is None:
+                        urls_to_date[child_url] = publication_date
 
-                # Verify that the link is meaningful
-                urls_distance = distance.compare_content(main_content, content)
-                if urls_distance <= args.urls_threshold:
-                    print(f"\tThe content of {args.link} has distance with {child_url} of : {urls_distance}. {Fore.RED}Discarding.{Style.RESET_ALL}")
-                    # Consider deleting the downloaded content from disk
-                    continue
-                print(f"\tThe content of {args.link} has distance with {child_url} of : {urls_distance}. {Fore.BLUE}Keeping.{Style.RESET_ALL}")
+                if check_text_similiarity(
+                    main_content=main_content, content=content, main_url=main_url, child_url=child_url, threshold=args.urls_threshold
+                ):
+                    add_child_to_db(
+                        URLs=URLs,
+                        child_url=child_url,
+                        parent_url=main_url,
+                        search_date=search_date,
+                        publication_date=urls_to_date[child_url],
+                        link_type=link_type,
+                        content=content,
+                        title=title,
+                    )
 
-                all_links.append([url, child_url])
-
-                # Add the children to the DB
-                URLs.set_child(url, child_url, search_date, link_type)
-
-                # Add this url to the DB
-                URLs.add_url(child_url)
-
-                # Store the content (after storing the child)
-                URLs.store_content(child_url, content)
-                URLs.store_title(child_url, title)
-
-                if args.verbosity > 1:
-                    print(f"\tAdding the URL {child_url}")
+                    all_links.append([main_url, child_url])
+                    logging.info(f"\tAdding the URL {child_url}")
             else:
                 failed_links.append(child_url)
+
+        driver.quit()
 
         print(f"Finished with all the graph of URLs. Total number of unique links are {len(all_links)}")
         build_a_graph(all_links, args.link)

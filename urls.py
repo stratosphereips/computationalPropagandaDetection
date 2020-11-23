@@ -20,11 +20,11 @@ class URLs:
 
         Returns True if successful, False if not
         """
-        if link_type not in ['link', 'title']:
+        if link_type not in ["link", "title"]:
             return False
         if self.verbosity > 2:
-            print(f'\t\tNew children in object: > {child}')
-        self.urls[parent]['children'] = child
+            print(f"\t\tNew children in object: > {child}")
+        self.urls[parent]["children"] = child
         self.db.insert_link_urls(parent_url=parent, child_url=child, link_date=link_date, source=link_type)
         return True
 
@@ -49,14 +49,14 @@ class URLs:
         self.urls[url] = {}
         self.db.insert_url(url=url, is_propaganda=is_propaganda)
 
-    def set_publication_datetime(self, url:str, datetime:str):
+    def set_publication_datetime(self, url: str, datetime: str):
         """
         Set the datetime when the result was published
         """
         self.urls[url] = {"publication_date": datetime}
         self.db.update_date_published(url, datetime)
 
-    def set_query_datetime(self, url:str, result_search_date:str):
+    def set_query_datetime(self, url: str, result_search_date: str):
         """
         Set the datetime when we searched for this
         """

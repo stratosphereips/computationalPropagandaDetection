@@ -10,7 +10,8 @@ from datetime import datetime
 def flatten(list_of_lists):
     return [el for a_list in list_of_lists for el in a_list]
 
-def get_number_of_urls_published_before_source(url_to_date:  Dict[str, datetime], main_url:str) -> int:
+
+def get_number_of_urls_published_before_source(url_to_date: Dict[str, datetime], main_url: str) -> int:
     """
     Get count how many urls were published before the source date
     :param url_to_date: dictionary, where key is url, and value is date
@@ -35,9 +36,9 @@ def get_total_number_of_urls_in_level(url_to_level: Dict[str, int], max_level) -
     :return: list of size max_level
     """
     total_number_of_urls_in_level = [0] * max_level
-    for _,level in url_to_level.items():
-        if level>=0: #main_url has level = -1
-            total_number_of_urls_in_level[level] +=1
+    for _, level in url_to_level.items():
+        if level >= 0:  # main_url has level = -1
+            total_number_of_urls_in_level[level] += 1
     return total_number_of_urls_in_level
 
 
@@ -132,5 +133,3 @@ if __name__ == "__main__":
     print("Number of urls published before source", number_of_urls_published_before_source)
     number_of_urls_in_level = get_total_number_of_urls_in_level(url_to_level, max_level)
     print("Number of urls in level", number_of_urls_in_level)
-
-
