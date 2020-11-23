@@ -103,7 +103,7 @@ def trigger_api(search_leyword):
             amount_of_results_so_far += len(new_results["organic_results"])
             # print(f' == Results retrieved so far: {amount_of_results_so_far}')
 
-        print(f"\tTotal amount of results retrieved: {amount_of_results_so_far}")
+        print(f"\tTotal amount of results retrieved: {Fore.YELLOW}{amount_of_results_so_far}{Style.RESET_ALL}")
         # Store the results of the api for future comparison
         modificator_time = str(datetime.now()).replace(" ", "_")
         # write the results to a json file so we dont lose them
