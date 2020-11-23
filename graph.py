@@ -35,6 +35,7 @@ def build_a_graph(all_links, search_link):
 
     # Create graph
     G = nx.DiGraph()
+
     G.add_edges_from(all_links)
 
     # Manage colors. They are used for the levels of linkage
@@ -84,4 +85,5 @@ if __name__ == '__main__':
     db = DB(args.path_to_db)
 
     all_links = db.get_tree(args.link)
-    build_a_graph(all_links, args.link)
+    links_without_level = [(from_id, to_id) for (_, from_id, to_id) in all_links]
+    build_a_graph(links_without_level, args.link)
