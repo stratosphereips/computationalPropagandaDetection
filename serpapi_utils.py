@@ -200,12 +200,10 @@ def extract_date_from_webpage(url, page_content):
     tree = fromstring(page_content.content)
     title = tree.findtext(".//title")
     if title and "telegram" in title.lower():
-        # Plug here a call to Eli's code
-        print("\t\tIs Telegram. Call Eli")
+        # Ignore telegram pages since we use Selenium for that
         publication_date = None
     elif title and "twitter" in title.lower():
-        # Plug here a call to Eli's code
-        print("\t\tIs Twitter. Call Eli")
+        # Ignore Twitter pages since we use Selenium for that
         publication_date = None
 
     if publication_date is None:
@@ -218,7 +216,6 @@ def extract_date_from_webpage(url, page_content):
             publication_date = parse_date_from_string(page_content.text)
             if publication_date is None:
                 print(f"\t\tDate found in the content of the page: {publication_date}")
-
     return publication_date
 
 
