@@ -111,6 +111,10 @@ def sanity_check(url):
         if "thread" not in url:
             return False
 
+    # Delete pdf files for now
+    if ".pdf" in url_path:
+        return False
+
     # Google searches in books and the web includes the link to the
     # original search, so is kind of a loop sometimes.
     # if 'books.google.com' in domain:
