@@ -59,6 +59,17 @@ def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[str, int]
             # TODO: not sure what to do if the date is None
             continue
         day = (date - main_url_date).days
+        if day < 0:
+            minutes_hist = minutes_hist_per_level.flatten().tolist()
+            hour_hist = hours_hist_per_level.flatten().tolist()
+            day_hist = days_hist_per_level.flatten().tolist()
+            data = {
+                "minute_hist": minutes_hist,
+                "hour_hist": hour_hist,
+                "day_hist": day_hist,
+                "more_than_30_days": more_than_30_days_per_level.tolist(),
+            }
+            return data
         if day < 2:  # for the first two days we are creating histogram for seconds
             minutes = int(((date - main_url_date).seconds) / 60)  # how many seconds from the main publication time
             level_url = url_to_level[url]  # calculating the level, level>1
