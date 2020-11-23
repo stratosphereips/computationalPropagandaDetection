@@ -23,7 +23,7 @@ def get_number_of_urls_published_before_source(url_to_date: Dict[str, datetime],
     for url, date in url_to_date.items():
         if date is None:
             continue
-        if date < main_url_date:
+        if date.replace(tzinfo=None) < main_url_date:  # TODO: if we have some timezone, we drop it
             number_of_urls_published_before_source += 1
     return number_of_urls_published_before_source
 
