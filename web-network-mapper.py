@@ -47,7 +47,7 @@ def add_child_to_db(URLs, child_url, parent_url, search_date, publication_date, 
     URLs.store_title(child_url, title)
 
 
-def extract_and_save_twitter_data(driver, URLs, searched_string, parent_url, type):
+def extract_and_save_twitter_data(driver, URLs, searched_string, parent_url, type_of_link):
     twitter_info = driver.get_twitter_data(searched_string)
     search_date = datetime.now()
     for one_tweet in twitter_info:
@@ -58,7 +58,7 @@ def extract_and_save_twitter_data(driver, URLs, searched_string, parent_url, typ
             search_date=search_date,
             publication_date=one_tweet["published_date"],
             content=one_tweet["text"],
-            link_type=type,
+            link_type=type_of_link,
             title=None,
         )
 
