@@ -77,16 +77,18 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     main_url = args.link
-    if args.verbosity == 1:
-        logging.basicConfig(level=logging.INFO)
-    if args.verbosity == 2:
-        logging.basicConfig(level=logging.DEBUG)
+
+    # Always check the largest verbosity first
+    #if args.verbosity >= 2:
+        #logging.basicConfig(level=logging.DEBUG)
+    #elif args.verbosity >= 1:
+        #logging.basicConfig(level=logging.INFO)
 
     driver = Firefox()
 
     try:
 
-        logging.info(f"Searching the distribution graph of URL {args.link}\n\n")
+        print(f"Searching the distribution graph of URL {args.link}\n")
 
         # Get the URLs object
         URLs = URLs("DB/propaganda.db", args.verbosity)
@@ -150,15 +152,13 @@ if __name__ == "__main__":
                 formated_date = convert_date(search_date, urls_to_date[url])
                 URLs.set_publication_datetime(url, formated_date)
 
-            logging.info(f"\tThere are {len(urls_to_date)} urls still to search.")
-
             for child_url in urls_to_date.keys():
 
                 print(f"\tSearching for url {child_url}")
 
                 # Check that the children was not seen before in this call
                 if child_url in urls_to_search:
-                    logging.debug(f"\t\tRepeated url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
+                    print(f"\t\tRepeated url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
                     continue
 
                 if sanity_check(child_url):
