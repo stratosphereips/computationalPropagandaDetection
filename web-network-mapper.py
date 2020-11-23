@@ -172,10 +172,11 @@ if __name__ == "__main__":
                             urls_to_date[child_url] = publication_date
 
                     if check_content(child_url, url, content, content_file):
-                        print("Extracting twitter data")
-                        extract_and_save_twitter_data(driver, URLs, child_url, url, link_type)
-                        print("Twitter data extracted. Continue with google search.")
+                        # print(f"\t\tExtracting twitter data for {url}")
+                        # extract_and_save_twitter_data(driver, URLs, child_url, url, link_type)
+                        # print("\t\tTwitter data extracted. Continue with google search.")
 
+                        # Add the childs in bulk?
                         add_child_to_db(
                             URLs=URLs,
                             child_url=child_url,
@@ -200,8 +201,8 @@ if __name__ == "__main__":
         print("\n=======Search in Google pages with the same title=============")
         # Get links to this URL (children)
         link_type = "title"
-        print("First lets extract Twitter data")
-        extract_and_save_twitter_data(driver, URLs, main_title, main_url, "title")
+        # print("First lets extract Twitter data")
+        # extract_and_save_twitter_data(driver, URLs, main_title, main_url, "title")
 
         data = trigger_api(main_title)
         amount_of_results_retrieved = len(data)
