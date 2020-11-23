@@ -30,6 +30,9 @@ f.close()
 
 
 def add_child_to_db(URLs, child_url, parent_url, search_date, publication_date, link_type, content, title):
+    """
+    Add a webpage to the DB as child of a parent URL
+    """
     # Add the children to the DB
     URLs.set_child(parent_url, child_url, search_date, link_type)
     # Store the date of the publication of the URL
@@ -88,12 +91,13 @@ if __name__ == "__main__":
         # Get the URLs object
         URLs = URLs("DB/propaganda.db", args.verbosity)
 
+        # Store the main URL as an url in our DB
         URLs.add_url(args.link, int(args.is_propaganda))
 
-        # Keep only the urls
+        # Structure to keep only the urls
         urls_to_search = []
         urls_to_search.append(args.link)
-        # Keep the urls and their levels
+        # Structure to keep the urls and their levels
         # The level is how far away it is from the original URL
         urls_to_search_level = {}
         urls_to_search_level[args.link] = 0
@@ -108,7 +112,7 @@ if __name__ == "__main__":
         # Links which failed sanity check
         failed_links = []
 
-        # Get the content of the url and store it
+        # Get the content of the main url, the publication date from the content and the title
         if not args.dont_store_content:
             (main_content, main_title, content_file, publication_date) = downloadContent(args.link)
             URLs.store_content(args.link, main_content)
@@ -124,14 +128,15 @@ if __name__ == "__main__":
             if urls_to_search_level[url] > args.number_of_levels - 1:
                 break
 
-            print("\n==========================================")
-            print(f"URL search level {urls_to_search_level[url]}. Searching data for url: {url}")
+            print("\n=======Search on Google pages with a link to the URL=============")
+            print(f"URL search level {urls_to_search_level[url]}. Searching URL: {url}")
             link_type = "link"
             # Get links to this URL (children)
             data = trigger_api(url)
             # Set the URL 'date_of_query' to now
             search_date = datetime.now()
 
+            # Try to get the date of publication from the results in the API
             urls_to_date = {}
             if data:
                 urls_to_date = get_dates_from_results(data)
@@ -139,6 +144,7 @@ if __name__ == "__main__":
                 print("The API returned False because of some error. Continue with next URL")
                 continue
 
+            # Since only now we have access to the API, as a special case
             # Set the publication datetime for the main url
             if args.link == url:
                 formated_date = convert_date(search_date, urls_to_date[url])
@@ -177,18 +183,18 @@ if __name__ == "__main__":
                             content=content,
                             title=title,
                         )
-                        # The child should have the level of the parent + 1
-
+                        # Store the link relationship
                         all_links.append([url, child_url])
+                        # The child should have the level of the parent + 1
                         urls_to_search_level[child_url] = urls_to_search_level[url] + 1
                         urls_to_search.append(child_url)
-
-                        logging.info(f"\tAdding the URL {child_url} with level {urls_to_search_level[child_url]}")
+                        print(f"\t\tAdding the URL {child_url} with level {urls_to_search_level[child_url]}")
                 else:
+                    print(f"\t\tBlacklisted url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
                     failed_links.append(child_url)
 
         # Second we search for results using the title of the main URL
-        print("\n\n==========Second Phase Search for Title=========")
+        print("\n=======Search in Google pages with the same title=============")
         # Get links to this URL (children)
         link_type = "title"
         print("First lets extract Twitter data")
