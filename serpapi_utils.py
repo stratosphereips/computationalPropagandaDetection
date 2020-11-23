@@ -276,9 +276,8 @@ def url_in_content(url, content, content_file):
         if url in all_content:
             return True
     elif content and "%PDF" in content[:4]:
-        # print(f'{Fore.YELLOW} pdf doc{Style.RESET_ALL}')
-        # url_in_hex = binascii.hexlify(url.encode('ascii'))
-        # text = textract.process(content_file, method='tesseract', language='eng')
+        # Lets stop processing pdf for now
+        return False
         try:
             pdfReader = PyPDF2.PdfFileReader(content_file)
         except PyPDF2.utils.PdfReadError:
