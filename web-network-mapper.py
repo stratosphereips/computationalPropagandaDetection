@@ -130,8 +130,11 @@ if __name__ == "__main__":
             if urls_to_search_level[url] > args.number_of_levels - 1:
                 break
 
-            print("\n=======Search on Google pages with a link to the URL=============")
-            print(f"URL search level {urls_to_search_level[url]}. Searching URL: {url}")
+            #
+            # Search on Google links to the URL. This is a recursive search of -n amount of levels.
+            #
+            print(f"\n{Fore.CYAN}== Google search for pages with a link to {url}{Style.RESET_ALL}")
+            print(f"URL search level {urls_to_search_level[url]}")
             link_type = "link"
             # Get links to this URL (children)
             data = trigger_api(url)
@@ -198,8 +201,10 @@ if __name__ == "__main__":
                     print(f"\t\tBlacklisted url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
                     failed_links.append(child_url)
 
+        #
         # Second we search for results using the title of the main URL
-        print("\n=======Search in Google pages with the same title=============")
+        #
+        print("\n{Fore.CYAN}== Google search sites with the same title as {main_url}{Style.RESET_ALL}")
         # Get links to this URL (children)
         link_type = "title"
         # print("First lets extract Twitter data")
