@@ -11,7 +11,7 @@ import logging
 from twitter_api import Firefox
 from utils import (
     sanity_check,
-    check_content,
+    check_url_in_content,
     convert_date,
     get_links_from_results,
     get_dates_from_results,
@@ -171,7 +171,8 @@ if __name__ == "__main__":
                         if urls_to_date[child_url] is None:
                             urls_to_date[child_url] = publication_date
 
-                    if check_content(child_url, url, content, content_file):
+                    # We check if URL is in the content later, because firs we need to download the content
+                    if check_url_in_content(child_url, url, content, content_file):
                         # print(f"\t\tExtracting twitter data for {url}")
                         # extract_and_save_twitter_data(driver, URLs, child_url, url, link_type)
                         # print("\t\tTwitter data extracted. Continue with google search.")
