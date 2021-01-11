@@ -141,7 +141,7 @@ def get_links_from_results(data):
     return urls
 
 
-def check_url_incontent(child_url, parent_url, content, content_file):
+def check_url_in_content(child_url, parent_url, content, content_file):
     # Get the content of the url and store it
     # We ask here so we have the content of each child
     if not url_in_content(parent_url, content, content_file):
