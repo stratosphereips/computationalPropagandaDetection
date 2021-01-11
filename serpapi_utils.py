@@ -103,7 +103,7 @@ def trigger_api(search_leyword):
             amount_of_results_so_far += len(new_results["organic_results"])
             # print(f' == Results retrieved so far: {amount_of_results_so_far}')
 
-        print(f"\tTotal amount of results retrieved: {amount_of_results_so_far}")
+        print(f"\tTotal amount of results retrieved: {Fore.YELLOW}{amount_of_results_so_far}{Style.RESET_ALL}")
         # Store the results of the api for future comparison
         modificator_time = str(datetime.now()).replace(" ", "_")
         # write the results to a json file so we dont lose them
@@ -200,12 +200,10 @@ def extract_date_from_webpage(url, page_content):
     tree = fromstring(page_content.content)
     title = tree.findtext(".//title")
     if title and "telegram" in title.lower():
-        # Plug here a call to Eli's code
-        print("\t\tIs Telegram. Call Eli")
+        # Ignore telegram pages since we use Selenium for that
         publication_date = None
     elif title and "twitter" in title.lower():
-        # Plug here a call to Eli's code
-        print("\t\tIs Twitter. Call Eli")
+        # Ignore Twitter pages since we use Selenium for that
         publication_date = None
 
     if publication_date is None:
@@ -218,7 +216,6 @@ def extract_date_from_webpage(url, page_content):
             publication_date = parse_date_from_string(page_content.text)
             if publication_date is None:
                 print(f"\t\tDate found in the content of the page: {publication_date}")
-
     return publication_date
 
 
@@ -279,9 +276,8 @@ def url_in_content(url, content, content_file):
         if url in all_content:
             return True
     elif content and "%PDF" in content[:4]:
-        # print(f'{Fore.YELLOW} pdf doc{Style.RESET_ALL}')
-        # url_in_hex = binascii.hexlify(url.encode('ascii'))
-        # text = textract.process(content_file, method='tesseract', language='eng')
+        # Lets stop processing pdf for now
+        return False
         try:
             pdfReader = PyPDF2.PdfFileReader(content_file)
         except PyPDF2.utils.PdfReadError:

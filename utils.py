@@ -51,6 +51,12 @@ def convert_date(search_time, google_date):
 
 
 def get_dates_from_results(data):
+    """
+    Receive a data object from the serpapi API
+    For each url search for a date in the results of the API
+    If there is a field 'date' use it, if not search the field
+    'snippet' and try to extract the date from there
+    """
     urls_to_date = {}
     for page in data:
         for result in page:
@@ -105,6 +111,10 @@ def sanity_check(url):
         if "thread" not in url:
             return False
 
+    # Delete pdf files for now
+    if ".pdf" in url_path:
+        return False
+
     # Google searches in books and the web includes the link to the
     # original search, so is kind of a loop sometimes.
     # if 'books.google.com' in domain:
@@ -131,7 +141,7 @@ def get_links_from_results(data):
     return urls
 
 
-def check_content(child_url, parent_url, content, content_file):
+def check_url_in_content(child_url, parent_url, content, content_file):
     # Get the content of the url and store it
     # We ask here so we have the content of each child
     if not url_in_content(parent_url, content, content_file):

@@ -11,7 +11,7 @@ import logging
 from twitter_api import Firefox
 from utils import (
     sanity_check,
-    check_content,
+    check_url_in_content,
     convert_date,
     get_links_from_results,
     get_dates_from_results,
@@ -30,6 +30,9 @@ f.close()
 
 
 def add_child_to_db(URLs, child_url, parent_url, search_date, publication_date, link_type, content, title):
+    """
+    Add a webpage to the DB as child of a parent URL
+    """
     # Add the children to the DB
     URLs.set_child(parent_url, child_url, search_date, link_type)
     # Store the date of the publication of the URL
@@ -44,7 +47,7 @@ def add_child_to_db(URLs, child_url, parent_url, search_date, publication_date, 
     URLs.store_title(child_url, title)
 
 
-def extract_and_save_twitter_data(driver, URLs, searched_string, parent_url, type):
+def extract_and_save_twitter_data(driver, URLs, searched_string, parent_url, type_of_link):
     twitter_info = driver.get_twitter_data(searched_string)
     search_date = datetime.now()
     for one_tweet in twitter_info:
@@ -55,7 +58,7 @@ def extract_and_save_twitter_data(driver, URLs, searched_string, parent_url, typ
             search_date=search_date,
             publication_date=one_tweet["published_date"],
             content=one_tweet["text"],
-            link_type=type,
+            link_type=type_of_link,
             title=None,
         )
 
@@ -74,26 +77,29 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     main_url = args.link
-    if args.verbosity == 1:
-        logging.basicConfig(level=logging.INFO)
-    if args.verbosity == 2:
-        logging.basicConfig(level=logging.DEBUG)
+
+    # Always check the largest verbosity first
+    #if args.verbosity >= 2:
+        #logging.basicConfig(level=logging.DEBUG)
+    #elif args.verbosity >= 1:
+        #logging.basicConfig(level=logging.INFO)
 
     driver = Firefox()
 
     try:
 
-        logging.info(f"Searching the distribution graph of URL {args.link}\n\n")
+        print(f"Searching the distribution graph of URL {args.link}\n")
 
         # Get the URLs object
         URLs = URLs("DB/propaganda.db", args.verbosity)
 
+        # Store the main URL as an url in our DB
         URLs.add_url(args.link, int(args.is_propaganda))
 
-        # Keep only the urls
+        # Structure to keep only the urls
         urls_to_search = []
         urls_to_search.append(args.link)
-        # Keep the urls and their levels
+        # Structure to keep the urls and their levels
         # The level is how far away it is from the original URL
         urls_to_search_level = {}
         urls_to_search_level[args.link] = 0
@@ -108,7 +114,7 @@ if __name__ == "__main__":
         # Links which failed sanity check
         failed_links = []
 
-        # Get the content of the url and store it
+        # Get the content of the main url, the publication date from the content and the title
         if not args.dont_store_content:
             (main_content, main_title, content_file, publication_date) = downloadContent(args.link)
             URLs.store_content(args.link, main_content)
@@ -124,14 +130,20 @@ if __name__ == "__main__":
             if urls_to_search_level[url] > args.number_of_levels - 1:
                 break
 
-            print("\n==========================================")
-            print(f"URL search level {urls_to_search_level[url]}. Searching data for url: {url}")
+            #
+            # Search on Google links to the URL. This is a recursive search of -n amount of levels.
+            #
+            print(f"\n{Fore.CYAN}== Google search for pages with a link to {url}{Style.RESET_ALL}")
+            print(f"URL search level {urls_to_search_level[url]}")
             link_type = "link"
             # Get links to this URL (children)
             data = trigger_api(url)
+            amount_of_results_retrieved = len(data)
+            amount_of_results_to_proceess = amount_of_results_retrieved - 1
             # Set the URL 'date_of_query' to now
             search_date = datetime.now()
 
+            # Try to get the date of publication from the results in the API
             urls_to_date = {}
             if data:
                 urls_to_date = get_dates_from_results(data)
@@ -139,20 +151,20 @@ if __name__ == "__main__":
                 print("The API returned False because of some error. Continue with next URL")
                 continue
 
+            # Since only now we have access to the API, as a special case
             # Set the publication datetime for the main url
             if args.link == url:
                 formated_date = convert_date(search_date, urls_to_date[url])
                 URLs.set_publication_datetime(url, formated_date)
 
-            logging.info(f"\tThere are {len(urls_to_date)} urls still to search.")
-
             for child_url in urls_to_date.keys():
 
-                print(f"\tSearching for url {child_url}")
+                print(f"\t[{Fore.YELLOW}Result {amount_of_results_retrieved - amount_of_results_to_proceess}]{Style.RESET_ALL} Procesing URL {child_url}")
+                amount_of_results_to_proceess -= 1
 
                 # Check that the children was not seen before in this call
                 if child_url in urls_to_search:
-                    logging.debug(f"\t\tRepeated url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
+                    print(f"\t\tRepeated url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
                     continue
 
                 if sanity_check(child_url):
@@ -162,11 +174,13 @@ if __name__ == "__main__":
                         if urls_to_date[child_url] is None:
                             urls_to_date[child_url] = publication_date
 
-                    if check_content(child_url, url, content, content_file):
-                        print("Extracting twitter data")
-                        extract_and_save_twitter_data(driver, URLs, child_url, url, link_type)
-                        print("Twitter data extracted. Continue with google search.")
+                    # We check if URL is in the content later, because firs we need to download the content
+                    if check_url_in_content(child_url, url, content, content_file):
+                        # print(f"\t\tExtracting twitter data for {url}")
+                        # extract_and_save_twitter_data(driver, URLs, child_url, url, link_type)
+                        # print("\t\tTwitter data extracted. Continue with google search.")
 
+                        # Add the childs in bulk?
                         add_child_to_db(
                             URLs=URLs,
                             child_url=child_url,
@@ -177,24 +191,28 @@ if __name__ == "__main__":
                             content=content,
                             title=title,
                         )
-                        # The child should have the level of the parent + 1
-
+                        # Store the link relationship
                         all_links.append([url, child_url])
+                        # The child should have the level of the parent + 1
                         urls_to_search_level[child_url] = urls_to_search_level[url] + 1
                         urls_to_search.append(child_url)
-
-                        logging.info(f"\tAdding the URL {child_url} with level {urls_to_search_level[child_url]}")
+                        print(f"\t\tAdding the URL {child_url} with level {urls_to_search_level[child_url]}")
                 else:
+                    print(f"\t\tBlacklisted url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
                     failed_links.append(child_url)
 
+        #
         # Second we search for results using the title of the main URL
-        print("\n\n==========Second Phase Search for Title=========")
+        #
+        print("\n{Fore.CYAN}== Google search sites with the same title as {main_url}{Style.RESET_ALL}")
         # Get links to this URL (children)
         link_type = "title"
-        print("First lets extract Twitter data")
-        extract_and_save_twitter_data(driver, URLs, main_title, main_url, "title")
+        # print("First lets extract Twitter data")
+        # extract_and_save_twitter_data(driver, URLs, main_title, main_url, "title")
 
         data = trigger_api(main_title)
+        amount_of_results_retrieved = len(data)
+        amount_of_results_to_proceess = amount_of_results_retrieved - 1
         search_date = datetime.now()
 
         urls_to_date = {}
@@ -205,7 +223,9 @@ if __name__ == "__main__":
 
         urls = get_links_from_results(data)
         for child_url in urls:
-            print(f"Analyzing url {child_url}")
+            print(f"\t[{Fore.YELLOW}Result {amount_of_results_retrieved - amount_of_results_to_proceess}]{Style.RESET_ALL} Procesing URL {child_url}")
+            amount_of_results_to_proceess -= 1
+
             # Check that the children was not seen before in this call
             if child_url in urls_to_search:
                 logging.debug(f"\tRepeated url: {child_url}. {Fore.RED} Discarding.{Style.RESET_ALL}")
