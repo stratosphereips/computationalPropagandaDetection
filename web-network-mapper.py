@@ -204,7 +204,7 @@ if __name__ == "__main__":
         #
         # Second we search for results using the title of the main URL
         #
-        print("\n{Fore.CYAN}== Google search sites with the same title as {main_url}{Style.RESET_ALL}")
+        print(f"\n{Fore.CYAN}== Google search sites with the same title as {main_url}{Style.RESET_ALL}")
         # Get links to this URL (children)
         link_type = "title"
         # print("First lets extract Twitter data")
