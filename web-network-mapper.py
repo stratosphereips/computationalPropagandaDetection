@@ -128,6 +128,19 @@ def search_google(url, URLs, link_type):
                     title=title,
                 )
                 child_urls_found.append(child_url)
+
+        # Special situation to extract date of the main url
+        # from the API. This is not available after asking
+        # for the API
+        # Search in the results for the main url
+        for page in data:
+            for result in page:
+                child_url = result["link"]
+                if child_url == url:
+                    main_url_publication_date = get_dates_from_api_result_data(result)
+                    formated_date = convert_date(main_url_publication_date)
+                    URLs.set_publication_datetime(url, formated_date)
+
         return child_urls_found
 
 
@@ -166,6 +179,7 @@ if __name__ == "__main__":
         (main_content, main_title, content_file, publication_date) = downloadContent(args.link)
         URLs.store_content(args.link, main_content)
         URLs.store_title(args.link, main_title)
+        URLs.set_query_datetime(args.link, datetime.now())
 
         # Search by URLs
         urls_to_search_by_level = {}
