@@ -65,6 +65,7 @@ def get_dates_from_api_result_data(result):
     elif "snippet" in result and "—" in result["snippet"][:16]:
         # First try to get it from the snippet
         # Usually "Mar 25, 2020"
+        # Others that we are not finding now : 27 марта 2020
         return convert_date(result["snippet"].split("—")[0].strip())
     else:
         # Get none date for now. TODO: get the date from the content
