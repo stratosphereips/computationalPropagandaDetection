@@ -4,6 +4,7 @@ from dateutil.parser import parse
 import distance
 import PyPDF2
 import traceback
+from serpapi_utils import downloadContent
 
 from colorama import Fore, Style
 
