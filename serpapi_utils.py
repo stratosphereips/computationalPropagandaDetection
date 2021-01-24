@@ -74,7 +74,7 @@ def trigger_api(search_leyword):
 
         # Threshold of maxium amount of results to retrieve. Now 100.
         # Some pages can have 100000's
-        max_results = 100
+        max_results = 300
 
         # While we have results to get, get them
         while (amount_of_results_so_far < amount_total_results) and (amount_of_results_so_far < max_results):
