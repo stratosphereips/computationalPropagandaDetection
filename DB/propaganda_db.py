@@ -125,8 +125,9 @@ class DB:
         return edges
 
     def update_date_published(self, url: str, date_of_publication: str):
-        self.c.execute("""UPDATE URLS SET date_published = ?  WHERE url = ?""", (date_of_publication, url))
-        self.commit()
+        if date_of_publication is not None:
+            self.c.execute("""UPDATE URLS SET date_published = ?  WHERE url = ?""", (date_of_publication, url))
+            self.commit()
 
     def update_date_of_query(self, url: str, date_of_query: str):
         self.c.execute("""UPDATE URLS SET date_of_query = ?  WHERE url = ?""", (date_of_query, url))
