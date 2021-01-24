@@ -7,15 +7,17 @@ from serpapi_utils import url_in_content
 from colorama import Fore, Style
 
 
-def convert_date(search_time, google_date):
+def convert_date(google_date):
     # Convert the date from '2 days ago' to  a real date, compared with the search time
+    search_time = datetime.now()
+
     if google_date is None:
         return None
 
     try:
         date = str(parse(google_date).isoformat())  # what is if is a date "2020-05-13" or "08.31.2020"
         return date
-    except:
+    except Exception:
         pass
 
     splitted = google_date.split()
