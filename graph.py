@@ -77,7 +77,7 @@ def build_a_graph(all_links, search_link):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("-l", "--link", help="URL to check is distribution pattern", type=str)
+    parser.add_argument("-l", "--link", help="URL to check is distribution pattern", type=str, required=True)
     parser.add_argument("-d", "--path_to_db", default="DB/propaganda.db", help="Path to Database", type=str)
 
     args = parser.parse_args()
