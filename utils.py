@@ -67,15 +67,20 @@ def get_dates_from_api_result_data(result):
     'snippet' and try to extract the date from there
     """
     if "date" in result:
-        return convert_date(result["date"])
+        date = convert_date(result["date"])
+        print(f"\t\tDate found in the API results: {date}")
+        return date
     elif "snippet" in result and "—" in result["snippet"][:16]:
         # First try to get it from the snippet
         # Usually "Mar 25, 2020"
         # Others that we are not finding now : 27 марта 2020
-        return convert_date(result["snippet"].split("—")[0].strip())
+        date = convert_date(result["snippet"].split("—")[0].strip())
+        print(f"\t\tDate found in the Snippet of the API results: {date}")
+        return date
     else:
         # Get none date for now. TODO: get the date from the content
         return None
+
 
 def get_dates_from_results(data):
     """
