@@ -3,21 +3,21 @@ import os
 from datetime import datetime
 import traceback
 import argparse
-from graph import build_a_graph
 from urls import URLs
 from colorama import init as init_colorama
 from colorama import Fore, Style
 import logging
 from twitter_api import Firefox
 from utils import (
-    sanity_check,
-    check_url_in_content,
+    url_blacklisted,
+    url_in_content,
     convert_date,
     get_links_from_results,
-    get_dates_from_results,
+    get_dates_from_api_result_data,
     check_text_similiarity,
 )
 from serpapi_utils import downloadContent, trigger_api, get_hash_for_url
+import sys
 
 # Init colorama
 init_colorama()
@@ -36,7 +36,7 @@ def add_child_to_db(URLs, child_url, parent_url, search_date, publication_date, 
     # Add the children to the DB
     URLs.set_child(parent_url, child_url, search_date, link_type)
     # Store the date of the publication of the URL
-    formated_date = convert_date(search_date, publication_date)
+    formated_date = convert_date(publication_date)
     URLs.set_publication_datetime(child_url, formated_date)
     # Add this url to the DB. Since we are going to search for it
     URLs.add_url(child_url)
