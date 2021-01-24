@@ -63,6 +63,69 @@ def extract_and_save_twitter_data(driver, URLs, searched_string, parent_url, typ
         )
 
 
+def search_google(url, URLs, link_type):
+    """
+    - Search google results in SerAPI
+    - Process the results to extract data
+    for each url
+    - Store the results in the DB
+    - Return
+    """
+    # Use API to get links to this URL
+    data, amount_of_results = trigger_api(url)
+    result_shown = 1
+    child_urls_found = []
+
+    # For each url in the results do
+    if data:
+        for page in data:
+            for result in page:
+                child_url = result["link"]
+                print(f"\t{Fore.YELLOW}Result [{result_shown}] {Style.RESET_ALL} Procesing URL {child_url}")
+                result_shown += 1
+                child_url_date = get_dates_from_api_result_data(result)
+
+                # Apply filters
+                #
+                # 1. No repeated urls
+                if URLs.url_exist(child_url) or url_blacklisted(child_url):
+                    print(f"\t\tRepeated url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
+                    continue
+
+                # 2. Filter out some URLs we dont want
+                if URLs.url_exist(child_url) or url_blacklisted(child_url):
+                    print(f"\t\tBlacklisted url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
+                    continue
+
+                # Store the publication data about the child_url
+                URLs.set_publication_datetime(child_url, child_url_date)
+
+                (content,
+                 title,
+                 content_file,
+                 publication_date) = downloadContent(child_url)
+
+                # 3. Is the main url in the content of the page of child_url?
+                if not url_in_content(url, content, content_file):
+                    print(f"\t\tThe URL {url} is not in the content of site {child_url} {Fore.RED} Discarding.{Style.RESET_ALL}")
+                    continue
+
+                print(f"\t\tThe URL {url} IS in the content of site {child_url} {Fore.BLUE} Keeping.{Style.RESET_ALL}")
+
+                print(f"\t\tAdding to DB the URL {child_url}")
+                add_child_to_db(
+                    URLs=URLs,
+                    child_url=child_url,
+                    parent_url=url,
+                    search_date=datetime.now(),
+                    publication_date=publication_date,
+                    link_type=link_type,
+                    content=content,
+                    title=title,
+                )
+                child_urls_found.append(child_url)
+        return child_urls_found
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-l", "--link", help="URL to check is distribution pattern.", type=str, required=True)
