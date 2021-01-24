@@ -149,19 +149,6 @@ if __name__ == "__main__":
 
     # driver = Firefox()
 
-    # Go level by level retrieving each engine
-    # Level 1
-    # - Get Google
-    # - Process the links, add to the next level to retrieve
-    # - Get Twitter
-    # - Process the links, add to the next level to retrieve
-    # - Get VK
-    # - Process the links, add to the next level to retrieve
-    # - Get Others
-    # - Process the links, add to the next level to retrieve
-    # Leven N
-    # - Do the same
-
     try:
 
         print(f"Searching the distribution graph of URL {args.link}. Using {args.number_of_levels} levels.\n")
@@ -192,116 +179,6 @@ if __name__ == "__main__":
 
         sys.exit(0)
 
-
-
-
-
-
-
-        # Structure to keep only the urls
-        urls_to_search = []
-        urls_to_search.append(args.link)
-        # Structure to keep the urls and their levels
-        # The level is how far away it is from the original URL
-        level_per_url = {}
-        level_per_url[args.link] = 0
-        # We need a list so we can loop through it whil is changing and we
-        # need a dictionary to keep the levels. Is horrible to need both!
-        # But I dont know how to do better
-
-        # Here we store all the pair of links as [link, link], so we can
-        # build the graph later
-        all_links = []
-
-        # Links which failed sanity check
-        failed_links = []
-
-        # Get the content of the main url, the publication date from the content and the title
-        if not args.dont_store_content:
-            (main_content, main_title, content_file, publication_date) = downloadContent(args.link)
-            URLs.store_content(args.link, main_content)
-            URLs.store_title(args.link, main_title)
-
-        # First we search for results using the URL
-        for url in urls_to_search:
-
-            # If we reached the amount of 'ring' levels around the URL
-            # that we want, then stop
-            # We compared against the args.number_of_levels - 1 because
-            # we always must ask and add the 'leaves' webpages
-            if level_per_url[url] > args.number_of_levels - 1:
-                break
-
-            #
-            # Search on Google links to the URL. This is a recursive search of -n amount of levels.
-            #
-            print(f"\n{Fore.CYAN}== Google search for pages with a link to {url}{Style.RESET_ALL}")
-            print(f"URL search level {level_per_url[url]}")
-            link_type = "link"
-            # Get links to this URL (children)
-            data = trigger_api(url)
-            amount_of_results_retrieved = len(data)
-            amount_of_results_to_proceess = amount_of_results_retrieved - 1
-            # Set the URL 'date_of_query' to now
-            search_date = datetime.now()
-
-            # Try to get the date of publication from the results in the API
-            urls_to_date = {}
-            if data:
-                urls_to_date = get_dates_from_results(data)
-            else:
-                print("The API returned False because of some error. Continue with next URL")
-                continue
-
-            # Since only now we have access to the API, as a special case
-            # Set the publication datetime for the main url
-            if args.link == url:
-                formated_date = convert_date(search_date, urls_to_date[url])
-                URLs.set_publication_datetime(url, formated_date)
-
-            for child_url in urls_to_date.keys():
-
-                print(f"\t[{Fore.YELLOW}Result {amount_of_results_retrieved - amount_of_results_to_proceess}]{Style.RESET_ALL} Procesing URL {child_url}")
-                amount_of_results_to_proceess -= 1
-
-                # Check that the children was not seen before in this call
-                if child_url in urls_to_search:
-                    print(f"\t\tRepeated url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
-                    continue
-
-                if url_blacklisted(child_url):
-
-                    if not args.dont_store_content:
-                        (content, title, content_file, publication_date) = downloadContent(child_url)
-                        if urls_to_date[child_url] is None:
-                            urls_to_date[child_url] = publication_date
-
-                    # We check if URL is in the content later, because firs we need to download the content
-                    if check_url_in_content(child_url, url, content, content_file):
-                        # print(f"\t\tExtracting twitter data for {url}")
-                        # extract_and_save_twitter_data(driver, URLs, child_url, url, link_type)
-                        # print("\t\tTwitter data extracted. Continue with google search.")
-
-                        # Add the childs in bulk?
-                        add_child_to_db(
-                            URLs=URLs,
-                            child_url=child_url,
-                            parent_url=url,
-                            search_date=search_date,
-                            publication_date=urls_to_date[child_url],
-                            link_type=link_type,
-                            content=content,
-                            title=title,
-                        )
-                        # Store the link relationship
-                        all_links.append([url, child_url])
-                        # The child should have the level of the parent + 1
-                        level_per_url[child_url] = level_per_url[url] + 1
-                        urls_to_search.append(child_url)
-                        print(f"\t\tAdding the URL {child_url} with level {level_per_url[child_url]}")
-                else:
-                    print(f"\t\tBlacklisted url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
-                    failed_links.append(child_url)
 
         #
         # Second we search for results using the title of the main URL
