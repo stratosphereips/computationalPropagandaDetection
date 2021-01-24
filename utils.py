@@ -93,10 +93,17 @@ def get_dates_from_results(data):
     return urls_to_date
 
 
-def sanity_check(url):
+def url_blacklisted(url):
     """
     Check if we should or not download this URL by
-    applying different blacklists
+    applying different blacklists.
+    Do not download if:
+    1. URL includes robots.txt
+    2. URL includes sitemap
+    3. URL includes *.xml
+    4. URL is Twitter but not a post
+    5. URL is 4chan but not a post
+    6. URL includes *.pdf
     """
     # Blacklist of pages to ignore
     blacklist = {"robots.txt", "sitemap"}
@@ -108,38 +115,38 @@ def sanity_check(url):
 
     # Apply blacklists of the pages we dont want
     if url_path in blacklist:
-        return False
+        return True
 
     # Remove homepages
     # http://te.co has 3 splits
     # http://te.co/ has 4 splits
     if len(url.split("/")) == 3 or (len(url.split("/")) == 4 and url[-1] == "/"):
-        return False
+        return True
 
     # Delete all '.xml' pages
     if url_path.split(".")[-1] == "xml":
-        return False
+        return True
 
     # Delete twitter links that are not posts
     if "twitter" in domain:
         if "status" not in url:
-            return False
+            return True
 
     # Delete 4chan links that are not posts
     if "4chan" in domain:
         if "thread" not in url:
-            return False
+            return True
 
     # Delete pdf files for now
     if ".pdf" in url_path:
-        return False
+        return True
 
     # Google searches in books and the web includes the link to the
     # original search, so is kind of a loop sometimes.
     # if 'books.google.com' in domain:
     # return False
 
-    return True
+    return False
 
 
 def get_links_from_results(data):
