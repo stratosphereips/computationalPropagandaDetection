@@ -2,7 +2,8 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from dateutil.parser import parse
 import distance
-from serpapi_utils import url_in_content
+import PyPDF2
+import traceback
 
 from colorama import Fore, Style
 
@@ -167,18 +168,6 @@ def get_links_from_results(data):
     return urls
 
 
-def check_url_in_content(child_url, parent_url, content, content_file):
-    # Get the content of the url and store it
-    # We ask here so we have the content of each child
-    if not url_in_content(parent_url, content, content_file):
-        print(f"\t\tThe URL {parent_url} is not in the content of site {child_url} {Fore.RED} Discarding.{Style.RESET_ALL}")
-        # Consider deleting the downloaded content from disk
-        return False
-
-    print(f"\t\tThe URL {parent_url} IS in the content of site {child_url} {Fore.BLUE} Keeping.{Style.RESET_ALL}")
-    return True
-
-
 def check_text_similiarity(main_content, main_url, child_url, content, threshold):
     urls_distance = distance.compare_content(main_content, content)
     if urls_distance <= threshold:
@@ -187,3 +176,46 @@ def check_text_similiarity(main_content, main_url, child_url, content, threshold
         return False
     print(f"\tThe content of {main_url} has distance with {child_url} of : {urls_distance}. {Fore.BLUE}Keeping.{Style.RESET_ALL}")
     return True
+
+
+def url_in_content(url, content, content_file):
+    """
+    Receive a url and a content and try to see if the url is in the content
+    Depends on the type of data
+    """
+    if content and "HTML" in content[:60].upper():
+        # print(f'{Fore.YELLOW} html doc{Style.RESET_ALL}')
+        all_content = "".join(content)
+        if url in all_content:
+            return True
+    elif content and "%PDF" in content[:4]:
+        # Lets stop processing pdf for now, is too slow and not worth it
+        return False
+
+        try:
+            pdfReader = PyPDF2.PdfFileReader(content_file)
+        except PyPDF2.utils.PdfReadError:
+            return False
+        except Exception as e:
+            print(f"Error in pydf2 call. {e}")
+            print(f"{type(e)}")
+            print(traceback.format_exc())
+            return False
+        num_pages = pdfReader.numPages
+        count = 0
+        text = ""
+        while count < num_pages:
+            pageObj = pdfReader.getPage(count)
+            count += 1
+            text += pageObj.extractText()
+        # text = text.replace('\x','')
+        # print(text)
+        if url in text:
+            return True
+    elif content:
+        # print(f'{Fore.YELLOW} other doc{Style.RESET_ALL}')
+        # print(content[:20])
+        # We consider this what?
+        return False
+    else:
+        return False
