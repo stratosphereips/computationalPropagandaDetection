@@ -40,6 +40,15 @@ class DB:
         self.c.execute("""UPDATE URLS SET title = ?  WHERE url = ?""", (title, url))
         self.commit()
 
+    def get_content_by_url(self, url):
+        """
+        Get the content from a URL
+        """
+        (content,) = self.c.execute("""SELECT content FROM URLS WHERE url=(?)""", (url,)).fetchall()[0]
+        if len(content) > 0:
+            return content
+        return False
+
     def update_url_content(self, url, content):
         self.c.execute("""UPDATE URLS SET content = ?  WHERE url = ?""", (content, url))
         self.commit()
