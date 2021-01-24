@@ -121,14 +121,14 @@ def trigger_api(search_leyword):
         with open(os.path.join("results", file_name_jsons), "w") as f:
             json.dump(results, f)
 
-        return all_results
+        return all_results, amount_of_results_so_far
 
     except Exception as e:
         print("Error in trigger_api()")
         print(f"{e}")
         print(f"{type(e)}")
         print(traceback.format_exc())
-        return False
+        return False, False
 
 
 def parse_date_from_string(text):
