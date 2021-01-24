@@ -65,3 +65,6 @@ class URLs:
 
     def url_exist(self, url):
         return self.db.url_exist(url)
+
+    def get_content_by_url(self, url):
+        return self.db.get_content_by_url(url)
