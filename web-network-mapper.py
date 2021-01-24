@@ -83,7 +83,7 @@ def search_google(url, URLs, link_type):
                 child_url = result["link"]
                 print(f"\t{Fore.YELLOW}Result [{result_shown}] {Style.RESET_ALL} Procesing URL {child_url}")
                 result_shown += 1
-                child_url_date = get_dates_from_api_result_data(result)
+                api_publication_date = get_dates_from_api_result_data(result)
 
                 # Apply filters
                 #
@@ -97,13 +97,17 @@ def search_google(url, URLs, link_type):
                     print(f"\t\t{Fore.YELLOW}Blacklisted{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
                     continue
 
-                # Store the publication data about the child_url
-                URLs.set_publication_datetime(child_url, child_url_date)
-
                 (content,
                  title,
                  content_file,
-                 publication_date) = downloadContent(child_url)
+                 content_publication_date) = downloadContent(child_url)
+
+                # If we dont have a publication date from the api
+                # use the one from the content
+                if not api_publication_date:
+                    publication_date = content_publication_date
+                else:
+                    publication_date = api_publication_date
 
                 # 3. Is the main url in the content of the page of child_url?
                 if not url_in_content(url, content, content_file):
@@ -125,6 +129,7 @@ def search_google(url, URLs, link_type):
                 )
                 child_urls_found.append(child_url)
         return child_urls_found
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
