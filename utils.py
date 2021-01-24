@@ -15,6 +15,9 @@ def convert_date(google_date):
     if google_date is None:
         return None
 
+    if type(google_date) == datetime:
+        return google_date
+
     try:
         date = str(parse(google_date).isoformat())  # what is if is a date "2020-05-13" or "08.31.2020"
         return date
