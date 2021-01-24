@@ -5,7 +5,6 @@ import os
 from datetime import datetime
 import traceback
 import hashlib
-import PyPDF2
 from lxml.html import fromstring
 from colorama import Fore, Style
 import dateutil.parser
