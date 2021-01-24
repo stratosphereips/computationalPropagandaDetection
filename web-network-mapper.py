@@ -84,25 +84,65 @@ if __name__ == "__main__":
     #elif args.verbosity >= 1:
         #logging.basicConfig(level=logging.INFO)
 
-    driver = Firefox()
+    # driver = Firefox()
+
+    # Go level by level retrieving each engine
+    # Level 1
+    # - Get Google
+    # - Process the links, add to the next level to retrieve
+    # - Get Twitter
+    # - Process the links, add to the next level to retrieve
+    # - Get VK
+    # - Process the links, add to the next level to retrieve
+    # - Get Others
+    # - Process the links, add to the next level to retrieve
+    # Leven N
+    # - Do the same
 
     try:
 
-        print(f"Searching the distribution graph of URL {args.link}\n")
+        print(f"Searching the distribution graph of URL {args.link}. Using {args.number_of_levels} levels.\n")
 
         # Get the URLs object
         URLs = URLs("DB/propaganda.db", args.verbosity)
 
         # Store the main URL as an url in our DB
         URLs.add_url(args.link, int(args.is_propaganda))
+        (main_content, main_title, content_file, publication_date) = downloadContent(args.link)
+        URLs.store_content(args.link, main_content)
+        URLs.store_title(args.link, main_title)
+
+        # Search by URLs
+        urls_to_search_by_level = {}
+        urls_to_search_by_level[0] = [args.link]
+        for level in range(args.number_of_levels):
+            try:
+                for url in urls_to_search_by_level[level]:
+                    print(f"\n{Fore.CYAN}== Level {level}. Google search for pages with a link to {url}{Style.RESET_ALL}")
+                    google_results_urls = search_google(url,
+                                                        URLs,
+                                                        link_type='link')
+                    urls_to_search_by_level[level+1] = google_results_urls
+                    print(urls_to_search_by_level)
+            except KeyError:
+                # No urls in the level
+                pass
+
+        sys.exit(0)
+
+
+
+
+
+
 
         # Structure to keep only the urls
         urls_to_search = []
         urls_to_search.append(args.link)
         # Structure to keep the urls and their levels
         # The level is how far away it is from the original URL
-        urls_to_search_level = {}
-        urls_to_search_level[args.link] = 0
+        level_per_url = {}
+        level_per_url[args.link] = 0
         # We need a list so we can loop through it whil is changing and we
         # need a dictionary to keep the levels. Is horrible to need both!
         # But I dont know how to do better
@@ -127,14 +167,14 @@ if __name__ == "__main__":
             # that we want, then stop
             # We compared against the args.number_of_levels - 1 because
             # we always must ask and add the 'leaves' webpages
-            if urls_to_search_level[url] > args.number_of_levels - 1:
+            if level_per_url[url] > args.number_of_levels - 1:
                 break
 
             #
             # Search on Google links to the URL. This is a recursive search of -n amount of levels.
             #
             print(f"\n{Fore.CYAN}== Google search for pages with a link to {url}{Style.RESET_ALL}")
-            print(f"URL search level {urls_to_search_level[url]}")
+            print(f"URL search level {level_per_url[url]}")
             link_type = "link"
             # Get links to this URL (children)
             data = trigger_api(url)
@@ -167,7 +207,7 @@ if __name__ == "__main__":
                     print(f"\t\tRepeated url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
                     continue
 
-                if sanity_check(child_url):
+                if url_blacklisted(child_url):
 
                     if not args.dont_store_content:
                         (content, title, content_file, publication_date) = downloadContent(child_url)
@@ -194,9 +234,9 @@ if __name__ == "__main__":
                         # Store the link relationship
                         all_links.append([url, child_url])
                         # The child should have the level of the parent + 1
-                        urls_to_search_level[child_url] = urls_to_search_level[url] + 1
+                        level_per_url[child_url] = level_per_url[url] + 1
                         urls_to_search.append(child_url)
-                        print(f"\t\tAdding the URL {child_url} with level {urls_to_search_level[child_url]}")
+                        print(f"\t\tAdding the URL {child_url} with level {level_per_url[child_url]}")
                 else:
                     print(f"\t\tBlacklisted url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
                     failed_links.append(child_url)
@@ -230,7 +270,7 @@ if __name__ == "__main__":
             if child_url in urls_to_search:
                 logging.debug(f"\tRepeated url: {child_url}. {Fore.RED} Discarding.{Style.RESET_ALL}")
                 continue
-            if sanity_check(child_url):
+            if url_blacklisted(child_url):
                 if not args.dont_store_content:
                     (content, title, content_file, publication_date) = downloadContent(child_url)
                     if urls_to_date[child_url] is None:
