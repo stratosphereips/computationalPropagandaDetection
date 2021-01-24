@@ -52,6 +52,23 @@ def convert_date(google_date):
         return None
 
 
+def get_dates_from_api_result_data(result):
+    """
+    Receive an api data object from the serpapi API
+    Search for a date in the results
+    If there is a field 'date' use it, if not search the field
+    'snippet' and try to extract the date from there
+    """
+    if "date" in result:
+        return convert_date(result["date"])
+    elif "snippet" in result and "—" in result["snippet"][:16]:
+        # First try to get it from the snippet
+        # Usually "Mar 25, 2020"
+        return convert_date(result["snippet"].split("—")[0].strip())
+    else:
+        # Get none date for now. TODO: get the date from the content
+        return None
+
 def get_dates_from_results(data):
     """
     Receive a data object from the serpapi API
