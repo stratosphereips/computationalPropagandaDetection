@@ -31,6 +31,9 @@ def convert_date(google_date):
     elif len(splitted) == 1 and splitted[0].lower() == "yesterday":
         date = search_time - relativedelta(days=1)
         return str(date.isoformat())
+    elif len(splitted) == 1:
+        # Catch here weird things like single words
+        return None
     elif splitted[1].lower() in ["mins", "min", "minutes", "minute"]:
         date = search_time - relativedelta(minutes=int(splitted[0]))
         return str(date.date().isoformat())
