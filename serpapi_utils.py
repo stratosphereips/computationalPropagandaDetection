@@ -9,6 +9,8 @@ from lxml.html import fromstring
 from colorama import Fore, Style
 import dateutil.parser
 import re
+import locale
+from datetime import date
 
 
 # Read the serapi api key
@@ -135,7 +137,7 @@ def parse_date_from_string(text):
     Receive a string and give back a date
     object if we can find any date
     """
-    years_to_monitor = ["2020", "2019"]
+    years_to_monitor = ["2022", "2021", "2020", "2019"]
     # Even if we find a text date, after the conversion into object, it can be
     # that is wrong, for example the text 854.052020 triggers errors
     # So we need to control that de date is more than a minimum
@@ -146,43 +148,69 @@ def parse_date_from_string(text):
 
     def __parse_date_string(text_to_parse, min_date):
         parsed_date = None
+        # First try in English
         try:
             parsed_date = dateutil.parser.parse(text_to_parse)
             if parsed_date < min_date:
                 parsed_date = None
+            return parsed_date
         except dateutil.parser._parser.ParserError:
             pass
+
+        # Try in Russian
+        try:
+            locale.setlocale(locale.LC_ALL, "ru_RU")
+            parsed_date = datetime.strptime(text_to_parse, "%d %b %Y")
+            if parsed_date < min_date:
+                parsed_date = None
+            return parsed_date
+        except dateutil.parser._parser.ParserError:
+            pass
+        except ValueError:
+            pass
+
+        # Other format/languague?
+
         return parsed_date
 
     for year_to_monitor in years_to_monitor:
-        # y_position = text.find(year_to_monitor)
         y_positions = [m.start() for m in re.finditer(year_to_monitor, text)]
         for y_position in y_positions:
             if y_position:
 
                 if parsed_date is None:
                     # Is it like 2020-03-26T01:02:12+03:00?
-                    year_first = text[y_position : y_position + 25]
+                    year_first = text[y_position: y_position + 25]
                     parsed_date = __parse_date_string(year_first, control_min_date)
 
                 if parsed_date is None:
                     # Is it like 2020/03/02? (slash doesnt matter)
-                    year_first = text[y_position : y_position + 10]
+                    year_first = text[y_position: y_position + 10]
                     parsed_date = __parse_date_string(year_first, control_min_date_naive)
 
                 if parsed_date is None:
                     # Is it like 03/02/2020?
-                    year_last = text[y_position - 6 : y_position + 4]
+                    year_last = text[y_position - 6: y_position + 4]
                     parsed_date = __parse_date_string(year_last, control_min_date_naive)
 
                 if parsed_date is None:
                     # Is it like 'Mar. 27th, 2020'?
-                    text_type_1 = text[y_position - 11 : y_position + 4]
+                    text_type_1 = text[y_position - 11: y_position + 4]
                     parsed_date = __parse_date_string(text_type_1, control_min_date_naive)
 
                 if parsed_date is None:
                     # Is it like 'November 10 2020'
-                    text_type_1 = text[y_position - 12 : y_position + 4]
+                    text_type_1 = text[y_position - 12: y_position + 4]
+                    parsed_date = __parse_date_string(text_type_1, control_min_date_naive)
+
+                if parsed_date is None:
+                    # Is it like '27 марта 2020 г.'
+                    text_type_1 = text[y_position - 9: y_position + 4]
+                    parsed_date = __parse_date_string(text_type_1, control_min_date_naive)
+
+                if parsed_date is None:
+                    # Is it like 2020/03/25?
+                    text_type_1 = text[y_position: y_position + 9]
                     parsed_date = __parse_date_string(text_type_1, control_min_date_naive)
 
     return parsed_date
@@ -193,28 +221,26 @@ def extract_date_from_webpage(url, page_content):
     Receive an URL and tree HTM: structure and try to find the date of
     publication in several heuristic ways
     """
-    publication_date = None
     # If this is a specific website, suchas telegram or twitter,
     # do a better search
     tree = fromstring(page_content.content)
     title = tree.findtext(".//title")
     if title and "telegram" in title.lower():
         # Ignore telegram pages since we use Selenium for that
-        publication_date = None
+        return None
     elif title and "twitter" in title.lower():
         # Ignore Twitter pages since we use Selenium for that
-        publication_date = None
+        return None
 
-    if publication_date is None:
-        # First try to find the date in the url
-        publication_date = parse_date_from_string(url)
+    # First try to find the date in the url
+    publication_date = parse_date_from_string(url)
+    if publication_date:
+        print(f"\t\tDate found in the URL: {publication_date}")
+    else:
+        # Second try to find the date in the content of the web
+        publication_date = parse_date_from_string(page_content.text)
         if publication_date is None:
-            print(f"\t\tDate found in the URL: {publication_date}")
-        else:
-            # Secodn try to find the date in the content of the web
-            publication_date = parse_date_from_string(page_content.text)
-            if publication_date is None:
-                print(f"\t\tDate found in the content of the page: {publication_date}")
+            print(f"\t\tDate found in the content of the page: {publication_date}")
     return publication_date
 
 
@@ -262,5 +288,3 @@ def downloadContent(url):
         return (False, False, False)
 
     return (text_content, title, file_name, publication_date)
-
-
