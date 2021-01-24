@@ -88,13 +88,13 @@ def search_google(url, URLs, link_type):
                 # Apply filters
                 #
                 # 1. No repeated urls
-                if URLs.url_exist(child_url) or url_blacklisted(child_url):
-                    print(f"\t\tRepeated url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
+                if URLs.url_exist(child_url):
+                    print(f"\t\t{Fore.YELLOW}Repeated{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
                     continue
 
                 # 2. Filter out some URLs we dont want
-                if URLs.url_exist(child_url) or url_blacklisted(child_url):
-                    print(f"\t\tBlacklisted url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
+                if url_blacklisted(child_url):
+                    print(f"\t\t{Fore.YELLOW}Blacklisted{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
                     continue
 
                 # Store the publication data about the child_url
@@ -107,7 +107,7 @@ def search_google(url, URLs, link_type):
 
                 # 3. Is the main url in the content of the page of child_url?
                 if not url_in_content(url, content, content_file):
-                    print(f"\t\tThe URL {url} is not in the content of site {child_url} {Fore.RED} Discarding.{Style.RESET_ALL}")
+                    print(f"\t\t{Fore.YELLOW}Not in content{Style.RESET_ALL}. The URL {url} is not in the content of site {child_url} {Fore.RED} Discarding.{Style.RESET_ALL}")
                     continue
 
                 print(f"\t\tThe URL {url} IS in the content of site {child_url} {Fore.BLUE} Keeping.{Style.RESET_ALL}")
@@ -186,7 +186,6 @@ if __name__ == "__main__":
                                                         URLs,
                                                         link_type='link')
                     urls_to_search_by_level[level+1] = google_results_urls
-                    print(urls_to_search_by_level)
             except KeyError:
                 # No urls in the level
                 pass
