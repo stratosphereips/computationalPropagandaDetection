@@ -62,3 +62,6 @@ class URLs:
         """
         self.urls[url] = {"search_date": result_search_date}
         self.db.update_date_of_query(url, result_search_date)
+
+    def url_exist(self, url):
+        return self.db.url_exist(url)
