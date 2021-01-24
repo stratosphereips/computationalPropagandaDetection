@@ -121,8 +121,8 @@ def url_blacklisted(url):
     # Remove homepages
     # http://te.co has 3 splits
     # http://te.co/ has 4 splits
-    if len(url.split("/")) == 3 or (len(url.split("/")) == 4 and url[-1] == "/"):
-        return True
+    #if len(url.split("/")) == 3 or (len(url.split("/")) == 4 and url[-1] == "/"):
+    #    return True
 
     # Delete all '.xml' pages
     if url_path.split(".")[-1] == "xml":
