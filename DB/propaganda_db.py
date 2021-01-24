@@ -12,7 +12,8 @@ class DB:
 
     def url_exist(self, url):
         url_exist = self.c.execute("""SELECT url_id FROM URLS WHERE url=(?);""", (url,))
-        if len(url_exist.fetchall()) > 0:
+        data = url_exist.fetchall()
+        if len(data) > 0:
             return True
         return False
 
