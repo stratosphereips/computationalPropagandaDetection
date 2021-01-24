@@ -134,92 +134,31 @@ if __name__ == "__main__":
         URLs.store_title(args.link, main_title)
         URLs.set_query_datetime(args.link, datetime.now())
 
-        # Search by URLs
+        # Search by URLs, and by levels
         urls_to_search_by_level = {}
         urls_to_search_by_level[0] = [args.link]
         for level in range(args.number_of_levels):
             try:
                 for url in urls_to_search_by_level[level]:
-                    print(f"\n{Fore.CYAN}== Level {level}. Google search for pages with a link to {url}{Style.RESET_ALL}")
-                    google_results_urls = search_google(url,
-                                                        URLs,
-                                                        link_type='link')
+                    print(f"\n{Fore.CYAN}== Level {level}. Google search by links to {url}{Style.RESET_ALL}")
+                    google_results_urls = search_google_by_link(url, URLs)
+                    print(f"\n{Fore.CYAN}== Level {level}. Google search by title as {url}{Style.RESET_ALL}")
+                    google_results_urls = search_google_by_title(main_title, url, URLs)
+
                     urls_to_search_by_level[level+1] = google_results_urls
             except KeyError:
                 # No urls in the level
                 pass
 
-        sys.exit(0)
+        # driver.quit()
 
-
-        #
-        # Second we search for results using the title of the main URL
-        #
-        print(f"\n{Fore.CYAN}== Google search sites with the same title as {main_url}{Style.RESET_ALL}")
-        # Get links to this URL (children)
-        link_type = "title"
-        # print("First lets extract Twitter data")
-        # extract_and_save_twitter_data(driver, URLs, main_title, main_url, "title")
-
-        data = trigger_api(main_title)
-        amount_of_results_retrieved = len(data)
-        amount_of_results_to_proceess = amount_of_results_retrieved - 1
-        search_date = datetime.now()
-
-        urls_to_date = {}
-        if data:
-            urls_to_date = get_dates_from_results(data)
-        else:
-            print("The API returned False because of some error. Continue with next URL")
-
-        urls = get_links_from_results(data)
-        for child_url in urls:
-            print(f"\t[{Fore.YELLOW}Result {amount_of_results_retrieved - amount_of_results_to_proceess}]{Style.RESET_ALL} Procesing URL {child_url}")
-            amount_of_results_to_proceess -= 1
-
-            # Check that the children was not seen before in this call
-            if child_url in urls_to_search:
-                logging.debug(f"\tRepeated url: {child_url}. {Fore.RED} Discarding.{Style.RESET_ALL}")
-                continue
-            if url_blacklisted(child_url):
-                if not args.dont_store_content:
-                    (content, title, content_file, publication_date) = downloadContent(child_url)
-                    if urls_to_date[child_url] is None:
-                        urls_to_date[child_url] = publication_date
-
-                if check_text_similiarity(
-                    main_content=main_content, content=content, main_url=main_url, child_url=child_url, threshold=args.urls_threshold
-                ):
-                    add_child_to_db(
-                        URLs=URLs,
-                        child_url=child_url,
-                        parent_url=main_url,
-                        search_date=search_date,
-                        publication_date=urls_to_date[child_url],
-                        link_type=link_type,
-                        content=content,
-                        title=title,
-                    )
-
-                    all_links.append([main_url, child_url])
-                    logging.info(f"\tAdding the URL {child_url}")
-            else:
-                failed_links.append(child_url)
-
-        driver.quit()
-
-        print(f"Finished with all the graph of URLs. Total number of unique links are {len(all_links)}")
-        build_a_graph(all_links, args.link)
-
-        # Stored the removed URLs in a file
-        if not os.path.exists("removed_urls"):
-            os.makedirs("removed_urls")
-        with open(os.path.join("removed_urls", get_hash_for_url(args.link)), "w") as f:
-            f.write("\n".join(failed_links))
+        # print(f"Finished with all the graph of URLs. Total number of unique links are {len(all_links)}")
+        # build_a_graph(all_links, args.link)
 
     except KeyboardInterrupt:
         # If ctrl-c is pressed, do the graph anyway
-        build_a_graph(all_links, args.link)
+        # build_a_graph(all_links, args.link)
+        pass
     except Exception as e:
         print(f"Error in main(): {e}")
         print(f"{type(e)}")
