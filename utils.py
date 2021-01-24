@@ -180,13 +180,13 @@ def get_links_from_results(data):
     return urls
 
 
-def check_text_similiarity(main_content, main_url, child_url, content, threshold):
+def check_text_similiarity(main_content, main_url, child_url, content, threshold=0.3):
     urls_distance = distance.compare_content(main_content, content)
     if urls_distance <= threshold:
-        print(f"\tThe content of {main_url} has distance with {child_url} of : {urls_distance}. {Fore.RED}Discarding.{Style.RESET_ALL}")
+        print(f"\t\t{Fore.YELLOW}Different. {Style.RESET_ALL}The content of {main_url} has distance with {child_url} of: {urls_distance}. {Fore.RED}Discarding.{Style.RESET_ALL}")
         # Consider deleting the downloaded content from disk
         return False
-    print(f"\tThe content of {main_url} has distance with {child_url} of : {urls_distance}. {Fore.BLUE}Keeping.{Style.RESET_ALL}")
+    print(f"\t\tThe content of {main_url} has distance with {child_url} of : {urls_distance}. {Fore.BLUE}Keeping.{Style.RESET_ALL}")
     return True
 
 
