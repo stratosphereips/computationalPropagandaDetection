@@ -231,3 +231,98 @@ def url_in_content(url, content, content_file):
         return False
     else:
         return False
+
+
+def process_data_from_api(data, url, URLs, link_type, content_similarity=False):
+    """
+    Receive data from SerAPI and process it
+    It can be from results by link or title
+    If we are asked to compare the content, we
+    need the parent url to retrieve its content
+    """
+    result_shown = 1
+    child_urls_found = []
+    for page in data:
+        for result in page:
+            child_url = result["link"]
+            print(f"\t{Fore.YELLOW}Result [{result_shown}] {Style.RESET_ALL} Procesing URL {child_url}")
+            result_shown += 1
+            api_publication_date = get_dates_from_api_result_data(result)
+
+            # Apply filters
+            #
+            # 1. No repeated urls
+            if URLs.url_exist(child_url):
+                print(f"\t\t{Fore.YELLOW}Repeated{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
+                continue
+
+            # 2. Filter out some URLs we dont want
+            if url_blacklisted(child_url):
+                print(f"\t\t{Fore.YELLOW}Blacklisted{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
+                continue
+            (content,
+             title,
+             content_file,
+             content_publication_date) = downloadContent(child_url)
+
+            # 3. Check similarity of content of pages
+            if content_similarity:
+                # Check the current content to the content of the parent url
+                parent_content = URLs.get_content_by_url(url)
+                if not check_text_similiarity(
+                                               main_content=parent_content,
+                                               content=content,
+                                               main_url=url,
+                                               child_url=child_url):
+                    continue
+
+            # If we dont have a publication date from the api
+            # use the one from the content
+            if not api_publication_date:
+                publication_date = content_publication_date
+            else:
+                publication_date = api_publication_date
+
+            # 3. Is the main url in the content of the page of child_url?
+            # Dont do if we are also doing content similarity since that
+            # is by title, not url
+            if not content_similarity:
+                if not url_in_content(url, content, content_file):
+                    print(f"\t\t{Fore.YELLOW}Not in content{Style.RESET_ALL}. The URL {url} is not in the content of site {child_url} {Fore.RED} Discarding.{Style.RESET_ALL}")
+                    continue
+                else:
+                    print(f"\t\tThe URL {url} IS in the content of site {child_url} {Fore.BLUE} Keeping.{Style.RESET_ALL}")
+
+            print(f"\t\tAdding to DB the URL {child_url}")
+            add_child_to_db(
+                URLs=URLs,
+                child_url=child_url,
+                parent_url=url,
+                search_date=datetime.now(),
+                publication_date=publication_date,
+                link_type=link_type,
+                content=content,
+                title=title,
+            )
+            child_urls_found.append(child_url)
+    return child_urls_found
+
+
+def add_child_to_db(URLs, child_url, parent_url, search_date, publication_date, link_type, content, title):
+    """
+    Add a webpage to the DB as child of a parent URL
+    """
+    # Add the children to the DB
+    URLs.set_child(parent_url, child_url, search_date, link_type)
+    # Store the date of the publication of the URL
+    formated_date = convert_date(publication_date)
+    URLs.set_publication_datetime(child_url, formated_date)
+    # Add this url to the DB. Since we are going to search for it
+    URLs.add_url(child_url)
+    # Store the content (after storing the child)
+    URLs.store_content(child_url, content)
+    # Store the search date
+    URLs.set_query_datetime(child_url, search_date)
+    URLs.store_title(child_url, title)
+
+
