@@ -11,6 +11,7 @@ from utils import (
     add_child_to_db,
 )
 from serpapi_utils import downloadContent, trigger_api, process_data_from_api
+from twitter_api import Firefox
 
 # Init colorama
 init_colorama()
@@ -122,7 +123,7 @@ if __name__ == "__main__":
     # elif args.verbosity >= 1:
     # logging.basicConfig(level=logging.INFO)
 
-    # driver = Firefox()
+    driver = Firefox()
 
     try:
 
@@ -144,17 +145,30 @@ if __name__ == "__main__":
         for level in range(args.number_of_levels):
             try:
                 for url in urls_to_search_by_level[level]:
-                    print(f"\n{Fore.CYAN}== Level {level}. Google search by links to {url}{Style.RESET_ALL}")
+                    title = URLs.get_title_by_url(url)
+                    print(f"\n{Fore.CYAN}== Level {level}. Google search by LINKS to {url}{Style.RESET_ALL}")
                     google_results_urls = search_google_by_link(url, URLs)
-                    print(f"\n{Fore.CYAN}== Level {level}. Google search by title as {url}{Style.RESET_ALL}")
-                    google_results_urls_title = search_google_by_title(main_title, url, URLs)
+                    print(f"\n{Fore.CYAN}== Level {level}. Google search by TITLE as {title}{Style.RESET_ALL}")
+                    google_results_urls_title = search_google_by_title(title, url, URLs)
+
+                    print(f"\n{Fore.BLUE}== Level {level}. Twitter search by title as {title}{Style.RESET_ALL}")
+                    twitter_results_urls_title = extract_and_save_twitter_data(driver, URLs, title, url, "title")
+
+                    print(f"\n{Fore.BLUE}== Level {level}. Twitter search by LINKS as {url}{Style.RESET_ALL}")
+                    twitter_results_urls_title = extract_and_save_twitter_data(driver, URLs, url, url, "link")
+
+                    print(f"\n{Fore.GREEN}== Level {level}. Twitter search by title as {title}{Style.RESET_ALL}")
+                    twitter_results_urls_title = extract_and_save_twitter_data(driver, URLs, title, url, "title")
+
+                    print(f"\n{Fore.GREEN}== Level {level}. Twitter search by LINKS as {url}{Style.RESET_ALL}")
+                    twitter_results_urls_title = extract_and_save_twitter_data(driver, URLs, url, url, "link")
 
                     urls_to_search_by_level[level + 1] = google_results_urls
             except KeyError:
                 # No urls in the level
                 pass
 
-        # driver.quit()
+        driver.quit()
 
         # print(f"Finished with all the graph of URLs. Total number of unique links are {len(all_links)}")
         # build_a_graph(all_links, args.link)
