@@ -17,12 +17,13 @@ class VKDB:
         self.conn.commit()
 
     def add_values(self, values):
-        (url, post_id, user_id, from_id, date, text, comments_count, likes_count, reposts_count, views_count) = values
+        (url, post_id, user_id, from_id, date, text, comments_count, likes_count, reposts_count, views_count, is_private) = values
         if not self.url_exist(url):
             self.c.execute(
-                """INSERT INTO SEARCH_VK(url, post_id, user_id,from_id, date, text,comments_count, likes_count, reposts_count, views_count ) \
+                """INSERT INTO SEARCH_VK(url, post_id, user_id,from_id, date, text,comments_count, likes_count, \
+                reposts_count, views_count, is_private ) \
                 VALUES  (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) """,
-                (url, post_id, user_id, from_id, date, text, comments_count, likes_count, reposts_count, views_count),
+                (url, post_id, user_id, from_id, date, text, comments_count, likes_count, reposts_count, views_count, is_private),
             )
             self.commit()
 
@@ -53,6 +54,9 @@ def get_vk_data(
     for report in reports["items"]:
         user_id = report["owner_id"]
         from_id = report["from_id"]
+        is_private = 1
+        if user_id < 0:
+            is_private = 0
         post_id = report["id"]
         date = datetime.utcfromtimestamp(report["date"]).strftime("%Y-%m-%d %H:%M:%S")
         text = report["text"]
@@ -61,7 +65,7 @@ def get_vk_data(
         reposts_count = get_number_of_intereaction(report, "reposts")
         views_count = get_number_of_intereaction(report, "views")
         url = f"https://vk.com/id{user_id}?w=wall{user_id}_{post_id}"
-        values = (url, post_id, user_id, from_id, date, text, comments_count, likes_count, reposts_count, views_count)
+        values = (url, post_id, user_id, from_id, date, text, comments_count, likes_count, reposts_count, views_count, is_private)
         vkdb.add_values(values)
         vk_info.append({"link": url, "text": text, "published_date": date})
 

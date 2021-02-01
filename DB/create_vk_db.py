@@ -17,7 +17,8 @@ def create_db(file_path):
         likes_count INT,
         reposts_count INT,
         views_count INT,
-        text TEXT
+        text TEXT,
+        is_private INT
     );"""
     )
     # Save (commit) the changes
