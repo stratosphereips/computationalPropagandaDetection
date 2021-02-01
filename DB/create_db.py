@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import sqlite3
+import os
 
 
 def create_main_db(file_path):
@@ -57,7 +58,7 @@ def create_vk_db(file_path):
         comments_count INT,
         likes_count INT,
         reposts_count INT,
-        views_count INT,
+        mark_as_ad_count INT,
         text TEXT,
         is_private INT
     );"""
@@ -70,5 +71,7 @@ def create_vk_db(file_path):
 
 
 if __name__ == "__main__":
-    create_main_db(file_path="DB/databases/propaganda.db")
-    create_vk_db(file_path="DB/databases/ mvk.db")
+    basepath = "DB/databases"
+    os.makedirs(basepath)
+    create_main_db(file_path=os.path.join(basepath, "propaganda.db"))
+    create_vk_db(file_path=os.path.join(basepath, "vk.db"))

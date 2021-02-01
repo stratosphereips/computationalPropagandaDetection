@@ -12,6 +12,7 @@ from utils import (
 )
 from serpapi_utils import downloadContent, trigger_api, process_data_from_api
 from twitter_api import Firefox
+from vk_api import get_vk_data
 
 # Init colorama
 init_colorama()
@@ -48,6 +49,14 @@ def extract_and_save_twitter_data(driver, URLs, searched_string, parent_url, typ
         result["parent_url"] = parent_url
         result["type_of_link"] = type_of_link
     return update_urls_with_results(URLs, twitter_result)
+
+
+def extract_and_save_vk_data(URLs, searched_string, parent_url, type_of_link):
+    vk_results = get_vk_data(searched_string)
+    for result in vk_results:
+        result["parent_url"] = parent_url
+        result["type_of_link"] = type_of_link
+    return update_urls_with_results(URLs, vk_results)
 
 
 def search_google_by_title(title, url, URLs):
@@ -137,6 +146,7 @@ if __name__ == "__main__":
         # Store the main URL as an url in our DB
         URLs.add_url(args.link, int(args.is_propaganda))
         (main_content, main_title, content_file, publication_date) = downloadContent(args.link)
+
         URLs.store_content(args.link, main_content)
         URLs.store_title(args.link, main_title)
         URLs.set_query_datetime(args.link, datetime.now())
@@ -148,22 +158,21 @@ if __name__ == "__main__":
             try:
                 for url in urls_to_search_by_level[level]:
                     title = URLs.get_title_by_url(url)
+                    print(url, title)
                     print(f"\n{Fore.CYAN}== Level {level}. Google search by LINKS to {url}{Style.RESET_ALL}")
                     google_results_urls = search_google_by_link(url, URLs)
-                    print(f"\n{Fore.CYAN}== Level {level}. Google search by TITLE as {title}{Style.RESET_ALL}")
-                    google_results_urls_title = search_google_by_title(title, url, URLs)
-
-                    print(f"\n{Fore.BLUE}== Level {level}. Twitter search by title as {title}{Style.RESET_ALL}")
-                    twitter_results_urls_title = extract_and_save_twitter_data(driver, URLs, title, url, "title")
-
+                    print(f"\n{Fore.GREEN}== Level {level}. VK search by LINKS as {url}{Style.RESET_ALL}")
+                    vk_results_urls = extract_and_save_vk_data(URLs, url, url, "link")
                     print(f"\n{Fore.BLUE}== Level {level}. Twitter search by LINKS as {url}{Style.RESET_ALL}")
-                    twitter_results_urls_title = extract_and_save_twitter_data(driver, URLs, url, url, "link")
+                    twitter_results_urls = extract_and_save_twitter_data(driver, URLs, url, url, "link")
 
-                    print(f"\n{Fore.GREEN}== Level {level}. Twitter search by title as {title}{Style.RESET_ALL}")
-                    twitter_results_urls_title = extract_and_save_twitter_data(driver, URLs, title, url, "title")
-
-                    print(f"\n{Fore.GREEN}== Level {level}. Twitter search by LINKS as {url}{Style.RESET_ALL}")
-                    twitter_results_urls_title = extract_and_save_twitter_data(driver, URLs, url, url, "link")
+                    if title is not None:
+                        print(f"\n{Fore.CYAN}== Level {level}. Google search by TITLE as {title}{Style.RESET_ALL}")
+                        google_results_urls_title = search_google_by_title(title, url, URLs)
+                        print(f"\n{Fore.BLUE}== Level {level}. Twitter search by title as {title}{Style.RESET_ALL}")
+                        twitter_results_urlslts_urls_title = extract_and_save_twitter_data(driver, URLs, title, url, "title")
+                        print(f"\n{Fore.GREEN}== Level {level}. VK search by title as {title}{Style.RESET_ALL}")
+                        vk_results_urls_title = extract_and_save_vk_data(URLs, title, url, "title")
 
                     urls_to_search_by_level[level + 1] = google_results_urls
             except KeyError:
