@@ -1,5 +1,7 @@
 from selenium import webdriver
 import time
+from datetime import datetime
+
 
 
 class Firefox:
@@ -11,8 +13,9 @@ class Firefox:
 
     def get_twitter_data(self, searched_phrase):
         url = f"https://twitter.com/search?q={searched_phrase}&src=typed_query"
-        twitter_info = []
+        twitter_results = []
         seen_urls = set()
+        search_date = datetime.now()
         self.driver.get(url)
 
         time.sleep(1.2)
@@ -22,19 +25,26 @@ class Firefox:
             for i in range(1, 10):  # and take first 10 links for each scroll
                 try:
                     date_element = self.driver.find_element_by_xpath(
-                        f"/html/body/div/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[{i}]/div/div/article/div/div/div/div[2]/div[2]/div[1]/div/div/div[1]/a/time"
+                        f"/html/body/div/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[{i}]"
+                        f"/div/div/article/div/div/div/div[2]/div[2]/div[1]/div/div/div[1]/a/time"
                     )
-                    datetime = date_element.get_attribute("datetime")
+                    publication_date = date_element.get_attribute("datetime")
                     link_element = self.driver.find_element_by_xpath(
-                        f"/html/body/div/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[{i}]/div/div/article/div/div/div/div[2]/div[2]/div[1]/div/div/div[1]/a"
+                        f"/html/body/div/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[{i}]"
+                        f"/div/div/article/div/div/div/div[2]/div[2]/div[1]/div/div/div[1]/a"
                     )
                     text_element = self.driver.find_element_by_xpath(
-                        f"/html/body/div/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[{i}]/div/div/article/div/div/div/div[2]/div[2]/div[2]/div[1]/div"
+                        f"/html/body/div/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[{i}]"
+                        f"/div/div/article/div/div/div/div[2]/div[2]/div[2]/div[1]/div"
                     )
                     link = link_element.get_attribute("href")
                     if link not in seen_urls:
                         seen_urls.add(link)
-                        twitter_info.append({"link": link, "text": text_element.text, "published_date": datetime})
+                        twitter_results.append({"child_url": link,
+                                                "search_date": search_date,
+                                                "publication_date": publication_date,
+                                                "content": text_element.text,
+                                                "title": None})
                         # print(f"{number_of_extracting_tweet} was successful", datetime, link)
                         # print("--------------")
                     else:
@@ -43,9 +53,9 @@ class Firefox:
                 except:
                     # Sometimes there are ads
                     pass
-            if len(twitter_info) == 0:  # if we didnt extract in the first scroll, there is nothing there
+            if len(twitter_results) == 0:  # if we didnt extract in the first scroll, there is nothing there
                 break
 
             self.driver.execute_script("window.scrollTo(0, 1080)")
         print(f"Total extracted tweets {len(seen_urls)}: {seen_urls}")
-        return twitter_info
+        return twitter_results
