@@ -3,7 +3,6 @@ import time
 from datetime import datetime
 
 
-
 class Firefox:
     def __init__(self):
         self.driver = webdriver.Firefox()
@@ -40,11 +39,15 @@ class Firefox:
                     link = link_element.get_attribute("href")
                     if link not in seen_urls:
                         seen_urls.add(link)
-                        twitter_results.append({"child_url": link,
-                                                "search_date": search_date,
-                                                "publication_date": publication_date,
-                                                "content": text_element.text,
-                                                "title": None})
+                        twitter_results.append(
+                            {
+                                "child_url": link,
+                                "search_date": search_date,
+                                "publication_date": publication_date,
+                                "content": text_element.text,
+                                "title": None,
+                            }
+                        )
                         # print(f"{number_of_extracting_tweet} was successful", datetime, link)
                         # print("--------------")
                     else:

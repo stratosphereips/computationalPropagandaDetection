@@ -133,7 +133,7 @@ def url_blacklisted(url):
     # Remove homepages
     # http://te.co has 3 splits
     # http://te.co/ has 4 splits
-    #if len(url.split("/")) == 3 or (len(url.split("/")) == 4 and url[-1] == "/"):
+    # if len(url.split("/")) == 3 or (len(url.split("/")) == 4 and url[-1] == "/"):
     #    return True
 
     # Delete all '.xml' pages
@@ -183,8 +183,10 @@ def get_links_from_results(data):
 def check_text_similiarity(main_content, main_url, child_url, content, threshold=0.3):
     urls_distance = distance.compare_content(main_content, content)
     if urls_distance <= threshold:
-        print(f"\t\t{Fore.YELLOW}Different. {Style.RESET_ALL}The content of {main_url} "
-              f"has distance with {child_url} of: {urls_distance}. {Fore.RED}Discarding.{Style.RESET_ALL}")
+        print(
+            f"\t\t{Fore.YELLOW}Different. {Style.RESET_ALL}The content of {main_url} "
+            f"has distance with {child_url} of: {urls_distance}. {Fore.RED}Discarding.{Style.RESET_ALL}"
+        )
         # Consider deleting the downloaded content from disk
         return False
     print(f"\t\tThe content of {main_url} has distance with {child_url} of : {urls_distance}. {Fore.BLUE}Keeping.{Style.RESET_ALL}")
@@ -250,5 +252,3 @@ def add_child_to_db(URLs, child_url, parent_url, search_date, publication_date, 
     # Store the search date
     URLs.set_query_datetime(child_url, search_date)
     URLs.store_title(child_url, title)
-
-

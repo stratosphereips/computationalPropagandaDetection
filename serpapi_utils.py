@@ -182,37 +182,37 @@ def parse_date_from_string(text):
 
                 if parsed_date is None:
                     # Is it like 2020-03-26T01:02:12+03:00?
-                    year_first = text[y_position: y_position + 25]
+                    year_first = text[y_position : y_position + 25]
                     parsed_date = __parse_date_string(year_first, control_min_date)
 
                 if parsed_date is None:
                     # Is it like 2020/03/02? (slash doesnt matter)
-                    year_first = text[y_position: y_position + 10]
+                    year_first = text[y_position : y_position + 10]
                     parsed_date = __parse_date_string(year_first, control_min_date_naive)
 
                 if parsed_date is None:
                     # Is it like 03/02/2020?
-                    year_last = text[y_position - 6: y_position + 4]
+                    year_last = text[y_position - 6 : y_position + 4]
                     parsed_date = __parse_date_string(year_last, control_min_date_naive)
 
                 if parsed_date is None:
                     # Is it like 'Mar. 27th, 2020'?
-                    text_type_1 = text[y_position - 11: y_position + 4]
+                    text_type_1 = text[y_position - 11 : y_position + 4]
                     parsed_date = __parse_date_string(text_type_1, control_min_date_naive)
 
                 if parsed_date is None:
                     # Is it like 'November 10 2020'
-                    text_type_1 = text[y_position - 12: y_position + 4]
+                    text_type_1 = text[y_position - 12 : y_position + 4]
                     parsed_date = __parse_date_string(text_type_1, control_min_date_naive)
 
                 if parsed_date is None:
                     # Is it like '27 марта 2020 г.'
-                    text_type_1 = text[y_position - 9: y_position + 4]
+                    text_type_1 = text[y_position - 9 : y_position + 4]
                     parsed_date = __parse_date_string(text_type_1, control_min_date_naive)
 
                 if parsed_date is None:
                     # Is it like 2020/03/25?
-                    text_type_1 = text[y_position: y_position + 9]
+                    text_type_1 = text[y_position : y_position + 9]
                     parsed_date = __parse_date_string(text_type_1, control_min_date_naive)
 
     return parsed_date
@@ -319,20 +319,13 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False):
             if url_blacklisted(child_url):
                 print(f"\t\t{Fore.YELLOW}Blacklisted{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
                 continue
-            (content,
-             title,
-             content_file,
-             content_publication_date) = downloadContent(child_url)
+            (content, title, content_file, content_publication_date) = downloadContent(child_url)
 
             # 3. Check similarity of content of pages
             if content_similarity:
                 # Check the current content to the content of the parent url
                 parent_content = URLs.get_content_by_url(url)
-                if not check_text_similiarity(
-                                               main_content=parent_content,
-                                               content=content,
-                                               main_url=url,
-                                               child_url=child_url):
+                if not check_text_similiarity(main_content=parent_content, content=content, main_url=url, child_url=child_url):
                     continue
 
             # If we dont have a publication date from the api
@@ -347,14 +340,24 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False):
             # is by title, not url
             if not content_similarity:
                 if not url_in_content(url, content, content_file):
-                    print(f"\t\t{Fore.YELLOW}Not in content{Style.RESET_ALL}. The URL {url} is not in the content "
-                          f"of site {child_url} {Fore.RED} Discarding.{Style.RESET_ALL}")
+                    print(
+                        f"\t\t{Fore.YELLOW}Not in content{Style.RESET_ALL}. The URL {url} is not in the content "
+                        f"of site {child_url} {Fore.RED} Discarding.{Style.RESET_ALL}"
+                    )
                     continue
                 else:
                     print(f"\t\tThe URL {url} IS in the content of site {child_url} {Fore.BLUE} Keeping.{Style.RESET_ALL}")
 
             print(f"\t\tAdding to DB the URL {child_url}")
-            results.append({"child_url" : child_url, "parent_url": url, "search_date": datetime.now(),
-                             "publication_date": publication_date, "link_type": link_type, "content": content,
-                             "title": title})
+            results.append(
+                {
+                    "child_url": child_url,
+                    "parent_url": url,
+                    "search_date": datetime.now(),
+                    "publication_date": publication_date,
+                    "link_type": link_type,
+                    "content": content,
+                    "title": title,
+                }
+            )
     return results
