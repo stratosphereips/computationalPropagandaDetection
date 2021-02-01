@@ -10,7 +10,7 @@ from colorama import Fore, Style
 import dateutil.parser
 import re
 import locale
-from datetime import date
+from utils import url_in_content, check_text_similiarity, get_dates_from_api_result_data, url_blacklisted
 
 
 # Read the serapi api key
@@ -42,8 +42,10 @@ def trigger_api(search_leyword):
     "displayed_link": "www.geopolitica.ru › article › covid-...",
     "thumbnail": null,
     "date": "Apr 5, 2020",
-    "snippet": "... проект ID2020 (почитать о нем можно здесь - https://www.fondsk.ru/news/2020/03/25/borba-s-koronavirusom-i-bolshoj-brat-50441.html).",
-    "cached_page_link": "https://webcache.googleusercontent.com/search?q=cache:rrzBOTKH5BsJ:https://www.geopolitica.ru/article/covid-19-i-mishel-fuko-nekotorye-mysli-vsluh+&cd=8&hl=en&ct=clnk&gl=us"
+    "snippet": "... проект ID2020 (почитать о нем можно здесь -
+    https://www.fondsk.ru/news/2020/03/25/borba-s-koronavirusom-i-bolshoj-brat-50441.html).",
+    "cached_page_link": "https://webcache.googleusercontent.com/search?q=cache:rrzBOTKH5BsJ:
+    https://www.geopolitica.ru/article/covid-19-i-mishel-fuko-nekotorye-mysli-vsluh+&cd=8&hl=en&ct=clnk&gl=us"
 
     """
     try:
@@ -288,3 +290,71 @@ def downloadContent(url):
         return (False, False, False)
 
     return (text_content, title, file_name, publication_date)
+
+
+def process_data_from_api(data, url, URLs, link_type, content_similarity=False):
+    """
+    Receive data from SerAPI and process it
+    It can be from results by link or title
+    If we are asked to compare the content, we
+    need the parent url to retrieve its content
+    """
+    result_shown = 1
+    results = []
+    for page in data:
+        for result in page:
+            child_url = result["link"]
+            print(f"\t{Fore.YELLOW}Result [{result_shown}] {Style.RESET_ALL} Procesing URL {child_url}")
+            result_shown += 1
+            api_publication_date = get_dates_from_api_result_data(result)
+
+            # Apply filters
+            #
+            # 1. No repeated urls
+            if URLs.url_exist(child_url):
+                print(f"\t\t{Fore.YELLOW}Repeated{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
+                continue
+
+            # 2. Filter out some URLs we dont want
+            if url_blacklisted(child_url):
+                print(f"\t\t{Fore.YELLOW}Blacklisted{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
+                continue
+            (content,
+             title,
+             content_file,
+             content_publication_date) = downloadContent(child_url)
+
+            # 3. Check similarity of content of pages
+            if content_similarity:
+                # Check the current content to the content of the parent url
+                parent_content = URLs.get_content_by_url(url)
+                if not check_text_similiarity(
+                                               main_content=parent_content,
+                                               content=content,
+                                               main_url=url,
+                                               child_url=child_url):
+                    continue
+
+            # If we dont have a publication date from the api
+            # use the one from the content
+            if not api_publication_date:
+                publication_date = content_publication_date
+            else:
+                publication_date = api_publication_date
+
+            # 3. Is the main url in the content of the page of child_url?
+            # Dont do if we are also doing content similarity since that
+            # is by title, not url
+            if not content_similarity:
+                if not url_in_content(url, content, content_file):
+                    print(f"\t\t{Fore.YELLOW}Not in content{Style.RESET_ALL}. The URL {url} is not in the content "
+                          f"of site {child_url} {Fore.RED} Discarding.{Style.RESET_ALL}")
+                    continue
+                else:
+                    print(f"\t\tThe URL {url} IS in the content of site {child_url} {Fore.BLUE} Keeping.{Style.RESET_ALL}")
+
+            print(f"\t\tAdding to DB the URL {child_url}")
+            results.append({"child_url" : child_url, "parent_url": url, "search_date": datetime.now(),
+                             "publication_date": publication_date, "link_type": link_type, "content": content,
+                             "title": title})
+    return results
