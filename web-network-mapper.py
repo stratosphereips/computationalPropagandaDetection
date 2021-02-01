@@ -22,6 +22,8 @@ f = open("serapi.key")
 SERAPI_KEY = f.readline()
 f.close()
 
+PROPAGANDA_DB_PATH = "DB/databases/propaganda.db"
+
 
 def update_urls_with_results(URLs, results):
     child_urls_found = []
@@ -130,7 +132,7 @@ if __name__ == "__main__":
         print(f"Searching the distribution graph of URL {args.link}. Using {args.number_of_levels} levels.\n")
 
         # Get the URLs object
-        URLs = URLs("DB/propaganda.db", args.verbosity)
+        URLs = URLs(PROPAGANDA_DB_PATH, args.verbosity)
 
         # Store the main URL as an url in our DB
         URLs.add_url(args.link, int(args.is_propaganda))
