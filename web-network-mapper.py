@@ -37,7 +37,7 @@ def update_urls_with_results(URLs, results):
             search_date=result["search_date"],
             publication_date=result["publication_date"],
             content=result["content"],
-            link_type=result["title"],
+            link_type=result["link_type"],
             title=result["title"],
         )
     return child_urls_found
@@ -47,7 +47,7 @@ def extract_and_save_twitter_data(driver, URLs, searched_string, parent_url, typ
     twitter_result = driver.get_twitter_data(searched_string)
     for result in twitter_result:
         result["parent_url"] = parent_url
-        result["type_of_link"] = type_of_link
+        result["link_type"] = type_of_link
     return update_urls_with_results(URLs, twitter_result)
 
 
@@ -55,7 +55,7 @@ def extract_and_save_vk_data(URLs, searched_string, parent_url, type_of_link):
     vk_results = get_vk_data(searched_string)
     for result in vk_results:
         result["parent_url"] = parent_url
-        result["type_of_link"] = type_of_link
+        result["link_type"] = type_of_link
     return update_urls_with_results(URLs, vk_results)
 
 
@@ -91,6 +91,7 @@ def search_google_by_link(url, URLs):
     # For each url in the results do
     if data:
         google_results = process_data_from_api(data, url, URLs, link_type="link")
+        print(len(google_results_urls))
         child_urls_found = update_urls_with_results(URLs, google_results)
 
         # Special situation to extract date of the main url
@@ -158,23 +159,29 @@ if __name__ == "__main__":
             try:
                 for url in urls_to_search_by_level[level]:
                     title = URLs.get_title_by_url(url)
-                    print(url, title)
+                    all_urls_by_urls, all_urls_by_titles = [], []
                     print(f"\n{Fore.CYAN}== Level {level}. Google search by LINKS to {url}{Style.RESET_ALL}")
                     google_results_urls = search_google_by_link(url, URLs)
                     print(f"\n{Fore.GREEN}== Level {level}. VK search by LINKS as {url}{Style.RESET_ALL}")
                     vk_results_urls = extract_and_save_vk_data(URLs, url, url, "link")
                     print(f"\n{Fore.BLUE}== Level {level}. Twitter search by LINKS as {url}{Style.RESET_ALL}")
                     twitter_results_urls = extract_and_save_twitter_data(driver, URLs, url, url, "link")
+                    all_urls_by_urls.extend(vk_results_urls)
+                    all_urls_by_urls.extend(twitter_results_urls)
+                    all_urls_by_urls.extend(google_results_urls)
 
                     if title is not None:
                         print(f"\n{Fore.CYAN}== Level {level}. Google search by TITLE as {title}{Style.RESET_ALL}")
                         google_results_urls_title = search_google_by_title(title, url, URLs)
                         print(f"\n{Fore.BLUE}== Level {level}. Twitter search by title as {title}{Style.RESET_ALL}")
-                        twitter_results_urlslts_urls_title = extract_and_save_twitter_data(driver, URLs, title, url, "title")
+                        twitter_results_urls_title = extract_and_save_twitter_data(driver, URLs, title, url, "title")
                         print(f"\n{Fore.GREEN}== Level {level}. VK search by title as {title}{Style.RESET_ALL}")
                         vk_results_urls_title = extract_and_save_vk_data(URLs, title, url, "title")
+                        all_urls_by_titles.extend(google_results_urls_title)
+                        all_urls_by_titles.extend(twitter_results_urls_title)
+                        all_urls_by_titles.extend(vk_results_urls_title)
 
-                    urls_to_search_by_level[level + 1] = google_results_urls
+                    urls_to_search_by_level[level + 1] = all_urls_by_urls
             except KeyError:
                 # No urls in the level
                 pass
