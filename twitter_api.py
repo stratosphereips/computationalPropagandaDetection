@@ -17,9 +17,9 @@ class Firefox:
         search_date = datetime.now()
         self.driver.get(url)
 
-        time.sleep(1.2)
+        time.sleep(3)
         for scrolling_number in range(5):  # we will scroll 5 times full screen
-            time.sleep(1)
+            time.sleep(1.5)
             # print(f"Scrolling number {scrolling_number}")
             for i in range(1, 10):  # and take first 10 links for each scroll
                 try:
