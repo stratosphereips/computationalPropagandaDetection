@@ -5,19 +5,12 @@ import argparse
 from urls import URLs
 from colorama import init as init_colorama
 from colorama import Fore, Style
-import logging
-from twitter_api import Firefox
 from utils import (
-    url_blacklisted,
-    url_in_content,
     convert_date,
-    get_links_from_results,
     get_dates_from_api_result_data,
-    check_text_similiarity,
-    process_data_from_api,
     add_child_to_db,
 )
-from serpapi_utils import downloadContent, trigger_api
+from serpapi_utils import downloadContent, trigger_api, process_data_from_api
 
 # Init colorama
 init_colorama()
@@ -29,20 +22,29 @@ SERAPI_KEY = f.readline()
 f.close()
 
 
-def extract_and_save_twitter_data(driver, URLs, searched_string, parent_url, type_of_link):
-    twitter_info = driver.get_twitter_data(searched_string)
-    search_date = datetime.now()
-    for one_tweet in twitter_info:
+def update_urls_with_results(URLs, results):
+    child_urls_found = []
+    for result in results:
+        child_urls_found.append(result["child_url"])
         add_child_to_db(
             URLs=URLs,
-            child_url=one_tweet["link"],
-            parent_url=parent_url,
-            search_date=search_date,
-            publication_date=one_tweet["published_date"],
-            content=one_tweet["text"],
-            link_type=type_of_link,
-            title=None,
+            child_url=result["child_url"],
+            parent_url=result["parent_url"],
+            search_date=result["search_date"],
+            publication_date=result["publication_date"],
+            content=result["content"],
+            link_type=result["title"],
+            title=result["title"],
         )
+    return child_urls_found
+
+
+def extract_and_save_twitter_data(driver, URLs, searched_string, parent_url, type_of_link):
+    twitter_result = driver.get_twitter_data(searched_string)
+    for result in twitter_result:
+        result["parent_url"] = parent_url
+        result["type_of_link"] = type_of_link
+    return update_urls_with_results(URLs, twitter_result)
 
 
 def search_google_by_title(title, url, URLs):
@@ -56,12 +58,11 @@ def search_google_by_title(title, url, URLs):
     data, amount_of_results = trigger_api(title)
 
     # For each url in the results do
+    child_urls_found = []
     if data:
-        child_urls_found = process_data_from_api(data,
-                                                 url,
-                                                 URLs,
-                                                 link_type='title',
-                                                 content_similarity=True)
+        google_results = process_data_from_api(data, url, URLs, link_type="title", content_similarity=True)
+        child_urls_found = update_urls_with_results(URLs, google_results)
+
     return child_urls_found
 
 
@@ -74,13 +75,11 @@ def search_google_by_link(url, URLs):
     """
     # Use API to get links to this URL
     data, amount_of_results = trigger_api(url)
-
+    child_urls_found = []
     # For each url in the results do
     if data:
-        child_urls_found = process_data_from_api(data,
-                                                 url,
-                                                 URLs,
-                                                 link_type='link')
+        google_results = process_data_from_api(data, url, URLs, link_type="link")
+        child_urls_found = update_urls_with_results(URLs, google_results)
 
         # Special situation to extract date of the main url
         # from the API. This is not available after asking
@@ -93,8 +92,9 @@ def search_google_by_link(url, URLs):
                     main_url_publication_date = get_dates_from_api_result_data(result)
                     formated_date = convert_date(main_url_publication_date)
                     URLs.set_publication_datetime(url, formated_date)
+                    break
 
-        return child_urls_found
+    return child_urls_found
 
 
 if __name__ == "__main__":
@@ -107,16 +107,20 @@ if __name__ == "__main__":
     parser.add_argument("-c", "--dont_store_content", help="Do not store the content of pages to disk", action="store_true", default=False)
     parser.add_argument("-v", "--verbosity", help="Verbosity level", type=int, default=0)
     parser.add_argument(
-        "-u", "--urls_threshold", help="Not Working this parameter now. Threshold distance between the content of two pages when searching with title", type=int, default=0.3
+        "-u",
+        "--urls_threshold",
+        help="Not Working this parameter now. Threshold distance between the content of two pages when searching with title",
+        type=int,
+        default=0.3,
     )
     args = parser.parse_args()
     main_url = args.link
 
     # Always check the largest verbosity first
-    #if args.verbosity >= 2:
-        #logging.basicConfig(level=logging.DEBUG)
-    #elif args.verbosity >= 1:
-        #logging.basicConfig(level=logging.INFO)
+    # if args.verbosity >= 2:
+    # logging.basicConfig(level=logging.DEBUG)
+    # elif args.verbosity >= 1:
+    # logging.basicConfig(level=logging.INFO)
 
     # driver = Firefox()
 
@@ -143,9 +147,9 @@ if __name__ == "__main__":
                     print(f"\n{Fore.CYAN}== Level {level}. Google search by links to {url}{Style.RESET_ALL}")
                     google_results_urls = search_google_by_link(url, URLs)
                     print(f"\n{Fore.CYAN}== Level {level}. Google search by title as {url}{Style.RESET_ALL}")
-                    google_results_urls = search_google_by_title(main_title, url, URLs)
+                    google_results_urls_title = search_google_by_title(main_title, url, URLs)
 
-                    urls_to_search_by_level[level+1] = google_results_urls
+                    urls_to_search_by_level[level + 1] = google_results_urls
             except KeyError:
                 # No urls in the level
                 pass
