@@ -106,7 +106,8 @@ class DB:
         """
         Function which return edges in form of [from_url, to_url] of subtree, where root of the tree is main url.
         :param main_url: the root of the tree
-        :return: Dictionary of levels, each with a list of edges in form of [from_url, to_url]. Example: { [0]:[(url1, url2), (url1, url3)], [1]:[(url2, url4), (url2, url5)] }
+        :return: Dictionary of levels, each with a list of edges in form of [from_url, to_url].
+        Example: { [0]:[(url1, url2), (url1, url3)], [1]:[(url2, url4), (url2, url5)] }
         """
         main_id = self.get_url_id(main_url)  # id of this url in DB
         # visited_parents = [main_id]  # list of parent ids which already visited
@@ -174,6 +175,12 @@ class DB:
         child_id = self.get_url_id(child_url)
         parent_id = self.get_url_id(parent_url)
         return self.get_date_of_link_by_ids(parent_id=parent_id, child_id=child_id)
+
+    def get_url_by_title(self, url):
+        (title,) = self.c.execute("""SELECT TITLE FROM URLS WHERE url=(?)""", (url,)).fetchall()[0]
+        if len(title) > 0:
+            return title
+        return None
 
 
 if __name__ == "__main__":

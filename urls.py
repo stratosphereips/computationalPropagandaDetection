@@ -68,3 +68,6 @@ class URLs:
 
     def get_content_by_url(self, url):
         return self.db.get_content_by_url(url)
+
+    def get_title_by_url(self, url):
+        return self.db.get_url_by_title(url)
