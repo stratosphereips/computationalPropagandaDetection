@@ -11,3 +11,4 @@ results*.json
 *.pyc
 .idea/
 logs
+*gecko*
