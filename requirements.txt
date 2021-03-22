@@ -1,7 +1,9 @@
+selenium
+lxml
+vk
 googlesearch
-requests
-graphviz
-networkx
 colorama
-PyPDF2
-textract
+pypdf2
+python-Levenshtein
+python-dateutil
+bs4
