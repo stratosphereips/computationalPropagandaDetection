@@ -1,4 +1,5 @@
-from serpapi.google_search_results import GoogleSearchResults
+#from serpapi.google_search_results import GoogleSearchResults
+from serpapi import GoogleSearch
 import json
 import requests
 import os
@@ -57,7 +58,7 @@ def trigger_api(search_leyword):
         all_results = []
 
         # Get first results
-        client = GoogleSearchResults(params)
+        client = GoogleSearch(params)
         results = client.get_dict()
 
         # Store this batch of results in the final list
@@ -90,7 +91,7 @@ def trigger_api(search_leyword):
                 "start": str(amount_of_results_so_far + 1),
                 "api_key": SERAPI_KEY,
             }
-            client = GoogleSearchResults(params)
+            client = GoogleSearch(params)
             new_results = client.get_dict()
             # Store this batch of results in the final list
             try:
