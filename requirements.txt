@@ -7,3 +7,5 @@ pypdf2
 python-Levenshtein
 python-dateutil
 bs4
+networkx
+matplotlib
