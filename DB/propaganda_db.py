@@ -178,7 +178,7 @@ class DB:
 
     def get_url_by_title(self, url):
         (title,) = self.c.execute("""SELECT TITLE FROM URLS WHERE url=(?)""", (url,)).fetchall()[0]
-        if len(title) > 0:
+        if title and len(title) > 0:
             return title
         return None
 
