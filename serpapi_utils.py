@@ -1,4 +1,3 @@
-#from serpapi.google_search_results import GoogleSearchResults
 from serpapi import GoogleSearch
 import json
 import requests
@@ -255,7 +254,7 @@ def downloadContent(url):
         # Download up to 5MB per page
         headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
         # Timeout waiting for an answer is 15 seconds
-        page_content = requests.get(url, timeout=15, headers=headers)
+        page_content = requests.get(url, timeout=10, headers=headers)
         text_content = page_content.text
         tree = fromstring(page_content.content)
         title = tree.findtext(".//title")
