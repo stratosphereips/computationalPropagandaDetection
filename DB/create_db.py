@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 import sqlite3
+import os
 
 
-def create_db(file_path):
+def create_main_db(file_path):
     conn = sqlite3.connect(file_path)
     c = conn.cursor()
     # Create table
@@ -43,5 +44,34 @@ def create_db(file_path):
     conn.close()
 
 
+def create_vk_db(file_path):
+    conn = sqlite3.connect(file_path)
+    c = conn.cursor()
+    # Create table
+    c.execute(
+        """CREATE TABLE SEARCH_VK (
+        url TEXT PRIMARY KEY,
+        post_id INTEGER,
+        date DATE,
+        user_id INTEGER,
+        from_id INTEGER,
+        comments_count INT,
+        likes_count INT,
+        reposts_count INT,
+        mark_as_ad_count INT,
+        text TEXT,
+        is_private INT
+    );"""
+    )
+    # Save (commit) the changes
+    conn.commit()
+    # We can also close the -connection if we are done with it.
+    # Just be sure any changes have been committed or they will be lost.
+    conn.close()
+
+
 if __name__ == "__main__":
-    create_db(file_path="propaganda.db")
+    basepath = "DB/databases"
+    os.makedirs(basepath)
+    create_main_db(file_path=os.path.join(basepath, "propaganda.db"))
+    create_vk_db(file_path=os.path.join(basepath, "vk.db"))
