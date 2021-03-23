@@ -10,6 +10,7 @@ from colorama import Fore, Style
 
 def convert_date(google_date):
     # Convert the date from '2 days ago' to  a real date, compared with the search time
+    # print(f'Converting the google date {google_date}')
     search_time = datetime.now()
 
     if google_date is None:
@@ -26,36 +27,40 @@ def convert_date(google_date):
 
     splitted = google_date.split()
 
-    if len(splitted) == 1 and splitted[0].lower() == "today":
-        return str(search_time.isoformat())
-    elif len(splitted) == 1 and splitted[0].lower() == "yesterday":
-        date = search_time - relativedelta(days=1)
-        return str(date.isoformat())
-    elif len(splitted) == 1:
-        # Catch here weird things like single words
-        return None
-    elif splitted[1].lower() in ["mins", "min", "minutes", "minute"]:
-        date = search_time - relativedelta(minutes=int(splitted[0]))
-        return str(date.date().isoformat())
-    elif splitted[1].lower() in ["hour", "hours", "hr", "hrs", "h"]:
-        date = search_time - relativedelta(hours=int(splitted[0]))
-        return str(date.date().isoformat())
-    elif splitted[1].lower() in ["day", "days", "d"]:
-        date = search_time - relativedelta(days=int(splitted[0]))
-        return str(date.isoformat())
-    elif splitted[1].lower() in ["wk", "wks", "week", "weeks", "w"]:
-        date = search_time - relativedelta(weeks=int(splitted[0]))
-        return str(date.isoformat())
-    elif splitted[1].lower() in ["mon", "mons", "month", "months", "m"]:
-        date = search_time - relativedelta(months=int(splitted[0]))
-        return str(date.isoformat())
-    elif splitted[1].lower() in ["yrs", "yr", "years", "year", "y"]:
-        date = search_time - relativedelta(years=int(splitted[0]))
-        return str(date.isoformat())
-    elif splitted[0].lower() in ["jan", "feb", "mar", "apr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dec"]:
-        date = datetime.strptime(google_date, "%b %d, %Y")
-        return str(date.isoformat())
-    else:
+    try:
+        if len(splitted) == 1 and splitted[0].lower() == "today":
+            return str(search_time.isoformat())
+        elif len(splitted) == 1 and splitted[0].lower() == "yesterday":
+            date = search_time - relativedelta(days=1)
+            return str(date.isoformat())
+        elif len(splitted) == 1:
+            # Catch here weird things like single words
+            return None
+        elif splitted[1].lower() in ["mins", "min", "minutes", "minute"]:
+            date = search_time - relativedelta(minutes=int(splitted[0]))
+            return str(date.date().isoformat())
+        elif splitted[1].lower() in ["hour", "hours", "hr", "hrs", "h"]:
+            date = search_time - relativedelta(hours=int(splitted[0]))
+            return str(date.date().isoformat())
+        elif splitted[1].lower() in ["day", "days", "d"]:
+            date = search_time - relativedelta(days=int(splitted[0]))
+            return str(date.isoformat())
+        elif splitted[1].lower() in ["wk", "wks", "week", "weeks", "w"]:
+            date = search_time - relativedelta(weeks=int(splitted[0]))
+            return str(date.isoformat())
+        elif splitted[1].lower() in ["mon", "mons", "month", "months", "m"]:
+            date = search_time - relativedelta(months=int(splitted[0]))
+            return str(date.isoformat())
+        elif splitted[1].lower() in ["yrs", "yr", "years", "year", "y"]:
+            date = search_time - relativedelta(years=int(splitted[0]))
+            return str(date.isoformat())
+        elif splitted[0].lower() in ["jan", "feb", "mar", "apr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dec"]:
+            date = datetime.strptime(google_date, "%b %d, %Y")
+            return str(date.isoformat())
+        else:
+            return None
+    except ValueError:
+        # Sometimes the API makes mistakes and the date is just a string from the webpage
         return None
 
 
