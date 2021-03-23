@@ -60,5 +60,5 @@ class Firefox:
                 break
 
             self.driver.execute_script("window.scrollTo(0, 1080)")
-        print(f"Total extracted tweets {len(seen_urls)}: {seen_urls}")
+        # print(f"Total extracted tweets {len(seen_urls)}: {seen_urls}")
         return twitter_results
