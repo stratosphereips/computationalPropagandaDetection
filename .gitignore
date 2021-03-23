@@ -12,3 +12,4 @@ results*.json
 .idea/
 logs
 *gecko*
+vk.key
