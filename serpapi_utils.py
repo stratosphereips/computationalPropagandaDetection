@@ -261,15 +261,15 @@ def downloadContent(url):
         # Get the date of publication of the webpage
         publication_date = extract_date_from_webpage(url, page_content)
     except requests.exceptions.ConnectionError:
-        print(f"{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}")
+        print(f"\t\t{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}")
         return (False, False, False, False)
     except requests.exceptions.ReadTimeout:
-        print(f"{Fore.MAGENTA}! Timeout waiting for the web server to answer.  We ignore and continue.{Style.RESET_ALL}")
+        print(f"\t\t{Fore.MAGENTA}! Timeout waiting for the web server to answer.  We ignore and continue.{Style.RESET_ALL}")
         return (False, False, False, False)
     except Exception as e:
-        print(f"{Fore.MAGENTA}! Error getting the content of the web.{Style.RESET_ALL}")
-        print(f"{Fore.MAGENTA}! {e}{Style.RESET_ALL}")
-        print(f"{type(e)}")
+        print(f"\t\t{Fore.MAGENTA}! Error getting the content of the web.{Style.RESET_ALL}")
+        print(f"\t\t{Fore.MAGENTA}! {e}{Style.RESET_ALL}")
+        print(f"\t\t{type(e)}")
         return (False, False, False, False)
 
     url_hash = get_hash_for_url(url)
@@ -284,9 +284,9 @@ def downloadContent(url):
         file.write(text_content)
         file.close()
     except Exception as e:
-        print("Error saving the content of the webpage.")
-        print(f"{e}")
-        print(f"{type(e)}")
+        print("\t\tError saving the content of the webpage.")
+        print(f"\t\t{e}")
+        print(f"\t\t{type(e)}")
         return (False, False, False)
 
     return (text_content, title, file_name, publication_date)
@@ -299,12 +299,18 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False):
     If we are asked to compare the content, we
     need the parent url to retrieve its content
     """
+    # max_results_to_process = 1000000
+    max_results_to_process = 200
     result_shown = 1
     results = []
     for page in data:
         for result in page:
+            # To have some control on how many result we process
+            max_results_to_process -= 1
+            if max_results_to_process <= 0:
+                break
             child_url = result["link"]
-            print(f"\t{Fore.YELLOW}Result [{result_shown}] {Style.RESET_ALL} Procesing URL {child_url}")
+            print(f"\t{Fore.YELLOW}Result [{result_shown}] {Style.RESET_ALL} Processing URL {child_url}")
             result_shown += 1
             api_publication_date = get_dates_from_api_result_data(result)
 
