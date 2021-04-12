@@ -1,6 +1,7 @@
 from selenium import webdriver
 import time
 from datetime import datetime
+from colorama import Fore, Style
 
 
 class Firefox:
@@ -48,6 +49,7 @@ class Firefox:
                                 "title": None,
                             }
                         )
+                        print(f"\t{Fore.YELLOW}Result [{len(twitter_results)}] {Style.RESET_ALL} Processing URL {link}. Date: {search_date}")
                         # print(f"{number_of_extracting_tweet} was successful", datetime, link)
                         # print("--------------")
                     else:
