@@ -109,7 +109,12 @@ class DB:
         :return: Dictionary of levels, each with a list of edges in form of [from_url, to_url].
         Example: { [0]:[(url1, url2), (url1, url3)], [1]:[(url2, url4), (url2, url5)] }
         """
-        main_id = self.get_url_id(main_url)  # id of this url in DB
+        try:
+            main_id = self.get_url_id(main_url)  # id of this url in DB
+        except Exception as e:
+            if str(e) == 'URL is not in DB':
+                print(f'The URL is not present in the DB: {main_url}')
+                return False
         # visited_parents = [main_id]  # list of parent ids which already visited
         urls_to_retrieve_childs = [main_id]  # list of urls to retrieve childs
         edges = []  # edges of the subtree
@@ -160,6 +165,18 @@ class DB:
     def get_date_published_url(self, url: str) -> str:
         return self.__get_date_url(url, "date_published")
 
+    def get_content_snippet_from_url(self, url: str) -> str:
+        content = self.c.execute("""SELECT content FROM URLS WHERE url=?""", (url,)).fetchall()
+        if content:
+            try:
+                return content[0][0][:50]
+            except KeyError:
+                return None
+        return None
+
+    def get_title_url(self, url: str) -> str:
+        return self.c.execute("""SELECT title FROM URLS WHERE url=?""", (url,)).fetchall()
+
     def get_date_of_link_by_ids(self, parent_id: int, child_id: int) -> str:
         dates = self.c.execute("""SELECT date FROM LINKS WHERE parent_id=? and child_id=?""", (parent_id, child_id)).fetchall()
         if len(dates) > 0:
@@ -184,4 +201,4 @@ class DB:
 
 
 if __name__ == "__main__":
-    db = DB("propaganda.db")
+    db = DB("DB/databases/propaganda.db")
