@@ -43,17 +43,19 @@ def update_urls_with_results(URLs, results):
     return child_urls_found
 
 
-def extract_and_save_twitter_data(driver, URLs, searched_string, parent_url, type_of_link):
+def extract_and_save_twitter_data(URLs, searched_string, parent_url, type_of_link):
     """
     Get twitter posts that contain a certain string
 
     Receives: a string to search in twitter
     """
+    driver = Firefox()
     twitter_result = driver.get_twitter_data(searched_string)
     # print(f'Results from Twitter: {twitter_result}')
     for result in twitter_result:
         result["parent_url"] = parent_url
         result["link_type"] = type_of_link
+    driver.quit()
     return update_urls_with_results(URLs, twitter_result)
 
 
@@ -140,7 +142,6 @@ if __name__ == "__main__":
     # elif args.verbosity >= 1:
     # logging.basicConfig(level=logging.INFO)
 
-    driver = Firefox()
 
     try:
 
@@ -195,10 +196,7 @@ if __name__ == "__main__":
                 # No urls in the level
                 pass
 
-        driver.quit()
-
         # print(f"Finished with all the graph of URLs. Total number of unique links are {len(all_links)}")
-        # build_a_graph(all_links, args.link)
 
     except KeyboardInterrupt:
         # If ctrl-c is pressed, do the graph anyway
