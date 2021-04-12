@@ -68,11 +68,11 @@ def convert_date(google_date):
             return str(date.isoformat())
         else:
             return None
-    except IndexError as e:
+    except (IndexError, ValueError) as e:
         print(f'There were errors procesing {splitted}'
               'text in convert_date()')
         print(e)
-        raise
+        return None
 
 
 def get_dates_from_api_result_data(result):
