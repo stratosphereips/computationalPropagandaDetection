@@ -1,6 +1,7 @@
 import vk
 from datetime import datetime
 import sqlite3
+from colorama import Fore, Style
 
 f = open("vk.key")
 VK_KEY = f.readline()
@@ -76,6 +77,7 @@ def get_vk_data(searched_phrase):
         vkdb.add_values(values)
         vkdb.commit()
         vk_info.append({"child_url": url, "search_date": search_date, "publication_date": date, "content": text, "title": None})
+        print(f"\t{Fore.YELLOW}Result [{len(found_urls)}] {Style.RESET_ALL} Processing URL {url}. Date: {date}")
         found_urls.append(url)
 
     vkdb.close()
