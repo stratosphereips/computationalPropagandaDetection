@@ -71,7 +71,11 @@ def create_vk_db(file_path):
 
 
 if __name__ == "__main__":
+    # Is supposed to be run fron the main folder
     basepath = "DB/databases"
-    os.makedirs(basepath)
+    try:
+        os.makedirs(basepath)
+    except FileExistsError:
+        pass
     create_main_db(file_path=os.path.join(basepath, "propaganda.db"))
     create_vk_db(file_path=os.path.join(basepath, "vk.db"))
