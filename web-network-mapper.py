@@ -168,8 +168,7 @@ if __name__ == "__main__":
                     all_urls_by_urls, all_urls_by_titles = [], []
                     # Search by link
                     print(f"\n{Fore.CYAN}== Level {level}. Google search by LINKS to {url}{Style.RESET_ALL}")
-                    #google_results_urls = search_google_by_link(url, URLs)
-                    google_results_urls = []
+                    google_results_urls = search_google_by_link(url, URLs)
                     print(f"\n{Fore.BLUE}== Level {level}. Twitter search by LINKS as {url}{Style.RESET_ALL}")
                     twitter_results_urls = extract_and_save_twitter_data(URLs, url, url, "link")
                     print(f"\n{Fore.GREEN}== Level {level}. VK search by LINKS as {url}{Style.RESET_ALL}")
@@ -182,8 +181,7 @@ if __name__ == "__main__":
                     # Search by Title
                     if title is not None:
                         print(f"\n{Fore.CYAN}== Level {level}. Google search by TITLE as {title}{Style.RESET_ALL}")
-                        #google_results_urls_title = search_google_by_title(title, url, URLs)
-                        google_results_urls = []
+                        google_results_urls_title = search_google_by_title(title, url, URLs)
                         print(f"\n{Fore.BLUE}== Level {level}. Twitter search by title as {title}{Style.RESET_ALL}")
                         twitter_results_urls_title = extract_and_save_twitter_data(URLs, title, url, "title")
                         print(f"\n{Fore.GREEN}== Level {level}. VK search by title as {title}{Style.RESET_ALL}")
