@@ -69,9 +69,8 @@ def convert_date(google_date):
         else:
             return None
     except (IndexError, ValueError) as e:
-        print(f'There were errors procesing {splitted}'
-              'text in convert_date()')
-        print(e)
+        print(f'\t\tThere were errors procesing {splitted}'
+              ' text in convert_date()')
         return None
 
 
