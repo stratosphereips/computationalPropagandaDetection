@@ -11,9 +11,8 @@ from utils import (
     add_child_to_db,
 )
 from serpapi_utils import downloadContent, trigger_api, process_data_from_api
-from twitter_api import Firefox
+from twitter_api import get_twitter_data
 from vk_api import get_vk_data
-
 # Init colorama
 init_colorama()
 
@@ -49,13 +48,12 @@ def extract_and_save_twitter_data(URLs, searched_string, parent_url, type_of_lin
 
     Receives: a string to search in twitter
     """
-    driver = Firefox()
-    twitter_result = driver.get_twitter_data(searched_string)
+    is_link = type_of_link == "link"
+    twitter_result = get_twitter_data(searched_string, is_link)
     # print(f'Results from Twitter: {twitter_result}')
     for result in twitter_result:
         result["parent_url"] = parent_url
         result["link_type"] = type_of_link
-    driver.quit()
     return update_urls_with_results(URLs, twitter_result)
 
 
@@ -119,12 +117,18 @@ def search_google_by_link(url, URLs):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-l", "--link", help="URL to check is distribution pattern.", type=str, required=True)
-    parser.add_argument("-p", "--is_propaganda", help="If the URL is propaganda . If absent, is not propaganda.", action="store_true")
     parser.add_argument(
-        "-n", "--number_of_levels", help="How many 'ring' levels around the URL we are going to search. Defaults to 2.", type=int, default=2
+        "-l", "--link", help="URL to check is distribution pattern.", type=str, required=True,
     )
-    parser.add_argument("-c", "--dont_store_content", help="Do not store the content of pages to disk", action="store_true", default=False)
+    parser.add_argument(
+        "-p", "--is_propaganda", help="If the URL is propaganda . If absent, is not propaganda.", action="store_true",
+    )
+    parser.add_argument(
+        "-n", "--number_of_levels", help="How many 'ring' levels around the URL we are going to search. Defaults to 2.", type=int, default=2,
+    )
+    parser.add_argument(
+        "-c", "--dont_store_content", help="Do not store the content of pages to disk", action="store_true", default=False,
+    )
     parser.add_argument("-v", "--verbosity", help="Verbosity level", type=int, default=0)
     parser.add_argument(
         "-u",
@@ -142,7 +146,6 @@ if __name__ == "__main__":
     # elif args.verbosity >= 1:
     # logging.basicConfig(level=logging.INFO)
 
-
     try:
 
         print(f"Searching the distribution graph of URL {args.link}. Using {args.number_of_levels} levels.\n")
@@ -153,6 +156,7 @@ if __name__ == "__main__":
         # Store the main URL as an url in our DB
         URLs.add_url(args.link, int(args.is_propaganda))
         (main_content, main_title, content_file, publication_date) = downloadContent(args.link)
+        print(f'main title: {main_title}')
 
         URLs.store_content(args.link, main_content)
         URLs.store_title(args.link, main_title)
@@ -162,39 +166,40 @@ if __name__ == "__main__":
         urls_to_search_by_level = {}
         urls_to_search_by_level[0] = [args.link]
         for level in range(args.number_of_levels):
-            try:
-                for url in urls_to_search_by_level[level]:
-                    title = URLs.get_title_by_url(url)
-                    all_urls_by_urls, all_urls_by_titles = [], []
-                    # Search by link
-                    print(f"\n{Fore.CYAN}== Level {level}. Google search by LINKS to {url}{Style.RESET_ALL}")
-                    google_results_urls = search_google_by_link(url, URLs)
-                    print(f"\n{Fore.BLUE}== Level {level}. Twitter search by LINKS as {url}{Style.RESET_ALL}")
-                    twitter_results_urls = extract_and_save_twitter_data(URLs, url, url, "link")
-                    print(f"\n{Fore.GREEN}== Level {level}. VK search by LINKS as {url}{Style.RESET_ALL}")
-                    # vk_results_urls = extract_and_save_vk_data(URLs, url, url, "link")
-                    vk_results_urls = []
-                    all_urls_by_urls.extend(google_results_urls)
-                    all_urls_by_urls.extend(twitter_results_urls)
-                    all_urls_by_urls.extend(vk_results_urls)
+            print(f"In level {level} were found {len(urls_to_search_by_level[level])} urls")
+            for url in urls_to_search_by_level[level]:
+                title = URLs.get_title_by_url(url)
+                all_urls_by_urls, all_urls_by_titles = [], []
+                # Search by link
+                print(f"\n{Fore.CYAN}== Level {level}. Google search by LINKS to {url}{Style.RESET_ALL}")
+                google_results_urls = search_google_by_link(url, URLs)
+                # google_results_urls = []
+                all_urls_by_urls.extend(google_results_urls)
 
-                    # Search by Title
-                    if title is not None:
-                        print(f"\n{Fore.CYAN}== Level {level}. Google search by TITLE as {title}{Style.RESET_ALL}")
-                        google_results_urls_title = search_google_by_title(title, url, URLs)
-                        print(f"\n{Fore.BLUE}== Level {level}. Twitter search by title as {title}{Style.RESET_ALL}")
-                        twitter_results_urls_title = extract_and_save_twitter_data(URLs, title, url, "title")
-                        print(f"\n{Fore.GREEN}== Level {level}. VK search by title as {title}{Style.RESET_ALL}")
-                        # vk_results_urls_title = extract_and_save_vk_data(URLs, title, url, "title")
-                        vk_results_urls_title = {}
-                        all_urls_by_titles.extend(google_results_urls_title)
-                        all_urls_by_titles.extend(twitter_results_urls_title)
-                        all_urls_by_titles.extend(vk_results_urls_title)
+                print(f"\n{Fore.MAGENTA}== Level {level}. Twitter search by LINKS as {url}{Style.RESET_ALL}")
+                twitter_results_urls = extract_and_save_twitter_data(URLs, url, url, "link")
+                all_urls_by_urls.extend(twitter_results_urls)
 
-                    urls_to_search_by_level[level + 1] = all_urls_by_urls
-            except KeyError:
-                # No urls in the level
-                pass
+                print(f"\n{Fore.GREEN}== Level {level}. VK search by LINKS as {url}{Style.RESET_ALL}")
+                vk_results_urls = extract_and_save_vk_data(URLs, url, url, "link")
+                # vk_results_urls = []
+                all_urls_by_urls.extend(vk_results_urls)
+
+                # Search by Title
+                if title is not None:
+                    print(f"\n{Fore.CYAN}== Level {level}. Google search by TITLE as {title}{Style.RESET_ALL}")
+                    google_results_urls_title = search_google_by_title(title, url, URLs)
+                    # google_results_urls_title = []
+                    all_urls_by_titles.extend(google_results_urls_title)
+                    print(f"\n{Fore.MAGENTA}== Level {level}. Twitter search by title as {title}{Style.RESET_ALL}")
+                    twitter_results_urls_title = extract_and_save_twitter_data(URLs, title, url, "title")
+                    all_urls_by_titles.extend(twitter_results_urls_title)
+                    print(f"\n{Fore.GREEN}== Level {level}. VK search by title as {title}{Style.RESET_ALL}")
+                    vk_results_urls_title = extract_and_save_vk_data(URLs, title, url, "title")
+                    # vk_results_urls_title = []
+                    all_urls_by_titles.extend(vk_results_urls_title)
+
+                urls_to_search_by_level[level + 1] = all_urls_by_urls
 
         # print(f"Finished with all the graph of URLs. Total number of unique links are {len(all_links)}")
 

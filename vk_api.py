@@ -2,10 +2,11 @@ import vk
 from datetime import datetime
 import sqlite3
 from colorama import Fore, Style
+import yaml
 
-f = open("vk.key")
-VK_KEY = f.readline()
-f.close()
+with open("credentials.yaml", "r") as f:
+    VK_KEY = yaml.load(f, Loader=yaml.SafeLoader)["vk"]
+
 
 # TODO: To get VK API, put to browser
 # https://oauth.vk.com/authorize?client_id=7674454&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=friends&response_type=token&v=5.52
@@ -23,13 +24,37 @@ class VKDB:
         self.conn.commit()
 
     def add_values(self, values):
-        (url, post_id, user_id, from_id, date, text, comments_count, likes_count, reposts_count, mark_as_ad_count, is_private) = values
+        (
+            url,
+            post_id,
+            user_id,
+            from_id,
+            date,
+            text,
+            comments_count,
+            likes_count,
+            reposts_count,
+            mark_as_ad_count,
+            is_private,
+        ) = values
         if not self.url_exist(url):
             self.c.execute(
                 """INSERT INTO SEARCH_VK(url, post_id, user_id,from_id, date, text,comments_count, likes_count, \
                 reposts_count, mark_as_ad_count, is_private ) \
                 VALUES  (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) """,
-                (url, post_id, user_id, from_id, date, text, comments_count, likes_count, reposts_count, mark_as_ad_count, is_private),
+                (
+                    url,
+                    post_id,
+                    user_id,
+                    from_id,
+                    date,
+                    text,
+                    comments_count,
+                    likes_count,
+                    reposts_count,
+                    mark_as_ad_count,
+                    is_private,
+                ),
             )
             self.commit()
 
@@ -37,7 +62,9 @@ class VKDB:
         self.conn.close()
 
     def url_exist(self, url):
-        url_exist = self.c.execute("""SELECT url FROM SEARCH_VK WHERE url=(?);""", (url,))
+        url_exist = self.c.execute(
+            """SELECT url FROM SEARCH_VK WHERE url=(?);""", (url,)
+        )
         if len(url_exist.fetchall()) > 0:
             return True
         return False
@@ -73,11 +100,33 @@ def get_vk_data(searched_phrase):
         likes_count = get_number_of_intereaction(report, "likes")
         reposts_count = get_number_of_intereaction(report, "reposts")
         url = f"https://vk.com/id{user_id}?w=wall{user_id}_{post_id}"
-        values = (url, post_id, user_id, from_id, date, text, comments_count, likes_count, reposts_count, mark_as_ad_count, is_private)
+        values = (
+            url,
+            post_id,
+            user_id,
+            from_id,
+            date,
+            text,
+            comments_count,
+            likes_count,
+            reposts_count,
+            mark_as_ad_count,
+            is_private,
+        )
         vkdb.add_values(values)
         vkdb.commit()
-        vk_info.append({"child_url": url, "search_date": search_date, "publication_date": date, "content": text, "title": None})
-        print(f"\t{Fore.YELLOW}Result [{len(found_urls)}] {Style.RESET_ALL} Processing URL {url}. Date: {date}")
+        vk_info.append(
+            {
+                "child_url": url,
+                "search_date": search_date,
+                "publication_date": date,
+                "content": text,
+                "title": None,
+            }
+        )
+        print(
+            f"\t{Fore.YELLOW}Result [{len(found_urls)}] {Style.RESET_ALL} Processing URL {url}. Date: {date}"
+        )
         found_urls.append(url)
 
     vkdb.close()

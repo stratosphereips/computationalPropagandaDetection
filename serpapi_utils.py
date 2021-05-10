@@ -10,13 +10,16 @@ from colorama import Fore, Style
 import dateutil.parser
 import re
 import locale
-from utils import url_in_content, check_text_similiarity, get_dates_from_api_result_data, url_blacklisted
+from utils import (
+    url_in_content,
+    check_text_similiarity,
+    get_dates_from_api_result_data,
+    url_blacklisted,
+)
+import yaml
 
-
-# Read the serapi api key
-f = open("serapi.key")
-SERAPI_KEY = f.readline()
-f.close()
+with open("credentials.yaml", "r") as f:
+    SERPAPI_KEY = yaml.load(f, Loader=yaml.SafeLoader)["serpapi"]
 
 
 def get_hash_for_url(url):
@@ -50,7 +53,12 @@ def trigger_api(search_leyword):
     """
     try:
         # print(f' == Retriving results for {search_leyword}')
-        params = {"engine": "google", "q": search_leyword, "google_domain": "google.com", "api_key": SERAPI_KEY}
+        params = {
+            "engine": "google",
+            "q": search_leyword,
+            "google_domain": "google.com",
+            "api_key": SERPAPI_KEY,
+        }
 
         # Here we store all the results of all the search pages returned.
         # We concatenate in this variable
@@ -80,7 +88,9 @@ def trigger_api(search_leyword):
         max_results = 300
 
         # While we have results to get, get them
-        while (amount_of_results_so_far < amount_total_results) and (amount_of_results_so_far < max_results):
+        while (amount_of_results_so_far < amount_total_results) and (
+            amount_of_results_so_far < max_results
+        ):
             # print(' == Searching 10 more...')
             # New params
             params = {
@@ -88,7 +98,7 @@ def trigger_api(search_leyword):
                 "q": search_leyword,
                 "google_domain": "google.com",
                 "start": str(amount_of_results_so_far + 1),
-                "api_key": SERAPI_KEY,
+                "api_key": SERPAPI_KEY,
             }
             client = GoogleSearch(params)
             new_results = client.get_dict()
@@ -106,7 +116,9 @@ def trigger_api(search_leyword):
             amount_of_results_so_far += len(new_results["organic_results"])
             # print(f' == Results retrieved so far: {amount_of_results_so_far}')
 
-        print(f"\tTotal amount of results retrieved: {Fore.YELLOW}{amount_of_results_so_far}{Style.RESET_ALL}")
+        print(
+            f"\tTotal amount of results retrieved: {Fore.YELLOW}{amount_of_results_so_far}{Style.RESET_ALL}"
+        )
         # Store the results of the api for future comparison
         modificator_time = str(datetime.now()).replace(" ", "_")
         # write the results to a json file so we dont lose them
@@ -188,7 +200,9 @@ def parse_date_from_string(text):
                 if parsed_date is None:
                     # Is it like 2020/03/02? (slash doesnt matter)
                     year_first = text[y_position : y_position + 10]
-                    parsed_date = __parse_date_string(year_first, control_min_date_naive)
+                    parsed_date = __parse_date_string(
+                        year_first, control_min_date_naive
+                    )
 
                 if parsed_date is None:
                     # Is it like 03/02/2020?
@@ -198,22 +212,30 @@ def parse_date_from_string(text):
                 if parsed_date is None:
                     # Is it like 'Mar. 27th, 2020'?
                     text_type_1 = text[y_position - 11 : y_position + 4]
-                    parsed_date = __parse_date_string(text_type_1, control_min_date_naive)
+                    parsed_date = __parse_date_string(
+                        text_type_1, control_min_date_naive
+                    )
 
                 if parsed_date is None:
                     # Is it like 'November 10 2020'
                     text_type_1 = text[y_position - 12 : y_position + 4]
-                    parsed_date = __parse_date_string(text_type_1, control_min_date_naive)
+                    parsed_date = __parse_date_string(
+                        text_type_1, control_min_date_naive
+                    )
 
                 if parsed_date is None:
                     # Is it like '27 марта 2020 г.'
                     text_type_1 = text[y_position - 9 : y_position + 4]
-                    parsed_date = __parse_date_string(text_type_1, control_min_date_naive)
+                    parsed_date = __parse_date_string(
+                        text_type_1, control_min_date_naive
+                    )
 
                 if parsed_date is None:
                     # Is it like 2020/03/25?
                     text_type_1 = text[y_position : y_position + 9]
-                    parsed_date = __parse_date_string(text_type_1, control_min_date_naive)
+                    parsed_date = __parse_date_string(
+                        text_type_1, control_min_date_naive
+                    )
 
     return parsed_date
 
@@ -261,13 +283,22 @@ def downloadContent(url):
         # Get the date of publication of the webpage
         publication_date = extract_date_from_webpage(url, page_content)
     except requests.exceptions.ConnectionError:
-        print(f"\t\t{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}")
+        print(
+            f"\t\t{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}"
+        )
         return (False, False, False, False)
     except requests.exceptions.ReadTimeout:
-        print(f"\t\t{Fore.MAGENTA}! Timeout waiting for the web server to answer.  We ignore and continue.{Style.RESET_ALL}")
+        print(
+            f"\t\t{Fore.MAGENTA}! Timeout waiting for the web server to answer.  We ignore and continue.{Style.RESET_ALL}"
+        )
+        return (False, False, False, False)
+    except requests.exceptions.MissingSchema:
+        print('Please add https:// or http:// to your URL')
         return (False, False, False, False)
     except Exception as e:
-        print(f"\t\t{Fore.MAGENTA}! Error getting the content of the web.{Style.RESET_ALL}")
+        print(
+            f"\t\t{Fore.MAGENTA}! Error getting the content of the web.{Style.RESET_ALL}"
+        )
         print(f"\t\t{Fore.MAGENTA}! {e}{Style.RESET_ALL}")
         print(f"\t\t{type(e)}")
         return (False, False, False, False)
@@ -310,7 +341,9 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False):
             if max_results_to_process <= 0:
                 break
             child_url = result["link"]
-            print(f"\t{Fore.YELLOW}Result [{result_shown}] {Style.RESET_ALL} Processing URL {child_url}")
+            print(
+                f"\t{Fore.YELLOW}Result [{result_shown}] {Style.RESET_ALL} Processing URL {child_url}"
+            )
             result_shown += 1
             api_publication_date = get_dates_from_api_result_data(result)
 
@@ -318,20 +351,31 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False):
             #
             # 1. No repeated urls
             if URLs.url_exist(child_url):
-                print(f"\t\t{Fore.YELLOW}Repeated{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
+                print(
+                    f"\t\t{Fore.YELLOW}Repeated{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} "
+                )
                 continue
 
             # 2. Filter out some URLs we dont want
             if url_blacklisted(child_url):
-                print(f"\t\t{Fore.YELLOW}Blacklisted{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} ")
+                print(
+                    f"\t\t{Fore.YELLOW}Blacklisted{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} "
+                )
                 continue
-            (content, title, content_file, content_publication_date) = downloadContent(child_url)
+            (content, title, content_file, content_publication_date) = downloadContent(
+                child_url
+            )
 
             # 3. Check similarity of content of pages
             if content_similarity:
                 # Check the current content to the content of the parent url
                 parent_content = URLs.get_content_by_url(url)
-                if not check_text_similiarity(main_content=parent_content, content=content, main_url=url, child_url=child_url):
+                if not check_text_similiarity(
+                    main_content=parent_content,
+                    content=content,
+                    main_url=url,
+                    child_url=child_url,
+                ):
                     continue
 
             # If we dont have a publication date from the api
@@ -352,7 +396,9 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False):
                     )
                     continue
                 else:
-                    print(f"\t\tThe URL {url} IS in the content of site {child_url} {Fore.BLUE} Keeping.{Style.RESET_ALL}")
+                    print(
+                        f"\t\tThe URL {url} IS in the content of site {child_url} {Fore.BLUE} Keeping.{Style.RESET_ALL}"
+                    )
 
             print(f"\t\tAdding to DB the URL {child_url}")
             results.append(
