@@ -166,41 +166,44 @@ if __name__ == "__main__":
         urls_to_search_by_level = {}
         urls_to_search_by_level[0] = [args.link]
         for level in range(args.number_of_levels):
-            print(f"In level {level} were found {len(urls_to_search_by_level[level])} urls")
-            for url in urls_to_search_by_level[level]:
-                title = URLs.get_title_by_url(url)
-                all_urls_by_urls, all_urls_by_titles = [], []
-                # Search by link
-                print(f"\n{Fore.CYAN}== Level {level}. Google search by LINKS to {url}{Style.RESET_ALL}")
-                google_results_urls = search_google_by_link(url, URLs)
-                # google_results_urls = []
-                all_urls_by_urls.extend(google_results_urls)
+            try:
+                print(f"In level {level} were found {len(urls_to_search_by_level[level])} urls including original")
+                for url in urls_to_search_by_level[level]:
+                    title = URLs.get_title_by_url(url)
+                    all_urls_by_urls, all_urls_by_titles = [], []
+                    # Search by link
+                    print(f"\n{Fore.CYAN}== Level {level}. Google search by LINKS to {url}{Style.RESET_ALL}")
+                    google_results_urls = search_google_by_link(url, URLs)
+                    # google_results_urls = []
+                    all_urls_by_urls.extend(google_results_urls)
 
-                print(f"\n{Fore.MAGENTA}== Level {level}. Twitter search by LINKS as {url}{Style.RESET_ALL}")
-                twitter_results_urls = extract_and_save_twitter_data(URLs, url, url, "link")
-                all_urls_by_urls.extend(twitter_results_urls)
+                    print(f"\n{Fore.MAGENTA}== Level {level}. Twitter search by LINKS as {url}{Style.RESET_ALL}")
+                    twitter_results_urls = extract_and_save_twitter_data(URLs, url, url, "link")
+                    all_urls_by_urls.extend(twitter_results_urls)
 
-                print(f"\n{Fore.GREEN}== Level {level}. VK search by LINKS as {url}{Style.RESET_ALL}")
-                vk_results_urls = extract_and_save_vk_data(URLs, url, url, "link")
-                # vk_results_urls = []
-                all_urls_by_urls.extend(vk_results_urls)
+                    print(f"\n{Fore.GREEN}== Level {level}. VK search by LINKS as {url}{Style.RESET_ALL}")
+                    # vk_results_urls = extract_and_save_vk_data(URLs, url, url, "link")
+                    vk_results_urls = []
+                    all_urls_by_urls.extend(vk_results_urls)
 
-                # Search by Title
-                if title is not None:
-                    print(f"\n{Fore.CYAN}== Level {level}. Google search by TITLE as {title}{Style.RESET_ALL}")
-                    google_results_urls_title = search_google_by_title(title, url, URLs)
-                    # google_results_urls_title = []
-                    all_urls_by_titles.extend(google_results_urls_title)
-                    print(f"\n{Fore.MAGENTA}== Level {level}. Twitter search by title as {title}{Style.RESET_ALL}")
-                    twitter_results_urls_title = extract_and_save_twitter_data(URLs, title, url, "title")
-                    all_urls_by_titles.extend(twitter_results_urls_title)
-                    print(f"\n{Fore.GREEN}== Level {level}. VK search by title as {title}{Style.RESET_ALL}")
-                    vk_results_urls_title = extract_and_save_vk_data(URLs, title, url, "title")
-                    # vk_results_urls_title = []
-                    all_urls_by_titles.extend(vk_results_urls_title)
+                    # Search by Title
+                    if title is not None:
+                        print(f"\n{Fore.CYAN}== Level {level}. Google search by TITLE as {title}{Style.RESET_ALL}")
+                        google_results_urls_title = search_google_by_title(title, url, URLs)
+                        # google_results_urls_title = []
+                        all_urls_by_titles.extend(google_results_urls_title)
+                        print(f"\n{Fore.MAGENTA}== Level {level}. Twitter search by title as {title}{Style.RESET_ALL}")
+                        twitter_results_urls_title = extract_and_save_twitter_data(URLs, title, url, "title")
+                        all_urls_by_titles.extend(twitter_results_urls_title)
+                        print(f"\n{Fore.GREEN}== Level {level}. VK search by title as {title}{Style.RESET_ALL}")
+                        # vk_results_urls_title = extract_and_save_vk_data(URLs, title, url, "title")
+                        vk_results_urls_title = []
+                        all_urls_by_titles.extend(vk_results_urls_title)
 
-                urls_to_search_by_level[level + 1] = all_urls_by_urls
-
+                    urls_to_search_by_level[level + 1] = all_urls_by_urls
+            except KeyError:
+                # No urls in the level
+                pass
         # print(f"Finished with all the graph of URLs. Total number of unique links are {len(all_links)}")
 
     except KeyboardInterrupt:
