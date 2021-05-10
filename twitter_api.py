@@ -3,6 +3,7 @@ import yaml
 import urllib
 import time
 from datetime import datetime
+from colorama import Fore, Style
 
 #
 with open("credentials.yaml", "r") as f:
@@ -53,9 +54,15 @@ def get_twitter_data(searched_phrase, is_url):
             "tweet.fields": "author_id,public_metrics,created_at",
         }
     json_response = connect_to_endpoint(headers, query_params)
+    print(f'\tDownloaded {json_response["meta"]["result_count"]} twitter content')
+    amount_of_results = json_response["meta"]["result_count"]
+    result_shown = 1
     links_set = set()
-    if json_response["meta"]["result_count"] != 0:
+    if amount_of_results != 0:
         for result in json_response["data"]:
+            print(
+                f"\t{Fore.YELLOW}Result [{result_shown}] {Style.RESET_ALL} Processing twitter ID {result['id']}: {result['text']}"
+            )
             link = f"https://twitter.com/{str(result['author_id'])}/status/{str(result['id'])}"
             if link not in links_set:
                 links_set.add(link)
@@ -68,4 +75,5 @@ def get_twitter_data(searched_phrase, is_url):
                         "title": None,
                     }
                 )
+            result_shown += 1
     return twitter_results
