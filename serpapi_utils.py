@@ -292,6 +292,9 @@ def downloadContent(url):
             f"\t\t{Fore.MAGENTA}! Timeout waiting for the web server to answer.  We ignore and continue.{Style.RESET_ALL}"
         )
         return (False, False, False, False)
+    except requests.exceptions.MissingSchema:
+        print('Please add https:// or http:// to your URL')
+        return (False, False, False, False)
     except Exception as e:
         print(
             f"\t\t{Fore.MAGENTA}! Error getting the content of the web.{Style.RESET_ALL}"
