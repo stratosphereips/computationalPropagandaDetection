@@ -40,7 +40,7 @@ def get_twitter_data(searched_phrase, is_url):
 
     headers = create_headers()
     if is_url:
-        url = urllib.parse.quote(searched_phrase)
+        url = urllib.parse.quote_plus(searched_phrase)
         query_params = {
             "query": f"url : {url}",
             "max_results": 100,
@@ -68,6 +68,4 @@ def get_twitter_data(searched_phrase, is_url):
                         "title": None,
                     }
                 )
-    print(f"In total was found {len(twitter_results)}")
-
     return twitter_results
