@@ -34,7 +34,7 @@ def compare_content(content1, content2):
         return distance
     except TypeError:
         # The contents were not strings
-        print("The content of the pages were not string. Verify.")
+        print("\t\tThe content of the pages were not string. Verify.")
         return False
 
 
