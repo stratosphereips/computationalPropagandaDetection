@@ -323,7 +323,7 @@ def downloadContent(url):
     return (text_content, title, file_name, publication_date)
 
 
-def process_data_from_api(data, url, URLs, link_type, content_similarity=False):
+def process_data_from_api(data, url, URLs, link_type, content_similarity=False, threshold=0.3):
     """
     Receive data from SerAPI and process it
     It can be from results by link or title
@@ -375,6 +375,7 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False):
                     content=content,
                     main_url=url,
                     child_url=child_url,
+                    threshold=threshold
                 ):
                     continue
 
