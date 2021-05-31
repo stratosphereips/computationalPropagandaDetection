@@ -48,8 +48,9 @@ def extract_and_save_twitter_data(URLs, searched_string, parent_url, type_of_lin
 
     Receives: a string to search in twitter
     """
+    publication_date = URLs.get_publication_datetime(parent_url)
     is_link = type_of_link == "link"
-    twitter_result = get_twitter_data(searched_string, is_link)
+    twitter_result = get_twitter_data(searched_string, is_link, publication_date)
     # print(f'Results from Twitter: {twitter_result}')
     for result in twitter_result:
         result["parent_url"] = parent_url
