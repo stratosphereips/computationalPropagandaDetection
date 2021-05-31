@@ -65,7 +65,7 @@ def extract_and_save_vk_data(URLs, searched_string, parent_url, type_of_link):
     return update_urls_with_results(URLs, vk_results)
 
 
-def search_google_by_title(title, url, URLs):
+def search_google_by_title(title, url, URLs, threshold=0.3):
     """
     Search google results in SerAPI by title
     - Process the results to extract data for each url
@@ -78,13 +78,13 @@ def search_google_by_title(title, url, URLs):
     # For each url in the results do
     child_urls_found = []
     if data:
-        google_results = process_data_from_api(data, url, URLs, link_type="title", content_similarity=True)
+        google_results = process_data_from_api(data, url, URLs, link_type="title", content_similarity=True, threshold=threshold)
         child_urls_found = update_urls_with_results(URLs, google_results)
 
     return child_urls_found
 
 
-def search_google_by_link(url, URLs):
+def search_google_by_link(url, URLs, threshold=0.3):
     """
     Search google results in SerAPI by link
     - Process the results to extract data for each url
@@ -96,7 +96,7 @@ def search_google_by_link(url, URLs):
     child_urls_found = []
     # For each url in the results do
     if data:
-        google_results = process_data_from_api(data, url, URLs, link_type="link")
+        google_results = process_data_from_api(data, url, URLs, link_type="link", threshold=threshold)
         child_urls_found = update_urls_with_results(URLs, google_results)
 
         # Special situation to extract date of the main url
@@ -134,7 +134,7 @@ if __name__ == "__main__":
         "-u",
         "--urls_threshold",
         help="Not Working this parameter now. Threshold distance between the content of two pages when searching with title",
-        type=int,
+        type=float,
         default=0.3,
     )
     args = parser.parse_args()
@@ -156,7 +156,7 @@ if __name__ == "__main__":
         # Store the main URL as an url in our DB
         URLs.add_url(args.link, int(args.is_propaganda))
         (main_content, main_title, content_file, publication_date) = downloadContent(args.link)
-        print(f'main title: {main_title}')
+        print(f'Main title: {main_title}')
 
         URLs.store_content(args.link, main_content)
         URLs.store_title(args.link, main_title)
@@ -173,7 +173,7 @@ if __name__ == "__main__":
                     all_urls_by_urls, all_urls_by_titles = [], []
                     # Search by link
                     print(f"\n{Fore.CYAN}== Level {level}. Google search by LINKS to {url}{Style.RESET_ALL}")
-                    google_results_urls = search_google_by_link(url, URLs)
+                    google_results_urls = search_google_by_link(url, URLs, threshold=args.urls_threshold)
                     # google_results_urls = []
                     all_urls_by_urls.extend(google_results_urls)
 
@@ -182,22 +182,22 @@ if __name__ == "__main__":
                     all_urls_by_urls.extend(twitter_results_urls)
 
                     print(f"\n{Fore.GREEN}== Level {level}. VK search by LINKS as {url}{Style.RESET_ALL}")
-                    # vk_results_urls = extract_and_save_vk_data(URLs, url, url, "link")
-                    vk_results_urls = []
+                    vk_results_urls = extract_and_save_vk_data(URLs, url, url, "link")
+                    # vk_results_urls = []
                     all_urls_by_urls.extend(vk_results_urls)
 
                     # Search by Title
                     if title is not None:
                         print(f"\n{Fore.CYAN}== Level {level}. Google search by TITLE as {title}{Style.RESET_ALL}")
-                        google_results_urls_title = search_google_by_title(title, url, URLs)
+                        google_results_urls_title = search_google_by_title(title, url, URLs, threshold=args.urls_threshold)
                         # google_results_urls_title = []
                         all_urls_by_titles.extend(google_results_urls_title)
                         print(f"\n{Fore.MAGENTA}== Level {level}. Twitter search by title as {title}{Style.RESET_ALL}")
                         twitter_results_urls_title = extract_and_save_twitter_data(URLs, title, url, "title")
                         all_urls_by_titles.extend(twitter_results_urls_title)
                         print(f"\n{Fore.GREEN}== Level {level}. VK search by title as {title}{Style.RESET_ALL}")
-                        # vk_results_urls_title = extract_and_save_vk_data(URLs, title, url, "title")
-                        vk_results_urls_title = []
+                        vk_results_urls_title = extract_and_save_vk_data(URLs, title, url, "title")
+                        # vk_results_urls_title = []
                         all_urls_by_titles.extend(vk_results_urls_title)
 
                     urls_to_search_by_level[level + 1] = all_urls_by_urls
