@@ -48,8 +48,9 @@ def extract_and_save_twitter_data(URLs, searched_string, parent_url, type_of_lin
 
     Receives: a string to search in twitter
     """
+    publication_date = URLs.get_publication_datetime(parent_url)
     is_link = type_of_link == "link"
-    twitter_result = get_twitter_data(searched_string, is_link)
+    twitter_result = get_twitter_data(searched_string, is_link, publication_date)
     # print(f'Results from Twitter: {twitter_result}')
     for result in twitter_result:
         result["parent_url"] = parent_url
@@ -194,6 +195,7 @@ if __name__ == "__main__":
                     print(f"\n{Fore.MAGENTA}== Level {level}. Twitter search by title as {title}{Style.RESET_ALL}")
                     twitter_results_urls_title = extract_and_save_twitter_data(URLs, title, url, "title")
                     all_urls_by_titles.extend(twitter_results_urls_title)
+
                     print(f"\n{Fore.GREEN}== Level {level}. VK search by title as {title}{Style.RESET_ALL}")
                     vk_results_urls_title = extract_and_save_vk_data(URLs, title, url, "title")
                     # vk_results_urls_title = []
