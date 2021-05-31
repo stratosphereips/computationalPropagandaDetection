@@ -18,8 +18,11 @@ from utils import (
 )
 import yaml
 
-with open("credentials.yaml", "r") as f:
-    SERPAPI_KEY = yaml.load(f, Loader=yaml.SafeLoader)["serpapi"]
+try:
+    with open("credentials.yaml", "r") as f:
+            SERPAPI_KEY = yaml.load(f, Loader=yaml.SafeLoader)["serpapi"]
+except FileNotFoundError:
+    print(f'No credentials.yaml file. Stop')
 
 
 def get_hash_for_url(url):

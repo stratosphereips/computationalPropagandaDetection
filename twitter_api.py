@@ -5,9 +5,11 @@ import time
 from datetime import datetime
 from colorama import Fore, Style
 
-#
-with open("credentials.yaml", "r") as f:
-    TWITTER_KEY = yaml.load(f, Loader=yaml.SafeLoader)["twitter"]
+try:
+    with open("credentials.yaml", "r") as f:
+        TWITTER_KEY = yaml.load(f, Loader=yaml.SafeLoader)["twitter"]
+except FileNotFoundError:
+    print(f'no credentials.yaml file. stop')
 
 search_url = "https://api.twitter.com/2/tweets/search/all"
 
@@ -39,7 +41,7 @@ def connect_to_endpoint(headers, params):
 
 def get_twitter_data(searched_phrase, is_url, published_date = None):
     twitter_results = []
-    end_time = datetime.datetime.now()
+    end_time = datetime.now()
     # if we know published_day, we search for published_date - year,
     # else for now() - 3 year
     if published_date is None:

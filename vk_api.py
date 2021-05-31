@@ -4,8 +4,11 @@ import sqlite3
 from colorama import Fore, Style
 import yaml
 
-with open("credentials.yaml", "r") as f:
-    VK_KEY = yaml.load(f, Loader=yaml.SafeLoader)["vk"]
+try:
+    with open("credentials.yaml", "r") as f:
+        VK_KEY = yaml.load(f, Loader=yaml.SafeLoader)["vk"]
+except FileNotFoundError:
+    print(f'no credentials.yaml file. stop')
 
 
 # TODO: To get VK API, put to browser
@@ -75,63 +78,68 @@ def get_number_of_intereaction(report, name_of_interaction):
 
 
 def get_vk_data(searched_phrase):
-    session = vk.Session(access_token=VK_KEY)
+    try:
+        session = vk.Session(access_token=VK_KEY)
 
-    api = vk.API(session)
-    reports = api.newsfeed.search(q=searched_phrase, v="5.52")
-    vkdb = VKDB(VK_DB_PATH)
-    vk_info = []
-    search_date = datetime.now()
-    found_urls = []
+        api = vk.API(session)
+        reports = api.newsfeed.search(q=searched_phrase, v="5.52")
+        vkdb = VKDB(VK_DB_PATH)
+        vk_info = []
+        search_date = datetime.now()
+        found_urls = []
 
-    for report in reports["items"]:
-        user_id = report["owner_id"]
-        from_id = report["from_id"]
-        is_private = 1
-        if user_id < 0:
-            is_private = 0
-        post_id = report["id"]
-        date = datetime.utcfromtimestamp(report["date"]).strftime("%Y-%m-%d %H:%M:%S")
-        text = report["text"]
-        mark_as_ad_count = 0
-        if "mark_as_ad" in report:
-            mark_as_ad_count = get_number_of_intereaction(reports, "mark_as_ad")
-        comments_count = get_number_of_intereaction(report, "comments")
-        likes_count = get_number_of_intereaction(report, "likes")
-        reposts_count = get_number_of_intereaction(report, "reposts")
-        url = f"https://vk.com/id{user_id}?w=wall{user_id}_{post_id}"
-        values = (
-            url,
-            post_id,
-            user_id,
-            from_id,
-            date,
-            text,
-            comments_count,
-            likes_count,
-            reposts_count,
-            mark_as_ad_count,
-            is_private,
-        )
-        vkdb.add_values(values)
-        vkdb.commit()
-        vk_info.append(
-            {
-                "child_url": url,
-                "search_date": search_date,
-                "publication_date": date,
-                "content": text,
-                "title": None,
-            }
-        )
-        print(
-            f"\t{Fore.YELLOW}Result [{len(found_urls)}] {Style.RESET_ALL} Processing URL {url}. Date: {date}"
-        )
-        found_urls.append(url)
+        for report in reports["items"]:
+            user_id = report["owner_id"]
+            from_id = report["from_id"]
+            is_private = 1
+            if user_id < 0:
+                is_private = 0
+            post_id = report["id"]
+            date = datetime.utcfromtimestamp(report["date"]).strftime("%Y-%m-%d %H:%M:%S")
+            text = report["text"]
+            mark_as_ad_count = 0
+            if "mark_as_ad" in report:
+                mark_as_ad_count = get_number_of_intereaction(reports, "mark_as_ad")
+            comments_count = get_number_of_intereaction(report, "comments")
+            likes_count = get_number_of_intereaction(report, "likes")
+            reposts_count = get_number_of_intereaction(report, "reposts")
+            url = f"https://vk.com/id{user_id}?w=wall{user_id}_{post_id}"
+            values = (
+                url,
+                post_id,
+                user_id,
+                from_id,
+                date,
+                text,
+                comments_count,
+                likes_count,
+                reposts_count,
+                mark_as_ad_count,
+                is_private,
+            )
+            vkdb.add_values(values)
+            vkdb.commit()
+            vk_info.append(
+                {
+                    "child_url": url,
+                    "search_date": search_date,
+                    "publication_date": date,
+                    "content": text,
+                    "title": None,
+                }
+            )
+            print(
+                f"\t{Fore.YELLOW}Result [{len(found_urls)}] {Style.RESET_ALL} Processing URL {url}. Date: {date}"
+            )
+            found_urls.append(url)
 
-    vkdb.close()
-    print(f"In total was found {len(found_urls)}")
-    return vk_info
+        vkdb.close()
+        print(f"In total was found {len(found_urls)}")
+        return vk_info
+    except vk.exceptions.VkAPIError:
+        print(f'Wrong VK credentials, please check.')
+        return False
+
 
 
 # info = get_vk_data("https://www.fondsk.ru/news/2020/03/25/borba-s-koronavirusom-i-bolshoj-brat-50441.html")
