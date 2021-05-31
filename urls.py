@@ -71,3 +71,9 @@ class URLs:
 
     def get_title_by_url(self, url):
         return self.db.get_url_by_title(url)
+
+    def get_publication_datetime(self, url: str):
+        """
+        Set the datetime when the result was published
+        """
+        return self.db.get_date_published_url(url)
