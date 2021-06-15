@@ -13,6 +13,7 @@ except FileNotFoundError:
 
 # TODO: To get VK API, put to browser
 # https://oauth.vk.com/authorize?client_id=7674454&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=friends&response_type=token&v=5.52
+# https://oauth.vk.com/authorize?client_id=7674454&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=0&response_type=token&v=5.52
 # And copy access_token
 VK_DB_PATH = "DB/databases/vk.db"
 
@@ -77,7 +78,7 @@ def get_number_of_intereaction(report, name_of_interaction):
     return report[name_of_interaction]["count"]
 
 
-def get_vk_data(searched_phrase):
+def get_vk_data(searched_phrase) -> list:
     try:
         session = vk.Session(access_token=VK_KEY)
 
