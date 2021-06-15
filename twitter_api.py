@@ -4,6 +4,7 @@ import urllib
 import time
 from datetime import datetime
 from colorama import Fore, Style
+from datetime import timedelta
 
 try:
     with open("credentials.yaml", "r") as f:
@@ -45,9 +46,9 @@ def get_twitter_data(searched_phrase, is_url, published_date = None):
     # if we know published_day, we search for published_date - year,
     # else for now() - 3 year
     if published_date is None:
-        start_time = end_time - datetime.timedelta(days=3*365)
+        start_time = end_time - timedelta(days=3*365)
     else:
-        start_time = end_time - datetime.timedelta(days=365)
+        start_time = end_time - timedelta(days=365)
 
     headers = create_headers()
     if is_url:
