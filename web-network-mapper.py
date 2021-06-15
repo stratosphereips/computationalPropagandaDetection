@@ -60,6 +60,8 @@ def extract_and_save_twitter_data(URLs, searched_string, parent_url, type_of_lin
 
 def extract_and_save_vk_data(URLs, searched_string, parent_url, type_of_link):
     vk_results = get_vk_data(searched_string)
+    if not vk_results:
+        return []
     for result in vk_results:
         result["parent_url"] = parent_url
         result["link_type"] = type_of_link
