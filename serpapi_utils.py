@@ -20,7 +20,7 @@ import yaml
 
 try:
     with open("credentials.yaml", "r") as f:
-            SERPAPI_KEY = yaml.load(f, Loader=yaml.SafeLoader)["serpapi"]
+        SERPAPI_KEY = yaml.load(f, Loader=yaml.SafeLoader)["serpapi"]
 except FileNotFoundError:
     print(f'No credentials.yaml file. Stop')
 
@@ -29,7 +29,7 @@ def get_hash_for_url(url):
     return hashlib.md5(url.encode()).hexdigest()
 
 
-def trigger_api(search_leyword):
+def trigger_api(search_keyword, engine="google"):
     """
     Access to the API of serapi
 
@@ -54,14 +54,27 @@ def trigger_api(search_leyword):
     https://www.geopolitica.ru/article/covid-19-i-mishel-fuko-nekotorye-mysli-vsluh+&cd=8&hl=en&ct=clnk&gl=us"
 
     """
-    try:
-        # print(f' == Retriving results for {search_leyword}')
+    if engine == "google":
         params = {
             "engine": "google",
-            "q": search_leyword,
             "google_domain": "google.com",
+            "q": search_keyword,
             "api_key": SERPAPI_KEY,
         }
+    elif engine == "yandex":
+        params = {
+            "engine": "yandex",
+            "yandex_domain": "yandex.com",
+            "text": search_keyword,
+            "api_key": SERPAPI_KEY,
+        }
+    else:
+        print(f"Error in trigger_api(): wrong engine {engine}, supported engines [\"google\", \"yandex\"]")
+
+        return False, False
+    try:
+        # print(f' == Retrieving results for {search_keyword}')
+        print(params)
 
         # Here we store all the results of all the search pages returned.
         # We concatenate in this variable
@@ -76,33 +89,37 @@ def trigger_api(search_leyword):
             all_results.append(results["organic_results"])
             # Since the results came in batches of 10, get all the 'pages'
             # together before continuing
-            amount_total_results = results["search_information"]["total_results"]
+            # amount_total_results = results["search_information"]["total_results"]
             # The amount of results starts with 1, ends with 10 if there are > 10
             amount_of_results_so_far = len(results["organic_results"])
             # print(f' == Total amount of results: {amount_total_results}')
             # print(f' == Results retrieved so far: {amount_of_results_so_far}')
         except KeyError:
             # There are no 'organic_results' for this result
-            amount_total_results = 0
+            # amount_total_results = 0
             amount_of_results_so_far = 0
+        print(
+            f"{Fore.RED} START Results found so far {amount_of_results_so_far}{Style.RESET_ALL}")
 
-        # Threshold of maxium amount of results to retrieve. Now 100.
+        # Threshold of maxium amount of results to retrieve. Now 300.
         # Some pages can have 100000's
         max_results = 300
 
-        # While we have results to get, get them
-        while (amount_of_results_so_far < amount_total_results) and (
-            amount_of_results_so_far < max_results
-        ):
+        # While we have results to get, get them, updated to be more general
+        search_page = 0
+        while amount_of_results_so_far < max_results and "organic_results" in results.keys() and len(
+                results["organic_results"]):
+
             # print(' == Searching 10 more...')
-            # New params
-            params = {
-                "engine": "google",
-                "q": search_leyword,
-                "google_domain": "google.com",
-                "start": str(amount_of_results_so_far + 1),
-                "api_key": SERPAPI_KEY,
-            }
+            # New params, adding search offset
+            if engine == "google":
+                # google can search with specific offset
+                params["start"] = str(amount_of_results_so_far + 1)
+            elif engine == "yandex":
+                # yandex can search only page number -> we need additional stuff to choose page
+                # and not get stuck on last page and read it over and over again
+                search_page += 1
+                params["p"] = search_page
             client = GoogleSearch(params)
             new_results = client.get_dict()
             # Store this batch of results in the final list
@@ -119,24 +136,26 @@ def trigger_api(search_leyword):
             amount_of_results_so_far += len(new_results["organic_results"])
             # print(f' == Results retrieved so far: {amount_of_results_so_far}')
 
-        print(
-            f"\tTotal amount of results retrieved: {Fore.YELLOW}{amount_of_results_so_far}{Style.RESET_ALL}"
-        )
+        print(f"\tTotal amount of results retrieved: {Fore.YELLOW}{amount_of_results_so_far}{Style.RESET_ALL}")
         # Store the results of the api for future comparison
         modificator_time = str(datetime.now()).replace(" ", "_")
         # write the results to a json file so we dont lose them
-        if "http" in search_leyword:
+        if "http" in search_keyword:
             # we are searching a domain
-            for_file_name = search_leyword.split("/")[2]
+            for_file_name = search_keyword.split("/")[2]
         else:
             # if a title, just the first word
-            for_file_name = search_leyword.split(" ")[0]
+            for_file_name = search_keyword.split(" ")[0]
         file_name_jsons = "results-" + for_file_name + "_" + modificator_time + ".json"
+        if os.name == 'nt':
+            file_name_jsons = "results-" + for_file_name + ".json"
+        print(file_name_jsons)
         # if args.verbosity > 1:
         #     print(f"\tStoring the results of api in {file_name_jsons}")
         if not os.path.exists("results"):
             os.makedirs("results")
         with open(os.path.join("results", file_name_jsons), "w") as f:
+            # with open('results/test.json', "w") as f:
             json.dump(results, f)
 
         return all_results, amount_of_results_so_far
@@ -197,45 +216,45 @@ def parse_date_from_string(text):
 
                 if parsed_date is None:
                     # Is it like 2020-03-26T01:02:12+03:00?
-                    year_first = text[y_position : y_position + 25]
+                    year_first = text[y_position: y_position + 25]
                     parsed_date = __parse_date_string(year_first, control_min_date)
 
                 if parsed_date is None:
                     # Is it like 2020/03/02? (slash doesnt matter)
-                    year_first = text[y_position : y_position + 10]
+                    year_first = text[y_position: y_position + 10]
                     parsed_date = __parse_date_string(
                         year_first, control_min_date_naive
                     )
 
                 if parsed_date is None:
                     # Is it like 03/02/2020?
-                    year_last = text[y_position - 6 : y_position + 4]
+                    year_last = text[y_position - 6: y_position + 4]
                     parsed_date = __parse_date_string(year_last, control_min_date_naive)
 
                 if parsed_date is None:
                     # Is it like 'Mar. 27th, 2020'?
-                    text_type_1 = text[y_position - 11 : y_position + 4]
+                    text_type_1 = text[y_position - 11: y_position + 4]
                     parsed_date = __parse_date_string(
                         text_type_1, control_min_date_naive
                     )
 
                 if parsed_date is None:
                     # Is it like 'November 10 2020'
-                    text_type_1 = text[y_position - 12 : y_position + 4]
+                    text_type_1 = text[y_position - 12: y_position + 4]
                     parsed_date = __parse_date_string(
                         text_type_1, control_min_date_naive
                     )
 
                 if parsed_date is None:
                     # Is it like '27 марта 2020 г.'
-                    text_type_1 = text[y_position - 9 : y_position + 4]
+                    text_type_1 = text[y_position - 9: y_position + 4]
                     parsed_date = __parse_date_string(
                         text_type_1, control_min_date_naive
                     )
 
                 if parsed_date is None:
                     # Is it like 2020/03/25?
-                    text_type_1 = text[y_position : y_position + 9]
+                    text_type_1 = text[y_position: y_position + 9]
                     parsed_date = __parse_date_string(
                         text_type_1, control_min_date_naive
                     )
@@ -281,6 +300,7 @@ def downloadContent(url):
         # Timeout waiting for an answer is 15 seconds
         page_content = requests.get(url, timeout=10, headers=headers)
         text_content = page_content.text
+
         tree = fromstring(page_content.content)
         title = tree.findtext(".//title")
         # Get the date of publication of the webpage
@@ -290,14 +310,17 @@ def downloadContent(url):
             f"\t\t{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}"
         )
         return None, None, None, None
+        # return False, False, False, False
     except requests.exceptions.ReadTimeout:
         print(
             f"\t\t{Fore.MAGENTA}! Timeout waiting for the web server to answer.  We ignore and continue.{Style.RESET_ALL}"
         )
         return None, None, None, None
+        # return False, False, False, False
     except requests.exceptions.MissingSchema:
         print('Please add https:// or http:// to your URL')
         return None, None, None, None
+        # return False, False, False, False
     except Exception as e:
         print(
             f"\t\t{Fore.MAGENTA}! Error getting the content of the web.{Style.RESET_ALL}"
@@ -305,6 +328,7 @@ def downloadContent(url):
         print(f"\t\t{Fore.MAGENTA}! {e}{Style.RESET_ALL}")
         print(f"\t\t{type(e)}")
         return None, None, None, None
+        # return False, False, False, False
 
     url_hash = get_hash_for_url(url)
 
@@ -314,16 +338,17 @@ def downloadContent(url):
         file_name = "contents/" + url_hash + "_" + timemodifier + "-content.html"
         # if args.verbosity > 1:
         #     print(f"\t\tStoring the content of url {url} in file {file_name}")
-        file = open(file_name, "w")
+        file = open(file_name, "w", encoding='utf-8')
         file.write(text_content)
         file.close()
     except Exception as e:
         print("\t\tError saving the content of the webpage.")
         print(f"\t\t{e}")
         print(f"\t\t{type(e)}")
-        return (False, False, False)
+        return None, None, None, None
+        # return False, False, False, False
 
-    return (text_content, title, file_name, publication_date)
+    return text_content, title, file_name, publication_date
 
 
 def process_data_from_api(data, url, URLs, link_type, content_similarity=False, threshold=0.3):
@@ -374,11 +399,11 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False, 
                 # Check the current content to the content of the parent url
                 parent_content = URLs.get_content_by_url(url)
                 if not check_text_similiarity(
-                    main_content=parent_content,
-                    content=content,
-                    main_url=url,
-                    child_url=child_url,
-                    threshold=threshold
+                        main_content=parent_content,
+                        content=content,
+                        main_url=url,
+                        child_url=child_url,
+                        threshold=threshold
                 ):
                     continue
 
