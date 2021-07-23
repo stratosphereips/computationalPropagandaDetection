@@ -17,3 +17,4 @@ vk.key
 *.yaml
 credentials.yaml
 DB/databases/*
+*.ipynb

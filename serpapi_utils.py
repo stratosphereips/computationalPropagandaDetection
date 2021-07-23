@@ -68,13 +68,23 @@ def trigger_api(search_keyword, engine="google"):
             "text": search_keyword,
             "api_key": SERPAPI_KEY,
         }
-    else:
-        print(f"Error in trigger_api(): wrong engine {engine}, supported engines [\"google\", \"yandex\"]")
+    elif engine == "yahoo":
+        params = {
+            "engine": "yahoo",
+            "p": search_keyword,
+            "api_key": SERPAPI_KEY,
+        }
+    elif engine == "bing":
+        params = {
+            "engine": "bing",
+            "q": search_keyword,
+            "api_key": SERPAPI_KEY
+        }
 
+    else:
+        print(f"Error in trigger_api(): wrong engine: {engine}")
         return False, False
     try:
-        # print(f' == Retrieving results for {search_keyword}')
-        print(params)
 
         # Here we store all the results of all the search pages returned.
         # We concatenate in this variable
@@ -89,42 +99,47 @@ def trigger_api(search_keyword, engine="google"):
             all_results.append(results["organic_results"])
             # Since the results came in batches of 10, get all the 'pages'
             # together before continuing
-            # amount_total_results = results["search_information"]["total_results"]
+            amount_total_results = results["search_information"]["total_results"]
             # The amount of results starts with 1, ends with 10 if there are > 10
             amount_of_results_so_far = len(results["organic_results"])
             # print(f' == Total amount of results: {amount_total_results}')
             # print(f' == Results retrieved so far: {amount_of_results_so_far}')
         except KeyError:
             # There are no 'organic_results' for this result
-            # amount_total_results = 0
+            amount_total_results = 0
             amount_of_results_so_far = 0
-        print(
-            f"{Fore.RED} START Results found so far {amount_of_results_so_far}{Style.RESET_ALL}")
 
+        # print(results["organic_results"])
         # Threshold of maxium amount of results to retrieve. Now 300.
         # Some pages can have 100000's
         max_results = 300
-
-        # While we have results to get, get them, updated to be more general
+        
+        # some APIs need search page instead of offset
         search_page = 0
-        while amount_of_results_so_far < max_results and "organic_results" in results.keys() and len(
-                results["organic_results"]):
+        # While we have results to get, get them, updated to be more general
+        while amount_of_results_so_far < max_results and "organic_results" in results.keys() and \
+                len(results["organic_results"]):
+            # this helps to stop looping if there are no more results, possible only when we know amount_total_results
+            if isinstance(amount_total_results, int) and amount_of_results_so_far > amount_total_results:
+                break
 
+            search_page += 1
             # print(' == Searching 10 more...')
             # New params, adding search offset
             if engine == "google":
-                # google can search with specific offset
                 params["start"] = str(amount_of_results_so_far + 1)
             elif engine == "yandex":
-                # yandex can search only page number -> we need additional stuff to choose page
-                # and not get stuck on last page and read it over and over again
-                search_page += 1
                 params["p"] = search_page
+            elif engine == "yahoo":
+                params["b"] = str(amount_of_results_so_far + 1)
+            elif engine == "bing":
+                params["first"] = amount_of_results_so_far + 1
+
             client = GoogleSearch(params)
-            new_results = client.get_dict()
+            results = client.get_dict()
             # Store this batch of results in the final list
             try:
-                all_results.append(new_results["organic_results"])
+                all_results.append(results["organic_results"])
             except KeyError:
                 # We dont have results. It can happen because search engines
                 # report an amount of results that has a lot of
@@ -133,7 +148,7 @@ def trigger_api(search_keyword, engine="google"):
                 # Results: {new_results}')
                 break
 
-            amount_of_results_so_far += len(new_results["organic_results"])
+            amount_of_results_so_far += len(results["organic_results"])
             # print(f' == Results retrieved so far: {amount_of_results_so_far}')
 
         print(f"\tTotal amount of results retrieved: {Fore.YELLOW}{amount_of_results_so_far}{Style.RESET_ALL}")
