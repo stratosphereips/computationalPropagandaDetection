@@ -190,7 +190,7 @@ if __name__ == "__main__":
                     all_urls_by_urls.extend(vk_results_urls)
 
                     # Search by Title
-                    if title is not None:
+                    if title:
                         print(f"\n{Fore.CYAN}== Level {level}. Google search by TITLE as {title}{Style.RESET_ALL}")
                         google_results_urls_title = search_google_by_title(title, url, URLs, threshold=args.urls_threshold)
                         # google_results_urls_title = []

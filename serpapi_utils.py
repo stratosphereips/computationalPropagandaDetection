@@ -289,22 +289,22 @@ def downloadContent(url):
         print(
             f"\t\t{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}"
         )
-        return (False, False, False, False)
+        return None, None, None, None
     except requests.exceptions.ReadTimeout:
         print(
             f"\t\t{Fore.MAGENTA}! Timeout waiting for the web server to answer.  We ignore and continue.{Style.RESET_ALL}"
         )
-        return (False, False, False, False)
+        return None, None, None, None
     except requests.exceptions.MissingSchema:
         print('Please add https:// or http:// to your URL')
-        return (False, False, False, False)
+        return None, None, None, None
     except Exception as e:
         print(
             f"\t\t{Fore.MAGENTA}! Error getting the content of the web.{Style.RESET_ALL}"
         )
         print(f"\t\t{Fore.MAGENTA}! {e}{Style.RESET_ALL}")
         print(f"\t\t{type(e)}")
-        return (False, False, False, False)
+        return None, None, None, None
 
     url_hash = get_hash_for_url(url)
 
