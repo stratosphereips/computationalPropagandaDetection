@@ -23,7 +23,9 @@ SERAPI_KEY = f.readline()
 f.close()
 
 PROPAGANDA_DB_PATH = "DB/databases/propaganda.db"
-IMPLEMENTED_SEARCH_ENGINES = ["google", "yandex", "yahoo", "bing"]
+SEARCH_ENGINES = ["google", "yandex", "yahoo", "bing"]
+COLORS = [Fore.CYAN, Fore.LIGHTGREEN_EX, Fore.MAGENTA, Fore.LIGHTBLUE_EX, Fore.GREEN, Fore.BLUE, Fore.LIGHTCYAN_EX,
+          Fore.LIGHTMAGENTA_EX]
 
 
 def update_urls_with_results(URLs, results):
@@ -69,108 +71,6 @@ def extract_and_save_vk_data(URLs, searched_string, parent_url, type_of_link):
     return update_urls_with_results(URLs, vk_results)
 
 
-# def search_google_by_title(title, url, URLs, threshold=0.3):
-#     """
-#     Search google results in SerAPI by title
-#     - Process the results to extract data for each url
-#     - Store the results in the DB
-#     - Return list of results
-#     """
-#     # Use API to get links to this URL
-#     data, amount_of_results = trigger_api(title, "google")
-#
-#     # For each url in the results do
-#     child_urls_found = []
-#     if data:
-#         google_results = process_data_from_api(data, url, URLs, link_type="title", content_similarity=True,
-#                                                threshold=threshold)
-#         child_urls_found = update_urls_with_results(URLs, google_results)
-#
-#     return child_urls_found
-#
-#
-# def search_google_by_link(url, URLs, threshold=0.3):
-#     """
-#     Search google results in SerAPI by link
-#     - Process the results to extract data for each url
-#     - Store the results in the DB
-#     - Return list of results
-#     """
-#     # Use API to get links to this URL
-#     data, amount_of_results = trigger_api(url, "google")
-#     child_urls_found = []
-#     # For each url in the results do
-#     if data:
-#         google_results = process_data_from_api(data, url, URLs, link_type="link", threshold=threshold)
-#         child_urls_found = update_urls_with_results(URLs, google_results)
-#
-#         # Special situation to extract date of the main url
-#         # from the API. This is not available after asking
-#         # for the API
-#         # Search in the results for the main url
-#         for page in data:
-#             for result in page:
-#                 child_url = result["link"]
-#                 if child_url == url:
-#                     main_url_publication_date = get_dates_from_api_result_data(result)
-#                     formated_date = convert_date(main_url_publication_date)
-#                     URLs.set_publication_datetime(url, formated_date)
-#                     break
-#
-#     return child_urls_found
-#
-#
-# def search_yandex_by_title(title, url, URLs, threshold=0.3):
-#     """
-#     Search yandex results in SerAPI by title
-#     - Process the results to extract data for each url
-#     - Store the results in the DB
-#     - Return list of results
-#     """
-#     # Use API to get links to this URL
-#     data, amount_of_results = trigger_api(title, "yandex")
-#
-#     # For each url in the results do
-#     child_urls_found = []
-#     if data:
-#         google_results = process_data_from_api(data, url, URLs, link_type="title", content_similarity=True,
-#                                                threshold=threshold)
-#         child_urls_found = update_urls_with_results(URLs, google_results)
-#
-#     return child_urls_found
-#
-#
-# def search_yandex_by_link(url, URLs, threshold=0.3):
-#     """
-#     Search google results in SerAPI by link
-#     - Process the results to extract data for each url
-#     - Store the results in the DB
-#     - Return list of results
-#     """
-#     # Use API to get links to this URL
-#     data, amount_of_results = trigger_api(url, "yandex")
-#     child_urls_found = []
-#     # For each url in the results do
-#     if data:
-#         google_results = process_data_from_api(data, url, URLs, link_type="link", threshold=threshold)
-#         child_urls_found = update_urls_with_results(URLs, google_results)
-#
-#         # Special situation to extract date of the main url
-#         # from the API. This is not available after asking
-#         # for the API
-#         # Search in the results for the main url
-#         for page in data:
-#             for result in page:
-#                 child_url = result["link"]
-#                 if child_url == url:
-#                     main_url_publication_date = get_dates_from_api_result_data(result)
-#                     formated_date = convert_date(main_url_publication_date)
-#                     URLs.set_publication_datetime(url, formated_date)
-#                     break
-#
-#     return child_urls_found
-
-
 def search_by_title(title, url, URLs, search_engine, threshold=0.3):
     """
     Search results in SerAPI by title
@@ -179,10 +79,10 @@ def search_by_title(title, url, URLs, search_engine, threshold=0.3):
     - Store the results in the DB
     - Return list of results
     """
-    if search_engine not in IMPLEMENTED_SEARCH_ENGINES:
+    if search_engine not in SEARCH_ENGINES:
         print(
             f"{Fore.RED}Searching in not implemented engine {search_engine}{Style.RESET_ALL}, "
-            f"please choose from implemented engines {IMPLEMENTED_SEARCH_ENGINES}")
+            f"please choose from implemented engines {SEARCH_ENGINES}")
         raise NotImplemented
 
     # Use API to get links to this URL
@@ -202,10 +102,10 @@ def search_by_link(url, URLs, search_engine, threshold=0.3):
     - Store the results in the DB
     - Return list of results
     """
-    if search_engine not in IMPLEMENTED_SEARCH_ENGINES:
+    if search_engine not in SEARCH_ENGINES:
         print(
             f"{Fore.RED}Searching in not implemented engine {search_engine}{Style.RESET_ALL}, "
-            f"please choose from implemented engines {IMPLEMENTED_SEARCH_ENGINES}")
+            f"please choose from implemented engines {SEARCH_ENGINES}")
         raise NotImplemented
     # Use API to get links to this URL
     data, amount_of_results = trigger_api(url, search_engine)
@@ -289,62 +189,76 @@ if __name__ == "__main__":
                     title = URLs.get_title_by_url(url)
                     all_urls_by_urls, all_urls_by_titles = [], []
                     # Search by link
-                    print(f"\n{Fore.CYAN}== Level {level}. Google search by LINKS to {url}{Style.RESET_ALL}")
-                    google_results_urls = search_by_link(url, URLs, search_engine="google", threshold=args.urls_threshold)
-                    all_urls_by_urls.extend(google_results_urls)
+                    for i, engine in enumerate(SEARCH_ENGINES):
+                        print(f"\n{COLORS[i]}== Level {level}. Search {engine} by LINKS to {url}{Style.RESET_ALL}")
+                        results_urls = search_by_link(url, URLs, search_engine=engine,
+                                                             threshold=args.urls_threshold)
+                        all_urls_by_urls.extend(results_urls)
 
-                    print(f"\n{Fore.CYAN}== Level {level}. Bing search by LINKS to {url}{Style.RESET_ALL}")
-                    bing_results_urls = search_by_link(url, URLs, search_engine="bing", threshold=args.urls_threshold)
-                    all_urls_by_urls.extend(bing_results_urls)
-
-                    print(f"\n{Fore.LIGHTGREEN_EX}== Level {level}. Yahoo search by LINKS to {url}{Style.RESET_ALL}")
-                    yahoo_results_urls = search_by_link(url, URLs, search_engine="yahoo", threshold=args.urls_threshold)
-                    all_urls_by_urls.extend(yahoo_results_urls)
-
-                    print(f"\n{Fore.LIGHTBLUE_EX}== Level {level}. Yandex search by LINKS as {title}{Style.RESET_ALL}")
-                    yandex_results_urls = search_by_link(url, URLs, search_engine="yandex", threshold=args.urls_threshold)
-                    all_urls_by_urls.extend(yandex_results_urls)
-
-                    print(f"\n{Fore.MAGENTA}== Level {level}. Twitter search by LINKS as {url}{Style.RESET_ALL}")
-                    twitter_results_urls = extract_and_save_twitter_data(URLs, url, url, "link")
-                    all_urls_by_urls.extend(twitter_results_urls)
-
-                    print(f"\n{Fore.GREEN}== Level {level}. VK search by LINKS as {url}{Style.RESET_ALL}")
-                    vk_results_urls = extract_and_save_vk_data(URLs, url, url, "link")
-                    all_urls_by_urls.extend(vk_results_urls)
+                    # print(f"\n{Fore.CYAN}== Level {level}. Google search by LINKS to {url}{Style.RESET_ALL}")
+                    # google_results_urls = search_by_link(url, URLs, search_engine="google",
+                    #                                      threshold=args.urls_threshold)
+                    # all_urls_by_urls.extend(google_results_urls)
+                    #
+                    # print(f"\n{Fore.CYAN}== Level {level}. Bing search by LINKS to {url}{Style.RESET_ALL}")
+                    # bing_results_urls = search_by_link(url, URLs, search_engine="bing", threshold=args.urls_threshold)
+                    # all_urls_by_urls.extend(bing_results_urls)
+                    #
+                    # print(f"\n{Fore.LIGHTGREEN_EX}== Level {level}. Yahoo search by LINKS to {url}{Style.RESET_ALL}")
+                    # yahoo_results_urls = search_by_link(url, URLs, search_engine="yahoo", threshold=args.urls_threshold)
+                    # all_urls_by_urls.extend(yahoo_results_urls)
+                    #
+                    # print(f"\n{Fore.LIGHTBLUE_EX}== Level {level}. Yandex search by LINKS as {title}{Style.RESET_ALL}")
+                    # yandex_results_urls = search_by_link(url, URLs, search_engine="yandex",
+                    #                                      threshold=args.urls_threshold)
+                    # all_urls_by_urls.extend(yandex_results_urls)
+                    #
+                    # print(f"\n{Fore.MAGENTA}== Level {level}. Twitter search by LINKS as {url}{Style.RESET_ALL}")
+                    # twitter_results_urls = extract_and_save_twitter_data(URLs, url, url, "link")
+                    # all_urls_by_urls.extend(twitter_results_urls)
+                    #
+                    # print(f"\n{Fore.GREEN}== Level {level}. VK search by LINKS as {url}{Style.RESET_ALL}")
+                    # vk_results_urls = extract_and_save_vk_data(URLs, url, url, "link")
+                    # all_urls_by_urls.extend(vk_results_urls)
 
                     # Search by Title
-
                     if title is not None:
                         print("TITLE ", title)
-                        print(f"\n{Fore.CYAN}== Level {level}. Google search by TITLE as {title}{Style.RESET_ALL}")
-                        google_results_urls_title = search_by_title(title, url, URLs, search_engine="google",
-                                                                    threshold=args.urls_threshold)
-                        all_urls_by_titles.extend(google_results_urls_title)
+                        for color, engine in zip(COLORS, SEARCH_ENGINES):
+                            print(f"\n{color}== Level {level}. Search {engine} by TITLE as {title}{Style.RESET_ALL}")
+                            results_urls_title = search_by_title(title, url, URLs, search_engine=engine,
+                                                                 threshold=args.urls_threshold)
+                            all_urls_by_titles.extend(results_urls_title)
 
-                        print(f"\n{Fore.CYAN}== Level {level}. Bing search by TITLE as {title}{Style.RESET_ALL}")
-                        bing_results_urls_title = search_by_title(title, url, URLs, search_engine="bing",
-                                                                    threshold=args.urls_threshold)
-                        all_urls_by_titles.extend(bing_results_urls_title)
-
-                        print(f"\n{Fore.LIGHTGREEN_EX}== Level {level}. Yahoo search by TITLE as {title}{Style.RESET_ALL}")
-                        yahoo_results_urls_title = search_by_title(title, url, URLs, search_engine="yahoo",
-                                                                    threshold=args.urls_threshold)
-                        all_urls_by_titles.extend(yahoo_results_urls_title)
-
-                        print(
-                            f"\n{Fore.LIGHTBLUE_EX}== Level {level}. Yandex search by TITLE as {title}{Style.RESET_ALL}")
-                        yandex_results_urls_title = search_by_title(title, url, URLs, search_engine="yandex",
-                                                                    threshold=args.urls_threshold)
-                        all_urls_by_titles.extend(yandex_results_urls_title)
-
-                        print(f"\n{Fore.MAGENTA}== Level {level}. Twitter search by title as {title}{Style.RESET_ALL}")
-                        twitter_results_urls_title = extract_and_save_twitter_data(URLs, title, url, "title")
-                        all_urls_by_titles.extend(twitter_results_urls_title)
-
-                        print(f"\n{Fore.GREEN}== Level {level}. VK search by title as {title}{Style.RESET_ALL}")
-                        vk_results_urls_title = extract_and_save_vk_data(URLs, title, url, "title")
-                        all_urls_by_titles.extend(vk_results_urls_title)
+                        # print(f"\n{Fore.CYAN}== Level {level}. Google search by TITLE as {title}{Style.RESET_ALL}")
+                        # google_results_urls_title = search_by_title(title, url, URLs, search_engine="google",
+                        #                                             threshold=args.urls_threshold)
+                        # all_urls_by_titles.extend(google_results_urls_title)
+                        #
+                        # print(f"\n{Fore.CYAN}== Level {level}. Bing search by TITLE as {title}{Style.RESET_ALL}")
+                        # bing_results_urls_title = search_by_title(title, url, URLs, search_engine="bing",
+                        #                                           threshold=args.urls_threshold)
+                        # all_urls_by_titles.extend(bing_results_urls_title)
+                        #
+                        # print(
+                        #     f"\n{Fore.LIGHTGREEN_EX}== Level {level}. Yahoo search by TITLE as {title}{Style.RESET_ALL}")
+                        # yahoo_results_urls_title = search_by_title(title, url, URLs, search_engine="yahoo",
+                        #                                            threshold=args.urls_threshold)
+                        # all_urls_by_titles.extend(yahoo_results_urls_title)
+                        #
+                        # print(
+                        #     f"\n{Fore.LIGHTBLUE_EX}== Level {level}. Yandex search by TITLE as {title}{Style.RESET_ALL}")
+                        # yandex_results_urls_title = search_by_title(title, url, URLs, search_engine="yandex",
+                        #                                             threshold=args.urls_threshold)
+                        # all_urls_by_titles.extend(yandex_results_urls_title)
+                        #
+                        # print(f"\n{Fore.MAGENTA}== Level {level}. Twitter search by title as {title}{Style.RESET_ALL}")
+                        # twitter_results_urls_title = extract_and_save_twitter_data(URLs, title, url, "title")
+                        # all_urls_by_titles.extend(twitter_results_urls_title)
+                        #
+                        # print(f"\n{Fore.GREEN}== Level {level}. VK search by title as {title}{Style.RESET_ALL}")
+                        # vk_results_urls_title = extract_and_save_vk_data(URLs, title, url, "title")
+                        # all_urls_by_titles.extend(vk_results_urls_title)
 
                     urls_to_search_by_level[level + 1] = all_urls_by_urls
             except KeyError:
