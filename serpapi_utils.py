@@ -57,14 +57,12 @@ def trigger_api(search_keyword, engine="google"):
     if engine == "google":
         params = {
             "engine": "google",
-            "google_domain": "google.com",
             "q": search_keyword,
             "api_key": SERPAPI_KEY,
         }
     elif engine == "yandex":
         params = {
             "engine": "yandex",
-            "yandex_domain": "yandex.com",
             "text": search_keyword,
             "api_key": SERPAPI_KEY,
         }
@@ -80,6 +78,12 @@ def trigger_api(search_keyword, engine="google"):
             "q": search_keyword,
             "api_key": SERPAPI_KEY
         }
+    elif engine == "baidu":
+        params = {
+            "engine": "baidu",
+            "q": search_keyword,
+            "api_key": SERPAPI_KEY
+        }
 
     else:
         print(f"Error in trigger_api(): wrong engine: {engine}")
@@ -88,7 +92,7 @@ def trigger_api(search_keyword, engine="google"):
 
         # Here we store all the results of all the search pages returned.
         # We concatenate in this variable
-        all_results = []
+        all_results = list()
 
         # Get first results
         client = GoogleSearch(params)
@@ -96,62 +100,64 @@ def trigger_api(search_keyword, engine="google"):
 
         # Store this batch of results in the final list
         try:
-            all_results.append(results["organic_results"])
+            for result in results["organic_results"]:
+                all_results.append(result)
+            # all_results.append(results["organic_results"])
             # Since the results came in batches of 10, get all the 'pages'
             # together before continuing
             amount_total_results = results["search_information"]["total_results"]
             # The amount of results starts with 1, ends with 10 if there are > 10
-            amount_of_results_so_far = len(results["organic_results"])
             # print(f' == Total amount of results: {amount_total_results}')
             # print(f' == Results retrieved so far: {amount_of_results_so_far}')
         except KeyError:
             # There are no 'organic_results' for this result
             amount_total_results = 0
-            amount_of_results_so_far = 0
 
         # print(results["organic_results"])
         # Threshold of maxium amount of results to retrieve. Now 300.
         # Some pages can have 100000's
         max_results = 25
-        
+
         # some APIs need search page instead of offset
         search_page = 0
         # While we have results to get, get them, updated to be more general
-        while amount_of_results_so_far < max_results and "organic_results" in results.keys() and \
+        while len(all_results) < max_results and "organic_results" in results.keys() and \
                 len(results["organic_results"]):
             # this helps to stop looping if there are no more results, possible only when we know amount_total_results
-            if isinstance(amount_total_results, int) and amount_of_results_so_far > amount_total_results:
+            if isinstance(amount_total_results, int) and len(all_results) > amount_total_results:
                 break
 
             search_page += 1
-            # print(' == Searching 10 more...')
             # New params, adding search offset
             if engine == "google":
-                params["start"] = str(amount_of_results_so_far + 1)
+                params["start"] = str(len(all_results) + 1)
             elif engine == "yandex":
                 params["p"] = search_page
             elif engine == "yahoo":
-                params["b"] = str(amount_of_results_so_far + 1)
+                params["b"] = str(len(all_results) + 1)
             elif engine == "bing":
-                params["first"] = str(amount_of_results_so_far + 1)
+                params["first"] = str(len(all_results) + 1)
+            elif engine == "baidu":
+                params["pn"] = str(len(all_results) + 1)
 
             client = GoogleSearch(params)
             results = client.get_dict()
             # Store this batch of results in the final list
-            try:
-                all_results.append(results["organic_results"])
-            except KeyError:
+            if "organic_results" in results.keys():
+                for result in results["organic_results"]:
+                    all_results.append(result)
+            else:
                 # We dont have results. It can happen because search engines
                 # report an amount of results that has a lot of
                 # repetitions. So you can only access a part
                 # print(f'Error accessing organic results.
                 # Results: {new_results}')
                 break
-
-            amount_of_results_so_far += len(results["organic_results"])
+            # print(results["organic_results"] if "organic_results" in results.keys() else "there are no results")
+            # amount_of_results_so_far += len(results["organic_results"])
             # print(f' == Results retrieved so far: {amount_of_results_so_far}')
 
-        print(f"\tTotal amount of results retrieved: {Fore.YELLOW}{amount_of_results_so_far}{Style.RESET_ALL}")
+        print(f"\tTotal amount of results retrieved: {Fore.YELLOW}{len(all_results)}{Style.RESET_ALL}")
         # Store the results of the api for future comparison
         modificator_time = str(datetime.now()).replace(" ", "_")
         # write the results to a json file so we dont lose them
@@ -164,7 +170,7 @@ def trigger_api(search_keyword, engine="google"):
         file_name_jsons = "results-" + for_file_name + "_" + modificator_time + ".json"
         if os.name == 'nt':
             file_name_jsons = "results-" + for_file_name + ".json"
-        print(file_name_jsons)
+        # print(file_name_jsons)
         # if args.verbosity > 1:
         #     print(f"\tStoring the results of api in {file_name_jsons}")
         if not os.path.exists("results"):
@@ -172,8 +178,7 @@ def trigger_api(search_keyword, engine="google"):
         with open(os.path.join("results", file_name_jsons), "w") as f:
             # with open('results/test.json', "w") as f:
             json.dump(results, f)
-
-        return all_results, amount_of_results_so_far
+        return all_results
 
     except Exception as e:
         print("Error in trigger_api()")
@@ -325,17 +330,14 @@ def downloadContent(url):
             f"\t\t{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}"
         )
         return None, None, None, None
-        # return False, False, False, False
     except requests.exceptions.ReadTimeout:
         print(
             f"\t\t{Fore.MAGENTA}! Timeout waiting for the web server to answer.  We ignore and continue.{Style.RESET_ALL}"
         )
         return None, None, None, None
-        # return False, False, False, False
     except requests.exceptions.MissingSchema:
         print('Please add https:// or http:// to your URL')
         return None, None, None, None
-        # return False, False, False, False
     except Exception as e:
         print(
             f"\t\t{Fore.MAGENTA}! Error getting the content of the web.{Style.RESET_ALL}"
@@ -343,7 +345,6 @@ def downloadContent(url):
         print(f"\t\t{Fore.MAGENTA}! {e}{Style.RESET_ALL}")
         print(f"\t\t{type(e)}")
         return None, None, None, None
-        # return False, False, False, False
 
     url_hash = get_hash_for_url(url)
 
@@ -373,87 +374,92 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False, 
     If we are asked to compare the content, we
     need the parent url to retrieve its content
     """
+    # print(f"LEN DATA PROCESS_DATA_FROM_API {len(data)}, {data}")
     # max_results_to_process = 1000000
     max_results_to_process = 200
     result_shown = 1
     results = []
-    for page in data:
-        for result in page:
-            # To have some control on how many result we process
-            max_results_to_process -= 1
-            if max_results_to_process <= 0:
-                break
-            child_url = result["link"]
+    for result in data:
+        # To have some control on how many result we process
+        max_results_to_process -= 1
+        if max_results_to_process <= 0:
+            break
+
+        # this is because of baidu
+        if "link" not in result.keys():
+            continue
+
+        child_url = result["link"]
+        print(
+            f"\t{Fore.YELLOW}Result [{result_shown}] {Style.RESET_ALL} Processing URL {child_url}"
+        )
+        result_shown += 1
+        api_publication_date = get_dates_from_api_result_data(result)
+
+        # Apply filters
+        #
+        # 1. No repeated urls
+        if URLs.url_exist(child_url):
             print(
-                f"\t{Fore.YELLOW}Result [{result_shown}] {Style.RESET_ALL} Processing URL {child_url}"
+                f"\t\t{Fore.YELLOW}Repeated{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} "
             )
-            result_shown += 1
-            api_publication_date = get_dates_from_api_result_data(result)
+            continue
 
-            # Apply filters
-            #
-            # 1. No repeated urls
-            if URLs.url_exist(child_url):
-                print(
-                    f"\t\t{Fore.YELLOW}Repeated{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} "
-                )
+        # 2. Filter out some URLs we dont want
+        if url_blacklisted(child_url):
+            print(
+                f"\t\t{Fore.YELLOW}Blacklisted{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} "
+            )
+            continue
+        (content, title, content_file, content_publication_date) = downloadContent(
+            child_url
+        )
+
+        # 3. Check similarity of content of pages
+        if content_similarity:
+            # Check the current content to the content of the parent url
+            parent_content = URLs.get_content_by_url(url)
+            if not check_text_similiarity(
+                    main_content=parent_content,
+                    content=content,
+                    main_url=url,
+                    child_url=child_url,
+                    threshold=threshold
+            ):
                 continue
 
-            # 2. Filter out some URLs we dont want
-            if url_blacklisted(child_url):
+        # If we dont have a publication date from the api
+        # use the one from the content
+        if not api_publication_date:
+            publication_date = content_publication_date
+        else:
+            publication_date = api_publication_date
+
+        # 3. Is the main url in the content of the page of child_url?
+        # Dont do if we are also doing content similarity since that
+        # is by title, not url
+        if not content_similarity:
+            if not url_in_content(url, content, content_file):
                 print(
-                    f"\t\t{Fore.YELLOW}Blacklisted{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} "
+                    f"\t\t{Fore.YELLOW}Not in content{Style.RESET_ALL}. The URL {url} is not in the content "
+                    f"of site {child_url} {Fore.RED} Discarding.{Style.RESET_ALL}"
                 )
                 continue
-            (content, title, content_file, content_publication_date) = downloadContent(
-                child_url
-            )
-
-            # 3. Check similarity of content of pages
-            if content_similarity:
-                # Check the current content to the content of the parent url
-                parent_content = URLs.get_content_by_url(url)
-                if not check_text_similiarity(
-                        main_content=parent_content,
-                        content=content,
-                        main_url=url,
-                        child_url=child_url,
-                        threshold=threshold
-                ):
-                    continue
-
-            # If we dont have a publication date from the api
-            # use the one from the content
-            if not api_publication_date:
-                publication_date = content_publication_date
             else:
-                publication_date = api_publication_date
+                print(
+                    f"\t\tThe URL {url} IS in the content of site {child_url} {Fore.BLUE} Keeping.{Style.RESET_ALL}"
+                )
 
-            # 3. Is the main url in the content of the page of child_url?
-            # Dont do if we are also doing content similarity since that
-            # is by title, not url
-            if not content_similarity:
-                if not url_in_content(url, content, content_file):
-                    print(
-                        f"\t\t{Fore.YELLOW}Not in content{Style.RESET_ALL}. The URL {url} is not in the content "
-                        f"of site {child_url} {Fore.RED} Discarding.{Style.RESET_ALL}"
-                    )
-                    continue
-                else:
-                    print(
-                        f"\t\tThe URL {url} IS in the content of site {child_url} {Fore.BLUE} Keeping.{Style.RESET_ALL}"
-                    )
-
-            print(f"\t\tAdding to DB the URL {child_url}")
-            results.append(
-                {
-                    "child_url": child_url,
-                    "parent_url": url,
-                    "search_date": datetime.now(),
-                    "publication_date": publication_date,
-                    "link_type": link_type,
-                    "content": content,
-                    "title": title,
-                }
-            )
+        print(f"\t\tAdding to DB the URL {child_url}")
+        results.append(
+            {
+                "child_url": child_url,
+                "parent_url": url,
+                "search_date": datetime.now(),
+                "publication_date": publication_date,
+                "link_type": link_type,
+                "content": content,
+                "title": title,
+            }
+        )
     return results
