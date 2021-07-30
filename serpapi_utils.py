@@ -16,6 +16,7 @@ from utils import (
     get_dates_from_api_result_data,
     url_blacklisted,
 )
+from newspaper import Article
 import yaml
 
 try:
@@ -116,7 +117,7 @@ def trigger_api(search_keyword, engine="google"):
         # print(results["organic_results"])
         # Threshold of maxium amount of results to retrieve. Now 300.
         # Some pages can have 100000's
-        max_results = 25
+        max_results = 200
 
         # some APIs need search page instead of offset
         search_page = 0
@@ -188,6 +189,41 @@ def trigger_api(search_keyword, engine="google"):
         return False, False
 
 
+def get_string_date(string, year):
+    """
+    Recieve relatively small block of string and year in in
+    return ('day month_shortcut year', 'day month_shortcut year')  format, two possible dates found
+    """
+
+    def __day_month(a, b):
+        """ figure out what is day and what is month, return string 'day month_shortcut' """
+        if a[-2:].lower() in ["st", "nd", "rd", "th"]:
+            # a is a number
+            a = a[:-2]
+        if b[-2:].lower() in ["st", "nd", "rd", "th"]:
+            # b is a number
+            b = b[:-2]
+        if len(a) > len(b):
+            return " ".join([b, a[:3]])
+        else:
+            return " ".join([a, b[:3]])
+
+    date_list = re.split(r'[,<>/\-_ "\.%]+', string)
+    year_last, year_first = None, None
+    try:
+        year_idx = date_list.index(year)
+    except ValueError:
+        return None, None
+
+    if year_idx > 2:
+        day_month = __day_month(date_list[year_idx - 2], date_list[year_idx - 1])
+        year_last = " ".join([day_month, year])
+    if year_idx < len(date_list) - 2:
+        day_month = __day_month(date_list[year_idx + 1], date_list[year_idx + 2])
+        year_first = " ".join([day_month, year])
+    return year_last, year_first
+
+
 def parse_date_from_string(text):
     """
     Receive a string and give back a date
@@ -204,7 +240,7 @@ def parse_date_from_string(text):
 
     def __parse_date_string(text_to_parse, min_date):
         parsed_date = None
-        # First try in English
+        # First try in English or numbers
         try:
             parsed_date = dateutil.parser.parse(text_to_parse)
             if parsed_date < min_date:
@@ -212,12 +248,14 @@ def parse_date_from_string(text):
             return parsed_date
         except dateutil.parser._parser.ParserError:
             pass
+        except TypeError:
+            pass
 
         # Try in Russian
         try:
             locale.setlocale(locale.LC_ALL, "ru_RU")
             parsed_date = datetime.strptime(text_to_parse, "%d %b %Y")
-            if parsed_date < min_date:
+            if parsed_date < control_min_date_naive:
                 parsed_date = None
             return parsed_date
         except dateutil.parser._parser.ParserError:
@@ -226,58 +264,25 @@ def parse_date_from_string(text):
             pass
 
         # Other format/languague?
-
         return parsed_date
 
     for year_to_monitor in years_to_monitor:
         y_positions = [m.start() for m in re.finditer(year_to_monitor, text)]
         for y_position in y_positions:
             if y_position:
-
                 if parsed_date is None:
                     # Is it like 2020-03-26T01:02:12+03:00?
                     year_first = text[y_position: y_position + 25]
                     parsed_date = __parse_date_string(year_first, control_min_date)
 
                 if parsed_date is None:
-                    # Is it like 2020/03/02? (slash doesnt matter)
-                    year_first = text[y_position: y_position + 10]
-                    parsed_date = __parse_date_string(
-                        year_first, control_min_date_naive
-                    )
-
-                if parsed_date is None:
-                    # Is it like 03/02/2020?
-                    year_last = text[y_position - 6: y_position + 4]
-                    parsed_date = __parse_date_string(year_last, control_min_date_naive)
-
-                if parsed_date is None:
-                    # Is it like 'Mar. 27th, 2020'?
-                    text_type_1 = text[y_position - 11: y_position + 4]
-                    parsed_date = __parse_date_string(
-                        text_type_1, control_min_date_naive
-                    )
-
-                if parsed_date is None:
-                    # Is it like 'November 10 2020'
-                    text_type_1 = text[y_position - 12: y_position + 4]
-                    parsed_date = __parse_date_string(
-                        text_type_1, control_min_date_naive
-                    )
-
-                if parsed_date is None:
-                    # Is it like '27 марта 2020 г.'
-                    text_type_1 = text[y_position - 9: y_position + 4]
-                    parsed_date = __parse_date_string(
-                        text_type_1, control_min_date_naive
-                    )
-
-                if parsed_date is None:
-                    # Is it like 2020/03/25?
-                    text_type_1 = text[y_position: y_position + 9]
-                    parsed_date = __parse_date_string(
-                        text_type_1, control_min_date_naive
-                    )
+                    # Any format where year is last or first
+                    year_last, year_first = get_string_date(text[max(0, y_position - 50):y_position + 50],
+                                                            year_to_monitor)
+                    if year_last is not None:
+                        parsed_date = __parse_date_string(year_last, control_min_date)
+                    if parsed_date is None and year_first is not None:
+                        parsed_date = __parse_date_string(year_first, control_min_date)
 
     return parsed_date
 
@@ -287,7 +292,7 @@ def extract_date_from_webpage(url, page_content):
     Receive an URL and tree HTM: structure and try to find the date of
     publication in several heuristic ways
     """
-    # If this is a specific website, suchas telegram or twitter,
+    # If this is a specific website, such as telegram or twitter,
     # do a better search
     tree = fromstring(page_content.content)
     title = tree.findtext(".//title")
@@ -325,6 +330,68 @@ def downloadContent(url):
         title = tree.findtext(".//title")
         # Get the date of publication of the webpage
         publication_date = extract_date_from_webpage(url, page_content)
+    except requests.exceptions.ConnectionError:
+        print(
+            f"\t\t{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}"
+        )
+        return None, None, None, None
+    except requests.exceptions.ReadTimeout:
+        print(
+            f"\t\t{Fore.MAGENTA}! Timeout waiting for the web server to answer.  We ignore and continue.{Style.RESET_ALL}"
+        )
+        return None, None, None, None
+    except requests.exceptions.MissingSchema:
+        print('Please add https:// or http:// to your URL')
+        return None, None, None, None
+    except Exception as e:
+        print(
+            f"\t\t{Fore.MAGENTA}! Error getting the content of the web.{Style.RESET_ALL}"
+        )
+        print(f"\t\t{Fore.MAGENTA}! {e}{Style.RESET_ALL}")
+        print(f"\t\t{type(e)}")
+        return None, None, None, None
+
+    url_hash = get_hash_for_url(url)
+
+    try:
+        # Store the file
+        timemodifier = str(datetime.now()).replace(" ", "_").replace(":", "_")
+        file_name = "contents/" + url_hash + "_" + timemodifier + "-content.html"
+        # if args.verbosity > 1:
+        #     print(f"\t\tStoring the content of url {url} in file {file_name}")
+        file = open(file_name, "w", encoding='utf-8')
+        file.write(text_content)
+        file.close()
+    except Exception as e:
+        print("\t\tError saving the content of the webpage.")
+        print(f"\t\t{e}")
+        print(f"\t\t{type(e)}")
+        return None, None, None, None
+        # return False, False, False, False
+
+    return text_content, title, file_name, publication_date
+
+
+def download_content_newspaper3k(url):
+    """
+    Downlod the content of the web page
+    """
+    try:
+        article = Article(url)
+        article.download()
+        article.parse()
+
+        text_content = article.text
+        title = article.title
+        publication_date = article.publish_date
+
+        # if newspaper3k does not find publication date, use the old approach
+        if publication_date is None:
+            headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
+            # Timeout waiting for an answer is 15 seconds
+            page_content = requests.get(url, timeout=10, headers=headers)
+            publication_date = extract_date_from_webpage(url, page_content)
+
     except requests.exceptions.ConnectionError:
         print(
             f"\t\t{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}"
@@ -411,9 +478,8 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False, 
                 f"\t\t{Fore.YELLOW}Blacklisted{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} "
             )
             continue
-        (content, title, content_file, content_publication_date) = downloadContent(
-            child_url
-        )
+        (content, title, content_file, content_publication_date) = download_content_newspaper3k(child_url)
+        # (content, title, content_file, content_publication_date) = downloadContent(child_url)
 
         # 3. Check similarity of content of pages
         if content_similarity:

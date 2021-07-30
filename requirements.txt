@@ -9,3 +9,4 @@ python-dateutil
 bs4
 networkx
 matplotlib
+newspaper3k

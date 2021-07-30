@@ -10,7 +10,7 @@ from utils import (
     get_dates_from_api_result_data,
     add_child_to_db,
 )
-from serpapi_utils import downloadContent, trigger_api, process_data_from_api
+from serpapi_utils import download_content_newspaper3k, trigger_api, process_data_from_api,downloadContent
 from twitter_api import get_twitter_data
 from vk_api import get_vk_data
 
@@ -23,7 +23,7 @@ SERAPI_KEY = f.readline()
 f.close()
 
 PROPAGANDA_DB_PATH = "DB/databases/propaganda.db"
-SEARCH_ENGINES = ["google", "yandex", "yahoo", "bing", "baidu"]
+SEARCH_ENGINES = ["google", "yandex", "yahoo", "bing"]#, "baidu"]
 COLORS = [Fore.CYAN, Fore.LIGHTGREEN_EX, Fore.MAGENTA, Fore.LIGHTBLUE_EX, Fore.GREEN, Fore.BLUE, Fore.LIGHTCYAN_EX,
           Fore.LIGHTMAGENTA_EX]
 
@@ -79,11 +79,6 @@ def search_by_title(title, url, URLs, search_engine, threshold=0.3):
     - Store the results in the DB
     - Return list of results
     """
-    if search_engine not in SEARCH_ENGINES:
-        print(
-            f"{Fore.RED}Searching in not implemented engine {search_engine}{Style.RESET_ALL}, "
-            f"please choose from implemented engines {SEARCH_ENGINES}")
-        raise NotImplemented
 
     # Use API to get links to this URL
     data = trigger_api(title, search_engine)
@@ -102,11 +97,7 @@ def search_by_link(url, URLs, search_engine, threshold=0.3):
     - Store the results in the DB
     - Return list of results
     """
-    if search_engine not in SEARCH_ENGINES:
-        print(
-            f"{Fore.RED}Searching in not implemented engine {search_engine}{Style.RESET_ALL}, "
-            f"choose from implemented engines {SEARCH_ENGINES}")
-        raise NotImplemented
+
     # Use API to get links to this URL
     data = trigger_api(url, search_engine)
     child_urls_found = []
@@ -157,8 +148,18 @@ if __name__ == "__main__":
     parser.add_argument("-e", "--engines", help=f"What engines to use, currently possible (default) {SEARCH_ENGINES}",
                         type=str)
     args = parser.parse_args()
+
+    # choose what engines to use
     if args.engines:
-        SEARCH_ENGINES = args.engines.lower().split(',')
+        args_engines = args.engines.lower().split(',')
+        for eng in args_engines:
+            if eng not in SEARCH_ENGINES:
+                print(
+                    f"{Fore.RED}Searching in not implemented engine {eng}{Style.RESET_ALL}, "
+                    f"choose from implemented engines {SEARCH_ENGINES}")
+                raise NotImplemented
+        SEARCH_ENGINES = args_engines
+
     main_url = args.link
 
     # Always check the largest verbosity first
@@ -176,7 +177,8 @@ if __name__ == "__main__":
 
         # Store the main URL as an url in our DB
         URLs.add_url(args.link, int(args.is_propaganda))
-        (main_content, main_title, content_file, publication_date) = downloadContent(args.link)
+        (main_content, main_title, content_file, publication_date) = download_content_newspaper3k(args.link)
+        # (main_content, main_title, content_file, publication_date) = downloadContent(args.link)
         print(f'Main title: {main_title}')
 
         URLs.store_content(args.link, main_content)
@@ -192,11 +194,11 @@ if __name__ == "__main__":
                     title = URLs.get_title_by_url(url)
                     all_urls_by_urls, all_urls_by_titles = [], []
                     # Search by link
-                    for i, engine in enumerate(SEARCH_ENGINES):
-                        print(f"\n{COLORS[i]}== Level {level}. Search {engine} by LINKS to {url}{Style.RESET_ALL}")
-                        results_urls = search_by_link(url, URLs, search_engine=engine,
-                                                      threshold=args.urls_threshold)
-                        all_urls_by_urls.extend(results_urls)
+                    # for i, engine in enumerate(SEARCH_ENGINES):
+                    #     print(f"\n{COLORS[i]}== Level {level}. Search {engine} by LINKS to {url}{Style.RESET_ALL}")
+                    #     results_urls = search_by_link(url, URLs, search_engine=engine,
+                    #                                   threshold=args.urls_threshold)
+                    #     all_urls_by_urls.extend(results_urls)
 
                     if title is not None:
                         print("TITLE ", title)
