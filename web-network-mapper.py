@@ -177,16 +177,17 @@ if __name__ == "__main__":
 
         # Store the main URL as an url in our DB
         URLs.add_url(args.link, int(args.is_propaganda))
-        (main_content, main_title, content_file, publication_date) = download_content_newspaper3k(args.link)
+        (main_content, main_title, content_file, publication_date) = download_content_newspaper3k(main_url)
         # (main_content, main_title, content_file, publication_date) = downloadContent(args.link)
         print(f'Main title: {main_title}')
 
-        URLs.store_content(args.link, main_content)
-        URLs.store_title(args.link, main_title)
-        URLs.set_query_datetime(args.link, datetime.now())
+        URLs.store_content(main_url, main_content)
+        URLs.store_title(main_url, main_title)
+        URLs.set_query_datetime(main_url, datetime.now())
+        URLs.set_query_datetime(main_url, publication_date)
 
         # Search by URLs, and by levels
-        urls_to_search_by_level = {0: [args.link]}
+        urls_to_search_by_level = {0: [main_url]}
         for level in range(args.number_of_levels):
             try:
                 print(f"In level {level} were found {len(urls_to_search_by_level[level])} urls including original")

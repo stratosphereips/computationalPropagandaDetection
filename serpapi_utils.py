@@ -10,6 +10,7 @@ from colorama import Fore, Style
 import dateutil.parser
 import re
 import locale
+import numpy as np
 from utils import (
     url_in_content,
     check_text_similiarity,
@@ -189,6 +190,17 @@ def trigger_api(search_keyword, engine="google"):
         return False, False
 
 
+def select_best_date_idx(date_idxs, text):
+    title_start = re.search('<title>', text).end()
+    title_end = re.search('</title>', text).start()
+    title = text[title_start:title_end]
+    title = title[:int(len(title) / 3)]
+    titles = np.asarray([[x.start() for x in re.finditer(title, text)]])
+    distance_matrix = np.abs(np.asarray([date_idxs]).T - titles)
+    final_idx = np.where(distance_matrix == np.min(distance_matrix))[0][0]
+    return final_idx
+
+
 def get_string_date(string, year):
     """
     Recieve relatively small block of string and year in in
@@ -236,7 +248,6 @@ def parse_date_from_string(text):
     # However, we can't compare only dates with datetimes, so we need two
     control_min_date_naive = dateutil.parser.parse("2000/01/01")
     control_min_date = dateutil.parser.parse("2000/01/01T00:00:00+00:00")
-    parsed_date = None
 
     def __parse_date_string(text_to_parse, min_date):
         parsed_date = None
@@ -266,25 +277,39 @@ def parse_date_from_string(text):
         # Other format/languague?
         return parsed_date
 
+    possible_dates, possible_dates_position = [], []
     for year_to_monitor in years_to_monitor:
         y_positions = [m.start() for m in re.finditer(year_to_monitor, text)]
         for y_position in y_positions:
             if y_position:
-                if parsed_date is None:
-                    # Is it like 2020-03-26T01:02:12+03:00?
-                    year_first = text[y_position: y_position + 25]
+                # Is it like 2020-03-26T01:02:12+03:00 - the 'perfect format'
+                year_first = text[y_position: y_position + 25]
+                parsed_date = __parse_date_string(year_first, control_min_date)
+                if parsed_date is not None:
+                    possible_dates.append(parsed_date)
+                    possible_dates_position.append(y_position)
+
+                # Any format where year is last or first 'any other parsable format'
+                # print(text[max(0, y_position - 50):y_position + 50])
+                year_last, year_first = get_string_date(text[max(0, y_position - 50):y_position + 50],
+                                                        year_to_monitor)
+                if year_last is not None and parsed_date is not None:
+                    parsed_date = __parse_date_string(year_last, control_min_date)
+                    if parsed_date is not None:
+                        possible_dates.append(parsed_date)
+                        possible_dates_position.append(y_position)
+
+                if year_first is not None and parsed_date is not None:
                     parsed_date = __parse_date_string(year_first, control_min_date)
+                    if parsed_date is not None:
+                        possible_dates.append(parsed_date)
+                        possible_dates_position.append(y_position)
 
-                if parsed_date is None:
-                    # Any format where year is last or first
-                    year_last, year_first = get_string_date(text[max(0, y_position - 50):y_position + 50],
-                                                            year_to_monitor)
-                    if year_last is not None:
-                        parsed_date = __parse_date_string(year_last, control_min_date)
-                    if parsed_date is None and year_first is not None:
-                        parsed_date = __parse_date_string(year_first, control_min_date)
-
-    return parsed_date
+    if possible_dates is None:
+        return None
+    elif len(possible_dates) == 1:
+        return possible_dates[0]
+    return possible_dates[select_best_date_idx(possible_dates_position, text)]
 
 
 def extract_date_from_webpage(url, page_content):
@@ -501,6 +526,7 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False, 
         else:
             publication_date = api_publication_date
 
+        publication_date = content_publication_date
         # 3. Is the main url in the content of the page of child_url?
         # Dont do if we are also doing content similarity since that
         # is by title, not url
