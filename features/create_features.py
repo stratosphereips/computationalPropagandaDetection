@@ -53,8 +53,10 @@ def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[str, int]
     more_than_30_days_per_level = np.zeros(max_level)
 
     for url, date in url_to_date.items():
+        print(url, date)
         if url == main_url:
             continue
+        print(date, main_url_date)
         if date is None:
             # TODO: not sure what to do if the date is None
             continue
@@ -86,8 +88,15 @@ def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[str, int]
 
 
 def get_level(links: List[tuple], main_url: str) -> Dict[str, int]:
+    """
+    Finds in which level is each URL
+
+    Input: List of links
+    Output: Dict of URLs with levels
+    """
     url_to_level = {}
     url_to_level[main_url] = -1  # index of the main url
+    print(links)
     for (_, l1, l2) in links:
         if l2 not in url_to_level:
             url_to_level[l2] = url_to_level[l1] + 1  # others start with 0
@@ -111,7 +120,9 @@ if __name__ == "__main__":
     parser.add_argument("-l", "--link", help="URL to build features from graph", type=str, required=True)
     parser.add_argument("-d", "--database_path", help="Path to the database", type=str, required=True)
     args = parser.parse_args()
+    print(f'Using DB {args.database_path} and link {args.link}')
 
+    # Open the DB, get the main_url, links and other URLs
     db = DB(args.database_path)
     main_url = args.link
     links = db.get_tree(main_url)
