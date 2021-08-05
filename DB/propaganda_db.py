@@ -106,8 +106,8 @@ class DB:
         """
         Function which return edges in form of [from_url, to_url] of subtree, where root of the tree is main url.
         :param main_url: the root of the tree
-        :return: Dictionary of levels, each with a list of edges in form of [from_url, to_url].
-        Example: { [0]:[(url1, url2), (url1, url3)], [1]:[(url2, url4), (url2, url5)] }
+        :return: List of tuples (level, parent_url, child_uyrl). 
+        Example: [ (0, url1, url2), (1, url1, url3), (1, url2, url4), (2, url2, url5) ]
         """
         try:
             main_id = self.get_url_id(main_url)  # id of this url in DB
