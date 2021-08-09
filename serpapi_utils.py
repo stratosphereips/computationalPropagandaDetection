@@ -19,6 +19,7 @@ from utils import (
 )
 from newspaper import Article
 import yaml
+from htmldate import find_date
 
 try:
     with open("credentials.yaml", "r") as f:
@@ -118,7 +119,7 @@ def trigger_api(search_keyword, engine="google"):
         # print(results["organic_results"])
         # Threshold of maxium amount of results to retrieve. Now 300.
         # Some pages can have 100000's
-        max_results = 200
+        max_results = 40
 
         # some APIs need search page instead of offset
         search_page = 0
@@ -191,11 +192,13 @@ def trigger_api(search_keyword, engine="google"):
 
 
 def select_best_date_idx(date_idxs, text):
-    title_start = re.search('<title>', text).end()
+    regex_words = ["date.{0,4}publish", "publish.{0,4}date", "time.{0,4}publish", "publish.{0,4}time",
+                   "article.{0,4}time", "article.{0,4}date", "date", "time"]
+    title_start = re.search(r'<title.*>', text).end()
     title_end = re.search('</title>', text).start()
     title = text[title_start:title_end]
-    title = title[:int(len(title) / 3)]
-    titles = np.asarray([[x.start() for x in re.finditer(title, text)]])
+    regex_words.append(title[:int(len(title) / 3)])
+    titles = np.asarray([[x.end() for x in re.finditer("|".join(regex_words), text, flags=re.IGNORECASE)]])
     distance_matrix = np.abs(np.asarray([date_idxs]).T - titles)
     final_idx = np.where(distance_matrix == np.min(distance_matrix))[0][0]
     return final_idx
@@ -220,7 +223,7 @@ def get_string_date(string, year):
         else:
             return " ".join([a, b[:3]])
 
-    date_list = re.split(r'[,<>/\-_ "\.%]+', string)
+    date_list = re.split(r'[,<>/\-_ "\.%T]+', string)
     year_last, year_first = None, None
     try:
         year_idx = date_list.index(year)
@@ -250,12 +253,14 @@ def parse_date_from_string(text):
     control_min_date = dateutil.parser.parse("2000/01/01T00:00:00+00:00")
 
     def __parse_date_string(text_to_parse, min_date):
+        # print('ttp\t', text_to_parse)
         parsed_date = None
         # First try in English or numbers
         try:
             parsed_date = dateutil.parser.parse(text_to_parse)
             if parsed_date < min_date:
                 parsed_date = None
+            # print(parsed_date)
             return parsed_date
         except dateutil.parser._parser.ParserError:
             pass
@@ -266,6 +271,7 @@ def parse_date_from_string(text):
         try:
             locale.setlocale(locale.LC_ALL, "ru_RU")
             parsed_date = datetime.strptime(text_to_parse, "%d %b %Y")
+            # print(parsed_date)
             if parsed_date < control_min_date_naive:
                 parsed_date = None
             return parsed_date
@@ -275,41 +281,45 @@ def parse_date_from_string(text):
             pass
 
         # Other format/languague?
+        # print(parsed_date)
         return parsed_date
 
     possible_dates, possible_dates_position = [], []
     for year_to_monitor in years_to_monitor:
         y_positions = [m.start() for m in re.finditer(year_to_monitor, text)]
         for y_position in y_positions:
-            if y_position:
-                # Is it like 2020-03-26T01:02:12+03:00 - the 'perfect format'
-                year_first = text[y_position: y_position + 25]
+            # if y_position:
+            # Is it like 2020-03-26T01:02:12+03:00 - the 'perfect format'
+            year_first = text[y_position: y_position + 25]
+            parsed_date = __parse_date_string(year_first, control_min_date)
+            if parsed_date is not None:
+                possible_dates.append(parsed_date)
+                possible_dates_position.append(y_position)
+
+            # Any format where year is last or first 'any other parsable format'
+            # print(text[max(0, y_position - 50):y_position + 50])
+            print(text[max(0, y_position - 50):min(y_position + 50, len(text))])
+            year_last, year_first = get_string_date(text[max(0, y_position - 50):min(y_position + 50, len(text))],
+                                                    year_to_monitor)
+            if year_last is not None and parsed_date is None:
+                parsed_date = __parse_date_string(year_last, control_min_date)
+                if parsed_date is not None:
+                    possible_dates.append(parsed_date)
+                    possible_dates_position.append(y_position)
+
+            if year_first is not None and parsed_date is None:
                 parsed_date = __parse_date_string(year_first, control_min_date)
                 if parsed_date is not None:
                     possible_dates.append(parsed_date)
                     possible_dates_position.append(y_position)
 
-                # Any format where year is last or first 'any other parsable format'
-                # print(text[max(0, y_position - 50):y_position + 50])
-                year_last, year_first = get_string_date(text[max(0, y_position - 50):y_position + 50],
-                                                        year_to_monitor)
-                if year_last is not None and parsed_date is not None:
-                    parsed_date = __parse_date_string(year_last, control_min_date)
-                    if parsed_date is not None:
-                        possible_dates.append(parsed_date)
-                        possible_dates_position.append(y_position)
-
-                if year_first is not None and parsed_date is not None:
-                    parsed_date = __parse_date_string(year_first, control_min_date)
-                    if parsed_date is not None:
-                        possible_dates.append(parsed_date)
-                        possible_dates_position.append(y_position)
-
-    if possible_dates is None:
+    if not possible_dates:
         return None
     elif len(possible_dates) == 1:
         return possible_dates[0]
-    return possible_dates[select_best_date_idx(possible_dates_position, text)]
+    best_id = select_best_date_idx(possible_dates_position, text)
+    print("BEST ID", best_id)
+    return possible_dates[best_id]
 
 
 def extract_date_from_webpage(url, page_content):
@@ -328,15 +338,18 @@ def extract_date_from_webpage(url, page_content):
         # Ignore Twitter pages since we use Selenium for that
         return None
 
-    # First try to find the date in the url
-    publication_date = parse_date_from_string(url)
-    if publication_date:
-        print(f"\t\tDate found in the URL: {publication_date}")
-    else:
-        # Second try to find the date in the content of the web
-        publication_date = parse_date_from_string(page_content.text)
-        if publication_date is None:
-            print(f"\t\tDate found in the content of the page: {publication_date}")
+    publication_date = parse_date_from_string(find_date(url))
+    if publication_date is not None:
+        return publication_date
+        # First try to find the date in the url
+    # publication_date = parse_date_from_string(url)
+    # if publication_date:
+    #     print(f"\t\tDate found in the URL: {publication_date}")
+    # else:
+    #     # Second try to find the date in the content of the web
+    #     publication_date = parse_date_from_string(page_content.text)
+    #     if publication_date is not None:
+    #         print(f"\t\tDate found in the content of the page: {publication_date}")
     return publication_date
 
 
@@ -401,7 +414,9 @@ def download_content_newspaper3k(url):
     """
     Downlod the content of the web page
     """
+    publication_date = None
     try:
+
         article = Article(url)
         article.download()
         article.parse()
@@ -409,34 +424,41 @@ def download_content_newspaper3k(url):
         text_content = article.text
         title = article.title
         publication_date = article.publish_date
+        if not publication_date:
+            raise Exception("Article.date not found")
+    except Exception as e:
+        print(f"\t\t{Fore.MAGENTA}! Article error:")
+        print(f"\t\t{e}")
+        print(f"\t\t Downloading using the old approach {Style.RESET_ALL}")
 
-        # if newspaper3k does not find publication date, use the old approach
-        if publication_date is None:
+        try:
             headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
             # Timeout waiting for an answer is 15 seconds
             page_content = requests.get(url, timeout=10, headers=headers)
+            text_content = page_content.text
             publication_date = extract_date_from_webpage(url, page_content)
-
-    except requests.exceptions.ConnectionError:
-        print(
-            f"\t\t{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}"
-        )
-        return None, None, None, None
-    except requests.exceptions.ReadTimeout:
-        print(
-            f"\t\t{Fore.MAGENTA}! Timeout waiting for the web server to answer.  We ignore and continue.{Style.RESET_ALL}"
-        )
-        return None, None, None, None
-    except requests.exceptions.MissingSchema:
-        print('Please add https:// or http:// to your URL')
-        return None, None, None, None
-    except Exception as e:
-        print(
-            f"\t\t{Fore.MAGENTA}! Error getting the content of the web.{Style.RESET_ALL}"
-        )
-        print(f"\t\t{Fore.MAGENTA}! {e}{Style.RESET_ALL}")
-        print(f"\t\t{type(e)}")
-        return None, None, None, None
+            tree = fromstring(page_content.content)
+            title = tree.findtext(".//title")
+        except requests.exceptions.ConnectionError:
+            print(
+                f"\t\t{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}"
+            )
+            return None, None, None, None
+        except requests.exceptions.ReadTimeout:
+            print(
+                f"\t\t{Fore.MAGENTA}! Timeout waiting for the web server to answer.  We ignore and continue.{Style.RESET_ALL}"
+            )
+            return None, None, None, None
+        except requests.exceptions.MissingSchema:
+            print('Please add https:// or http:// to your URL')
+            return None, None, None, None
+        except Exception as e:
+            print(
+                f"\t\t{Fore.MAGENTA}! Error getting the content of the web.{Style.RESET_ALL}"
+            )
+            print(f"\t\t{Fore.MAGENTA}! {e}{Style.RESET_ALL}")
+            print(f"\t\t{type(e)}")
+            return None, None, None, None
 
     url_hash = get_hash_for_url(url)
 
@@ -454,7 +476,6 @@ def download_content_newspaper3k(url):
         print(f"\t\t{e}")
         print(f"\t\t{type(e)}")
         return None, None, None, None
-        # return False, False, False, False
 
     return text_content, title, file_name, publication_date
 
@@ -526,7 +547,7 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False, 
         else:
             publication_date = api_publication_date
 
-        publication_date = content_publication_date
+        # publication_date = content_publication_date
         # 3. Is the main url in the content of the page of child_url?
         # Dont do if we are also doing content similarity since that
         # is by title, not url

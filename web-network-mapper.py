@@ -10,7 +10,7 @@ from utils import (
     get_dates_from_api_result_data,
     add_child_to_db,
 )
-from serpapi_utils import download_content_newspaper3k, trigger_api, process_data_from_api,downloadContent
+from serpapi_utils import download_content_newspaper3k, trigger_api, process_data_from_api, downloadContent
 from twitter_api import get_twitter_data
 from vk_api import get_vk_data
 
@@ -23,7 +23,7 @@ SERAPI_KEY = f.readline()
 f.close()
 
 PROPAGANDA_DB_PATH = "DB/databases/propaganda.db"
-SEARCH_ENGINES = ["google", "yandex", "yahoo", "bing"]#, "baidu"]
+SEARCH_ENGINES = ["google", "yandex", "yahoo", "bing"]  # , "baidu"]  # baidu seems really bad
 COLORS = [Fore.CYAN, Fore.LIGHTGREEN_EX, Fore.MAGENTA, Fore.LIGHTBLUE_EX, Fore.GREEN, Fore.BLUE, Fore.LIGHTCYAN_EX,
           Fore.LIGHTMAGENTA_EX]
 
@@ -178,13 +178,13 @@ if __name__ == "__main__":
         # Store the main URL as an url in our DB
         URLs.add_url(args.link, int(args.is_propaganda))
         (main_content, main_title, content_file, publication_date) = download_content_newspaper3k(main_url)
-        # (main_content, main_title, content_file, publication_date) = downloadContent(args.link)
+        # (main_content, main_title, content_file, publication_date) = downloadContent(main_url)
         print(f'Main title: {main_title}')
 
         URLs.store_content(main_url, main_content)
         URLs.store_title(main_url, main_title)
         URLs.set_query_datetime(main_url, datetime.now())
-        URLs.set_query_datetime(main_url, publication_date)
+        URLs.set_publication_datetime(main_url, publication_date)
 
         # Search by URLs, and by levels
         urls_to_search_by_level = {0: [main_url]}
@@ -195,11 +195,11 @@ if __name__ == "__main__":
                     title = URLs.get_title_by_url(url)
                     all_urls_by_urls, all_urls_by_titles = [], []
                     # Search by link
-                    # for i, engine in enumerate(SEARCH_ENGINES):
-                    #     print(f"\n{COLORS[i]}== Level {level}. Search {engine} by LINKS to {url}{Style.RESET_ALL}")
-                    #     results_urls = search_by_link(url, URLs, search_engine=engine,
-                    #                                   threshold=args.urls_threshold)
-                    #     all_urls_by_urls.extend(results_urls)
+                    for i, engine in enumerate(SEARCH_ENGINES):
+                        print(f"\n{COLORS[i]}== Level {level}. Search {engine} by LINKS to {url}{Style.RESET_ALL}")
+                        results_urls = search_by_link(url, URLs, search_engine=engine,
+                                                      threshold=args.urls_threshold)
+                        all_urls_by_urls.extend(results_urls)
 
                     if title is not None:
                         print("TITLE ", title)

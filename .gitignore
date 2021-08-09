@@ -1,7 +1,6 @@
 api-google.txt
 rapidapi-api.txt
-propaganda.db
-vk.db
+*.db
 serapi.key
 *content.html
 results*.json
@@ -16,5 +15,4 @@ logs
 vk.key
 *.yaml
 credentials.yaml
-DB/databases/*
 *.ipynb
