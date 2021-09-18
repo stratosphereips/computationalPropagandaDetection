@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "#906090", "id": "kurs.com.ua", "label": "kurs.com.ua", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://kurs.com.ua/novost/419705-vpervie-za-god-v-moldove-nikto-ne-umer-ot-ot-covid-19", "label": " ", "shape": "dot", "title": "https://kurs.com.ua/novost/419705-vpervie-za-god-v-moldove-nikto-ne-umer-ot-ot-covid-19"}, {"color": "#906090", "id": "gazeta.ru", "label": "gazeta.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.gazeta.ru/social/2020/04/10/13043623.shtml", "label": " ", "shape": "dot", "title": "https://www.gazeta.ru/social/2020/04/10/13043623.shtml"}, {"color": "#906090", "id": "dailystorm.ru", "label": "dailystorm.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://dailystorm.ru/news/sobyanin-podpisal-ukaz-o-nerabochih-dnyah-s-15-po-19-iyunya-c-sohraneniem-zarplaty", "label": " ", "shape": "dot", "title": "https://dailystorm.ru/news/sobyanin-podpisal-ukaz-o-nerabochih-dnyah-s-15-po-19-iyunya-c-sohraneniem-zarplaty"}, {"color": "#906090", "id": "virtualbrest.ru", "label": "virtualbrest.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://virtualbrest.ru/news75954.php", "label": " ", "shape": "dot", "title": "https://virtualbrest.ru/news75954.php"}, {"color": "#906090", "id": "eadaily.com", "label": "eadaily.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://eadaily.com/ru/news/2020/06/14/shvedskiy-put-lecheniya-covid-19-inekcii-morfina-v-domah-prestarelyh", "label": " ", "shape": "dot", "title": "https://eadaily.com/ru/news/2020/06/14/shvedskiy-put-lecheniya-covid-19-inekcii-morfina-v-domah-prestarelyh"}, {"color": "#906090", "id": "twitter.com", "label": "twitter.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://twitter.com/2392059067/status/1243128521720987649", "label": " ", "shape": "dot", "title": "https://twitter.com/2392059067/status/1243128521720987649"}, {"color": "#906090", "id": "rnbee.ru", "label": "rnbee.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://rnbee.ru/post-wall/pozhilym-ukraincam-otkazyvajut-v-ispolzovanii-ivl-pri-koronaviruse/", "label": " ", "shape": "dot", "title": "https://rnbee.ru/post-wall/pozhilym-ukraincam-otkazyvajut-v-ispolzovanii-ivl-pri-koronaviruse/"}]);
+        edges = new vis.DataSet([{"from": "rnbee.ru", "title": 2, "to": "twitter.com", "width": 3.295836866004329}, {"from": "rnbee.ru", "title": 1, "to": "eadaily.com", "width": 2.0794415416798357}, {"from": "rnbee.ru", "title": 1, "to": "virtualbrest.ru", "width": 2.0794415416798357}, {"from": "rnbee.ru", "title": 1, "to": "dailystorm.ru", "width": 2.0794415416798357}, {"from": "rnbee.ru", "title": 1, "to": "gazeta.ru", "width": 2.0794415416798357}, {"from": "rnbee.ru", "title": 1, "to": "kurs.com.ua", "width": 2.0794415416798357}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

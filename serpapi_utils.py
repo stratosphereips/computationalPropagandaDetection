@@ -315,11 +315,8 @@ def parse_date_from_string(text):
 
     if not possible_dates:
         return None
-    elif len(possible_dates) == 1:
+    else:
         return possible_dates[0]
-    best_id = select_best_date_idx(possible_dates_position, text)
-    print("BEST ID", best_id)
-    return possible_dates[best_id]
 
 
 def extract_date_from_webpage(url, page_content):
@@ -489,7 +486,7 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False, 
     """
     # print(f"LEN DATA PROCESS_DATA_FROM_API {len(data)}, {data}")
     # max_results_to_process = 1000000
-    max_results_to_process = 200
+    max_results_to_process = 50
     result_shown = 1
     results = []
     for result in data:

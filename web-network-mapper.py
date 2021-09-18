@@ -13,6 +13,7 @@ from utils import (
 from serpapi_utils import download_content_newspaper3k, trigger_api, process_data_from_api, downloadContent
 from twitter_api import get_twitter_data
 from vk_api import get_vk_data
+import graph
 
 # Init colorama
 init_colorama()
@@ -147,6 +148,8 @@ if __name__ == "__main__":
     )
     parser.add_argument("-e", "--engines", help=f"What engines to use, currently possible (default) {SEARCH_ENGINES}",
                         type=str)
+    parser.add_argument("-gt", "--graph_timewindow", type=int,
+                        help="Number of years to show in graph generation, interval <-gt, today>", default=2)
     args = parser.parse_args()
 
     # choose what engines to use
@@ -200,6 +203,11 @@ if __name__ == "__main__":
                         results_urls = search_by_link(url, URLs, search_engine=engine,
                                                       threshold=args.urls_threshold)
                         all_urls_by_urls.extend(results_urls)
+                    twitter_results_urls = extract_and_save_twitter_data(URLs, url, url, "link")
+                    all_urls_by_urls.extend(twitter_results_urls)
+
+                    # vk_results_urls = extract_and_save_vk_data(URLs, url, url, "link")
+                    # all_urls_by_urls.extend(vk_results_urls)
 
                     if title is not None:
                         print("TITLE ", title)
@@ -208,6 +216,12 @@ if __name__ == "__main__":
                             results_urls_title = search_by_title(title, url, URLs, search_engine=engine,
                                                                  threshold=args.urls_threshold)
                             all_urls_by_titles.extend(results_urls_title)
+
+                        twitter_results_urls_title = extract_and_save_twitter_data(URLs, title, url, "title")
+                        all_urls_by_titles.extend(twitter_results_urls_title)
+                        print(f"\n{Fore.GREEN}== Level {level}. VK search by title as {title}{Style.RESET_ALL}")
+                        # vk_results_urls_title = extract_and_save_vk_data(URLs, title, url, "title")
+                        # all_urls_by_titles.extend(vk_results_urls_title)
 
                     urls_to_search_by_level[level + 1] = all_urls_by_urls
             except KeyError:
@@ -223,3 +237,5 @@ if __name__ == "__main__":
         print(f"Error in main(): {e}")
         print(f"{type(e)}")
         print(traceback.format_exc())
+    graph.create_date_centered(main_url, PROPAGANDA_DB_PATH, args.graph_timewindow)
+    graph.create_domain_centered(main_url, PROPAGANDA_DB_PATH)

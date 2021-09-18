@@ -21,7 +21,8 @@ class DB:
         return self.c.execute("""SELECT url FROM URLS WHERE url_id=(?)""", (url_id,)).fetchall()
 
     def link_exist(self, parent_id, child_id):
-        url_exist = self.c.execute("""SELECT LINK_ID FROM LINKS WHERE parent_id=(?) and child_id=(?);""", (parent_id, child_id))
+        url_exist = self.c.execute("""SELECT LINK_ID FROM LINKS WHERE parent_id=(?) and child_id=(?);""",
+                                   (parent_id, child_id))
         if len(url_exist.fetchall()) > 0:
             return True
 
@@ -67,7 +68,8 @@ class DB:
             self.update_date_of_query(url, date_of_query)
 
     def insert_link_id(self, parent_id: int, child_id: int, link_date: str, source: str = None):
-        self.c.execute("""INSERT INTO LINKS(parent_id, child_id, date, source) VALUES (?, ?, ?, ?) """, (parent_id, child_id, link_date, source))
+        self.c.execute("""INSERT INTO LINKS(parent_id, child_id, date, source) VALUES (?, ?, ?, ?) """,
+                       (parent_id, child_id, link_date, source))
         self.commit()
 
     def insert_link_urls(self, parent_url: str, child_url: str, link_date: str, source: str = None):
@@ -89,7 +91,8 @@ class DB:
                 self.insert_link_id(parent_id=parent_id, child_id=child_id, link_date=link_date, source=source)
             else:
                 # If the link types are the same, check the date
-                old_link_date = self.get_date_of_link_by_ids(parent_id=parent_id, child_id=child_id)  # getting date of existing link
+                old_link_date = self.get_date_of_link_by_ids(parent_id=parent_id,
+                                                             child_id=child_id)  # getting date of existing link
                 old_link_date_obj = datetime.strptime(old_link_date, "%Y-%m-%d %H:%M:%S.%f")
                 # keeping the oldest link
                 if link_date < old_link_date_obj:
@@ -102,12 +105,18 @@ class DB:
     def close(self):
         self.conn.close()
 
-    def get_tree(self, main_url: str) -> List[Tuple[str, str]]:
+    def get_tree(self, main_url: str):
         """
-        Function which return edges in form of [from_url, to_url] of subtree, where root of the tree is main url.
+        Function which return website information and edges between the websites
+         in form of (edges, nodes) of subtree, where root of the tree is main url.
+         edges are in the form [(level_url2, url1, url2, type_of_link) ..], type_of_link is "title"/"link" (url)
+         nodes are in the form of a dict: {url:(url_published_date, level_url)},
+         published_date is string in a form %Y-%m-%d, possibly there might be time attached, can be None
+
         :param main_url: the root of the tree
-        :return: Dictionary of levels, each with a list of edges in form of [from_url, to_url].
-        Example: { [0]:[(url1, url2), (url1, url3)], [1]:[(url2, url4), (url2, url5)] }
+        :return: edges, nodes
+        Example: [(level_url2, url1, url2, "link"), (level_url3, url1, url3, "title")..],
+                 {"https://bbc.com/..":("2021-04-23 00:00:00", 1)..}
         """
         try:
             main_id = self.get_url_id(main_url)  # id of this url in DB
@@ -118,26 +127,30 @@ class DB:
         # visited_parents = [main_id]  # list of parent ids which already visited
         urls_to_retrieve_childs = [main_id]  # list of urls to retrieve childs
         edges = []  # edges of the subtree
-        level = {}
-        level[main_id] = 0
+        main_published_date = self.get_date_published_url(main_url)
+        nodes = {main_url: (main_published_date, 0)}
+        level = {main_id: 0}
 
         for parent_id in urls_to_retrieve_childs:
 
             # visited_parents.append(parent_id)
             parent_url = self.get_url_by_id(parent_id)[0][0]
+            parent_published_date = self.get_date_published_url(parent_url)
+            nodes[parent_url] = (parent_published_date, level[parent_id])
 
-            # getting all childrens which start from the parent_id
-            children_ids = self.c.execute("""SELECT child_id FROM LINKS WHERE parent_id=(?);""", (parent_id,)).fetchall()
+            # getting all children which start from the parent_id
+            children_ids = self.c.execute("""SELECT child_id, SOURCE FROM LINKS WHERE parent_id=(?);""",
+                                          (parent_id,)).fetchall()
 
             for child_tuple in children_ids:
                 child_id = child_tuple[0]
                 level[child_id] = level[parent_id] + 1
-                # if the child was already expend, dont add it to the queue
+                # if the child was already expend, don't add it to the queue
                 if child_id not in urls_to_retrieve_childs:
                     urls_to_retrieve_childs.append(child_id)
                 child_url = self.get_url_by_id(child_id)[0][0]
-                edges.append((level[child_id], parent_url, child_url))
-        return edges
+                edges.append((level[child_id], parent_url, child_url, child_tuple[1]))
+        return edges, nodes
 
     def update_date_published(self, url: str, date_of_publication: str):
         if date_of_publication is not None:

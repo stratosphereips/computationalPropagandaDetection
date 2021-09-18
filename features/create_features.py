@@ -114,7 +114,7 @@ if __name__ == "__main__":
 
     db = DB(args.database_path)
     main_url = args.link
-    links = db.get_tree(main_url)
+    links, _ = db.get_tree(main_url)
     urls = get_unique_urls(links)
 
     url_to_date = {}

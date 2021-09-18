@@ -1,0 +1,216 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+        #loadingBar {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width: 1500;
+            height: 700px;
+            background-color:rgba(200,200,200,0.8);
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -ms-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+            opacity:1;
+        }
+
+        #bar {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width:20px;
+            height:20px;
+            margin:auto auto auto auto;
+            border-radius:11px;
+            border:2px solid rgba(30,30,30,0.05);
+            background: rgb(0, 173, 246); /* Old browsers */
+            box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+        }
+
+        #border {
+            position:absolute;
+            top:10px;
+            left:10px;
+            width:500px;
+            height:23px;
+            margin:auto auto auto auto;
+            box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+            border-radius:10px;
+        }
+
+        #text {
+            position:absolute;
+            top:8px;
+            left:530px;
+            width:30px;
+            height:50px;
+            margin:auto auto auto auto;
+            font-size:22px;
+            color: #000000;
+        }
+
+        div.outerBorder {
+            position:relative;
+            top:400px;
+            width:600px;
+            height:44px;
+            margin:auto auto auto auto;
+            border:8px solid rgba(0,0,0,0.1);
+            background: rgb(252,252,252); /* Old browsers */
+            background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+            border-radius:72px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        }
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+<div id="loadingBar">
+    <div class="outerBorder">
+        <div id="text">0%</div>
+        <div id="border">
+            <div id="bar"></div>
+        </div>
+    </div>
+</div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "gray", "fixed": {"x": false, "y": false}, "id": "2006-08-16", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2006-08-16", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2008-12-05", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2008-12-05", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2011-01-12", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2011-01-12", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2012-03-06", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2012-03-06", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2012-03-17", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2012-03-17", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2012-11-27", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2012-11-27", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2014-11-27", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2014-11-27", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2015-02-16", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2015-02-16", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2016-09-12", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2016-09-12", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2016-11-03", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2016-11-03", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2017-01-06", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2017-01-06", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2017-04-13", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2017-04-13", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2017-06-15", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2017-06-15", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2019-02-06", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2019-02-06", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2019-03-11", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2019-03-11", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2019-04-13", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2019-04-13", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2019-04-14", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2019-04-14", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2019-04-15", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2019-04-15", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2019-05-21", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2019-05-21", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2019-06-11", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2019-06-11", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2019-07-24", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2019-07-24", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2019-08-19", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2019-08-19", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2019-11-11", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2019-11-11", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2019-11-23", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2019-11-23", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-01-25", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-01-25", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-02-08", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-02-08", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-02-09", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-02-09", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-02-10", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-02-10", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-02-12", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-02-12", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-02-27", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-02-27", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-03-11", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-03-11", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-03-14", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-03-14", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-03-17", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-03-17", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-03-18", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-03-18", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-03-25", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-03-25", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-03-26", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-03-26", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-03-27", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-03-27", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-03-29", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-03-29", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-03-30", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-03-30", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-04-01", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-04-01", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-04-02", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-04-02", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-04-04", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-04-04", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-04-05", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-04-05", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-04-07", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-04-07", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-04-09", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-04-09", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-04-11", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-04-11", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-04-12", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-04-12", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-04-15", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-04-15", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-04-22", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-04-22", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-04-26", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-04-26", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-05-07", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-05-07", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-05-08", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-05-08", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-05-22", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-05-22", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-05-23", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-05-23", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-05-24", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-05-24", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-05-25", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-05-25", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-06-04", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-06-04", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-06-27", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-06-27", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-06-30", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-06-30", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-08-05", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-08-05", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-08-13", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-08-13", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-08-31", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-08-31", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-09-12", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-09-12", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-10-19", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-10-19", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-10-24", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-10-24", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-12-09", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-12-09", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-12-12", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-12-12", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-12-17", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-12-17", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-01-02", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-01-02", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-01-15", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-01-15", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-02-18", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-02-18", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-02-24", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-02-24", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-03-05", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-03-05", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-03-30", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-03-30", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-04-06", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-06", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-04-11", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-11", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-04-12", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-12", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-04-20", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-20", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-04-23", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-23", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-04-28", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-28", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-04-29", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-29", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-04-30", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-30", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-01", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-01", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-04", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-04", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-05", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-05", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-08", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-08", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-09", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-09", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-10", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-10", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-11", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-11", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-14", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-14", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-15", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-15", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-16", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-16", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-17", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-17", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-19", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-19", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-20", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-20", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-23", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-23", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-24", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-24", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-25", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-25", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-26", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-26", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-27", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-27", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-28", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-28", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-06-01", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-01", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-06-05", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-05", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-06-06", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-06", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-06-09", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-09", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-06-10", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-10", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-06-11", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-11", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-06-16", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-16", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-06-17", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-17", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-06-18", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-18", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-06-19", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-19", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-06-20", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-20", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-06-21", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-21", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-06-22", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-22", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-06-23", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-23", "y": 0}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2022-11-23", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2022-11-23", "y": 0}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-05-23"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2019-04-13"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2016-11-03"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-02-08"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2021-06-19"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-04-02"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-04-05"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-03-14"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-03-14"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-12-12"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-12-09"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-04-04"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-03-26"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-03-25"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-03-25"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-03-25"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2021-06-21"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-04-01"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2021-06-09"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-06-30"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-10-19"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2021-06-23"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2021-06-10"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-03-29"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-12-17"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-12-12"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2017-01-06"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2021-04-20"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-04-09"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-03-11"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2021-04-28"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2021-06-05"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2019-06-11"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2021-04-23"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2021-06-23"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2021-06-23"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-03-30"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-06-27"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2011-01-12"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2021-01-02"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-08-31"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-08-05"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2021-06-22"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2021-02-18"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2021-06-23"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2021-06-22"}, {"arrows": "to", "from": "2020-03-25", "physics": true, "to": "2020-01-25"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2021-06-23"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2020-05-22"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2020-05-24"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2020-05-25"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2021-05-04"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2021-04-30"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2020-08-05"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2012-03-17"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2021-06-23"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2021-02-24"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2019-11-23"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2020-06-04"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2020-05-25"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2020-05-23"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2020-05-23"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2020-05-22"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2020-05-22"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2020-05-22"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2020-05-22"}, {"arrows": "to", "from": "2020-05-23", "physics": true, "to": "2020-05-22"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2019-04-15"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2019-04-14"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2019-04-13"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2021-04-11"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2021-06-22"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2021-06-23"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2021-04-29"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2019-11-11"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2021-06-23"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2020-04-26"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2020-05-08"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2020-03-27"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2020-09-12"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2012-03-06"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2021-06-23"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2016-09-12"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2019-07-24"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2019-04-15"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2019-04-15"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2019-04-14"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2019-04-14"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2019-04-13"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2019-04-13"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2019-04-13"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2019-04-13"}, {"arrows": "to", "from": "2019-04-13", "physics": true, "to": "2019-03-11"}, {"arrows": "to", "from": "2020-02-08", "physics": true, "to": "2021-03-30"}, {"arrows": "to", "from": "2020-02-08", "physics": true, "to": "2020-02-10"}, {"arrows": "to", "from": "2020-02-08", "physics": true, "to": "2021-06-21"}, {"arrows": "to", "from": "2020-02-08", "physics": true, "to": "2019-02-06"}, {"arrows": "to", "from": "2020-02-08", "physics": true, "to": "2021-01-15"}, {"arrows": "to", "from": "2020-02-08", "physics": true, "to": "2021-05-05"}, {"arrows": "to", "from": "2020-02-08", "physics": true, "to": "2021-06-23"}, {"arrows": "to", "from": "2020-02-08", "physics": true, "to": "2021-04-06"}, {"arrows": "to", "from": "2020-02-08", "physics": true, "to": "2015-02-16"}, {"arrows": "to", "from": "2020-02-08", "physics": true, "to": "2022-11-23"}, {"arrows": "to", "from": "2020-02-08", "physics": true, "to": "2008-12-05"}, {"arrows": "to", "from": "2020-02-08", "physics": true, "to": "2021-05-24"}, {"arrows": "to", "from": "2020-02-08", "physics": true, "to": "2020-02-10"}, {"arrows": "to", "from": "2020-02-08", "physics": true, "to": "2020-02-09"}, {"arrows": "to", "from": "2020-02-08", "physics": true, "to": "2020-02-08"}, {"arrows": "to", "from": "2020-02-08", "physics": true, "to": "2020-02-08"}, {"arrows": "to", "from": "2020-02-08", "physics": true, "to": "2020-02-08"}, {"arrows": "to", "from": "2020-02-08", "physics": true, "to": "2020-02-08"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2021-06-23"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2020-03-18"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2021-05-11"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2020-04-12"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2021-06-23"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2021-06-23"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2021-05-28"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2021-03-05"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2020-03-17"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2020-02-27"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2021-06-19"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2021-06-23"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2019-05-21"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2021-05-23"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2021-06-18"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2021-06-23"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2021-06-23"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2021-06-23"}, {"arrows": "to", "from": "2021-06-19", "physics": true, "to": "2020-04-11"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2020-05-07"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-04-12"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-06-22"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-06-20"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-06-20"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-06-20"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-06-20"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-06-20"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-06-20"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-06-20"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-06-18"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-06-17"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-06-16"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-06-06"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-06-01"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-05-27"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-05-27"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-05-26"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-05-26"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-05-25"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-05-23"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-05-20"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-05-19"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-05-17"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-05-17"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-05-16"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-05-15"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-05-14"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-05-11"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-05-10"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-05-09"}, {"arrows": "to", "from": "2020-04-02", "physics": true, "to": "2021-05-08"}, {"arrows": "to", "from": "2020-04-05", "physics": true, "to": "2020-04-15"}, {"arrows": "to", "from": "2020-04-05", "physics": true, "to": "2020-04-05"}, {"arrows": "to", "from": "2020-04-05", "physics": true, "to": "2020-04-05"}, {"arrows": "to", "from": "2020-04-05", "physics": true, "to": "2006-08-16"}, {"arrows": "to", "from": "2020-04-05", "physics": true, "to": "2014-11-27"}, {"arrows": "to", "from": "2020-04-05", "physics": true, "to": "2021-06-11"}, {"arrows": "to", "from": "2020-04-05", "physics": true, "to": "2021-06-22"}, {"arrows": "to", "from": "2020-04-05", "physics": true, "to": "2012-11-27"}, {"arrows": "to", "from": "2020-04-05", "physics": true, "to": "2020-04-22"}, {"arrows": "to", "from": "2020-04-05", "physics": true, "to": "2021-05-01"}, {"arrows": "to", "from": "2020-04-05", "physics": true, "to": "2019-08-19"}, {"arrows": "to", "from": "2020-04-05", "physics": true, "to": "2017-06-15"}, {"arrows": "to", "from": "2020-04-05", "physics": true, "to": "2020-02-12"}, {"arrows": "to", "from": "2020-04-05", "physics": true, "to": "2017-04-13"}, {"arrows": "to", "from": "2020-04-05", "physics": true, "to": "2020-04-07"}, {"arrows": "to", "from": "2020-04-05", "physics": true, "to": "2020-04-05"}, {"arrows": "to", "from": "2020-03-14", "physics": true, "to": "2021-06-23"}, {"arrows": "to", "from": "2020-03-14", "physics": true, "to": "2020-10-24"}, {"arrows": "to", "from": "2020-03-14", "physics": true, "to": "2020-03-27"}, {"arrows": "to", "from": "2020-03-14", "physics": true, "to": "2020-08-13"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "smooth"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+        network.on("stabilizationProgress", function(params) {
+      		document.getElementById('loadingBar').removeAttribute("style");
+	        var maxWidth = 496;
+	        var minWidth = 20;
+	        var widthFactor = params.iterations/params.total;
+	        var width = Math.max(minWidth,maxWidth * widthFactor);
+
+	        document.getElementById('bar').style.width = width + 'px';
+	        document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+	    });
+	    network.once("stabilizationIterationsDone", function() {
+	        document.getElementById('text').innerHTML = '100%';
+	        document.getElementById('bar').style.width = '496px';
+	        document.getElementById('loadingBar').style.opacity = 0;
+	        // really clean the dom element
+	        setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+	    });
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

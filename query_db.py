@@ -17,7 +17,7 @@ if __name__ == "__main__":
         db = DB(args.path_to_db)
 
         if args.link:
-            all_links = db.get_tree(args.link)
+            all_links, _ = db.get_tree(args.link)
             if args.verbosity > 0:
                 date_query = db.get_date_of_query_url(args.link)
                 date_url = db.get_date_of_query_url(args.link)

@@ -1,0 +1,1 @@
+All notebooks that I've used for various things : generating graphs and experiments with article extraction and comparison. Probably not working anymore (they need to be moved to the main folder for references and might possibly require some extra data)

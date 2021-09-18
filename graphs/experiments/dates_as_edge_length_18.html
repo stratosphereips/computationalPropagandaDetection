@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "id": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "label": " ", "shape": "dot", "title": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html"}, {"color": "green", "id": "https://vk.com/id270329389?w=wall270329389_8312", "label": " ", "shape": "dot", "title": "https://vk.com/id270329389?w=wall270329389_8312"}, {"color": "blue", "id": "https://eadaily.com/ru/news/2021/05/20/biolaboratorii-v-gruzii-gryaznaya-rabota-ssha-u-granic-yuzhnoy-osetii", "label": " ", "shape": "dot", "title": "https://eadaily.com/ru/news/2021/05/20/biolaboratorii-v-gruzii-gryaznaya-rabota-ssha-u-granic-yuzhnoy-osetii"}, {"color": "blue", "id": "https://eadaily.com/ru/news/2018/01/23/sekretnye-biolaboratorii-pentagona-u-granic-rossii-rassledovanie", "label": " ", "shape": "dot", "title": "https://eadaily.com/ru/news/2018/01/23/sekretnye-biolaboratorii-pentagona-u-granic-rossii-rassledovanie"}, {"color": "blue", "id": "https://sputnik.by/defense_safety/20200529/1044795799/Biolaboratorii-pod-egidoy-SShA-mirnye-razrabotki-ili-opasnye-opyty.html", "label": " ", "shape": "dot", "title": "https://sputnik.by/defense_safety/20200529/1044795799/Biolaboratorii-pod-egidoy-SShA-mirnye-razrabotki-ili-opasnye-opyty.html"}, {"color": "blue", "id": "https://sputnik-abkhazia.ru/analytics/20190620/1027684335/Biolaboratoriya-Lugara-v-Gruzii-po-prezhnemu-ugrozhaet-sosednim-stranam.html", "label": " ", "shape": "dot", "title": "https://sputnik-abkhazia.ru/analytics/20190620/1027684335/Biolaboratoriya-Lugara-v-Gruzii-po-prezhnemu-ugrozhaet-sosednim-stranam.html"}, {"color": "blue", "id": "https://ru.sputnik.kg/politics/20200529/1048484054/usa-kavkaz-central-asia-biolaboratoriya.html", "label": " ", "shape": "dot", "title": "https://ru.sputnik.kg/politics/20200529/1048484054/usa-kavkaz-central-asia-biolaboratoriya.html"}, {"color": "blue", "id": "https://inosmi.ru/politic/20210420/249598299.html", "label": " ", "shape": "dot", "title": "https://inosmi.ru/politic/20210420/249598299.html"}, {"color": "blue", "id": "https://dag.aif.ru/society/dagestan_pod_ugrozoy_biologicheskoy_oruzhiya", "label": " ", "shape": "dot", "title": "https://dag.aif.ru/society/dagestan_pod_ugrozoy_biologicheskoy_oruzhiya"}, {"color": "blue", "id": "https://www.kommersant.ru/doc/4135539", "label": " ", "shape": "dot", "title": "https://www.kommersant.ru/doc/4135539"}, {"color": "blue", "id": "https://ru.armeniasputnik.am/politics/20181005/14900453/na-zapade-podtverzhdayut-podgotovku-ssha-k-bakteriologicheskoj-vojne-v-povestke-i-armeniya.html", "label": " ", "shape": "dot", "title": "https://ru.armeniasputnik.am/politics/20181005/14900453/na-zapade-podtverzhdayut-podgotovku-ssha-k-bakteriologicheskoj-vojne-v-povestke-i-armeniya.html"}, {"color": "blue", "id": "https://ru.sputnik.kz/columnists/20180614/6022838/usa-kazahstan-laboratorii.html", "label": " ", "shape": "dot", "title": "https://ru.sputnik.kz/columnists/20180614/6022838/usa-kazahstan-laboratorii.html"}, {"color": "blue", "id": "https://ria.ru/20200917/biolaboratorii-1577341496.html", "label": " ", "shape": "dot", "title": "https://ria.ru/20200917/biolaboratorii-1577341496.html"}, {"color": "blue", "id": "http://ruskline.ru/news_rl/2017/11/16/zachem_pentagon_sobiraet_biologicheskij_material_rossijskih_grazhdan_a_vokrug_nashej_strany_razmestil_biologicheskie_laboratorii", "label": " ", "shape": "dot", "title": "http://ruskline.ru/news_rl/2017/11/16/zachem_pentagon_sobiraet_biologicheskij_material_rossijskih_grazhdan_a_vokrug_nashej_strany_razmestil_biologicheskie_laboratorii"}, {"color": "blue", "id": "https://www.fontanka.ru/2016/06/22/199/", "label": " ", "shape": "dot", "title": "https://www.fontanka.ru/2016/06/22/199/"}, {"color": "blue", "id": "https://tsargrad.tv/articles/sekretno-dlja-chego-ssha-sobirali-dnk-russkih-i-gde-sozdajut-supersoldata_368542", "label": " ", "shape": "dot", "title": "https://tsargrad.tv/articles/sekretno-dlja-chego-ssha-sobirali-dnk-russkih-i-gde-sozdajut-supersoldata_368542"}, {"color": "blue", "id": "https://www.securitylab.ru/news/tags/%D1%84%D0%B8%D1%88%D0%B8%D0%BD%D0%B3/", "label": " ", "shape": "dot", "title": "https://www.securitylab.ru/news/tags/%D1%84%D0%B8%D1%88%D0%B8%D0%BD%D0%B3/"}, {"color": "green", "id": "https://vk.com/id-146189010?w=wall-146189010_30666", "label": " ", "shape": "dot", "title": "https://vk.com/id-146189010?w=wall-146189010_30666"}, {"color": "green", "id": "https://vk.com/id-95837632?w=wall-95837632_33183", "label": " ", "shape": "dot", "title": "https://vk.com/id-95837632?w=wall-95837632_33183"}, {"color": "green", "id": "https://vk.com/id-174855763?w=wall-174855763_25284", "label": " ", "shape": "dot", "title": "https://vk.com/id-174855763?w=wall-174855763_25284"}, {"color": "green", "id": "https://vk.com/id-172634372?w=wall-172634372_13838", "label": " ", "shape": "dot", "title": "https://vk.com/id-172634372?w=wall-172634372_13838"}, {"color": "green", "id": "https://vk.com/id162574353?w=wall162574353_42493", "label": " ", "shape": "dot", "title": "https://vk.com/id162574353?w=wall162574353_42493"}, {"color": "green", "id": "https://vk.com/id-58300344?w=wall-58300344_72341", "label": " ", "shape": "dot", "title": "https://vk.com/id-58300344?w=wall-58300344_72341"}, {"color": "green", "id": "https://vk.com/id472430464?w=wall472430464_1514", "label": " ", "shape": "dot", "title": "https://vk.com/id472430464?w=wall472430464_1514"}, {"color": "green", "id": "https://vk.com/id174702670?w=wall174702670_4606", "label": " ", "shape": "dot", "title": "https://vk.com/id174702670?w=wall174702670_4606"}, {"color": "green", "id": "https://vk.com/id-148952049?w=wall-148952049_49902", "label": " ", "shape": "dot", "title": "https://vk.com/id-148952049?w=wall-148952049_49902"}, {"color": "green", "id": "https://vk.com/id152279994?w=wall152279994_3345", "label": " ", "shape": "dot", "title": "https://vk.com/id152279994?w=wall152279994_3345"}, {"color": "green", "id": "https://vk.com/id266072871?w=wall266072871_5493", "label": " ", "shape": "dot", "title": "https://vk.com/id266072871?w=wall266072871_5493"}, {"color": "green", "id": "https://vk.com/id422585171?w=wall422585171_113013", "label": " ", "shape": "dot", "title": "https://vk.com/id422585171?w=wall422585171_113013"}, {"color": "green", "id": "https://vk.com/id-200477521?w=wall-200477521_226", "label": " ", "shape": "dot", "title": "https://vk.com/id-200477521?w=wall-200477521_226"}, {"color": "green", "id": "https://vk.com/id-105472947?w=wall-105472947_320916", "label": " ", "shape": "dot", "title": "https://vk.com/id-105472947?w=wall-105472947_320916"}, {"color": "green", "id": "https://vk.com/id401674421?w=wall401674421_120790", "label": " ", "shape": "dot", "title": "https://vk.com/id401674421?w=wall401674421_120790"}, {"color": "green", "id": "https://vk.com/id-68578180?w=wall-68578180_608640", "label": " ", "shape": "dot", "title": "https://vk.com/id-68578180?w=wall-68578180_608640"}, {"color": "green", "id": "https://vk.com/id-106067045?w=wall-106067045_148191", "label": " ", "shape": "dot", "title": "https://vk.com/id-106067045?w=wall-106067045_148191"}, {"color": "green", "id": "https://vk.com/id-66621324?w=wall-66621324_3193074", "label": " ", "shape": "dot", "title": "https://vk.com/id-66621324?w=wall-66621324_3193074"}, {"color": "green", "id": "https://vk.com/id-127440997?w=wall-127440997_48022", "label": " ", "shape": "dot", "title": "https://vk.com/id-127440997?w=wall-127440997_48022"}, {"color": "green", "id": "https://vk.com/id-71926578?w=wall-71926578_119143", "label": " ", "shape": "dot", "title": "https://vk.com/id-71926578?w=wall-71926578_119143"}, {"color": "green", "id": "https://vk.com/id-57424472?w=wall-57424472_287081", "label": " ", "shape": "dot", "title": "https://vk.com/id-57424472?w=wall-57424472_287081"}, {"color": "green", "id": "https://vk.com/id-80492167?w=wall-80492167_633059", "label": " ", "shape": "dot", "title": "https://vk.com/id-80492167?w=wall-80492167_633059"}, {"color": "green", "id": "https://vk.com/id187272559?w=wall187272559_204652", "label": " ", "shape": "dot", "title": "https://vk.com/id187272559?w=wall187272559_204652"}, {"color": "green", "id": "https://vk.com/id-81596363?w=wall-81596363_162653", "label": " ", "shape": "dot", "title": "https://vk.com/id-81596363?w=wall-81596363_162653"}, {"color": "green", "id": "https://vk.com/id-3223620?w=wall-3223620_1574625", "label": " ", "shape": "dot", "title": "https://vk.com/id-3223620?w=wall-3223620_1574625"}, {"color": "green", "id": "https://vk.com/id470133488?w=wall470133488_54846", "label": " ", "shape": "dot", "title": "https://vk.com/id470133488?w=wall470133488_54846"}, {"color": "green", "id": "https://vk.com/id-118652704?w=wall-118652704_198255", "label": " ", "shape": "dot", "title": "https://vk.com/id-118652704?w=wall-118652704_198255"}, {"color": "green", "id": "https://vk.com/id-66823924?w=wall-66823924_217326", "label": " ", "shape": "dot", "title": "https://vk.com/id-66823924?w=wall-66823924_217326"}, {"color": "green", "id": "https://vk.com/id-139546368?w=wall-139546368_91402", "label": " ", "shape": "dot", "title": "https://vk.com/id-139546368?w=wall-139546368_91402"}, {"color": "green", "id": "https://polit.info/492744-koronavirus-napomnil-o-voennykh-biolaboratoriyakh-ssha-na-ukraine", "label": " ", "shape": "dot", "title": "https://polit.info/492744-koronavirus-napomnil-o-voennykh-biolaboratoriyakh-ssha-na-ukraine"}, {"color": "green", "id": "https://yugsn.ru/biolaboratorii-ssha-v-respublikax-byivshego-sovetskogo-soyuza-stali-ugrozoj-dlya-rossii/", "label": " ", "shape": "dot", "title": "https://yugsn.ru/biolaboratorii-ssha-v-respublikax-byivshego-sovetskogo-soyuza-stali-ugrozoj-dlya-rossii/"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "597.1261839790462", "title": "391", "to": "https://polit.info/492744-koronavirus-napomnil-o-voennykh-biolaboratoriyakh-ssha-na-ukraine"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "577.1441123130015", "title": "320", "to": "https://yugsn.ru/biolaboratorii-ssha-v-respublikax-byivshego-sovetskogo-soyuza-stali-ugrozoj-dlya-rossii/"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "138.62943611198907", "title": "3", "to": "https://vk.com/id-146189010?w=wall-146189010_30666"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "69.31471805599453", "title": "1", "to": "https://vk.com/id270329389?w=wall270329389_8312"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "0.0", "title": "0", "to": "https://vk.com/id-95837632?w=wall-95837632_33183"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "109.86122886681098", "title": "2", "to": "https://vk.com/id-174855763?w=wall-174855763_25284"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "317.8053830347946", "title": "23", "to": "https://vk.com/id-172634372?w=wall-172634372_13838"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "349.650756146648", "title": "32", "to": "https://vk.com/id162574353?w=wall162574353_42493"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "430.406509320417", "title": "73", "to": "https://vk.com/id-58300344?w=wall-58300344_72341"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "438.2026634673881", "title": "79", "to": "https://vk.com/id472430464?w=wall472430464_1514"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "438.2026634673881", "title": "79", "to": "https://vk.com/id174702670?w=wall174702670_4606"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "453.2599493153256", "title": "92", "to": "https://vk.com/id-148952049?w=wall-148952049_49902"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "463.4728988229636", "title": "102", "to": "https://vk.com/id152279994?w=wall152279994_3345"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "468.213122712422", "title": "107", "to": "https://vk.com/id266072871?w=wall266072871_5493"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "482.0281565605037", "title": "123", "to": "https://vk.com/id422585171?w=wall422585171_113013"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "506.2595033026967", "title": "157", "to": "https://vk.com/id-200477521?w=wall-200477521_226"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "515.9055299214529", "title": "173", "to": "https://vk.com/id-105472947?w=wall-105472947_320916"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "522.5746673713202", "title": "185", "to": "https://vk.com/id401674421?w=wall401674421_120790"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "527.8114659230516", "title": "195", "to": "https://vk.com/id-68578180?w=wall-68578180_608640"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "528.3203728737989", "title": "196", "to": "https://vk.com/id-106067045?w=wall-106067045_148191"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "528.3203728737989", "title": "196", "to": "https://vk.com/id-66621324?w=wall-66621324_3193074"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "528.3203728737989", "title": "196", "to": "https://vk.com/id-127440997?w=wall-127440997_48022"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "528.3203728737989", "title": "196", "to": "https://vk.com/id-71926578?w=wall-71926578_119143"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "528.3203728737989", "title": "196", "to": "https://vk.com/id-57424472?w=wall-57424472_287081"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "528.3203728737989", "title": "196", "to": "https://vk.com/id-80492167?w=wall-80492167_633059"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "528.3203728737989", "title": "196", "to": "https://vk.com/id187272559?w=wall187272559_204652"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "528.8267030694535", "title": "197", "to": "https://vk.com/id-81596363?w=wall-81596363_162653"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "528.8267030694535", "title": "197", "to": "https://vk.com/id-3223620?w=wall-3223620_1574625"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "528.8267030694535", "title": "197", "to": "https://vk.com/id470133488?w=wall470133488_54846"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "528.8267030694535", "title": "197", "to": "https://vk.com/id-118652704?w=wall-118652704_198255"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "528.8267030694535", "title": "197", "to": "https://vk.com/id-66823924?w=wall-66823924_217326"}, {"arrows": "to", "from": "https://m.sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "length": "528.8267030694535", "title": "197", "to": "https://vk.com/id-139546368?w=wall-139546368_91402"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "smooth"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
