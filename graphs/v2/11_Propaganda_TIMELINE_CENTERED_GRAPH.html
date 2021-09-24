@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2020-04-09", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2020-04-09", "x": 1584, "y": 0}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "2021-04-27", "label": " ", "physics": true, "shape": "diamond", "size": 25, "title": "original date2021-04-27", "x": 4648, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-05-02", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-05-02", "x": 4688, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-05-31", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-05-31", "x": 4920, "y": 0}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "2021-09-23", "label": " ", "physics": false, "shape": "diamond", "size": 25, "title": "2021-09-23", "x": 5840, "y": 0}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://eadaily.com/ru/news/2021/04/27/volodin-zapad-dolzhen-kompensirovat-rossii-ushcherb-ot-pandemii-covid-19", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://eadaily.com/ru/news/2021/04/27/volodin-zapad-dolzhen-kompensirovat-rossii-ushcherb-ot-pandemii-covid-19", "x": 4648, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/1376306592/status/1399400005950218242", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/1376306592/status/1399400005950218242", "x": 4920, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/2242442059/status/1388906001408086017", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/2242442059/status/1388906001408086017", "x": 4688, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id299895596?w=wall299895596_50905", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id299895596?w=wall299895596_50905", "x": 4648, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://eadaily.com/ru/news/2021/04/27/koronavirus-svyazan-s-amerikanskoy-biolaboratoriey-volodin", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://eadaily.com/ru/news/2021/04/27/koronavirus-svyazan-s-amerikanskoy-biolaboratoriey-volodin", "x": 4648, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://ria.ru/20210427/volodin-1730130112.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://ria.ru/20210427/volodin-1730130112.html", "x": 4648, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://club-tm.ru/news/1186613/volodin-zapad-dolgen-kompensirovat-rossii-uscherb-ot-pandemii-covid19.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://club-tm.ru/news/1186613/volodin-zapad-dolgen-kompensirovat-rossii-uscherb-ot-pandemii-covid19.html", "x": 4648, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://imag.one/news/volodin-zayavil-chto-zapad-dolzhen/7803650", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://imag.one/news/volodin-zayavil-chto-zapad-dolzhen/7803650", "x": 4648, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://tass.ru/politika/11254367", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://tass.ru/politika/11254367", "x": 4648, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.fontanka.ru/2021/04/27/69888620/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.fontanka.ru/2021/04/27/69888620/", "x": 4648, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://regnum.ru/news/2909938.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://regnum.ru/news/2909938.html", "x": 1584, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://tnaneve.spb.ru/news/605572/volodin-zapad-dolgen-kompensirovat-rossii-uscherb-ot-pandemii-covid19.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://tnaneve.spb.ru/news/605572/volodin-zapad-dolgen-kompensirovat-rossii-uscherb-ot-pandemii-covid19.html", "x": 4648, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://18-21.ru/newstext/1082393/volodin-zapad-dolgen-kompensirovat-rossii-uscherb-ot-pandemii-covid19.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://18-21.ru/newstext/1082393/volodin-zapad-dolgen-kompensirovat-rossii-uscherb-ot-pandemii-covid19.html", "x": 4648, "y": -30}]);
+        edges = new vis.DataSet([{"from": "https://eadaily.com/ru/news/2021/04/27/volodin-zapad-dolzhen-kompensirovat-rossii-ushcherb-ot-pandemii-covid-19", "hidden": true, "physics": false, "to": "2021-04-27"}, {"from": "https://twitter.com/1376306592/status/1399400005950218242", "hidden": true, "physics": false, "to": "2021-05-31"}, {"from": "https://twitter.com/2242442059/status/1388906001408086017", "hidden": true, "physics": false, "to": "2021-05-02"}, {"from": "https://vk.com/id299895596?w=wall299895596_50905", "hidden": true, "physics": false, "to": "2021-04-27"}, {"from": "https://eadaily.com/ru/news/2021/04/27/koronavirus-svyazan-s-amerikanskoy-biolaboratoriey-volodin", "hidden": true, "physics": false, "to": "2021-04-27"}, {"from": "https://ria.ru/20210427/volodin-1730130112.html", "hidden": true, "physics": false, "to": "2021-04-27"}, {"from": "https://club-tm.ru/news/1186613/volodin-zapad-dolgen-kompensirovat-rossii-uscherb-ot-pandemii-covid19.html", "hidden": true, "physics": false, "to": "2021-04-27"}, {"from": "https://imag.one/news/volodin-zayavil-chto-zapad-dolzhen/7803650", "hidden": true, "physics": false, "to": "2021-04-27"}, {"from": "https://tass.ru/politika/11254367", "hidden": true, "physics": false, "to": "2021-04-27"}, {"from": "https://www.fontanka.ru/2021/04/27/69888620/", "hidden": true, "physics": false, "to": "2021-04-27"}, {"from": "https://regnum.ru/news/2909938.html", "hidden": true, "physics": false, "to": "2020-04-09"}, {"from": "https://tnaneve.spb.ru/news/605572/volodin-zapad-dolgen-kompensirovat-rossii-uscherb-ot-pandemii-covid19.html", "hidden": true, "physics": false, "to": "2021-04-27"}, {"from": "https://18-21.ru/newstext/1082393/volodin-zapad-dolgen-kompensirovat-rossii-uscherb-ot-pandemii-covid19.html", "hidden": true, "physics": false, "to": "2021-04-27"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

@@ -5,11 +5,15 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 from DB.propaganda_db import DB
-from serpapi_utils import get_hash_for_url
+# from serpapi_utils import get_hash_for_url
 from pyvis.network import Network
 from datetime import datetime, date, timedelta
 
 TIMELINE_WIDTH = 8  # scale of the x-axis of the timeline
+
+
+def get_hash_for_url(a):
+    return " "
 
 
 def filter_name(url):
@@ -28,7 +32,7 @@ def filter_name(url):
     return basename
 
 
-def create_date_centered(url, db_path, time_window):
+def create_date_centered(url, db_path, time_window, id=0):
     db = DB(db_path)
     edges, nodes = db.get_tree(url)
 
@@ -105,7 +109,6 @@ def create_date_centered(url, db_path, time_window):
         elif by_link:
             color = "red"
 
-
         g.add_node(c, label=filter_name(c), title=str(len(clusters[c])), size=30, mass=2,
                    length=30 * len(clusters[c]), color=node_color[c],
                    y=side_wrt_timeline * 30 * len(clusters[c]),
@@ -155,11 +158,17 @@ def create_date_centered(url, db_path, time_window):
     # g.set_edge_smooth('smooth')
     if not os.path.exists("graphs"):
         os.makedirs("graphs")
-    g.save_graph(os.path.join("graphs", f"{get_hash_for_url(url)}_TIMELINE_CENTERED_GRAPH.html"))
+
+    graph_name = os.path.join("graphs", f"{get_hash_for_url(url)}_TIMELINE_CENTERED_GRAPH.html")
+    if id:
+        graph_name = os.path.join("graphs",
+                                  f"{id}_{'Propaganda' if id <= 20 else 'Not_propaganda'}_TIMELINE_CENTERED_GRAPH.html")
+    g.save_graph(graph_name)
+    # g.save_graph(os.path.join("graphs", f"{get_hash_for_url(url)}_TIMELINE_CENTERED_GRAPH.html"))
     # g.show(f'level_timeline.html')
 
 
-def create_domain_centered(url, db_path):
+def create_domain_centered(url, db_path, id=0):
     db = DB(db_path)
     edges, nodes = db.get_tree(url)
     centers = {filter_name(url): (nodes[url][1], [n for n in nodes.keys() if filter_name(n) == filter_name(url)]) for
@@ -192,11 +201,15 @@ def create_domain_centered(url, db_path):
     g.show_buttons()
     if not os.path.exists("graphs"):
         os.makedirs("graphs")
-    g.save_graph(os.path.join("graphs", f"{get_hash_for_url(url)}_DOMAIN_CENTERED_GRAPH.html"))
+    graph_name = os.path.join("graphs", f"{get_hash_for_url(url)}_DOMAIN_CENTERED_GRAPH.html")
+    if id:
+        graph_name = os.path.join("graphs",
+                                  f"{id}_{'Propaganda' if id <= 20 else 'Not_propaganda'}_DOMAIN_CENTERED_GRAPH.html")
+    g.save_graph(graph_name)
     # g.show(f'web-centered-graph.html')
 
 
-def build_a_graph(all_links, search_link):
+def build_a_graph(all_links, search_link, id=0):
     """
     Builds a graph based on the links between the urls.
     """
@@ -244,20 +257,82 @@ def build_a_graph(all_links, search_link):
     if not os.path.exists("graphs"):
         os.makedirs("graphs")
     fig_name_hashed_link = get_hash_for_url(search_link)
-    plt.savefig(os.path.join("graphs", fig_name_hashed_link))
+    graph_name = os.path.join("graphs", fig_name_hashed_link)
+    if id:
+        graph_name = os.path.join("graphs", str(id))
+    plt.savefig(graph_name)
+    plt.close()
 
+
+DATA = ["PLACEHOLDER TO INDEX FROM 1",
+        "https://www.fondsk.ru/news/2020/03/25/borba-s-koronavirusom-i-bolshoj-brat-50441.html",
+        "https://news-front.info/2020/08/28/rodion-miroshnik-kiev-na-belorussii-zarabatyvaet-bochku-varenya-i-korzinu-pechenya/",
+        "https://rnbee.ru/post-wall/pozhilym-ukraincam-otkazyvajut-v-ispolzovanii-ivl-pri-koronaviruse/",
+        "https://forum.bakililar.az/topic/206228-%D0%B2-%D0%B0%D0%BB%D0%BC%D0%B0%D1%82%D1%8B-%D0%BF%D1%80%D0%B8%D0%B7%D0%BD%D0%B0%D0%BB%D0%B8%D1%81%D1%8C-%D0%B2-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-%D0%BD%D0%B0%D0%B4-%D0%BA%D0%BE%D1%80%D0%BE%D0%BD%D0%B0%D0%B2%D0%B8%D1%80%D1%83%D1%81%D0%BE%D0%BC-%D0%B4%D0%BE-%D1%8D%D0%BF%D0%B8%D0%B4%D0%B5%D0%BC%D0%B8%D0%B8/",
+        "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html",
+        "https://www.change.org/p/the-international-olympic-committee-petition-to-relocate-the-2018-winter-olympics-from-south-korea",
+        "https://rnbee.ru/2019/12/18/evropejskaja-solidarnost-v-dejstvii-es-stroit-novye-centry-razmeshhenija-migrantov-v-jestonii/",
+        "https://sputnik-meedia.ee/opinion/20210516/467903/Nepriglyadnoe-litso-pochemu-demokraticheskaya-Estoniya-teryaet-lyudey.html",
+        "https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/",
+        "https://de.rt.com/programme/fasbender/116504-exklusiv-interview-mit-aussenamtssprecherin-maria/",
+        "https://eadaily.com/ru/news/2021/04/27/volodin-zapad-dolzhen-kompensirovat-rossii-ushcherb-ot-pandemii-covid-19",
+        "https://russian.rt.com/ussr/news/859197-gosduma-zelenskii-krym-donbass",
+        "https://mundo.sputniknews.com/20210611/la-linea-roja-como-las-ansias-de-unirse-a-la-otan-podrian-acabar-con-la-independencia-de-ucrania-1113130920.html",
+        "https://tsargrad.tv/articles/poddelka-pod-kolumbajn-kto-na-samom-dele-splaniroval-krovavuju-bojnju-v-kazani_353659",
+        "https://sputnik-ossetia.ru/South_Ossetia/20210511/12200003/Dopolnitelnaya-napryazhennost-yugoosetinskiy-ekspert-ob-ucheniyakh-NATO-v-Gruzii.html",
+        "https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html",
+        "https://pl.sputniknews.com/opinie/2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik/",
+        "https://sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html",
+        "https://news-front.info/2021/05/12/finskij-politolog-zayavil-chto-ukrainy-kak-gosudarstva-ne-sushhestvuet/",
+        "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/",
+        "https://ipress.ua/ru/news/ukrayna_vvedet_tsyfrovie_covidsertyfykati_cherez_1014_dney_posle_es_323316.html",
+        "http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2",
+        "https://www.state.gov/united-states-trains-ukraine-to-identify-and-respond-to-the-use-of-weapons-of-mass-destruction-in-targeted-assassinations/",
+        "https://www.usaid.gov/news-information/press-releases/jun-4-2021-usaid-announces-57-million-urgent-tuberculosis-recovery-effort-seven-countries",
+        "https://www.bbc.com/news/science-environment-52318539",
+        "https://www.washingtonpost.com/politics/2020/05/01/was-new-coronavirus-accidentally-released-wuhan-lab-its-doubtful/",
+        "https://www.hindustantimes.com/world-news/us-asks-russia-to-explain-provocations-on-ukraine-border-state-department-101617645462774.html",
+        "https://www.reuters.com/world/europe/ukraine-says-it-could-be-provoked-by-russian-aggression-conflict-area-2021-04-10/",
+        "https://edition.cnn.com/2021/04/08/politics/ukraine-us-black-sea/index.html",
+        "https://www.cfr.org/backgrounder/ukraine-conflict-crossroads-europe-and-russia",
+        "https://m.economictimes.com/news/international/world-news/how-the-united-states-beat-the-coronavirus-variants-for-now/articleshow/82652253.cms",
+        "https://www.infomigrants.net/en/post/25880/germany-has-taken-nearly-10-000-migrants-under-eu-turkey-deal-since-2016-report",
+        "https://www.dw.com/en/uks-new-immigration-system-to-shut-door-on-low-skilled-eu-workers/a-52428669",
+        "https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe",
+        "https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237",
+        "https://gizmodo.com/u-s-hits-russia-with-heavy-sanctions-over-solarwinds-h-1846689148",
+        "https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html",
+        "https://www.rferl.org/a/nord-stream-2-is-russia-bad-deal-for-europe-also-a-done-deal-/31096487.html",
+        "https://www.reuters.com/article/us-health-coronavirus-eu-sputnik-idUSKBN2B91PP",
+        "https://www.intellinews.com/putin-promises-to-make-russians-lives-better-in-his-state-of-the-nation-speech-but-adds-threats-to-the-west-208696/"
+        ]
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-l", "--link", help="URL to check is distribution pattern", type=str, required=True)
-    parser.add_argument("-d", "--path_to_db", default="DB/databases/propaganda.db", help="Path to Database", type=str)
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument("-l", "--link", help="URL to check is distribution pattern", type=str, required=True)
+    # parser.add_argument("-d", "--path_to_db", default="DB/databases/propaganda.db", help="Path to Database", type=str)
+    #
+    # args = parser.parse_args()
+    #
+    # db = DB(args.path_to_db)
 
-    args = parser.parse_args()
+    # all_links, _ = db.get_tree(args.link)
+    # links_without_level = [(from_id, to_id) for (_, from_id, to_id, _) in all_links]
+    # build_a_graph(links_without_level, args.link)
+    print("start")
+    for i in range(1, 41):
+        print(i)
+        try:
+            link = DATA[i]
 
-    db = DB(args.path_to_db)
+            db_path = f"DB/v2/propaganda.{i}.db"
+            db = DB(db_path)
 
-    all_links, _ = db.get_tree(args.link)
-    links_without_level = [(from_id, to_id) for (_, from_id, to_id, _) in all_links]
-    build_a_graph(links_without_level, args.link)
-    create_domain_centered(args.link, args.path_to_db)
-    create_date_centered(args.link, args.path_to_db, 2)
+            all_links, _ = db.get_tree(link)
+            links_without_level = [(from_id, to_id) for (_, from_id, to_id, _) in all_links]
+            build_a_graph(links_without_level, link, i)
+
+            create_domain_centered(link, db_path, i)
+            create_date_centered(link, db_path, 2, i)
+        except Exception as e:
+            print(f"{i} failed {e}s")

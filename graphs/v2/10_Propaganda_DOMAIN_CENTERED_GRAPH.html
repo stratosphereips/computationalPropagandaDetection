@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500px;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "id": "twitter.com", "label": "twitter.com", "shape": "dot", "size": 40.4305126783455, "title": "54"}, {"hidden": true, "id": "https://twitter.com/408084708/status/1397119900582359040", "label": " ", "shape": "dot", "title": "https://twitter.com/408084708/status/1397119900582359040"}, {"hidden": true, "id": "https://twitter.com/201270123/status/1397092682669957122", "label": " ", "shape": "dot", "title": "https://twitter.com/201270123/status/1397092682669957122"}, {"hidden": true, "id": "https://twitter.com/802588293569376256/status/1386607309871271939", "label": " ", "shape": "dot", "title": "https://twitter.com/802588293569376256/status/1386607309871271939"}, {"hidden": true, "id": "https://twitter.com/914305308/status/1386599651365859329", "label": " ", "shape": "dot", "title": "https://twitter.com/914305308/status/1386599651365859329"}, {"hidden": true, "id": "https://twitter.com/1043263308/status/1386593214501736449", "label": " ", "shape": "dot", "title": "https://twitter.com/1043263308/status/1386593214501736449"}, {"hidden": true, "id": "https://twitter.com/363587532/status/1386592606050738178", "label": " ", "shape": "dot", "title": "https://twitter.com/363587532/status/1386592606050738178"}, {"hidden": true, "id": "https://twitter.com/335324325/status/1386060657657884675", "label": " ", "shape": "dot", "title": "https://twitter.com/335324325/status/1386060657657884675"}, {"hidden": true, "id": "https://twitter.com/775634466727485440/status/1385930316779507713", "label": " ", "shape": "dot", "title": "https://twitter.com/775634466727485440/status/1385930316779507713"}, {"hidden": true, "id": "https://twitter.com/201270123/status/1385900908018638848", "label": " ", "shape": "dot", "title": "https://twitter.com/201270123/status/1385900908018638848"}, {"hidden": true, "id": "https://twitter.com/2872015331/status/1385879452463386626", "label": " ", "shape": "dot", "title": "https://twitter.com/2872015331/status/1385879452463386626"}, {"hidden": true, "id": "https://twitter.com/836569743003889667/status/1385871496002822150", "label": " ", "shape": "dot", "title": "https://twitter.com/836569743003889667/status/1385871496002822150"}, {"hidden": true, "id": "https://twitter.com/541131956/status/1385849099442921473", "label": " ", "shape": "dot", "title": "https://twitter.com/541131956/status/1385849099442921473"}, {"hidden": true, "id": "https://twitter.com/1120253579728707584/status/1385815787311706113", "label": " ", "shape": "dot", "title": "https://twitter.com/1120253579728707584/status/1385815787311706113"}, {"hidden": true, "id": "https://twitter.com/1326920447309590529/status/1385735640453730305", "label": " ", "shape": "dot", "title": "https://twitter.com/1326920447309590529/status/1385735640453730305"}, {"hidden": true, "id": "https://twitter.com/183409796/status/1385734947621773312", "label": " ", "shape": "dot", "title": "https://twitter.com/183409796/status/1385734947621773312"}, {"hidden": true, "id": "https://twitter.com/183409796/status/1385732875287412746", "label": " ", "shape": "dot", "title": "https://twitter.com/183409796/status/1385732875287412746"}, {"hidden": true, "id": "https://twitter.com/756579313147908097/status/1385716154707189768", "label": " ", "shape": "dot", "title": "https://twitter.com/756579313147908097/status/1385716154707189768"}, {"hidden": true, "id": "https://twitter.com/835031537921949696/status/1385710430581055488", "label": " ", "shape": "dot", "title": "https://twitter.com/835031537921949696/status/1385710430581055488"}, {"hidden": true, "id": "https://twitter.com/2272106744/status/1385710053634854916", "label": " ", "shape": "dot", "title": "https://twitter.com/2272106744/status/1385710053634854916"}, {"hidden": true, "id": "https://twitter.com/2439167028/status/1385709305761042435", "label": " ", "shape": "dot", "title": "https://twitter.com/2439167028/status/1385709305761042435"}, {"hidden": true, "id": "https://twitter.com/1234225210401882112/status/1385707127759589376", "label": " ", "shape": "dot", "title": "https://twitter.com/1234225210401882112/status/1385707127759589376"}, {"hidden": true, "id": "https://twitter.com/2561586612/status/1385705035632365570", "label": " ", "shape": "dot", "title": "https://twitter.com/2561586612/status/1385705035632365570"}, {"hidden": true, "id": "https://twitter.com/796996736841580544/status/1385655704548216837", "label": " ", "shape": "dot", "title": "https://twitter.com/796996736841580544/status/1385655704548216837"}, {"hidden": true, "id": "https://twitter.com/1101510734989672449/status/1385643296358387714", "label": " ", "shape": "dot", "title": "https://twitter.com/1101510734989672449/status/1385643296358387714"}, {"hidden": true, "id": "https://twitter.com/255043069/status/1385640429467619328", "label": " ", "shape": "dot", "title": "https://twitter.com/255043069/status/1385640429467619328"}, {"hidden": true, "id": "https://twitter.com/2561586612/status/1385639164474019843", "label": " ", "shape": "dot", "title": "https://twitter.com/2561586612/status/1385639164474019843"}, {"hidden": true, "id": "https://twitter.com/980713199090782209/status/1387004095903543298", "label": " ", "shape": "dot", "title": "https://twitter.com/980713199090782209/status/1387004095903543298"}, {"hidden": true, "id": "https://twitter.com/221286235/status/1386405813888061440", "label": " ", "shape": "dot", "title": "https://twitter.com/221286235/status/1386405813888061440"}, {"hidden": true, "id": "https://twitter.com/251606996/status/1386384982789197824", "label": " ", "shape": "dot", "title": "https://twitter.com/251606996/status/1386384982789197824"}, {"hidden": true, "id": "https://twitter.com/159133559/status/1386237076841107457", "label": " ", "shape": "dot", "title": "https://twitter.com/159133559/status/1386237076841107457"}, {"hidden": true, "id": "https://twitter.com/1301209840061222914/status/1386202753232474113", "label": " ", "shape": "dot", "title": "https://twitter.com/1301209840061222914/status/1386202753232474113"}, {"hidden": true, "id": "https://twitter.com/995039238772154368/status/1386185343272161282", "label": " ", "shape": "dot", "title": "https://twitter.com/995039238772154368/status/1386185343272161282"}, {"hidden": true, "id": "https://twitter.com/889912028793622528/status/1386100361539293189", "label": " ", "shape": "dot", "title": "https://twitter.com/889912028793622528/status/1386100361539293189"}, {"hidden": true, "id": "https://twitter.com/296730312/status/1385979897391325189", "label": " ", "shape": "dot", "title": "https://twitter.com/296730312/status/1385979897391325189"}, {"hidden": true, "id": "https://twitter.com/296730312/status/1385979311174336517", "label": " ", "shape": "dot", "title": "https://twitter.com/296730312/status/1385979311174336517"}, {"hidden": true, "id": "https://twitter.com/159133559/status/1385898070802681858", "label": " ", "shape": "dot", "title": "https://twitter.com/159133559/status/1385898070802681858"}, {"hidden": true, "id": "https://twitter.com/335324325/status/1385896858854297600", "label": " ", "shape": "dot", "title": "https://twitter.com/335324325/status/1385896858854297600"}, {"hidden": true, "id": "https://twitter.com/105397850/status/1385894914408386561", "label": " ", "shape": "dot", "title": "https://twitter.com/105397850/status/1385894914408386561"}, {"hidden": true, "id": "https://twitter.com/1272258558801960961/status/1385892381053030400", "label": " ", "shape": "dot", "title": "https://twitter.com/1272258558801960961/status/1385892381053030400"}, {"hidden": true, "id": "https://twitter.com/1230117966177611776/status/1385840732582424577", "label": " ", "shape": "dot", "title": "https://twitter.com/1230117966177611776/status/1385840732582424577"}, {"hidden": true, "id": "https://twitter.com/1217172065331097602/status/1385838494409494533", "label": " ", "shape": "dot", "title": "https://twitter.com/1217172065331097602/status/1385838494409494533"}, {"hidden": true, "id": "https://twitter.com/2942233179/status/1385723454184382465", "label": " ", "shape": "dot", "title": "https://twitter.com/2942233179/status/1385723454184382465"}, {"hidden": true, "id": "https://twitter.com/835031537921949696/status/1385712077231300613", "label": " ", "shape": "dot", "title": "https://twitter.com/835031537921949696/status/1385712077231300613"}, {"hidden": true, "id": "https://twitter.com/1014878505929240576/status/1385662720910008324", "label": " ", "shape": "dot", "title": "https://twitter.com/1014878505929240576/status/1385662720910008324"}, {"hidden": true, "id": "https://twitter.com/3347367010/status/1385660021422186497", "label": " ", "shape": "dot", "title": "https://twitter.com/3347367010/status/1385660021422186497"}, {"hidden": true, "id": "https://twitter.com/4877803011/status/1385650978372964356", "label": " ", "shape": "dot", "title": "https://twitter.com/4877803011/status/1385650978372964356"}, {"hidden": true, "id": "https://twitter.com/386232029/status/1385637023764160518", "label": " ", "shape": "dot", "title": "https://twitter.com/386232029/status/1385637023764160518"}, {"hidden": true, "id": "https://twitter.com/1014062421181390848/status/1385635000008290310", "label": " ", "shape": "dot", "title": "https://twitter.com/1014062421181390848/status/1385635000008290310"}, {"hidden": true, "id": "https://twitter.com/1014062421181390848/status/1385634538404077572", "label": " ", "shape": "dot", "title": "https://twitter.com/1014062421181390848/status/1385634538404077572"}, {"hidden": true, "id": "https://twitter.com/159133559/status/1385623163132948480", "label": " ", "shape": "dot", "title": "https://twitter.com/159133559/status/1385623163132948480"}, {"hidden": true, "id": "https://twitter.com/2346838902/status/1385589381763829761", "label": " ", "shape": "dot", "title": "https://twitter.com/2346838902/status/1385589381763829761"}, {"hidden": true, "id": "https://twitter.com/1718771437/status/1385583499122458628", "label": " ", "shape": "dot", "title": "https://twitter.com/1718771437/status/1385583499122458628"}, {"hidden": true, "id": "https://twitter.com/255043069/status/1385577615516475393", "label": " ", "shape": "dot", "title": "https://twitter.com/255043069/status/1385577615516475393"}, {"hidden": true, "id": "https://twitter.com/889912028793622528/status/1385570264621125635", "label": " ", "shape": "dot", "title": "https://twitter.com/889912028793622528/status/1385570264621125635"}, {"color": "blue", "id": "jaimecamaradigital.com.br", "label": "jaimecamaradigital.com.br", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://jaimecamaradigital.com.br/single/exklusiv-interview-mit-aussenamtssprecherin-maria-sacharowa-der-westen-lebt-in-einer-illusion/ckhfApkDcSY", "label": " ", "shape": "dot", "title": "https://jaimecamaradigital.com.br/single/exklusiv-interview-mit-aussenamtssprecherin-maria-sacharowa-der-westen-lebt-in-einer-illusion/ckhfApkDcSY"}, {"color": "blue", "id": "nailsdesigns.info", "label": "nailsdesigns.info", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "http://nailsdesigns.info/watch/exklusiv-interview-mit-au%C3%9Fenamtssprecherin-maria-sacharowa-der-westen-lebt-in-einer-illusion/ckhfApkDcSY", "label": " ", "shape": "dot", "title": "http://nailsdesigns.info/watch/exklusiv-interview-mit-au%C3%9Fenamtssprecherin-maria-sacharowa-der-westen-lebt-in-einer-illusion/ckhfApkDcSY"}, {"color": "blue", "id": "flipboard.com", "label": "flipboard.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://flipboard.com/article/exklusiv-interview-mit-au-enamtssprecherin-maria-sacharowa-der-westen-lebt-in-/a--vgHNte1T_egusBvB8RVXw%3Aa%3A1900293911-46f27010e6%2Frt.com", "label": " ", "shape": "dot", "title": "https://flipboard.com/article/exklusiv-interview-mit-au-enamtssprecherin-maria-sacharowa-der-westen-lebt-in-/a--vgHNte1T_egusBvB8RVXw%3Aa%3A1900293911-46f27010e6%2Frt.com"}, {"color": "red", "id": "de.rt.com", "label": "de.rt.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://de.rt.com/programme/fasbender/116504-exklusiv-interview-mit-aussenamtssprecherin-maria/", "label": " ", "shape": "dot", "title": "https://de.rt.com/programme/fasbender/116504-exklusiv-interview-mit-aussenamtssprecherin-maria/"}]);
+        edges = new vis.DataSet([{"from": "de.rt.com", "title": 65, "to": "twitter.com", "width": 12.568964226079276}, {"from": "de.rt.com", "title": 1, "to": "flipboard.com", "width": 2.0794415416798357}, {"from": "de.rt.com", "title": 1, "to": "nailsdesigns.info", "width": 2.0794415416798357}, {"from": "de.rt.com", "title": 1, "to": "jaimecamaradigital.com.br", "width": 2.0794415416798357}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

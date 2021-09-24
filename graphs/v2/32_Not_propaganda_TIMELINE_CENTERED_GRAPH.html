@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "yellow", "fixed": {"x": true, "y": true}, "id": "Old article", "label": " ", "physics": false, "shape": "diamond", "size": 35, "title": "Old article", "x": 0, "y": 0}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "2020-07-08", "label": " ", "physics": true, "shape": "diamond", "size": 25, "title": "original date2020-07-08", "x": 2304, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-03-17", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-03-17", "x": 4320, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-04-21", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-04-21", "x": 4600, "y": 0}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "2021-09-23", "label": " ", "physics": false, "shape": "diamond", "size": 25, "title": "2021-09-23", "x": 5840, "y": 0}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.infomigrants.net/en/post/25880/germany-has-taken-nearly-10-000-migrants-under-eu-turkey-deal-since-2016-report", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.infomigrants.net/en/post/25880/germany-has-taken-nearly-10-000-migrants-under-eu-turkey-deal-since-2016-report", "x": 2304, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/1234572524027027456/status/1384745751310487552", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/1234572524027027456/status/1384745751310487552", "x": 4600, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.dailysabah.com/politics/germany-took-in-nearly-10000-migrants-under-turkey-eu-deal-report-says/news", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.dailysabah.com/politics/germany-took-in-nearly-10000-migrants-under-turkey-eu-deal-report-says/news", "x": 2304, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.dw.com/en/turkey-migration-deal-a-stain-on-eu-rights-record/a-56903392", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.dw.com/en/turkey-migration-deal-a-stain-on-eu-rights-record/a-56903392", "x": 4320, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.wsj.com/articles/BL-263B-7192", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.wsj.com/articles/BL-263B-7192", "x": 0, "y": 30}]);
+        edges = new vis.DataSet([{"from": "https://www.infomigrants.net/en/post/25880/germany-has-taken-nearly-10-000-migrants-under-eu-turkey-deal-since-2016-report", "hidden": true, "physics": false, "to": "2020-07-08"}, {"from": "https://twitter.com/1234572524027027456/status/1384745751310487552", "hidden": true, "physics": false, "to": "2021-04-21"}, {"from": "https://www.dailysabah.com/politics/germany-took-in-nearly-10000-migrants-under-turkey-eu-deal-report-says/news", "hidden": true, "physics": false, "to": "2020-07-08"}, {"from": "https://www.dw.com/en/turkey-migration-deal-a-stain-on-eu-rights-record/a-56903392", "hidden": true, "physics": false, "to": "2021-03-17"}, {"from": "https://www.wsj.com/articles/BL-263B-7192", "hidden": true, "physics": false, "to": "Old article"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

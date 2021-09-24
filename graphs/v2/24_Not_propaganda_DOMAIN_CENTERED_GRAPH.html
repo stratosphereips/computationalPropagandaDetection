@@ -1,0 +1,216 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500px;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+        #loadingBar {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width: 1500px;
+            height: 700px;
+            background-color:rgba(200,200,200,0.8);
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -ms-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+            opacity:1;
+        }
+
+        #bar {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width:20px;
+            height:20px;
+            margin:auto auto auto auto;
+            border-radius:11px;
+            border:2px solid rgba(30,30,30,0.05);
+            background: rgb(0, 173, 246); /* Old browsers */
+            box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+        }
+
+        #border {
+            position:absolute;
+            top:10px;
+            left:10px;
+            width:500px;
+            height:23px;
+            margin:auto auto auto auto;
+            box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+            border-radius:10px;
+        }
+
+        #text {
+            position:absolute;
+            top:8px;
+            left:530px;
+            width:30px;
+            height:50px;
+            margin:auto auto auto auto;
+            font-size:22px;
+            color: #000000;
+        }
+
+        div.outerBorder {
+            position:relative;
+            top:400px;
+            width:600px;
+            height:44px;
+            margin:auto auto auto auto;
+            border:8px solid rgba(0,0,0,0.1);
+            background: rgb(252,252,252); /* Old browsers */
+            background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+            border-radius:72px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        }
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+<div id="loadingBar">
+    <div class="outerBorder">
+        <div id="text">0%</div>
+        <div id="border">
+            <div id="bar"></div>
+        </div>
+    </div>
+</div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "id": "measureevaluation.org", "label": "measureevaluation.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.measureevaluation.org/our-work/tuberculosis/", "label": " ", "shape": "dot", "title": "https://www.measureevaluation.org/our-work/tuberculosis/"}, {"color": "blue", "id": "ifrc.org", "label": "ifrc.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.ifrc.org/es/noticias/comunicados-de-prensa/europe/russian-federation/red-cross-receives-usaid-34-million-grant-to-fight-tb-in-russia/", "label": " ", "shape": "dot", "title": "https://www.ifrc.org/es/noticias/comunicados-de-prensa/europe/russian-federation/red-cross-receives-usaid-34-million-grant-to-fight-tb-in-russia/"}, {"color": "blue", "id": "twitter.com", "label": "twitter.com", "shape": "dot", "size": 46.44390899141372, "title": "101"}, {"hidden": true, "id": "https://twitter.com/1357169179984490497/status/1403287724308582404", "label": " ", "shape": "dot", "title": "https://twitter.com/1357169179984490497/status/1403287724308582404"}, {"hidden": true, "id": "https://twitter.com/1370527734779289608/status/1402848027526717440", "label": " ", "shape": "dot", "title": "https://twitter.com/1370527734779289608/status/1402848027526717440"}, {"hidden": true, "id": "https://twitter.com/827001518515630080/status/1402661873204531200", "label": " ", "shape": "dot", "title": "https://twitter.com/827001518515630080/status/1402661873204531200"}, {"hidden": true, "id": "https://twitter.com/143138173/status/1402631177119338497", "label": " ", "shape": "dot", "title": "https://twitter.com/143138173/status/1402631177119338497"}, {"hidden": true, "id": "https://twitter.com/759406842216902656/status/1402624286049771524", "label": " ", "shape": "dot", "title": "https://twitter.com/759406842216902656/status/1402624286049771524"}, {"hidden": true, "id": "https://twitter.com/213753748/status/1402543535719583746", "label": " ", "shape": "dot", "title": "https://twitter.com/213753748/status/1402543535719583746"}, {"hidden": true, "id": "https://twitter.com/936695554201018370/status/1402310375064825856", "label": " ", "shape": "dot", "title": "https://twitter.com/936695554201018370/status/1402310375064825856"}, {"hidden": true, "id": "https://twitter.com/889766459576131585/status/1402298642120253444", "label": " ", "shape": "dot", "title": "https://twitter.com/889766459576131585/status/1402298642120253444"}, {"hidden": true, "id": "https://twitter.com/3413063806/status/1402098351626240002", "label": " ", "shape": "dot", "title": "https://twitter.com/3413063806/status/1402098351626240002"}, {"hidden": true, "id": "https://twitter.com/3186942438/status/1401942523212296196", "label": " ", "shape": "dot", "title": "https://twitter.com/3186942438/status/1401942523212296196"}, {"hidden": true, "id": "https://twitter.com/24465226/status/1401910142774382600", "label": " ", "shape": "dot", "title": "https://twitter.com/24465226/status/1401910142774382600"}, {"hidden": true, "id": "https://twitter.com/1143540522784632837/status/1401909285366419456", "label": " ", "shape": "dot", "title": "https://twitter.com/1143540522784632837/status/1401909285366419456"}, {"hidden": true, "id": "https://twitter.com/947388787/status/1401908493972656129", "label": " ", "shape": "dot", "title": "https://twitter.com/947388787/status/1401908493972656129"}, {"hidden": true, "id": "https://twitter.com/152866991/status/1401892558998061056", "label": " ", "shape": "dot", "title": "https://twitter.com/152866991/status/1401892558998061056"}, {"hidden": true, "id": "https://twitter.com/1267380068394823682/status/1401877297255251968", "label": " ", "shape": "dot", "title": "https://twitter.com/1267380068394823682/status/1401877297255251968"}, {"hidden": true, "id": "https://twitter.com/732402528/status/1401818644892499969", "label": " ", "shape": "dot", "title": "https://twitter.com/732402528/status/1401818644892499969"}, {"hidden": true, "id": "https://twitter.com/1091246009076850688/status/1401800916592861187", "label": " ", "shape": "dot", "title": "https://twitter.com/1091246009076850688/status/1401800916592861187"}, {"hidden": true, "id": "https://twitter.com/1011173665877225473/status/1401796851339345923", "label": " ", "shape": "dot", "title": "https://twitter.com/1011173665877225473/status/1401796851339345923"}, {"hidden": true, "id": "https://twitter.com/1360227293617037313/status/1401786234410831884", "label": " ", "shape": "dot", "title": "https://twitter.com/1360227293617037313/status/1401786234410831884"}, {"hidden": true, "id": "https://twitter.com/1360227293617037313/status/1401786189015924736", "label": " ", "shape": "dot", "title": "https://twitter.com/1360227293617037313/status/1401786189015924736"}, {"hidden": true, "id": "https://twitter.com/1378208533217308677/status/1401785819585785858", "label": " ", "shape": "dot", "title": "https://twitter.com/1378208533217308677/status/1401785819585785858"}, {"hidden": true, "id": "https://twitter.com/1356847033181589506/status/1401785808659513345", "label": " ", "shape": "dot", "title": "https://twitter.com/1356847033181589506/status/1401785808659513345"}, {"hidden": true, "id": "https://twitter.com/178978113/status/1401785706238779395", "label": " ", "shape": "dot", "title": "https://twitter.com/178978113/status/1401785706238779395"}, {"hidden": true, "id": "https://twitter.com/1323941004/status/1401741400987693060", "label": " ", "shape": "dot", "title": "https://twitter.com/1323941004/status/1401741400987693060"}, {"hidden": true, "id": "https://twitter.com/822908707939975169/status/1401548277485654016", "label": " ", "shape": "dot", "title": "https://twitter.com/822908707939975169/status/1401548277485654016"}, {"hidden": true, "id": "https://twitter.com/434667459/status/1401491309551001602", "label": " ", "shape": "dot", "title": "https://twitter.com/434667459/status/1401491309551001602"}, {"hidden": true, "id": "https://twitter.com/1111208804/status/1401489293323866119", "label": " ", "shape": "dot", "title": "https://twitter.com/1111208804/status/1401489293323866119"}, {"hidden": true, "id": "https://twitter.com/973716667049144322/status/1401476381175914501", "label": " ", "shape": "dot", "title": "https://twitter.com/973716667049144322/status/1401476381175914501"}, {"hidden": true, "id": "https://twitter.com/1235172700466839553/status/1401474536831340545", "label": " ", "shape": "dot", "title": "https://twitter.com/1235172700466839553/status/1401474536831340545"}, {"hidden": true, "id": "https://twitter.com/33509142/status/1401433327337365507", "label": " ", "shape": "dot", "title": "https://twitter.com/33509142/status/1401433327337365507"}, {"hidden": true, "id": "https://twitter.com/1254900841930088448/status/1401380864185880580", "label": " ", "shape": "dot", "title": "https://twitter.com/1254900841930088448/status/1401380864185880580"}, {"hidden": true, "id": "https://twitter.com/2279162833/status/1401311662095798272", "label": " ", "shape": "dot", "title": "https://twitter.com/2279162833/status/1401311662095798272"}, {"hidden": true, "id": "https://twitter.com/704257242858708992/status/1401305897993916423", "label": " ", "shape": "dot", "title": "https://twitter.com/704257242858708992/status/1401305897993916423"}, {"hidden": true, "id": "https://twitter.com/1387772248875016201/status/1401296780550156291", "label": " ", "shape": "dot", "title": "https://twitter.com/1387772248875016201/status/1401296780550156291"}, {"hidden": true, "id": "https://twitter.com/1093074956/status/1401289178978172934", "label": " ", "shape": "dot", "title": "https://twitter.com/1093074956/status/1401289178978172934"}, {"hidden": true, "id": "https://twitter.com/1260473721543954434/status/1401281512604061699", "label": " ", "shape": "dot", "title": "https://twitter.com/1260473721543954434/status/1401281512604061699"}, {"hidden": true, "id": "https://twitter.com/825722252230541312/status/1401272737239339011", "label": " ", "shape": "dot", "title": "https://twitter.com/825722252230541312/status/1401272737239339011"}, {"hidden": true, "id": "https://twitter.com/1092645285560492032/status/1401242263183781889", "label": " ", "shape": "dot", "title": "https://twitter.com/1092645285560492032/status/1401242263183781889"}, {"hidden": true, "id": "https://twitter.com/104124491/status/1401229711162765319", "label": " ", "shape": "dot", "title": "https://twitter.com/104124491/status/1401229711162765319"}, {"hidden": true, "id": "https://twitter.com/3114693488/status/1401217670398320641", "label": " ", "shape": "dot", "title": "https://twitter.com/3114693488/status/1401217670398320641"}, {"hidden": true, "id": "https://twitter.com/36683668/status/1401217430504890368", "label": " ", "shape": "dot", "title": "https://twitter.com/36683668/status/1401217430504890368"}, {"hidden": true, "id": "https://twitter.com/213730462/status/1401186455767105539", "label": " ", "shape": "dot", "title": "https://twitter.com/213730462/status/1401186455767105539"}, {"hidden": true, "id": "https://twitter.com/1370336101043302401/status/1401185392502591502", "label": " ", "shape": "dot", "title": "https://twitter.com/1370336101043302401/status/1401185392502591502"}, {"hidden": true, "id": "https://twitter.com/1370336101043302401/status/1401184920853123072", "label": " ", "shape": "dot", "title": "https://twitter.com/1370336101043302401/status/1401184920853123072"}, {"hidden": true, "id": "https://twitter.com/213730462/status/1401177837806235659", "label": " ", "shape": "dot", "title": "https://twitter.com/213730462/status/1401177837806235659"}, {"hidden": true, "id": "https://twitter.com/2925683967/status/1401168241205157888", "label": " ", "shape": "dot", "title": "https://twitter.com/2925683967/status/1401168241205157888"}, {"hidden": true, "id": "https://twitter.com/472024527/status/1401138324430110723", "label": " ", "shape": "dot", "title": "https://twitter.com/472024527/status/1401138324430110723"}, {"hidden": true, "id": "https://twitter.com/3021491215/status/1401135766252752897", "label": " ", "shape": "dot", "title": "https://twitter.com/3021491215/status/1401135766252752897"}, {"hidden": true, "id": "https://twitter.com/732402528/status/1401135710900572167", "label": " ", "shape": "dot", "title": "https://twitter.com/732402528/status/1401135710900572167"}, {"hidden": true, "id": "https://twitter.com/1350706253677400067/status/1401134341590335489", "label": " ", "shape": "dot", "title": "https://twitter.com/1350706253677400067/status/1401134341590335489"}, {"hidden": true, "id": "https://twitter.com/2482193965/status/1401125732139536390", "label": " ", "shape": "dot", "title": "https://twitter.com/2482193965/status/1401125732139536390"}, {"hidden": true, "id": "https://twitter.com/3045774571/status/1401107665674289153", "label": " ", "shape": "dot", "title": "https://twitter.com/3045774571/status/1401107665674289153"}, {"hidden": true, "id": "https://twitter.com/1052124824/status/1401103994232115206", "label": " ", "shape": "dot", "title": "https://twitter.com/1052124824/status/1401103994232115206"}, {"hidden": true, "id": "https://twitter.com/1130506925379006464/status/1401094420955602946", "label": " ", "shape": "dot", "title": "https://twitter.com/1130506925379006464/status/1401094420955602946"}, {"hidden": true, "id": "https://twitter.com/979019295584907269/status/1401093241592819717", "label": " ", "shape": "dot", "title": "https://twitter.com/979019295584907269/status/1401093241592819717"}, {"hidden": true, "id": "https://twitter.com/565462327/status/1401093147015278592", "label": " ", "shape": "dot", "title": "https://twitter.com/565462327/status/1401093147015278592"}, {"hidden": true, "id": "https://twitter.com/765157221395292160/status/1401083750256087041", "label": " ", "shape": "dot", "title": "https://twitter.com/765157221395292160/status/1401083750256087041"}, {"hidden": true, "id": "https://twitter.com/2971828546/status/1401083746326097922", "label": " ", "shape": "dot", "title": "https://twitter.com/2971828546/status/1401083746326097922"}, {"hidden": true, "id": "https://twitter.com/1363148775527653376/status/1401081889838956549", "label": " ", "shape": "dot", "title": "https://twitter.com/1363148775527653376/status/1401081889838956549"}, {"hidden": true, "id": "https://twitter.com/43065857/status/1401079975243964421", "label": " ", "shape": "dot", "title": "https://twitter.com/43065857/status/1401079975243964421"}, {"hidden": true, "id": "https://twitter.com/409141763/status/1401067156628860932", "label": " ", "shape": "dot", "title": "https://twitter.com/409141763/status/1401067156628860932"}, {"hidden": true, "id": "https://twitter.com/216411112/status/1401067071518162949", "label": " ", "shape": "dot", "title": "https://twitter.com/216411112/status/1401067071518162949"}, {"hidden": true, "id": "https://twitter.com/769772973712695296/status/1401062272009637889", "label": " ", "shape": "dot", "title": "https://twitter.com/769772973712695296/status/1401062272009637889"}, {"hidden": true, "id": "https://twitter.com/2763704717/status/1401061526795177990", "label": " ", "shape": "dot", "title": "https://twitter.com/2763704717/status/1401061526795177990"}, {"hidden": true, "id": "https://twitter.com/1067513606122594304/status/1401054153229574146", "label": " ", "shape": "dot", "title": "https://twitter.com/1067513606122594304/status/1401054153229574146"}, {"hidden": true, "id": "https://twitter.com/460580111/status/1401049203636203521", "label": " ", "shape": "dot", "title": "https://twitter.com/460580111/status/1401049203636203521"}, {"hidden": true, "id": "https://twitter.com/3797032521/status/1401037574211358720", "label": " ", "shape": "dot", "title": "https://twitter.com/3797032521/status/1401037574211358720"}, {"hidden": true, "id": "https://twitter.com/936695554201018370/status/1401034838694522880", "label": " ", "shape": "dot", "title": "https://twitter.com/936695554201018370/status/1401034838694522880"}, {"hidden": true, "id": "https://twitter.com/382812138/status/1401030033087647744", "label": " ", "shape": "dot", "title": "https://twitter.com/382812138/status/1401030033087647744"}, {"hidden": true, "id": "https://twitter.com/1393537394/status/1401023395538497540", "label": " ", "shape": "dot", "title": "https://twitter.com/1393537394/status/1401023395538497540"}, {"hidden": true, "id": "https://twitter.com/44147273/status/1401018310590832645", "label": " ", "shape": "dot", "title": "https://twitter.com/44147273/status/1401018310590832645"}, {"hidden": true, "id": "https://twitter.com/783310099775303682/status/1401013745221083139", "label": " ", "shape": "dot", "title": "https://twitter.com/783310099775303682/status/1401013745221083139"}, {"hidden": true, "id": "https://twitter.com/617619927/status/1401009058811764741", "label": " ", "shape": "dot", "title": "https://twitter.com/617619927/status/1401009058811764741"}, {"hidden": true, "id": "https://twitter.com/1272452622423937024/status/1401008287391358979", "label": " ", "shape": "dot", "title": "https://twitter.com/1272452622423937024/status/1401008287391358979"}, {"hidden": true, "id": "https://twitter.com/729704556/status/1401005960009859072", "label": " ", "shape": "dot", "title": "https://twitter.com/729704556/status/1401005960009859072"}, {"hidden": true, "id": "https://twitter.com/1173286656/status/1401003383817965569", "label": " ", "shape": "dot", "title": "https://twitter.com/1173286656/status/1401003383817965569"}, {"hidden": true, "id": "https://twitter.com/780587107303632897/status/1401001351090409472", "label": " ", "shape": "dot", "title": "https://twitter.com/780587107303632897/status/1401001351090409472"}, {"hidden": true, "id": "https://twitter.com/1325489874795982856/status/1400991367581638662", "label": " ", "shape": "dot", "title": "https://twitter.com/1325489874795982856/status/1400991367581638662"}, {"hidden": true, "id": "https://twitter.com/1395271646907277312/status/1400990256690647042", "label": " ", "shape": "dot", "title": "https://twitter.com/1395271646907277312/status/1400990256690647042"}, {"hidden": true, "id": "https://twitter.com/36968554/status/1400986207828467722", "label": " ", "shape": "dot", "title": "https://twitter.com/36968554/status/1400986207828467722"}, {"hidden": true, "id": "https://twitter.com/2510753433/status/1400985975027908613", "label": " ", "shape": "dot", "title": "https://twitter.com/2510753433/status/1400985975027908613"}, {"hidden": true, "id": "https://twitter.com/1566650000/status/1400984555641782277", "label": " ", "shape": "dot", "title": "https://twitter.com/1566650000/status/1400984555641782277"}, {"hidden": true, "id": "https://twitter.com/2565802878/status/1400984172785664007", "label": " ", "shape": "dot", "title": "https://twitter.com/2565802878/status/1400984172785664007"}, {"hidden": true, "id": "https://twitter.com/3419251203/status/1400983498186428418", "label": " ", "shape": "dot", "title": "https://twitter.com/3419251203/status/1400983498186428418"}, {"hidden": true, "id": "https://twitter.com/889035664779509760/status/1400982709472829442", "label": " ", "shape": "dot", "title": "https://twitter.com/889035664779509760/status/1400982709472829442"}, {"hidden": true, "id": "https://twitter.com/1375765060711239682/status/1400982429683359745", "label": " ", "shape": "dot", "title": "https://twitter.com/1375765060711239682/status/1400982429683359745"}, {"hidden": true, "id": "https://twitter.com/1382337056412733443/status/1400982216726003713", "label": " ", "shape": "dot", "title": "https://twitter.com/1382337056412733443/status/1400982216726003713"}, {"hidden": true, "id": "https://twitter.com/1263829639786450945/status/1400978877757890563", "label": " ", "shape": "dot", "title": "https://twitter.com/1263829639786450945/status/1400978877757890563"}, {"hidden": true, "id": "https://twitter.com/409141763/status/1400964343978610691", "label": " ", "shape": "dot", "title": "https://twitter.com/409141763/status/1400964343978610691"}, {"hidden": true, "id": "https://twitter.com/999621483755286530/status/1400889983221698560", "label": " ", "shape": "dot", "title": "https://twitter.com/999621483755286530/status/1400889983221698560"}, {"hidden": true, "id": "https://twitter.com/43113029/status/1400888368565719043", "label": " ", "shape": "dot", "title": "https://twitter.com/43113029/status/1400888368565719043"}, {"hidden": true, "id": "https://twitter.com/713432970179293184/status/1400885000564883458", "label": " ", "shape": "dot", "title": "https://twitter.com/713432970179293184/status/1400885000564883458"}, {"hidden": true, "id": "https://twitter.com/730329712694808576/status/1400879536271659009", "label": " ", "shape": "dot", "title": "https://twitter.com/730329712694808576/status/1400879536271659009"}, {"hidden": true, "id": "https://twitter.com/200872485/status/1400871732433543172", "label": " ", "shape": "dot", "title": "https://twitter.com/200872485/status/1400871732433543172"}, {"hidden": true, "id": "https://twitter.com/2363955661/status/1400871720517390341", "label": " ", "shape": "dot", "title": "https://twitter.com/2363955661/status/1400871720517390341"}, {"hidden": true, "id": "https://twitter.com/3114693488/status/1400871365553668097", "label": " ", "shape": "dot", "title": "https://twitter.com/3114693488/status/1400871365553668097"}, {"hidden": true, "id": "https://twitter.com/108875099/status/1400866489360699398", "label": " ", "shape": "dot", "title": "https://twitter.com/108875099/status/1400866489360699398"}, {"hidden": true, "id": "https://twitter.com/152866991/status/1400864773668061184", "label": " ", "shape": "dot", "title": "https://twitter.com/152866991/status/1400864773668061184"}, {"hidden": true, "id": "https://twitter.com/250169387/status/1400863168818298885", "label": " ", "shape": "dot", "title": "https://twitter.com/250169387/status/1400863168818298885"}, {"hidden": true, "id": "https://twitter.com/2840238245/status/1400863132826980354", "label": " ", "shape": "dot", "title": "https://twitter.com/2840238245/status/1400863132826980354"}, {"hidden": true, "id": "https://twitter.com/powerusaid/status/1400982216726003713", "label": " ", "shape": "dot", "title": "https://twitter.com/powerusaid/status/1400982216726003713"}, {"color": "blue", "id": "kff.org", "label": "kff.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.kff.org/global-health-policy/fact-sheet/the-u-s-government-and-global-tuberculosis-efforts/", "label": " ", "shape": "dot", "title": "https://www.kff.org/global-health-policy/fact-sheet/the-u-s-government-and-global-tuberculosis-efforts/"}, {"color": "blue", "id": "theglobalfight.org", "label": "theglobalfight.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.theglobalfight.org/covid-aids-tb-malaria/", "label": " ", "shape": "dot", "title": "https://www.theglobalfight.org/covid-aids-tb-malaria/"}, {"color": "blue", "id": "tbonline.info", "label": "tbonline.info", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.tbonline.info/posts/author/115/", "label": " ", "shape": "dot", "title": "https://www.tbonline.info/posts/author/115/"}, {"color": "blue", "id": "business-standard.com", "label": "business-standard.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.business-standard.com/article/international/us-announces-57-mn-aid-for-tb-treatment-in-seven-high-burden-countries-121060500096_1.html", "label": " ", "shape": "dot", "title": "https://www.business-standard.com/article/international/us-announces-57-mn-aid-for-tb-treatment-in-seven-high-burden-countries-121060500096_1.html"}, {"color": "red", "id": "usaid.gov", "label": "usaid.gov", "shape": "dot", "size": 16.094379124341003, "title": "2"}, {"hidden": true, "id": "https://www.usaid.gov/news-information/press-releases/jun-4-2021-usaid-announces-57-million-urgent-tuberculosis-recovery-effort-seven-countries", "label": " ", "shape": "dot", "title": "https://www.usaid.gov/news-information/press-releases/jun-4-2021-usaid-announces-57-million-urgent-tuberculosis-recovery-effort-seven-countries"}, {"hidden": true, "id": "https://www.usaid.gov/news-information/press-releases?page=2", "label": " ", "shape": "dot", "title": "https://www.usaid.gov/news-information/press-releases?page=2"}]);
+        edges = new vis.DataSet([{"from": "usaid.gov", "title": 105, "to": "twitter.com", "width": 13.9903172823362}, {"from": "usaid.gov", "title": 2, "to": "usaid.gov", "width": 3.295836866004329}, {"from": "usaid.gov", "title": 1, "to": "business-standard.com", "width": 2.0794415416798357}, {"from": "usaid.gov", "title": 1, "to": "tbonline.info", "width": 2.0794415416798357}, {"from": "usaid.gov", "title": 1, "to": "theglobalfight.org", "width": 2.0794415416798357}, {"from": "usaid.gov", "title": 1, "to": "kff.org", "width": 2.0794415416798357}, {"from": "usaid.gov", "title": 1, "to": "ifrc.org", "width": 2.0794415416798357}, {"from": "usaid.gov", "title": 1, "to": "measureevaluation.org", "width": 2.0794415416798357}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+        network.on("stabilizationProgress", function(params) {
+      		document.getElementById('loadingBar').removeAttribute("style");
+	        var maxWidth = 496;
+	        var minWidth = 20;
+	        var widthFactor = params.iterations/params.total;
+	        var width = Math.max(minWidth,maxWidth * widthFactor);
+
+	        document.getElementById('bar').style.width = width + 'px';
+	        document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+	    });
+	    network.once("stabilizationIterationsDone", function() {
+	        document.getElementById('text').innerHTML = '100%';
+	        document.getElementById('bar').style.width = '496px';
+	        document.getElementById('loadingBar').style.opacity = 0;
+	        // really clean the dom element
+	        setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+	    });
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

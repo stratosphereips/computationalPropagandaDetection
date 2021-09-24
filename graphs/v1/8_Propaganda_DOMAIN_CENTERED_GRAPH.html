@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500px;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "id": "vk.com", "label": "vk.com", "shape": "dot", "size": 34.965075614664805, "title": "30"}, {"hidden": true, "id": "https://vk.com/id-68355823?w=wall-68355823_216854", "label": " ", "shape": "dot", "title": "https://vk.com/id-68355823?w=wall-68355823_216854"}, {"hidden": true, "id": "https://vk.com/id104432788?w=wall104432788_21889", "label": " ", "shape": "dot", "title": "https://vk.com/id104432788?w=wall104432788_21889"}, {"hidden": true, "id": "https://vk.com/id-157335818?w=wall-157335818_529939", "label": " ", "shape": "dot", "title": "https://vk.com/id-157335818?w=wall-157335818_529939"}, {"hidden": true, "id": "https://vk.com/id-187455997?w=wall-187455997_23731", "label": " ", "shape": "dot", "title": "https://vk.com/id-187455997?w=wall-187455997_23731"}, {"hidden": true, "id": "https://vk.com/id-102868701?w=wall-102868701_341353", "label": " ", "shape": "dot", "title": "https://vk.com/id-102868701?w=wall-102868701_341353"}, {"hidden": true, "id": "https://vk.com/id-199106350?w=wall-199106350_12747", "label": " ", "shape": "dot", "title": "https://vk.com/id-199106350?w=wall-199106350_12747"}, {"hidden": true, "id": "https://vk.com/id-64224759?w=wall-64224759_45086", "label": " ", "shape": "dot", "title": "https://vk.com/id-64224759?w=wall-64224759_45086"}, {"hidden": true, "id": "https://vk.com/id-27347418?w=wall-27347418_62495", "label": " ", "shape": "dot", "title": "https://vk.com/id-27347418?w=wall-27347418_62495"}, {"hidden": true, "id": "https://vk.com/id-24834583?w=wall-24834583_52896", "label": " ", "shape": "dot", "title": "https://vk.com/id-24834583?w=wall-24834583_52896"}, {"hidden": true, "id": "https://vk.com/id-60932039?w=wall-60932039_979301", "label": " ", "shape": "dot", "title": "https://vk.com/id-60932039?w=wall-60932039_979301"}, {"hidden": true, "id": "https://vk.com/id-61324059?w=wall-61324059_80052", "label": " ", "shape": "dot", "title": "https://vk.com/id-61324059?w=wall-61324059_80052"}, {"hidden": true, "id": "https://vk.com/id-164239893?w=wall-164239893_417241", "label": " ", "shape": "dot", "title": "https://vk.com/id-164239893?w=wall-164239893_417241"}, {"hidden": true, "id": "https://vk.com/id-189355686?w=wall-189355686_9466", "label": " ", "shape": "dot", "title": "https://vk.com/id-189355686?w=wall-189355686_9466"}, {"hidden": true, "id": "https://vk.com/id18854038?w=wall18854038_265376", "label": " ", "shape": "dot", "title": "https://vk.com/id18854038?w=wall18854038_265376"}, {"hidden": true, "id": "https://vk.com/id-203736923?w=wall-203736923_141", "label": " ", "shape": "dot", "title": "https://vk.com/id-203736923?w=wall-203736923_141"}, {"hidden": true, "id": "https://vk.com/id-189355686?w=wall-189355686_9267", "label": " ", "shape": "dot", "title": "https://vk.com/id-189355686?w=wall-189355686_9267"}, {"hidden": true, "id": "https://vk.com/id425973181?w=wall425973181_2937", "label": " ", "shape": "dot", "title": "https://vk.com/id425973181?w=wall425973181_2937"}, {"hidden": true, "id": "https://vk.com/id-161516666?w=wall-161516666_9386", "label": " ", "shape": "dot", "title": "https://vk.com/id-161516666?w=wall-161516666_9386"}, {"hidden": true, "id": "https://vk.com/id-107523729?w=wall-107523729_71689", "label": " ", "shape": "dot", "title": "https://vk.com/id-107523729?w=wall-107523729_71689"}, {"hidden": true, "id": "https://vk.com/id528666255?w=wall528666255_4654", "label": " ", "shape": "dot", "title": "https://vk.com/id528666255?w=wall528666255_4654"}, {"hidden": true, "id": "https://vk.com/id-61324059?w=wall-61324059_78668", "label": " ", "shape": "dot", "title": "https://vk.com/id-61324059?w=wall-61324059_78668"}, {"hidden": true, "id": "https://vk.com/id287510981?w=wall287510981_6128", "label": " ", "shape": "dot", "title": "https://vk.com/id287510981?w=wall287510981_6128"}, {"hidden": true, "id": "https://vk.com/id-10113629?w=wall-10113629_40283", "label": " ", "shape": "dot", "title": "https://vk.com/id-10113629?w=wall-10113629_40283"}, {"hidden": true, "id": "https://vk.com/id198278457?w=wall198278457_16394", "label": " ", "shape": "dot", "title": "https://vk.com/id198278457?w=wall198278457_16394"}, {"hidden": true, "id": "https://vk.com/id-21758?w=wall-21758_209056", "label": " ", "shape": "dot", "title": "https://vk.com/id-21758?w=wall-21758_209056"}, {"hidden": true, "id": "https://vk.com/id-187131079?w=wall-187131079_1647", "label": " ", "shape": "dot", "title": "https://vk.com/id-187131079?w=wall-187131079_1647"}, {"hidden": true, "id": "https://vk.com/id-61324059?w=wall-61324059_77302", "label": " ", "shape": "dot", "title": "https://vk.com/id-61324059?w=wall-61324059_77302"}, {"hidden": true, "id": "https://vk.com/id-68578180?w=wall-68578180_616999", "label": " ", "shape": "dot", "title": "https://vk.com/id-68578180?w=wall-68578180_616999"}, {"hidden": true, "id": "https://vk.com/id-66621324?w=wall-66621324_3221265", "label": " ", "shape": "dot", "title": "https://vk.com/id-66621324?w=wall-66621324_3221265"}, {"hidden": true, "id": "https://vk.com/id-109324580?w=wall-109324580_5260", "label": " ", "shape": "dot", "title": "https://vk.com/id-109324580?w=wall-109324580_5260"}, {"color": "blue", "id": "visitestonia.com", "label": "visitestonia.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.visitestonia.com/ru/%D0%BF%D0%BE%D1%87%D0%B5%D0%BC%D1%83-%D1%8D%D1%81%D1%82%D0%BE%D0%BD%D0%B8%D1%8F/13-%D1%83%D0%B4%D0%B8%D0%B2%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D1%85-%D1%84%D0%B0%D0%BA%D1%82%D0%BE%D0%B2-%D0%BE%D0%B1-%D1%8D%D1%81%D1%82%D0%BE%D0%BD%D0%B8%D0%B8", "label": " ", "shape": "dot", "title": "https://www.visitestonia.com/ru/%D0%BF%D0%BE%D1%87%D0%B5%D0%BC%D1%83-%D1%8D%D1%81%D1%82%D0%BE%D0%BD%D0%B8%D1%8F/13-%D1%83%D0%B4%D0%B8%D0%B2%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D1%85-%D1%84%D0%B0%D0%BA%D1%82%D0%BE%D0%B2-%D0%BE%D0%B1-%D1%8D%D1%81%D1%82%D0%BE%D0%BD%D0%B8%D0%B8"}, {"color": "blue", "id": "sputnik-georgia.ru", "label": "sputnik-georgia.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://sputnik-georgia.ru/opinion/20210622/252092520/Byt-otkrytymi-nesmotrya-na-proshloe--Putin-napisal-statyu-k-80-y-godovschine-nachala-VOV.html", "label": " ", "shape": "dot", "title": "https://sputnik-georgia.ru/opinion/20210622/252092520/Byt-otkrytymi-nesmotrya-na-proshloe--Putin-napisal-statyu-k-80-y-godovschine-nachala-VOV.html"}, {"color": "blue", "id": "rosstat.gov.ru", "label": "rosstat.gov.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://rosstat.gov.ru/", "label": " ", "shape": "dot", "title": "https://rosstat.gov.ru/"}, {"color": "blue", "id": "gorod.lv", "label": "gorod.lv", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://gorod.lv/novosti/tema/%D0%B4%D0%B5%D0%BC%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D1%8F", "label": " ", "shape": "dot", "title": "https://gorod.lv/novosti/tema/%D0%B4%D0%B5%D0%BC%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D1%8F"}, {"color": "blue", "id": "lv.sputniknews.ru", "label": "lv.sputniknews.ru", "shape": "dot", "size": 16.094379124341003, "title": "2"}, {"hidden": true, "id": "https://lv.sputniknews.ru/20210517/nepriglyadnoe-litso-estonia-poteryala-lyudey-15679053.html", "label": " ", "shape": "dot", "title": "https://lv.sputniknews.ru/20210517/nepriglyadnoe-litso-estonia-poteryala-lyudey-15679053.html"}, {"hidden": true, "id": "https://lv.sputniknews.ru/20210619/latysh-ne-khochet-delat-biznes-on-khochet-rugat-pravitelstvo-o-chem-pisali-latyshskie-smi-17235085.html", "label": " ", "shape": "dot", "title": "https://lv.sputniknews.ru/20210619/latysh-ne-khochet-delat-biznes-on-khochet-rugat-pravitelstvo-o-chem-pisali-latyshskie-smi-17235085.html"}, {"color": "blue", "id": "baltnews.lt", "label": "baltnews.lt", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://baltnews.lt/ekonomika_online_novosti/20200201/1019719588/Strannaya-statistika-Pochemu-naselenie-Litvy-uvelichivaetsya-no-rozhdaemost-padaet.html", "label": " ", "shape": "dot", "title": "https://baltnews.lt/ekonomika_online_novosti/20200201/1019719588/Strannaya-statistika-Pochemu-naselenie-Litvy-uvelichivaetsya-no-rozhdaemost-padaet.html"}, {"color": "blue", "id": "tass.ru", "label": "tass.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://tass.ru/mezhdunarodnaya-panorama/2599791?sa=X\u0026ved=2ahUKEwiXjNO6vJDnAhXPUlAKHaEFBQMQFjAWegQIARAB/amp/amp/amp", "label": " ", "shape": "dot", "title": "https://tass.ru/mezhdunarodnaya-panorama/2599791?sa=X\u0026ved=2ahUKEwiXjNO6vJDnAhXPUlAKHaEFBQMQFjAWegQIARAB/amp/amp/amp"}, {"color": "blue", "id": "sciencejournals.ru", "label": "sciencejournals.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://sciencejournals.ru/view-article/?j=izvgeo\u0026y=2020\u0026v=84\u0026n=2\u0026a=IzvGeo2002009Manakov", "label": " ", "shape": "dot", "title": "https://sciencejournals.ru/view-article/?j=izvgeo\u0026y=2020\u0026v=84\u0026n=2\u0026a=IzvGeo2002009Manakov"}, {"color": "blue", "id": "geo11-vpr.sdamgia.ru", "label": "geo11-vpr.sdamgia.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://geo11-vpr.sdamgia.ru/test?theme=10\u0026ttest=true", "label": " ", "shape": "dot", "title": "https://geo11-vpr.sdamgia.ru/test?theme=10\u0026ttest=true"}, {"color": "blue", "id": "baltnews.ee", "label": "baltnews.ee", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://baltnews.ee/authors/20190224/1017436423/estonia-den-nezavisimosti-2019.html", "label": " ", "shape": "dot", "title": "https://baltnews.ee/authors/20190224/1017436423/estonia-den-nezavisimosti-2019.html"}, {"color": "blue", "id": "cyclowiki.org", "label": "cyclowiki.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "http://cyclowiki.org/wiki/%D0%AD%D1%81%D1%82%D0%BE%D0%BD%D1%81%D0%BA%D0%B0%D1%8F_%D0%A0%D0%B5%D1%81%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D0%B0", "label": " ", "shape": "dot", "title": "http://cyclowiki.org/wiki/%D0%AD%D1%81%D1%82%D0%BE%D0%BD%D1%81%D0%BA%D0%B0%D1%8F_%D0%A0%D0%B5%D1%81%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D0%B0"}, {"color": "blue", "id": "keskerakond.ee", "label": "keskerakond.ee", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.keskerakond.ee/ru/meedia-2-rus/uudised-2-rus/1033-%D1%81%D0%B8%D1%80%D0%B5%D1%82-%D0%BA%D0%BE%D1%82%D0%BA%D0%B0-%D0%BF%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D0%B5-%D1%80%D0%BE%D0%B6%D0%B4%D0%B0%D0%B5%D0%BC%D0%BE%D1%81%D1%82%D0%B8-%D0%BD%D0%B5%D0%BE%D0%B1%D1%85%D0%BE%D0%B4%D0%B8%D0%BC%D0%BE-%D1%83%D0%B4%D0%B5%D0%BB%D0%B8%D1%82%D1%8C-%D0%BF%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5-%D0%B2%D0%BD%D0%B8%D0%BC%D0%B0%D0%BD%D0%B8%D0%B5.html", "label": " ", "shape": "dot", "title": "https://www.keskerakond.ee/ru/meedia-2-rus/uudised-2-rus/1033-%D1%81%D0%B8%D1%80%D0%B5%D1%82-%D0%BA%D0%BE%D1%82%D0%BA%D0%B0-%D0%BF%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D0%B5-%D1%80%D0%BE%D0%B6%D0%B4%D0%B0%D0%B5%D0%BC%D0%BE%D1%81%D1%82%D0%B8-%D0%BD%D0%B5%D0%BE%D0%B1%D1%85%D0%BE%D0%B4%D0%B8%D0%BC%D0%BE-%D1%83%D0%B4%D0%B5%D0%BB%D0%B8%D1%82%D1%8C-%D0%BF%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5-%D0%B2%D0%BD%D0%B8%D0%BC%D0%B0%D0%BD%D0%B8%D0%B5.html"}, {"color": "blue", "id": "dissercat.com", "label": "dissercat.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.dissercat.com/content/osobennosti-adaptatsii-russkoyazychnogo-naseleniya-stran-baltii-k-sovremennym-sotsialno-poli", "label": " ", "shape": "dot", "title": "https://www.dissercat.com/content/osobennosti-adaptatsii-russkoyazychnogo-naseleniya-stran-baltii-k-sovremennym-sotsialno-poli"}, {"color": "blue", "id": "life.ru", "label": "life.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://life.ru/p/1359313", "label": " ", "shape": "dot", "title": "https://life.ru/p/1359313"}, {"color": "blue", "id": "rus.lsm.lv", "label": "rus.lsm.lv", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://rus.lsm.lv/tema/naselenie/", "label": " ", "shape": "dot", "title": "https://rus.lsm.lv/tema/naselenie/"}, {"color": "blue", "id": "pravda.com.ua", "label": "pravda.com.ua", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.pravda.com.ua/rus/news/2020/01/23/7238207/", "label": " ", "shape": "dot", "title": "https://www.pravda.com.ua/rus/news/2020/01/23/7238207/"}, {"color": "blue", "id": "interfax.ru", "label": "interfax.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.interfax.ru/interview/761414", "label": " ", "shape": "dot", "title": "https://www.interfax.ru/interview/761414"}, {"color": "blue", "id": "tsargrad.tv", "label": "tsargrad.tv", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://tsargrad.tv/news/v-jestonii-zajavili-o-neuklonnom-sokrashhenii-naselenija-s-momenta-vosstanovlenija-nezavisimosti_49142", "label": " ", "shape": "dot", "title": "https://tsargrad.tv/news/v-jestonii-zajavili-o-neuklonnom-sokrashhenii-naselenija-s-momenta-vosstanovlenija-nezavisimosti_49142"}, {"color": "blue", "id": "polpred.com", "label": "polpred.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://polpred.com/?ns=1\u0026ns_id=3705409", "label": " ", "shape": "dot", "title": "https://polpred.com/?ns=1\u0026ns_id=3705409"}, {"color": "blue", "id": "unstats.un.org", "label": "unstats.un.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://unstats.un.org/unsd/methodology/m49/", "label": " ", "shape": "dot", "title": "https://unstats.un.org/unsd/methodology/m49/"}, {"color": "blue", "id": "lv.baltnews.com", "label": "lv.baltnews.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://lv.baltnews.com/Saeima_elections/20210101/1024446926/Kak-izmenilas-chislennost-naseleniya-Latvii-za-tridtsat-let.html", "label": " ", "shape": "dot", "title": "https://lv.baltnews.com/Saeima_elections/20210101/1024446926/Kak-izmenilas-chislennost-naseleniya-Latvii-za-tridtsat-let.html"}, {"color": "blue", "id": "ia-centr.ru", "label": "ia-centr.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://ia-centr.ru/experts/1176/", "label": " ", "shape": "dot", "title": "https://ia-centr.ru/experts/1176/"}, {"color": "blue", "id": "tyzemec.ru", "label": "tyzemec.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.tyzemec.ru/strany_mira/estonia/24-1-0-140", "label": " ", "shape": "dot", "title": "https://www.tyzemec.ru/strany_mira/estonia/24-1-0-140"}, {"color": "blue", "id": "icds.ee", "label": "icds.ee", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://icds.ee/ru/vlijanie-rossii-v-jestonii/", "label": " ", "shape": "dot", "title": "https://icds.ee/ru/vlijanie-rossii-v-jestonii/"}, {"color": "blue", "id": "dw.com", "label": "dw.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.dw.com/ru/%D1%81%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B0-%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%B5-%D0%BC%D0%B5%D0%BD%D1%8C%D1%88%D0%B8%D0%BD%D1%81%D1%82%D0%B2%D0%BE-%D0%B2-%D1%8D%D1%81%D1%82%D0%BE%D0%BD%D0%B8%D0%B8/a-2483483", "label": " ", "shape": "dot", "title": "https://www.dw.com/ru/%D1%81%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B0-%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%B5-%D0%BC%D0%B5%D0%BD%D1%8C%D1%88%D0%B8%D0%BD%D1%81%D1%82%D0%B2%D0%BE-%D0%B2-%D1%8D%D1%81%D1%82%D0%BE%D0%BD%D0%B8%D0%B8/a-2483483"}, {"color": "blue", "id": "seb.lv", "label": "seb.lv", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.seb.lv/ru/inforum/latvii-100/baltiyskaya-semya", "label": " ", "shape": "dot", "title": "https://www.seb.lv/ru/inforum/latvii-100/baltiyskaya-semya"}, {"color": "blue", "id": "seb.ee", "label": "seb.ee", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.seb.ee/ru/forum/ekonomicheskaya-sreda/so-stareyushchim-naseleniem-5-go-rosta-ekonomiki-ne-dostich", "label": " ", "shape": "dot", "title": "https://www.seb.ee/ru/forum/ekonomicheskaya-sreda/so-stareyushchim-naseleniem-5-go-rosta-ekonomiki-ne-dostich"}, {"color": "blue", "id": "travelask.ru", "label": "travelask.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://travelask.ru/blog/posts/10711-vymirayuschie-okrainy-evrosoyuza-naselenie-pribaltiki-katast", "label": " ", "shape": "dot", "title": "https://travelask.ru/blog/posts/10711-vymirayuschie-okrainy-evrosoyuza-naselenie-pribaltiki-katast"}, {"color": "blue", "id": "novayagazeta.ee", "label": "novayagazeta.ee", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "http://novayagazeta.ee/articles/12623/", "label": " ", "shape": "dot", "title": "http://novayagazeta.ee/articles/12623/"}, {"color": "blue", "id": "regnum.ru", "label": "regnum.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://regnum.ru/news/2150939.html", "label": " ", "shape": "dot", "title": "https://regnum.ru/news/2150939.html"}, {"color": "blue", "id": "ria.ru", "label": "ria.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://ria.ru/20150617/1074774736.html", "label": " ", "shape": "dot", "title": "https://ria.ru/20150617/1074774736.html"}, {"color": "blue", "id": "delfi.ee", "label": "delfi.ee", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.delfi.ee/a/78099932", "label": " ", "shape": "dot", "title": "https://www.delfi.ee/a/78099932"}, {"color": "red", "id": "sputnik-meedia.ee", "label": "sputnik-meedia.ee", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://sputnik-meedia.ee/opinion/20210516/467903/Nepriglyadnoe-litso-pochemu-demokraticheskaya-Estoniya-teryaet-lyudey.html", "label": " ", "shape": "dot", "title": "https://sputnik-meedia.ee/opinion/20210516/467903/Nepriglyadnoe-litso-pochemu-demokraticheskaya-Estoniya-teryaet-lyudey.html"}]);
+        edges = new vis.DataSet([{"from": "sputnik-meedia.ee", "title": 1, "to": "delfi.ee", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "ria.ru", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "regnum.ru", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "novayagazeta.ee", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "travelask.ru", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "seb.ee", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "seb.lv", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "dw.com", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "icds.ee", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "tyzemec.ru", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "ia-centr.ru", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "lv.baltnews.com", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "unstats.un.org", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "polpred.com", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "tsargrad.tv", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "interfax.ru", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "pravda.com.ua", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "rus.lsm.lv", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "life.ru", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "dissercat.com", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "keskerakond.ee", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 2, "to": "lv.sputniknews.ru", "width": 3.295836866004329}, {"from": "sputnik-meedia.ee", "title": 1, "to": "cyclowiki.org", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "baltnews.ee", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "geo11-vpr.sdamgia.ru", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "sciencejournals.ru", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "tass.ru", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "baltnews.lt", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "gorod.lv", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "rosstat.gov.ru", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "sputnik-georgia.ru", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 1, "to": "visitestonia.com", "width": 2.0794415416798357}, {"from": "sputnik-meedia.ee", "title": 30, "to": "vk.com", "width": 10.30196161345544}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

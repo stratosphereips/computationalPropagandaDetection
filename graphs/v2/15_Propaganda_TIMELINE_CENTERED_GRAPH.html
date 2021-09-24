@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "yellow", "fixed": {"x": true, "y": true}, "id": "Old article", "label": " ", "physics": false, "shape": "diamond", "size": 35, "title": "Old article", "x": 0, "y": 0}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "2021-05-11", "label": " ", "physics": true, "shape": "diamond", "size": 25, "title": "original date2021-05-11", "x": 4760, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-15", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-15", "x": 5040, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-07-05", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-07-05", "x": 5200, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-07-12", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-07-12", "x": 5256, "y": 0}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "2021-09-23", "label": " ", "physics": false, "shape": "diamond", "size": 25, "title": "2021-09-23", "x": 5840, "y": 0}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://sputnik-ossetia.ru/South_Ossetia/20210511/12200003/Dopolnitelnaya-napryazhennost-yugoosetinskiy-ekspert-ob-ucheniyakh-NATO-v-Gruzii.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://sputnik-ossetia.ru/South_Ossetia/20210511/12200003/Dopolnitelnaya-napryazhennost-yugoosetinskiy-ekspert-ob-ucheniyakh-NATO-v-Gruzii.html", "x": 4760, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.nato.int/cps/en/natohq/topics_49285.htm?selectedLocale=ru", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.nato.int/cps/en/natohq/topics_49285.htm?selectedLocale=ru", "x": 0, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://az.sputniknews.ru/exclusive/20080909/42476974.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://az.sputniknews.ru/exclusive/20080909/42476974.html", "x": 5256, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://crimea.ria.ru/politics/20210615/1119684112/Kogda-Ukrainu-i-Gruziyu-primut-v-NATO--mneniya-ekspertov.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://crimea.ria.ru/politics/20210615/1119684112/Kogda-Ukrainu-i-Gruziyu-primut-v-NATO--mneniya-ekspertov.html", "x": 5040, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://regnum.ru/news/1189886.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://regnum.ru/news/1189886.html", "x": 5200, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-95837632?w=wall-95837632_33095", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-95837632?w=wall-95837632_33095", "x": 4760, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id482600391?w=wall482600391_4159", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id482600391?w=wall482600391_4159", "x": 0, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-46919433?w=wall-46919433_87701", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-46919433?w=wall-46919433_87701", "x": 0, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-102868701?w=wall-102868701_86154", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-102868701?w=wall-102868701_86154", "x": 0, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-99428024?w=wall-99428024_58943", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-99428024?w=wall-99428024_58943", "x": 0, "y": -30}]);
+        edges = new vis.DataSet([{"from": "https://sputnik-ossetia.ru/South_Ossetia/20210511/12200003/Dopolnitelnaya-napryazhennost-yugoosetinskiy-ekspert-ob-ucheniyakh-NATO-v-Gruzii.html", "hidden": true, "physics": false, "to": "2021-05-11"}, {"from": "https://www.nato.int/cps/en/natohq/topics_49285.htm?selectedLocale=ru", "hidden": true, "physics": false, "to": "Old article"}, {"from": "https://az.sputniknews.ru/exclusive/20080909/42476974.html", "hidden": true, "physics": false, "to": "2021-07-12"}, {"from": "https://crimea.ria.ru/politics/20210615/1119684112/Kogda-Ukrainu-i-Gruziyu-primut-v-NATO--mneniya-ekspertov.html", "hidden": true, "physics": false, "to": "2021-06-15"}, {"from": "https://regnum.ru/news/1189886.html", "hidden": true, "physics": false, "to": "2021-07-05"}, {"from": "https://vk.com/id-95837632?w=wall-95837632_33095", "hidden": true, "physics": false, "to": "2021-05-11"}, {"from": "https://vk.com/id482600391?w=wall482600391_4159", "hidden": true, "physics": false, "to": "Old article"}, {"from": "https://vk.com/id-46919433?w=wall-46919433_87701", "hidden": true, "physics": false, "to": "Old article"}, {"from": "https://vk.com/id-102868701?w=wall-102868701_86154", "hidden": true, "physics": false, "to": "Old article"}, {"from": "https://vk.com/id-99428024?w=wall-99428024_58943", "hidden": true, "physics": false, "to": "Old article"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

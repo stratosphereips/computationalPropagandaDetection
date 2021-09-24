@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500px;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "id": "reuters.com", "label": "reuters.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.reuters.com/article/us-britain-eu-immigration/uk-heralds-end-of-cheap-labor-from-europe-with-post-brexit-immigration-system-idUSKBN20C2OB", "label": " ", "shape": "dot", "title": "https://www.reuters.com/article/us-britain-eu-immigration/uk-heralds-end-of-cheap-labor-from-europe-with-post-brexit-immigration-system-idUSKBN20C2OB"}, {"color": "blue", "id": "theatlantic.com", "label": "theatlantic.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.theatlantic.com/magazine/archive/2019/04/david-frum-how-much-immigration-is-too-much/583252/", "label": " ", "shape": "dot", "title": "https://www.theatlantic.com/magazine/archive/2019/04/david-frum-how-much-immigration-is-too-much/583252/"}, {"color": "blue", "id": "americanprogress.org", "label": "americanprogress.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.americanprogress.org/issues/immigration/reports/2019/07/22/472378/restoring-rule-law-fair-humane-workable-immigration-system/", "label": " ", "shape": "dot", "title": "https://www.americanprogress.org/issues/immigration/reports/2019/07/22/472378/restoring-rule-law-fair-humane-workable-immigration-system/"}, {"color": "blue", "id": "phoenixs.co.uk", "label": "phoenixs.co.uk", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.phoenixs.co.uk/", "label": " ", "shape": "dot", "title": "https://www.phoenixs.co.uk/"}, {"color": "blue", "id": "thisismoney.co.uk", "label": "thisismoney.co.uk", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.thisismoney.co.uk/money/markets/article-9752431/Bosses-say-Britains-entitled-young-wont-mop-floors.html", "label": " ", "shape": "dot", "title": "https://www.thisismoney.co.uk/money/markets/article-9752431/Bosses-say-Britains-entitled-young-wont-mop-floors.html"}, {"color": "blue", "id": "auswaertiges-amt.de", "label": "auswaertiges-amt.de", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.auswaertiges-amt.de/en/einreiseundaufenthalt/feg", "label": " ", "shape": "dot", "title": "https://www.auswaertiges-amt.de/en/einreiseundaufenthalt/feg"}, {"color": "blue", "id": "finance.yahoo.com", "label": "finance.yahoo.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://finance.yahoo.com/portfolios/", "label": " ", "shape": "dot", "title": "https://finance.yahoo.com/portfolios/"}, {"color": "blue", "id": "time.com", "label": "time.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://time.com/5786459/uk-points-based-immigration-system/", "label": " ", "shape": "dot", "title": "https://time.com/5786459/uk-points-based-immigration-system/"}, {"color": "blue", "id": "oecd.org", "label": "oecd.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.oecd.org/coronavirus/en/", "label": " ", "shape": "dot", "title": "https://www.oecd.org/coronavirus/en/"}, {"color": "blue", "id": "wol.iza.org", "label": "wol.iza.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://wol.iza.org/articles/circular-migration/long", "label": " ", "shape": "dot", "title": "https://wol.iza.org/articles/circular-migration/long"}, {"color": "blue", "id": "theconversation.com", "label": "theconversation.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://theconversation.com/uks-new-post-brexit-immigration-plan-is-surreal-and-cynical-109094", "label": " ", "shape": "dot", "title": "https://theconversation.com/uks-new-post-brexit-immigration-plan-is-surreal-and-cynical-109094"}, {"color": "blue", "id": "ourglobalfuture.com", "label": "ourglobalfuture.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://ourglobalfuture.com/reports/closing-the-door-the-true-cost-of-the-immigration-white-paper/", "label": " ", "shape": "dot", "title": "https://ourglobalfuture.com/reports/closing-the-door-the-true-cost-of-the-immigration-white-paper/"}, {"color": "blue", "id": "theweek.in", "label": "theweek.in", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.theweek.in/news/world/2020/02/19/what-is-new-points-based-visa-system-introduced-by-uk-minister-priti-patel.html", "label": " ", "shape": "dot", "title": "https://www.theweek.in/news/world/2020/02/19/what-is-new-points-based-visa-system-introduced-by-uk-minister-priti-patel.html"}, {"color": "blue", "id": "aljazeera.com", "label": "aljazeera.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.aljazeera.com/opinions/2020/2/20/the-uk-wants-the-best-immigrants-why-would-they-want-the-uk", "label": " ", "shape": "dot", "title": "https://www.aljazeera.com/opinions/2020/2/20/the-uk-wants-the-best-immigrants-why-would-they-want-the-uk"}, {"color": "blue", "id": "fortune.com", "label": "fortune.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://fortune.com/2020/02/21/uk-borders-immigrants-growth-debate/", "label": " ", "shape": "dot", "title": "https://fortune.com/2020/02/21/uk-borders-immigrants-growth-debate/"}, {"color": "blue", "id": "en.wikipedia.org", "label": "en.wikipedia.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://en.wikipedia.org/wiki/Immigration", "label": " ", "shape": "dot", "title": "https://en.wikipedia.org/wiki/Immigration"}, {"color": "blue", "id": "refinery29.com", "label": "refinery29.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.refinery29.com/en-gb/government-points-based-immigration", "label": " ", "shape": "dot", "title": "https://www.refinery29.com/en-gb/government-points-based-immigration"}, {"color": "blue", "id": "voxeu.org", "label": "voxeu.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://voxeu.org/article/immigration-and-welfare-state-new-evidence-eu", "label": " ", "shape": "dot", "title": "https://voxeu.org/article/immigration-and-welfare-state-new-evidence-eu"}, {"color": "blue", "id": "gherson.com", "label": "gherson.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.gherson.com/blog/post-brexit-britain-going-be-implementing-japanese-style-immigration-policy", "label": " ", "shape": "dot", "title": "https://www.gherson.com/blog/post-brexit-britain-going-be-implementing-japanese-style-immigration-policy"}, {"color": "blue", "id": "ncbi.nlm.nih.gov", "label": "ncbi.nlm.nih.gov", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4302270/", "label": " ", "shape": "dot", "title": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4302270/"}, {"color": "blue", "id": "aph.gov.au", "label": "aph.gov.au", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.aph.gov.au/About_Parliament/Parliamentary_Departments/Parliamentary_Library/pubs/BN/1011/AustMigration", "label": " ", "shape": "dot", "title": "https://www.aph.gov.au/About_Parliament/Parliamentary_Departments/Parliamentary_Library/pubs/BN/1011/AustMigration"}, {"color": "blue", "id": "nap.edu", "label": "nap.edu", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.nap.edu/read/23550/chapter/6", "label": " ", "shape": "dot", "title": "https://www.nap.edu/read/23550/chapter/6"}, {"color": "blue", "id": "cfr.org", "label": "cfr.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.cfr.org/backgrounder/what-canadas-immigration-policy", "label": " ", "shape": "dot", "title": "https://www.cfr.org/backgrounder/what-canadas-immigration-policy"}, {"color": "blue", "id": "thetimes.co.uk", "label": "thetimes.co.uk", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.thetimes.co.uk/article/immigration-reforms-will-stop-firms-using-cheap-foreign-labour-l9pgxklrs", "label": " ", "shape": "dot", "title": "https://www.thetimes.co.uk/article/immigration-reforms-will-stop-firms-using-cheap-foreign-labour-l9pgxklrs"}, {"color": "blue", "id": "cgdev.org", "label": "cgdev.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.cgdev.org/blog/theres-no-such-thing-low-skill-worker", "label": " ", "shape": "dot", "title": "https://www.cgdev.org/blog/theres-no-such-thing-low-skill-worker"}, {"color": "blue", "id": "independent.co.uk", "label": "independent.co.uk", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.independent.co.uk/news/uk/politics/brexit-eu-citizens-immigration-rules-work-home-office-a9342766.html", "label": " ", "shape": "dot", "title": "https://www.independent.co.uk/news/uk/politics/brexit-eu-citizens-immigration-rules-work-home-office-a9342766.html"}, {"color": "blue", "id": "news.sky.com", "label": "news.sky.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://news.sky.com/story/low-skilled-workers-to-be-denied-visas-under-immigration-shake-up-11937527", "label": " ", "shape": "dot", "title": "https://news.sky.com/story/low-skilled-workers-to-be-denied-visas-under-immigration-shake-up-11937527"}, {"color": "blue", "id": "japantimes.co.jp", "label": "japantimes.co.jp", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.japantimes.co.jp/news/2020/01/27/world/u-k-open-scientists-closed-low-skill-migrants/", "label": " ", "shape": "dot", "title": "https://www.japantimes.co.jp/news/2020/01/27/world/u-k-open-scientists-closed-low-skill-migrants/"}, {"color": "blue", "id": "personneltoday.com", "label": "personneltoday.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.personneltoday.com/hr/points-based-immigration-scheme-shuts-out-low-skilled-workers/", "label": " ", "shape": "dot", "title": "https://www.personneltoday.com/hr/points-based-immigration-scheme-shuts-out-low-skilled-workers/"}, {"color": "blue", "id": "apnews.com", "label": "apnews.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://apnews.com/article/economy-immigration-ap-top-news-london-boris-johnson-f3a13e26b8eba124f8fb4afc40969641", "label": " ", "shape": "dot", "title": "https://apnews.com/article/economy-immigration-ap-top-news-london-boris-johnson-f3a13e26b8eba124f8fb4afc40969641"}, {"color": "blue", "id": "foreignpolicy.com", "label": "foreignpolicy.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://foreignpolicy.com/2020/02/21/boris-johnsons-new-immigration-rules-will-harm-britains-economy/", "label": " ", "shape": "dot", "title": "https://foreignpolicy.com/2020/02/21/boris-johnsons-new-immigration-rules-will-harm-britains-economy/"}, {"color": "blue", "id": "forbes.com", "label": "forbes.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.forbes.com/sites/freylindsay/2020/02/19/low-skilled-workers-need-not-apply-in-post-brexit-britain/", "label": " ", "shape": "dot", "title": "https://www.forbes.com/sites/freylindsay/2020/02/19/low-skilled-workers-need-not-apply-in-post-brexit-britain/"}, {"color": "blue", "id": "bighospitality.co.uk", "label": "bighospitality.co.uk", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.bighospitality.co.uk/Article/2020/02/19/Government-closes-door-on-low-skilled-EU-migrants", "label": " ", "shape": "dot", "title": "https://www.bighospitality.co.uk/Article/2020/02/19/Government-closes-door-on-low-skilled-EU-migrants"}, {"color": "blue", "id": "bbc.com", "label": "bbc.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.bbc.com/news/uk-politics-55133506", "label": " ", "shape": "dot", "title": "https://www.bbc.com/news/uk-politics-55133506"}, {"color": "blue", "id": "peoplemanagement.co.uk", "label": "peoplemanagement.co.uk", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.peoplemanagement.co.uk/news/articles/doors-close-on-low-skilled-migrants-as-government-reveals-new-points-based-system", "label": " ", "shape": "dot", "title": "https://www.peoplemanagement.co.uk/news/articles/doors-close-on-low-skilled-migrants-as-government-reveals-new-points-based-system"}, {"color": "blue", "id": "nytimes.com", "label": "nytimes.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.nytimes.com/2020/02/19/world/europe/uk-immigration-low-skilled-workers.html", "label": " ", "shape": "dot", "title": "https://www.nytimes.com/2020/02/19/world/europe/uk-immigration-low-skilled-workers.html"}, {"color": "blue", "id": "themomentum.co", "label": "themomentum.co", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://themomentum.co/no-visas-for-low-skilled-workers/", "label": " ", "shape": "dot", "title": "https://themomentum.co/no-visas-for-low-skilled-workers/"}, {"color": "red", "id": "dw.com", "label": "dw.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.dw.com/en/uks-new-immigration-system-to-shut-door-on-low-skilled-eu-workers/a-52428669", "label": " ", "shape": "dot", "title": "https://www.dw.com/en/uks-new-immigration-system-to-shut-door-on-low-skilled-eu-workers/a-52428669"}]);
+        edges = new vis.DataSet([{"from": "dw.com", "title": 1, "to": "themomentum.co", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "nytimes.com", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "peoplemanagement.co.uk", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "bbc.com", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "bighospitality.co.uk", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "forbes.com", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "foreignpolicy.com", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "apnews.com", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "personneltoday.com", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "japantimes.co.jp", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "news.sky.com", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "independent.co.uk", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "cgdev.org", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "thetimes.co.uk", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "cfr.org", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "nap.edu", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "aph.gov.au", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "ncbi.nlm.nih.gov", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "gherson.com", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "voxeu.org", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "refinery29.com", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "en.wikipedia.org", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "fortune.com", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "aljazeera.com", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "theweek.in", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "ourglobalfuture.com", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "theconversation.com", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "wol.iza.org", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "oecd.org", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "time.com", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "finance.yahoo.com", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "auswaertiges-amt.de", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "thisismoney.co.uk", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "phoenixs.co.uk", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "americanprogress.org", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "theatlantic.com", "width": 2.0794415416798357}, {"from": "dw.com", "title": 1, "to": "reuters.com", "width": 2.0794415416798357}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

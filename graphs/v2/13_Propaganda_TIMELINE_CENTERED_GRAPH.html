@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-04-09", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-04-09", "x": 4504, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-04-17", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-04-17", "x": 4568, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-04-22", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-04-22", "x": 4608, "y": 0}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "2021-06-11", "label": " ", "physics": true, "shape": "diamond", "size": 25, "title": "original date2021-06-11", "x": 5008, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-12", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-12", "x": 5016, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-14", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-14", "x": 5032, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-18", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-18", "x": 5064, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-22", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-22", "x": 5096, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-30", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-30", "x": 5160, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-07-02", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-07-02", "x": 5176, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-07-05", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-07-05", "x": 5200, "y": 0}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "2021-09-23", "label": " ", "physics": false, "shape": "diamond", "size": 25, "title": "2021-09-23", "x": 5840, "y": 0}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://mundo.sputniknews.com/20210611/la-linea-roja-como-las-ansias-de-unirse-a-la-otan-podrian-acabar-con-la-independencia-de-ucrania-1113130920.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://mundo.sputniknews.com/20210611/la-linea-roja-como-las-ansias-de-unirse-a-la-otan-podrian-acabar-con-la-independencia-de-ucrania-1113130920.html", "x": 5008, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://mundo.sputniknews.com/20210705/zelenski-afirma-que-ve-en-entrada-de-ucrania-en-la-otan-una-garantia-de-la-seguridad-1113797133.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://mundo.sputniknews.com/20210705/zelenski-afirma-que-ve-en-entrada-de-ucrania-en-la-otan-una-garantia-de-la-seguridad-1113797133.html", "x": 5200, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://mundo.sputniknews.com/20210618/rusia-otan-debe-instar-a-kiev-a-dejar-de-especular-sobre-tema-de-ingreso-al-bloque-1113361006.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://mundo.sputniknews.com/20210618/rusia-otan-debe-instar-a-kiev-a-dejar-de-especular-sobre-tema-de-ingreso-al-bloque-1113361006.html", "x": 5064, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://mundo.sputniknews.com/20210614/la-otan-celebra-una-cumbre-centrada-en-rusia-y-el-cara-a-cara-de-putin-y-biden-1113185145.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://mundo.sputniknews.com/20210614/la-otan-celebra-una-cumbre-centrada-en-rusia-y-el-cara-a-cara-de-putin-y-biden-1113185145.html", "x": 5032, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://mundo.sputniknews.com/20210614/pedro-sanchez-comparece-en-rueda-de-prensa-tras-la-cumbre-de-la-otan-en-bruselas-1113185501.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://mundo.sputniknews.com/20210614/pedro-sanchez-comparece-en-rueda-de-prensa-tras-la-cumbre-de-la-otan-en-bruselas-1113185501.html", "x": 5032, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://mundo.sputniknews.com/20210618/el-canciller-frances-afirma-que-es-temprano-para-admitir-a-ucrania-en-la-otan-1113334269.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://mundo.sputniknews.com/20210618/el-canciller-frances-afirma-que-es-temprano-para-admitir-a-ucrania-en-la-otan-1113334269.html", "x": 5064, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://mundo.sputniknews.com/20210622/unos-5000-militares-y-32-buques-participaran-en-las-maniobras-sea-breeze-2021-de-la-otan-1113437079.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://mundo.sputniknews.com/20210622/unos-5000-militares-y-32-buques-participaran-en-las-maniobras-sea-breeze-2021-de-la-otan-1113437079.html", "x": 5096, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://carlosagaton.blogspot.com/2021/06/las-ansias-de-unirse-la-otan-podrian.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://carlosagaton.blogspot.com/2021/06/las-ansias-de-unirse-la-otan-podrian.html", "x": 5008, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://www.archyworldys.com/tag/otan/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.archyworldys.com/tag/otan/", "x": 5176, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/1151900343850143744/status/1403521444030648322", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/1151900343850143744/status/1403521444030648322", "x": 5016, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/938194398956879872/status/1403519952867504131", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/938194398956879872/status/1403519952867504131", "x": 5016, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/4541189294/status/1403492853142151168", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/4541189294/status/1403492853142151168", "x": 5008, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/335324325/status/1403439493051564041", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/335324325/status/1403439493051564041", "x": 5008, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/369110087/status/1403428892325601285", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/369110087/status/1403428892325601285", "x": 5008, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/992219029510217728/status/1403421806745341955", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/992219029510217728/status/1403421806745341955", "x": 5008, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/207508959/status/1403409278560505857", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/207508959/status/1403409278560505857", "x": 5008, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/1292241049/status/1403405618216534020", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/1292241049/status/1403405618216534020", "x": 5008, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/854828447306309632/status/1403403086085996544", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/854828447306309632/status/1403403086085996544", "x": 5008, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/1256299765815525379/status/1403402707231248386", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/1256299765815525379/status/1403402707231248386", "x": 5008, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/159570732/status/1403401518691328001", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/159570732/status/1403401518691328001", "x": 5008, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/222308805/status/1403401239077982211", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/222308805/status/1403401239077982211", "x": 5008, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/1225415120668504065/status/1403401227870801926", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/1225415120668504065/status/1403401227870801926", "x": 5008, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/253020963/status/1403401139538874369", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/253020963/status/1403401139538874369", "x": 5008, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://mundo.sputniknews.com/20210630/cara-a-cara-con-la-nacion-la-tradicional-linea-directa-de-vladimir-putin--1113658695.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://mundo.sputniknews.com/20210630/cara-a-cara-con-la-nacion-la-tradicional-linea-directa-de-vladimir-putin--1113658695.html", "x": 5160, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.bbc.com/mundo/noticias-internacional-56772893", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.bbc.com/mundo/noticias-internacional-56772893", "x": 4568, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.bbc.com/mundo/noticias-internacional-56610286", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.bbc.com/mundo/noticias-internacional-56610286", "x": 4504, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.heraldo.es/noticias/internacional/2021/04/22/putin-avisa-a-occidente-de-que-no-traspase-la-linea-roja-con-rusia-1486651.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.heraldo.es/noticias/internacional/2021/04/22/putin-avisa-a-occidente-de-que-no-traspase-la-linea-roja-con-rusia-1486651.html", "x": 4608, "y": 30}]);
+        edges = new vis.DataSet([{"from": "https://mundo.sputniknews.com/20210611/la-linea-roja-como-las-ansias-de-unirse-a-la-otan-podrian-acabar-con-la-independencia-de-ucrania-1113130920.html", "hidden": true, "physics": false, "to": "2021-06-11"}, {"from": "https://mundo.sputniknews.com/20210705/zelenski-afirma-que-ve-en-entrada-de-ucrania-en-la-otan-una-garantia-de-la-seguridad-1113797133.html", "hidden": true, "physics": false, "to": "2021-07-05"}, {"from": "https://mundo.sputniknews.com/20210618/rusia-otan-debe-instar-a-kiev-a-dejar-de-especular-sobre-tema-de-ingreso-al-bloque-1113361006.html", "hidden": true, "physics": false, "to": "2021-06-18"}, {"from": "https://mundo.sputniknews.com/20210614/la-otan-celebra-una-cumbre-centrada-en-rusia-y-el-cara-a-cara-de-putin-y-biden-1113185145.html", "hidden": true, "physics": false, "to": "2021-06-14"}, {"from": "https://mundo.sputniknews.com/20210614/pedro-sanchez-comparece-en-rueda-de-prensa-tras-la-cumbre-de-la-otan-en-bruselas-1113185501.html", "hidden": true, "physics": false, "to": "2021-06-14"}, {"from": "https://mundo.sputniknews.com/20210618/el-canciller-frances-afirma-que-es-temprano-para-admitir-a-ucrania-en-la-otan-1113334269.html", "hidden": true, "physics": false, "to": "2021-06-18"}, {"from": "https://mundo.sputniknews.com/20210622/unos-5000-militares-y-32-buques-participaran-en-las-maniobras-sea-breeze-2021-de-la-otan-1113437079.html", "hidden": true, "physics": false, "to": "2021-06-22"}, {"from": "https://carlosagaton.blogspot.com/2021/06/las-ansias-de-unirse-la-otan-podrian.html", "hidden": true, "physics": false, "to": "2021-06-11"}, {"from": "https://www.archyworldys.com/tag/otan/", "hidden": true, "physics": false, "to": "2021-07-02"}, {"from": "https://twitter.com/1151900343850143744/status/1403521444030648322", "hidden": true, "physics": false, "to": "2021-06-12"}, {"from": "https://twitter.com/938194398956879872/status/1403519952867504131", "hidden": true, "physics": false, "to": "2021-06-12"}, {"from": "https://twitter.com/4541189294/status/1403492853142151168", "hidden": true, "physics": false, "to": "2021-06-11"}, {"from": "https://twitter.com/335324325/status/1403439493051564041", "hidden": true, "physics": false, "to": "2021-06-11"}, {"from": "https://twitter.com/369110087/status/1403428892325601285", "hidden": true, "physics": false, "to": "2021-06-11"}, {"from": "https://twitter.com/992219029510217728/status/1403421806745341955", "hidden": true, "physics": false, "to": "2021-06-11"}, {"from": "https://twitter.com/207508959/status/1403409278560505857", "hidden": true, "physics": false, "to": "2021-06-11"}, {"from": "https://twitter.com/1292241049/status/1403405618216534020", "hidden": true, "physics": false, "to": "2021-06-11"}, {"from": "https://twitter.com/854828447306309632/status/1403403086085996544", "hidden": true, "physics": false, "to": "2021-06-11"}, {"from": "https://twitter.com/1256299765815525379/status/1403402707231248386", "hidden": true, "physics": false, "to": "2021-06-11"}, {"from": "https://twitter.com/159570732/status/1403401518691328001", "hidden": true, "physics": false, "to": "2021-06-11"}, {"from": "https://twitter.com/222308805/status/1403401239077982211", "hidden": true, "physics": false, "to": "2021-06-11"}, {"from": "https://twitter.com/1225415120668504065/status/1403401227870801926", "hidden": true, "physics": false, "to": "2021-06-11"}, {"from": "https://twitter.com/253020963/status/1403401139538874369", "hidden": true, "physics": false, "to": "2021-06-11"}, {"from": "https://mundo.sputniknews.com/20210630/cara-a-cara-con-la-nacion-la-tradicional-linea-directa-de-vladimir-putin--1113658695.html", "hidden": true, "physics": false, "to": "2021-06-30"}, {"from": "https://www.bbc.com/mundo/noticias-internacional-56772893", "hidden": true, "physics": false, "to": "2021-04-17"}, {"from": "https://www.bbc.com/mundo/noticias-internacional-56610286", "hidden": true, "physics": false, "to": "2021-04-09"}, {"from": "https://www.heraldo.es/noticias/internacional/2021/04/22/putin-avisa-a-occidente-de-que-no-traspase-la-linea-roja-con-rusia-1486651.html", "hidden": true, "physics": false, "to": "2021-04-22"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

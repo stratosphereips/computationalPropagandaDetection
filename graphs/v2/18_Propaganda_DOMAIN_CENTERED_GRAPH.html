@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500px;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "id": "vk.com", "label": "vk.com", "shape": "dot", "size": 34.965075614664805, "title": "30"}, {"hidden": true, "id": "https://vk.com/id270329389?w=wall270329389_8312", "label": " ", "shape": "dot", "title": "https://vk.com/id270329389?w=wall270329389_8312"}, {"hidden": true, "id": "https://vk.com/id-45929147?w=wall-45929147_20199", "label": " ", "shape": "dot", "title": "https://vk.com/id-45929147?w=wall-45929147_20199"}, {"hidden": true, "id": "https://vk.com/id3805241?w=wall3805241_1102", "label": " ", "shape": "dot", "title": "https://vk.com/id3805241?w=wall3805241_1102"}, {"hidden": true, "id": "https://vk.com/id-146189010?w=wall-146189010_30666", "label": " ", "shape": "dot", "title": "https://vk.com/id-146189010?w=wall-146189010_30666"}, {"hidden": true, "id": "https://vk.com/id-95837632?w=wall-95837632_33183", "label": " ", "shape": "dot", "title": "https://vk.com/id-95837632?w=wall-95837632_33183"}, {"hidden": true, "id": "https://vk.com/id-174855763?w=wall-174855763_25284", "label": " ", "shape": "dot", "title": "https://vk.com/id-174855763?w=wall-174855763_25284"}, {"hidden": true, "id": "https://vk.com/id-172634372?w=wall-172634372_13838", "label": " ", "shape": "dot", "title": "https://vk.com/id-172634372?w=wall-172634372_13838"}, {"hidden": true, "id": "https://vk.com/id162574353?w=wall162574353_42493", "label": " ", "shape": "dot", "title": "https://vk.com/id162574353?w=wall162574353_42493"}, {"hidden": true, "id": "https://vk.com/id-58300344?w=wall-58300344_72341", "label": " ", "shape": "dot", "title": "https://vk.com/id-58300344?w=wall-58300344_72341"}, {"hidden": true, "id": "https://vk.com/id472430464?w=wall472430464_1514", "label": " ", "shape": "dot", "title": "https://vk.com/id472430464?w=wall472430464_1514"}, {"hidden": true, "id": "https://vk.com/id174702670?w=wall174702670_4606", "label": " ", "shape": "dot", "title": "https://vk.com/id174702670?w=wall174702670_4606"}, {"hidden": true, "id": "https://vk.com/id-148952049?w=wall-148952049_49902", "label": " ", "shape": "dot", "title": "https://vk.com/id-148952049?w=wall-148952049_49902"}, {"hidden": true, "id": "https://vk.com/id152279994?w=wall152279994_3345", "label": " ", "shape": "dot", "title": "https://vk.com/id152279994?w=wall152279994_3345"}, {"hidden": true, "id": "https://vk.com/id266072871?w=wall266072871_5493", "label": " ", "shape": "dot", "title": "https://vk.com/id266072871?w=wall266072871_5493"}, {"hidden": true, "id": "https://vk.com/id422585171?w=wall422585171_113013", "label": " ", "shape": "dot", "title": "https://vk.com/id422585171?w=wall422585171_113013"}, {"hidden": true, "id": "https://vk.com/id-200477521?w=wall-200477521_226", "label": " ", "shape": "dot", "title": "https://vk.com/id-200477521?w=wall-200477521_226"}, {"hidden": true, "id": "https://vk.com/id-105472947?w=wall-105472947_320916", "label": " ", "shape": "dot", "title": "https://vk.com/id-105472947?w=wall-105472947_320916"}, {"hidden": true, "id": "https://vk.com/id401674421?w=wall401674421_120790", "label": " ", "shape": "dot", "title": "https://vk.com/id401674421?w=wall401674421_120790"}, {"hidden": true, "id": "https://vk.com/id-68578180?w=wall-68578180_608640", "label": " ", "shape": "dot", "title": "https://vk.com/id-68578180?w=wall-68578180_608640"}, {"hidden": true, "id": "https://vk.com/id-106067045?w=wall-106067045_148191", "label": " ", "shape": "dot", "title": "https://vk.com/id-106067045?w=wall-106067045_148191"}, {"hidden": true, "id": "https://vk.com/id-66621324?w=wall-66621324_3193074", "label": " ", "shape": "dot", "title": "https://vk.com/id-66621324?w=wall-66621324_3193074"}, {"hidden": true, "id": "https://vk.com/id-127440997?w=wall-127440997_48022", "label": " ", "shape": "dot", "title": "https://vk.com/id-127440997?w=wall-127440997_48022"}, {"hidden": true, "id": "https://vk.com/id-71926578?w=wall-71926578_119143", "label": " ", "shape": "dot", "title": "https://vk.com/id-71926578?w=wall-71926578_119143"}, {"hidden": true, "id": "https://vk.com/id-57424472?w=wall-57424472_287081", "label": " ", "shape": "dot", "title": "https://vk.com/id-57424472?w=wall-57424472_287081"}, {"hidden": true, "id": "https://vk.com/id-80492167?w=wall-80492167_633059", "label": " ", "shape": "dot", "title": "https://vk.com/id-80492167?w=wall-80492167_633059"}, {"hidden": true, "id": "https://vk.com/id187272559?w=wall187272559_204652", "label": " ", "shape": "dot", "title": "https://vk.com/id187272559?w=wall187272559_204652"}, {"hidden": true, "id": "https://vk.com/id-81596363?w=wall-81596363_162653", "label": " ", "shape": "dot", "title": "https://vk.com/id-81596363?w=wall-81596363_162653"}, {"hidden": true, "id": "https://vk.com/id-3223620?w=wall-3223620_1574625", "label": " ", "shape": "dot", "title": "https://vk.com/id-3223620?w=wall-3223620_1574625"}, {"hidden": true, "id": "https://vk.com/id470133488?w=wall470133488_54846", "label": " ", "shape": "dot", "title": "https://vk.com/id470133488?w=wall470133488_54846"}, {"hidden": true, "id": "https://vk.com/id-118652704?w=wall-118652704_198255", "label": " ", "shape": "dot", "title": "https://vk.com/id-118652704?w=wall-118652704_198255"}, {"color": "blue", "id": "securitylab.ru", "label": "securitylab.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.securitylab.ru/news/tags/%D1%84%D0%B8%D1%88%D0%B8%D0%BD%D0%B3/", "label": " ", "shape": "dot", "title": "https://www.securitylab.ru/news/tags/%D1%84%D0%B8%D1%88%D0%B8%D0%BD%D0%B3/"}, {"color": "blue", "id": "ru-an-info.livejournal.com", "label": "ru-an-info.livejournal.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://ru-an-info.livejournal.com/25961414.html", "label": " ", "shape": "dot", "title": "https://ru-an-info.livejournal.com/25961414.html"}, {"color": "blue", "id": "vm.ru", "label": "vm.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://vm.ru/army/803265-proba-pera-zachem-ssha-sozdayut-biolaboratoriyu-v-ukraine", "label": " ", "shape": "dot", "title": "https://vm.ru/army/803265-proba-pera-zachem-ssha-sozdayut-biolaboratoriyu-v-ukraine"}, {"color": "blue", "id": "ruskline.ru", "label": "ruskline.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "http://ruskline.ru/news_rl/2017/11/16/zachem_pentagon_sobiraet_biologicheskij_material_rossijskih_grazhdan_a_vokrug_nashej_strany_razmestil_biologicheskie_laboratorii", "label": " ", "shape": "dot", "title": "http://ruskline.ru/news_rl/2017/11/16/zachem_pentagon_sobiraet_biologicheskij_material_rossijskih_grazhdan_a_vokrug_nashej_strany_razmestil_biologicheskie_laboratorii"}, {"color": "blue", "id": "tengrinews.kz", "label": "tengrinews.kz", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://tengrinews.kz/kazakhstan_news/onischenko-zayavil-opasnosti-amerikanskih-biolaboratoriy-sng-437631/", "label": " ", "shape": "dot", "title": "https://tengrinews.kz/kazakhstan_news/onischenko-zayavil-opasnosti-amerikanskih-biolaboratoriy-sng-437631/"}, {"color": "blue", "id": "regnum.ru", "label": "regnum.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://regnum.ru/news/polit/2955934.html", "label": " ", "shape": "dot", "title": "https://regnum.ru/news/polit/2955934.html"}, {"color": "blue", "id": "ru.armeniasputnik.am", "label": "ru.armeniasputnik.am", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://ru.armeniasputnik.am/world/20200529/23211054/Konspirologiya-govorite-Zachem-amerikantsam-biolaboratorii-na-Kavkaze-i-v-Tsentralnoy-Azii.html", "label": " ", "shape": "dot", "title": "https://ru.armeniasputnik.am/world/20200529/23211054/Konspirologiya-govorite-Zachem-amerikantsam-biolaboratorii-na-Kavkaze-i-v-Tsentralnoy-Azii.html"}, {"color": "blue", "id": "kommersant.ru", "label": "kommersant.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.kommersant.ru/doc/4135539", "label": " ", "shape": "dot", "title": "https://www.kommersant.ru/doc/4135539"}, {"color": "blue", "id": "ria.ru", "label": "ria.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://ria.ru/20181004/1530014686.html", "label": " ", "shape": "dot", "title": "https://ria.ru/20181004/1530014686.html"}, {"color": "blue", "id": "inosmi.ru", "label": "inosmi.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://inosmi.ru/politic/20210420/249598299.html", "label": " ", "shape": "dot", "title": "https://inosmi.ru/politic/20210420/249598299.html"}, {"color": "blue", "id": "sputnik-abkhazia.ru", "label": "sputnik-abkhazia.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://sputnik-abkhazia.ru/analytics/20190620/1027684335/Biolaboratoriya-Lugara-v-Gruzii-po-prezhnemu-ugrozhaet-sosednim-stranam.html", "label": " ", "shape": "dot", "title": "https://sputnik-abkhazia.ru/analytics/20190620/1027684335/Biolaboratoriya-Lugara-v-Gruzii-po-prezhnemu-ugrozhaet-sosednim-stranam.html"}, {"color": "blue", "id": "eadaily.com", "label": "eadaily.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://eadaily.com/ru/news/2018/01/23/sekretnye-biolaboratorii-pentagona-u-granic-rossii-rassledovanie", "label": " ", "shape": "dot", "title": "https://eadaily.com/ru/news/2018/01/23/sekretnye-biolaboratorii-pentagona-u-granic-rossii-rassledovanie"}, {"color": "red", "id": "sputnik-ossetia.ru", "label": "sputnik-ossetia.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html", "label": " ", "shape": "dot", "title": "https://sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html"}]);
+        edges = new vis.DataSet([{"from": "sputnik-ossetia.ru", "title": 31, "to": "vk.com", "width": 10.39720770839918}, {"from": "sputnik-ossetia.ru", "title": 1, "to": "eadaily.com", "width": 2.0794415416798357}, {"from": "sputnik-ossetia.ru", "title": 1, "to": "sputnik-abkhazia.ru", "width": 2.0794415416798357}, {"from": "sputnik-ossetia.ru", "title": 1, "to": "inosmi.ru", "width": 2.0794415416798357}, {"from": "sputnik-ossetia.ru", "title": 1, "to": "ria.ru", "width": 2.0794415416798357}, {"from": "sputnik-ossetia.ru", "title": 1, "to": "kommersant.ru", "width": 2.0794415416798357}, {"from": "sputnik-ossetia.ru", "title": 1, "to": "ru.armeniasputnik.am", "width": 2.0794415416798357}, {"from": "sputnik-ossetia.ru", "title": 1, "to": "regnum.ru", "width": 2.0794415416798357}, {"from": "sputnik-ossetia.ru", "title": 1, "to": "tengrinews.kz", "width": 2.0794415416798357}, {"from": "sputnik-ossetia.ru", "title": 1, "to": "ruskline.ru", "width": 2.0794415416798357}, {"from": "sputnik-ossetia.ru", "title": 1, "to": "vm.ru", "width": 2.0794415416798357}, {"from": "sputnik-ossetia.ru", "title": 1, "to": "ru-an-info.livejournal.com", "width": 2.0794415416798357}, {"from": "sputnik-ossetia.ru", "title": 1, "to": "securitylab.ru", "width": 2.0794415416798357}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

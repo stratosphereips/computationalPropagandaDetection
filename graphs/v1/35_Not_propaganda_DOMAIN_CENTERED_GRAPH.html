@@ -1,0 +1,216 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500px;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+        #loadingBar {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width: 1500px;
+            height: 700px;
+            background-color:rgba(200,200,200,0.8);
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -ms-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+            opacity:1;
+        }
+
+        #bar {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width:20px;
+            height:20px;
+            margin:auto auto auto auto;
+            border-radius:11px;
+            border:2px solid rgba(30,30,30,0.05);
+            background: rgb(0, 173, 246); /* Old browsers */
+            box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+        }
+
+        #border {
+            position:absolute;
+            top:10px;
+            left:10px;
+            width:500px;
+            height:23px;
+            margin:auto auto auto auto;
+            box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+            border-radius:10px;
+        }
+
+        #text {
+            position:absolute;
+            top:8px;
+            left:530px;
+            width:30px;
+            height:50px;
+            margin:auto auto auto auto;
+            font-size:22px;
+            color: #000000;
+        }
+
+        div.outerBorder {
+            position:relative;
+            top:400px;
+            width:600px;
+            height:44px;
+            margin:auto auto auto auto;
+            border:8px solid rgba(0,0,0,0.1);
+            background: rgb(252,252,252); /* Old browsers */
+            background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+            border-radius:72px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        }
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+<div id="loadingBar">
+    <div class="outerBorder">
+        <div id="text">0%</div>
+        <div id="border">
+            <div id="bar"></div>
+        </div>
+    </div>
+</div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "green", "id": "efekt-aluminium.pl", "label": "efekt-aluminium.pl", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://efekt-aluminium.pl/44qcf/abomination-definition-in-the-crucible", "label": " ", "shape": "dot", "title": "https://efekt-aluminium.pl/44qcf/abomination-definition-in-the-crucible"}, {"color": "green", "id": "addwatt.com", "label": "addwatt.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://addwatt.com/jc8rl/canister-meaning-in-tagalog-667441", "label": " ", "shape": "dot", "title": "https://addwatt.com/jc8rl/canister-meaning-in-tagalog-667441"}, {"color": "green", "id": "dailymail.co.uk", "label": "dailymail.co.uk", "shape": "dot", "size": 16.094379124341003, "title": "2"}, {"hidden": true, "id": "https://www.dailymail.co.uk/news/article-9648627/Greek-border-police-powerful-anti-migrant-sound-cannons-Turkish-border.html", "label": " ", "shape": "dot", "title": "https://www.dailymail.co.uk/news/article-9648627/Greek-border-police-powerful-anti-migrant-sound-cannons-Turkish-border.html"}, {"hidden": true, "id": "https://www.dailymail.co.uk/femail/article-3371750/Mothers-reveal-really-feels-wish-children-never-born.html", "label": " ", "shape": "dot", "title": "https://www.dailymail.co.uk/femail/article-3371750/Mothers-reveal-really-feels-wish-children-never-born.html"}, {"color": "green", "id": "matsuo-story.com", "label": "matsuo-story.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.matsuo-story.com/%E6%9C%AA%E5%88%86%E9%A1%9E/704/", "label": " ", "shape": "dot", "title": "https://www.matsuo-story.com/%E6%9C%AA%E5%88%86%E9%A1%9E/704/"}, {"color": "green", "id": "blogs.chicagotribune.com", "label": "blogs.chicagotribune.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://blogs.chicagotribune.com/news_columnists_ezorn/land_of_linkin/page/2/", "label": " ", "shape": "dot", "title": "https://blogs.chicagotribune.com/news_columnists_ezorn/land_of_linkin/page/2/"}, {"color": "green", "id": "aussieontheroad.com", "label": "aussieontheroad.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.aussieontheroad.com/10-reasons-i-hate-living-in-australia/", "label": " ", "shape": "dot", "title": "https://www.aussieontheroad.com/10-reasons-i-hate-living-in-australia/"}, {"color": "green", "id": "independent.co.uk", "label": "independent.co.uk", "shape": "dot", "size": 16.094379124341003, "title": "2"}, {"hidden": true, "id": "https://www.independent.co.uk/news/eu-concerned-about-greek-use-of-antimigrant-sound-cannon-greece-greek-brussels-turkey-european-commission-b1859030.html", "label": " ", "shape": "dot", "title": "https://www.independent.co.uk/news/eu-concerned-about-greek-use-of-antimigrant-sound-cannon-greece-greek-brussels-turkey-european-commission-b1859030.html"}, {"hidden": true, "id": "https://www.independent.co.uk/arts-entertainment/music/features/lana-del-rey-norman-fucking-rockwell-album-feminism-metoo-music-a9085266.html", "label": " ", "shape": "dot", "title": "https://www.independent.co.uk/arts-entertainment/music/features/lana-del-rey-norman-fucking-rockwell-album-feminism-metoo-music-a9085266.html"}, {"color": "green", "id": "unigo.com", "label": "unigo.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.unigo.com/colleges/purdue-university-main-campus/reviews/what-is-your-overall-opinion-of-this-school", "label": " ", "shape": "dot", "title": "https://www.unigo.com/colleges/purdue-university-main-campus/reviews/what-is-your-overall-opinion-of-this-school"}, {"color": "green", "id": "en.wikipedia.org", "label": "en.wikipedia.org", "shape": "dot", "size": 16.094379124341003, "title": "2"}, {"hidden": true, "id": "https://en.wikipedia.org/wiki/Opposition_to_immigration", "label": " ", "shape": "dot", "title": "https://en.wikipedia.org/wiki/Opposition_to_immigration"}, {"hidden": true, "id": "https://en.wikipedia.org/wiki/Anti-Turkish_sentiment", "label": " ", "shape": "dot", "title": "https://en.wikipedia.org/wiki/Anti-Turkish_sentiment"}, {"color": "blue", "id": "quora.com", "label": "quora.com", "shape": "dot", "size": 17.91759469228055, "title": "3"}, {"hidden": true, "id": "https://www.quora.com/How-strong-is-the-gun-culture-in-Greece-Do-Greeks-have-a-particular-love-of-guns", "label": " ", "shape": "dot", "title": "https://www.quora.com/How-strong-is-the-gun-culture-in-Greece-Do-Greeks-have-a-particular-love-of-guns"}, {"hidden": true, "id": "https://www.quora.com/What-is-the-greatest-military-weapon-in-all-of-history#!n=42", "label": " ", "shape": "dot", "title": "https://www.quora.com/What-is-the-greatest-military-weapon-in-all-of-history#!n=42"}, {"hidden": true, "id": "https://www.quora.com/Why-was-Italy-so-ineffective-during-World-War-II#!n=12", "label": " ", "shape": "dot", "title": "https://www.quora.com/Why-was-Italy-so-ineffective-during-World-War-II#!n=12"}, {"color": "green", "id": "smithsonianmag.com", "label": "smithsonianmag.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.smithsonianmag.com/history/immigrant-history-new-york-citys-washington-heights-180977936/", "label": " ", "shape": "dot", "title": "https://www.smithsonianmag.com/history/immigrant-history-new-york-citys-washington-heights-180977936/"}, {"color": "green", "id": "project-syndicate.org", "label": "project-syndicate.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.project-syndicate.org/podcasts/merkel-s-complicated-legacy", "label": " ", "shape": "dot", "title": "https://www.project-syndicate.org/podcasts/merkel-s-complicated-legacy"}, {"color": "green", "id": "aljazeera.com", "label": "aljazeera.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.aljazeera.com/news/2021/6/16/us-rescinds-trump-era-asylum-restrictions-violence-survivors", "label": " ", "shape": "dot", "title": "https://www.aljazeera.com/news/2021/6/16/us-rescinds-trump-era-asylum-restrictions-violence-survivors"}, {"color": "green", "id": "ec.europa.eu", "label": "ec.europa.eu", "shape": "dot", "size": 17.91759469228055, "title": "3"}, {"hidden": true, "id": "https://ec.europa.eu/commission/presscorner/detail/en/MEX_18_1761", "label": " ", "shape": "dot", "title": "https://ec.europa.eu/commission/presscorner/detail/en/MEX_18_1761"}, {"hidden": true, "id": "https://ec.europa.eu/commission/presscorner/detail/en/inf_20_1687", "label": " ", "shape": "dot", "title": "https://ec.europa.eu/commission/presscorner/detail/en/inf_20_1687"}, {"hidden": true, "id": "https://ec.europa.eu/commission/presscorner/detail/en/inf_21_441", "label": " ", "shape": "dot", "title": "https://ec.europa.eu/commission/presscorner/detail/en/inf_21_441"}, {"color": "green", "id": "trtworld.com", "label": "trtworld.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.trtworld.com/magazine/torture-and-pushbacks-stories-of-migration-to-europe-during-covid-19-45421", "label": " ", "shape": "dot", "title": "https://www.trtworld.com/magazine/torture-and-pushbacks-stories-of-migration-to-europe-during-covid-19-45421"}, {"color": "green", "id": "cnbc.com", "label": "cnbc.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.cnbc.com/2020/03/01/refugee-crisis-in-greece-tensions-soar-between-migrants-and-locals.html", "label": " ", "shape": "dot", "title": "https://www.cnbc.com/2020/03/01/refugee-crisis-in-greece-tensions-soar-between-migrants-and-locals.html"}, {"color": "green", "id": "thenewhumanitarian.org", "label": "thenewhumanitarian.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.thenewhumanitarian.org/opinion/first-person/2021/3/1/on-greece-lesvos-refugees-battle-neglect-and-xenophobia", "label": " ", "shape": "dot", "title": "https://www.thenewhumanitarian.org/opinion/first-person/2021/3/1/on-greece-lesvos-refugees-battle-neglect-and-xenophobia"}, {"color": "green", "id": "ruf.s33.xrea.com", "label": "ruf.s33.xrea.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "http://ruf.s33.xrea.com/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/?lang=zh", "label": " ", "shape": "dot", "title": "http://ruf.s33.xrea.com/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/?lang=zh"}, {"color": "green", "id": "thenationalherald.com", "label": "thenationalherald.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.thenationalherald.com/archive_general_news_greece/arthro/eu_concerned_about_greek_use_of_anti_migrant_sound_cannon-2597288/", "label": " ", "shape": "dot", "title": "https://www.thenationalherald.com/archive_general_news_greece/arthro/eu_concerned_about_greek_use_of_anti_migrant_sound_cannon-2597288/"}, {"color": "green", "id": "news4jax.com", "label": "news4jax.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.news4jax.com/news/", "label": " ", "shape": "dot", "title": "https://www.news4jax.com/news/"}, {"color": "green", "id": "bbc.com", "label": "bbc.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.bbc.com/news/world-europe-55231203", "label": " ", "shape": "dot", "title": "https://www.bbc.com/news/world-europe-55231203"}, {"color": "green", "id": "morningstaronline.co.uk", "label": "morningstaronline.co.uk", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://morningstaronline.co.uk/article/w/eu-concerned-greek-use-sound-cannon-frighten-refugees", "label": " ", "shape": "dot", "title": "https://morningstaronline.co.uk/article/w/eu-concerned-greek-use-sound-cannon-frighten-refugees"}, {"color": "green", "id": "washingtonpost.com", "label": "washingtonpost.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.washingtonpost.com/world/2021/06/05/greece-denmark-migrants/", "label": " ", "shape": "dot", "title": "https://www.washingtonpost.com/world/2021/06/05/greece-denmark-migrants/"}, {"color": "green", "id": "newsnationusa.com", "label": "newsnationusa.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://newsnationusa.com/news/world/europe/eu-alarmed-by-greeces-use-of-sound-cannons-at-border/", "label": " ", "shape": "dot", "title": "https://newsnationusa.com/news/world/europe/eu-alarmed-by-greeces-use-of-sound-cannons-at-border/"}, {"color": "green", "id": "toysmatrix.com", "label": "toysmatrix.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://toysmatrix.com/greek-minister-defends-use-of-anti-migrant-sound-cannons/", "label": " ", "shape": "dot", "title": "https://toysmatrix.com/greek-minister-defends-use-of-anti-migrant-sound-cannons/"}, {"color": "green", "id": "urdupoint.com", "label": "urdupoint.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.urdupoint.com/en/world/greece-defends-use-of-anti-migrant-sound-cann-1273121.html", "label": " ", "shape": "dot", "title": "https://www.urdupoint.com/en/world/greece-defends-use-of-anti-migrant-sound-cann-1273121.html"}, {"color": "green", "id": "record-eagle.com", "label": "record-eagle.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.record-eagle.com/nation_world/in-post-pandemic-europe-migrants-will-face-digital-fortress/article_97449ce0-1c52-5f7f-b68d-08fc7e6cf889.html", "label": " ", "shape": "dot", "title": "https://www.record-eagle.com/nation_world/in-post-pandemic-europe-migrants-will-face-digital-fortress/article_97449ce0-1c52-5f7f-b68d-08fc7e6cf889.html"}, {"color": "green", "id": "arkansasonline.com", "label": "arkansasonline.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.arkansasonline.com/news/2021/jun/04/eu-questions-greek-use-of-sound-cannon-blaze-at/", "label": " ", "shape": "dot", "title": "https://www.arkansasonline.com/news/2021/jun/04/eu-questions-greek-use-of-sound-cannon-blaze-at/"}, {"color": "green", "id": "thenationalnews.com", "label": "thenationalnews.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.thenationalnews.com/world/europe/greece-defends-use-of-sound-cannon-to-deter-migrants-1.1237990", "label": " ", "shape": "dot", "title": "https://www.thenationalnews.com/world/europe/greece-defends-use-of-sound-cannon-to-deter-migrants-1.1237990"}, {"color": "green", "id": "alkhaleejtoday.co", "label": "alkhaleejtoday.co", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://alkhaleejtoday.co/international/5606536/Greece-defends-use-of-anti-migrant-sound-cannons.html", "label": " ", "shape": "dot", "title": "https://alkhaleejtoday.co/international/5606536/Greece-defends-use-of-anti-migrant-sound-cannons.html"}, {"color": "green", "id": "bigwnews.com", "label": "bigwnews.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://bigwnews.com/world-news/greek-border-police-show-off-powerful-anti-migrant-sound-cannons/", "label": " ", "shape": "dot", "title": "https://bigwnews.com/world-news/greek-border-police-show-off-powerful-anti-migrant-sound-cannons/"}, {"color": "green", "id": "saratogian.com", "label": "saratogian.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.saratogian.com/multimedia/in-post-pandemic-europe-migrants-will-face-digital-fortress/article_8e772578-4693-554a-ae86-be805370f49f.html", "label": " ", "shape": "dot", "title": "https://www.saratogian.com/multimedia/in-post-pandemic-europe-migrants-will-face-digital-fortress/article_8e772578-4693-554a-ae86-be805370f49f.html"}, {"color": "green", "id": "english.alaraby.co.uk", "label": "english.alaraby.co.uk", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://english.alaraby.co.uk/news/greece-use-sound-cannons-halt-migrant-entry", "label": " ", "shape": "dot", "title": "https://english.alaraby.co.uk/news/greece-use-sound-cannons-halt-migrant-entry"}, {"color": "green", "id": "australiannewsreview.com", "label": "australiannewsreview.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://australiannewsreview.com/greek-minister-defends-use-of-anti-migrant-sound-cannons/", "label": " ", "shape": "dot", "title": "https://australiannewsreview.com/greek-minister-defends-use-of-anti-migrant-sound-cannons/"}, {"color": "green", "id": "malaymail.com", "label": "malaymail.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.malaymail.com/news/world/2021/06/09/greece-defends-use-of-anti-migrant-sound-cannons/1980942", "label": " ", "shape": "dot", "title": "https://www.malaymail.com/news/world/2021/06/09/greece-defends-use-of-anti-migrant-sound-cannons/1980942"}, {"color": "green", "id": "stockholmcf.org", "label": "stockholmcf.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://stockholmcf.org/greece-defends-use-of-anti-migrant-sound-cannons-on-its-turkey-border/", "label": " ", "shape": "dot", "title": "https://stockholmcf.org/greece-defends-use-of-anti-migrant-sound-cannons-on-its-turkey-border/"}, {"color": "green", "id": "dailysabah.com", "label": "dailysabah.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.dailysabah.com/politics/eu-affairs/greek-minister-defends-use-of-anti-migrant-sound-cannons", "label": " ", "shape": "dot", "title": "https://www.dailysabah.com/politics/eu-affairs/greek-minister-defends-use-of-anti-migrant-sound-cannons"}, {"color": "green", "id": "flipboard.com", "label": "flipboard.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://flipboard.com/@outlookindia/outlook-india-ubg0di88z/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/a-4MVHqstkR4euV1BtzqlebA%3Aa%3A2005961640-35deefefbc%2Foutlookindia.com", "label": " ", "shape": "dot", "title": "https://flipboard.com/@outlookindia/outlook-india-ubg0di88z/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/a-4MVHqstkR4euV1BtzqlebA%3Aa%3A2005961640-35deefefbc%2Foutlookindia.com"}, {"color": "green", "id": "telegraph.co.uk", "label": "telegraph.co.uk", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.telegraph.co.uk/news/2021/06/03/eu-warns-greece-using-sound-cannon-repel-migrants/", "label": " ", "shape": "dot", "title": "https://www.telegraph.co.uk/news/2021/06/03/eu-warns-greece-using-sound-cannon-repel-migrants/"}, {"color": "green", "id": "dailyadvent.com", "label": "dailyadvent.com", "shape": "dot", "size": 16.094379124341003, "title": "2"}, {"hidden": true, "id": "https://www.dailyadvent.com/gb/news/d49b6eb3a7589a9af3bdc7e16b4bd75d-EU-concerned-about-Greek-use-of-antimigrant-sound-cannon", "label": " ", "shape": "dot", "title": "https://www.dailyadvent.com/gb/news/d49b6eb3a7589a9af3bdc7e16b4bd75d-EU-concerned-about-Greek-use-of-antimigrant-sound-cannon"}, {"hidden": true, "id": "https://www.dailyadvent.com/news/0362397435a0d583fa778092f263e7ed-EU-concerned-about-Greek-use-of-antimigrant-sound-cannon", "label": " ", "shape": "dot", "title": "https://www.dailyadvent.com/news/0362397435a0d583fa778092f263e7ed-EU-concerned-about-Greek-use-of-antimigrant-sound-cannon"}, {"color": "green", "id": "helenair.com", "label": "helenair.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://helenair.com/news/world/in-post-pandemic-europe-migrants-will-face-digital-fortress/image_d2e47870-9ebc-5472-b79b-b5c12a7abebb.html", "label": " ", "shape": "dot", "title": "https://helenair.com/news/world/in-post-pandemic-europe-migrants-will-face-digital-fortress/image_d2e47870-9ebc-5472-b79b-b5c12a7abebb.html"}, {"color": "green", "id": "latestly.com", "label": "latestly.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.latestly.com/agency-news/world-news-eu-concerned-about-greek-use-of-anti-migrant-sound-cannon-2520754.html", "label": " ", "shape": "dot", "title": "https://www.latestly.com/agency-news/world-news-eu-concerned-about-greek-use-of-anti-migrant-sound-cannon-2520754.html"}, {"color": "green", "id": "euractiv.com", "label": "euractiv.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.euractiv.com/section/justice-home-affairs/news/greece-defends-use-of-anti-migrant-sound-cannons/", "label": " ", "shape": "dot", "title": "https://www.euractiv.com/section/justice-home-affairs/news/greece-defends-use-of-anti-migrant-sound-cannons/"}, {"color": "green", "id": "dailypioneer.com", "label": "dailypioneer.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.dailypioneer.com/2021/world/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon.html", "label": " ", "shape": "dot", "title": "https://www.dailypioneer.com/2021/world/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon.html"}, {"color": "green", "id": "roanoke.com", "label": "roanoke.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "http://roanoke.com/image_6a49bf04-74ea-5b4b-aa88-91a46ac8dd54.html", "label": " ", "shape": "dot", "title": "http://roanoke.com/image_6a49bf04-74ea-5b4b-aa88-91a46ac8dd54.html"}, {"color": "green", "id": "scnow.com", "label": "scnow.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://scnow.com/image_a581ca7b-51ab-58ed-a732-aeef038d881b.html", "label": " ", "shape": "dot", "title": "https://scnow.com/image_a581ca7b-51ab-58ed-a732-aeef038d881b.html"}, {"color": "green", "id": "madison.com", "label": "madison.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://madison.com/news/world/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/article_a74c9f30-fd04-541c-9075-f60e800e8309.html", "label": " ", "shape": "dot", "title": "https://madison.com/news/world/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/article_a74c9f30-fd04-541c-9075-f60e800e8309.html"}, {"color": "green", "id": "kenoshanews.com", "label": "kenoshanews.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.kenoshanews.com/news/world/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/article_e0ee6929-735f-5e4b-80bf-8a4ecd42dcb9.html", "label": " ", "shape": "dot", "title": "https://www.kenoshanews.com/news/world/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/article_e0ee6929-735f-5e4b-80bf-8a4ecd42dcb9.html"}, {"color": "green", "id": "billingsgazette.com", "label": "billingsgazette.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://billingsgazette.com/news/world/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/article_a15c00cc-ec85-5559-95fd-86b140c47260.html", "label": " ", "shape": "dot", "title": "https://billingsgazette.com/news/world/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/article_a15c00cc-ec85-5559-95fd-86b140c47260.html"}, {"color": "green", "id": "heraldextra.com", "label": "heraldextra.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.heraldextra.com/news/national/government-and-politics/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/article_17b27191-c1d9-5235-8152-415917b97c88.html", "label": " ", "shape": "dot", "title": "https://www.heraldextra.com/news/national/government-and-politics/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/article_17b27191-c1d9-5235-8152-415917b97c88.html"}, {"color": "green", "id": "apnews.com", "label": "apnews.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://apnews.com/article/middle-east-europe-migration-government-and-politics-2cec83ae0d8544a719a885adee7d9786", "label": " ", "shape": "dot", "title": "https://apnews.com/article/middle-east-europe-migration-government-and-politics-2cec83ae0d8544a719a885adee7d9786"}, {"color": "blue", "id": "wpta21.com", "label": "wpta21.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://wpta21.com/2018/08/13/warrant-issued-for-arrest-in-connection-with-deadly-road-rage-incident-25/", "label": " ", "shape": "dot", "title": "https://wpta21.com/2018/08/13/warrant-issued-for-arrest-in-connection-with-deadly-road-rage-incident-25/"}, {"color": "blue", "id": "trendswide.com", "label": "trendswide.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://trendswide.com/greek-border-police-show-off-powerful-anti-migrant-sound-cannons-at-turkish-border/", "label": " ", "shape": "dot", "title": "https://trendswide.com/greek-border-police-show-off-powerful-anti-migrant-sound-cannons-at-turkish-border/"}, {"color": "blue", "id": "ktiv.com", "label": "ktiv.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://ktiv.com/2021/06/03/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/", "label": " ", "shape": "dot", "title": "https://ktiv.com/2021/06/03/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/"}, {"color": "blue", "id": "columbian.com", "label": "columbian.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.columbian.com/news/2021/jun/03/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/", "label": " ", "shape": "dot", "title": "https://www.columbian.com/news/2021/jun/03/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/"}, {"color": "blue", "id": "twitter.com", "label": "twitter.com", "shape": "dot", "size": 20.79441541679836, "title": "5"}, {"hidden": true, "id": "https://twitter.com/963886910/status/1400454165181071363", "label": " ", "shape": "dot", "title": "https://twitter.com/963886910/status/1400454165181071363"}, {"hidden": true, "id": "https://twitter.com/1347177640243900417/status/1400444546052284420", "label": " ", "shape": "dot", "title": "https://twitter.com/1347177640243900417/status/1400444546052284420"}, {"hidden": true, "id": "https://twitter.com/1345652009618255872/status/1400444545494487043", "label": " ", "shape": "dot", "title": "https://twitter.com/1345652009618255872/status/1400444545494487043"}, {"hidden": true, "id": "https://twitter.com/1343362946852937728/status/1400444543829299211", "label": " ", "shape": "dot", "title": "https://twitter.com/1343362946852937728/status/1400444543829299211"}, {"hidden": true, "id": "https://twitter.com/1643123766/status/1400444443358994447", "label": " ", "shape": "dot", "title": "https://twitter.com/1643123766/status/1400444443358994447"}, {"color": "blue", "id": "alivequote.com", "label": "alivequote.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://alivequote.com/-/EU-concerned-about-Greek-use-of-anti-migrant-sound-cannon/", "label": " ", "shape": "dot", "title": "https://alivequote.com/-/EU-concerned-about-Greek-use-of-anti-migrant-sound-cannon/"}, {"color": "blue", "id": "upstract.com", "label": "upstract.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://upstract.com/p/nmdeyt2z", "label": " ", "shape": "dot", "title": "https://upstract.com/p/nmdeyt2z"}, {"color": "red", "id": "abcnews.go.com", "label": "abcnews.go.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237", "label": " ", "shape": "dot", "title": "https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237"}]);
+        edges = new vis.DataSet([{"from": "abcnews.go.com", "title": 1, "to": "upstract.com", "width": 2.0794415416798357}, {"from": "abcnews.go.com", "title": 1, "to": "alivequote.com", "width": 2.0794415416798357}, {"from": "abcnews.go.com", "title": 1, "to": "quora.com", "width": 2.0794415416798357}, {"from": "abcnews.go.com", "title": 5, "to": "twitter.com", "width": 5.375278407684165}, {"from": "abcnews.go.com", "title": 1, "to": "columbian.com", "width": 2.0794415416798357}, {"from": "abcnews.go.com", "title": 1, "to": "ktiv.com", "width": 2.0794415416798357}, {"from": "abcnews.go.com", "title": 1, "to": "trendswide.com", "width": 2.0794415416798357}, {"from": "abcnews.go.com", "title": 1, "to": "wpta21.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "apnews.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "heraldextra.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "billingsgazette.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "kenoshanews.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "madison.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "scnow.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "roanoke.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "dailypioneer.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "euractiv.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "latestly.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "helenair.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 2, "to": "dailyadvent.com", "width": 3.295836866004329}, {"from": "upstract.com", "title": 1, "to": "telegraph.co.uk", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "dailymail.co.uk", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "flipboard.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "dailysabah.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "stockholmcf.org", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "malaymail.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "australiannewsreview.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "english.alaraby.co.uk", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "saratogian.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "bigwnews.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "alkhaleejtoday.co", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "thenationalnews.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "arkansasonline.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "record-eagle.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "urdupoint.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "toysmatrix.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "newsnationusa.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "washingtonpost.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "ec.europa.eu", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "morningstaronline.co.uk", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "bbc.com", "width": 2.0794415416798357}, {"from": "upstract.com", "title": 1, "to": "news4jax.com", "width": 2.0794415416798357}, {"from": "alivequote.com", "title": 1, "to": "independent.co.uk", "width": 2.0794415416798357}, {"from": "alivequote.com", "title": 1, "to": "thenationalherald.com", "width": 2.0794415416798357}, {"from": "alivequote.com", "title": 1, "to": "ruf.s33.xrea.com", "width": 2.0794415416798357}, {"from": "alivequote.com", "title": 1, "to": "thenewhumanitarian.org", "width": 2.0794415416798357}, {"from": "alivequote.com", "title": 2, "to": "ec.europa.eu", "width": 3.295836866004329}, {"from": "alivequote.com", "title": 1, "to": "cnbc.com", "width": 2.0794415416798357}, {"from": "alivequote.com", "title": 1, "to": "en.wikipedia.org", "width": 2.0794415416798357}, {"from": "alivequote.com", "title": 1, "to": "trtworld.com", "width": 2.0794415416798357}, {"from": "alivequote.com", "title": 1, "to": "aljazeera.com", "width": 2.0794415416798357}, {"from": "alivequote.com", "title": 1, "to": "project-syndicate.org", "width": 2.0794415416798357}, {"from": "alivequote.com", "title": 1, "to": "smithsonianmag.com", "width": 2.0794415416798357}, {"from": "quora.com", "title": 4, "to": "quora.com", "width": 4.828313737302301}, {"from": "quora.com", "title": 1, "to": "en.wikipedia.org", "width": 2.0794415416798357}, {"from": "quora.com", "title": 1, "to": "unigo.com", "width": 2.0794415416798357}, {"from": "quora.com", "title": 1, "to": "independent.co.uk", "width": 2.0794415416798357}, {"from": "quora.com", "title": 1, "to": "aussieontheroad.com", "width": 2.0794415416798357}, {"from": "quora.com", "title": 1, "to": "blogs.chicagotribune.com", "width": 2.0794415416798357}, {"from": "quora.com", "title": 1, "to": "matsuo-story.com", "width": 2.0794415416798357}, {"from": "quora.com", "title": 1, "to": "dailymail.co.uk", "width": 2.0794415416798357}, {"from": "quora.com", "title": 1, "to": "addwatt.com", "width": 2.0794415416798357}, {"from": "quora.com", "title": 1, "to": "efekt-aluminium.pl", "width": 2.0794415416798357}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+        network.on("stabilizationProgress", function(params) {
+      		document.getElementById('loadingBar').removeAttribute("style");
+	        var maxWidth = 496;
+	        var minWidth = 20;
+	        var widthFactor = params.iterations/params.total;
+	        var width = Math.max(minWidth,maxWidth * widthFactor);
+
+	        document.getElementById('bar').style.width = width + 'px';
+	        document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+	    });
+	    network.once("stabilizationIterationsDone", function() {
+	        document.getElementById('text').innerHTML = '100%';
+	        document.getElementById('bar').style.width = '496px';
+	        document.getElementById('loadingBar').style.opacity = 0;
+	        // really clean the dom element
+	        setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+	    });
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

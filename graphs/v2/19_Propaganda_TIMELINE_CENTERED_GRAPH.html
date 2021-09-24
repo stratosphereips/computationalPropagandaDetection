@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "yellow", "fixed": {"x": true, "y": true}, "id": "Old article", "label": " ", "physics": false, "shape": "diamond", "size": 35, "title": "Old article", "x": 0, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2020-07-01", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2020-07-01", "x": 2248, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2020-10-01", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2020-10-01", "x": 2984, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2020-12-09", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2020-12-09", "x": 3536, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2020-12-10", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2020-12-10", "x": 3544, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2020-12-19", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2020-12-19", "x": 3616, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-03-07", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-03-07", "x": 4240, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-03-30", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-03-30", "x": 4424, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-04-13", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-04-13", "x": 4536, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-04-21", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-04-21", "x": 4600, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-05-12", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-05-12", "x": 4768, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-05-18", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-05-18", "x": 4816, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-05-20", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-05-20", "x": 4832, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-01", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-01", "x": 4928, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-27", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-27", "x": 5136, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-07-11", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-07-11", "x": 5248, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-07-12", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-07-12", "x": 5256, "y": 0}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "2021-09-23", "label": " ", "physics": false, "shape": "diamond", "size": 25, "title": "2021-09-23", "x": 5840, "y": 0}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://ok.ru/news.front/topic/153311287466071", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://ok.ru/news.front/topic/153311287466071", "x": 4424, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-80944346?w=wall-80944346_119290", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-80944346?w=wall-80944346_119290", "x": 4768, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id613172209?w=wall613172209_10367", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id613172209?w=wall613172209_10367", "x": 4768, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id613170163?w=wall613170163_10332", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id613170163?w=wall613170163_10332", "x": 4768, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id613171056?w=wall613171056_10340", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id613171056?w=wall613171056_10340", "x": 4768, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id613141661?w=wall613141661_10393", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id613141661?w=wall613141661_10393", "x": 4768, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id613139920?w=wall613139920_10377", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id613139920?w=wall613139920_10377", "x": 4768, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-70204174?w=wall-70204174_648689", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-70204174?w=wall-70204174_648689", "x": 4768, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://imag.one/news/finskiy-politolog-zayavil-chto-ukrainy-kak/8024784", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://imag.one/news/finskiy-politolog-zayavil-chto-ukrainy-kak/8024784", "x": 4768, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.bbc.com/ukrainian/ukraine_in_russian/2014/07/140716_ru_s_sovereignty_24_anniversary_vc", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.bbc.com/ukrainian/ukraine_in_russian/2014/07/140716_ru_s_sovereignty_24_anniversary_vc", "x": 0, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://news-front.info/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://news-front.info/", "x": 5256, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://ng89.ru/newsone/2018108/polkovnik-vvs-ssha-zayavil-o-nesposobnosti-amerikanskih-voennyh-pobedit-v-vojne-buduschego.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://ng89.ru/newsone/2018108/polkovnik-vvs-ssha-zayavil-o-nesposobnosti-amerikanskih-voennyh-pobedit-v-vojne-buduschego.html", "x": 5256, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://ng89.ru/newsone/2017883/v-ni-nazvali-oploshnost-po-krymu-kotoraya-moget-stoit-nato-imidga-i-vliyaniya.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://ng89.ru/newsone/2017883/v-ni-nazvali-oploshnost-po-krymu-kotoraya-moget-stoit-nato-imidga-i-vliyaniya.html", "x": 5248, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://sakhmart.ru/description_769692_iltasanomat_finlyandiya_finskij_ekspert_schitaet_chto_rech_putina_byla_ochen_sovetskoj_po_duhu.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://sakhmart.ru/description_769692_iltasanomat_finlyandiya_finskij_ekspert_schitaet_chto_rech_putina_byla_ochen_sovetskoj_po_duhu.html", "x": 4600, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/1302896911528194049/status/1392436967141482498", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/1302896911528194049/status/1392436967141482498", "x": 4768, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/1268504473321832456/status/1392436659254403076", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/1268504473321832456/status/1392436659254403076", "x": 4768, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-193258392?w=wall-193258392_1061", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-193258392?w=wall-193258392_1061", "x": 5136, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-61324059?w=wall-61324059_80307", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-61324059?w=wall-61324059_80307", "x": 4928, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id255744597?w=wall255744597_394093", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id255744597?w=wall255744597_394093", "x": 4832, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-144507381?w=wall-144507381_92350", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-144507381?w=wall-144507381_92350", "x": 4832, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-101200162?w=wall-101200162_84919", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-101200162?w=wall-101200162_84919", "x": 4832, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-77035902?w=wall-77035902_133437", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-77035902?w=wall-77035902_133437", "x": 4832, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-33272687?w=wall-33272687_8935", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-33272687?w=wall-33272687_8935", "x": 4832, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id309708821?w=wall309708821_31566", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id309708821?w=wall309708821_31566", "x": 4816, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-153560885?w=wall-153560885_209877", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-153560885?w=wall-153560885_209877", "x": 4768, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id272287004?w=wall272287004_48759", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id272287004?w=wall272287004_48759", "x": 4768, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-203158063?w=wall-203158063_1876", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-203158063?w=wall-203158063_1876", "x": 4768, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-195582061?w=wall-195582061_17419", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-195582061?w=wall-195582061_17419", "x": 4768, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id575107879?w=wall575107879_12905", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id575107879?w=wall575107879_12905", "x": 4768, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-94269450?w=wall-94269450_822354", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-94269450?w=wall-94269450_822354", "x": 4536, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-174855763?w=wall-174855763_24154", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-174855763?w=wall-174855763_24154", "x": 4536, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-61324059?w=wall-61324059_78923", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-61324059?w=wall-61324059_78923", "x": 4240, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-61324059?w=wall-61324059_77590", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-61324059?w=wall-61324059_77590", "x": 3616, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id236740162?w=wall236740162_30269", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id236740162?w=wall236740162_30269", "x": 3544, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-87029781?w=wall-87029781_30796", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-87029781?w=wall-87029781_30796", "x": 3544, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-70071454?w=wall-70071454_100855", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-70071454?w=wall-70071454_100855", "x": 3544, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-106067045?w=wall-106067045_149647", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-106067045?w=wall-106067045_149647", "x": 3536, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-61324059?w=wall-61324059_76239", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-61324059?w=wall-61324059_76239", "x": 2984, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id11164177?w=wall11164177_44779", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id11164177?w=wall11164177_44779", "x": 2248, "y": 30}]);
+        edges = new vis.DataSet([{"from": "https://ok.ru/news.front/topic/153311287466071", "hidden": true, "physics": false, "to": "2021-03-30"}, {"from": "https://vk.com/id-80944346?w=wall-80944346_119290", "hidden": true, "physics": false, "to": "2021-05-12"}, {"from": "https://vk.com/id613172209?w=wall613172209_10367", "hidden": true, "physics": false, "to": "2021-05-12"}, {"from": "https://vk.com/id613170163?w=wall613170163_10332", "hidden": true, "physics": false, "to": "2021-05-12"}, {"from": "https://vk.com/id613171056?w=wall613171056_10340", "hidden": true, "physics": false, "to": "2021-05-12"}, {"from": "https://vk.com/id613141661?w=wall613141661_10393", "hidden": true, "physics": false, "to": "2021-05-12"}, {"from": "https://vk.com/id613139920?w=wall613139920_10377", "hidden": true, "physics": false, "to": "2021-05-12"}, {"from": "https://vk.com/id-70204174?w=wall-70204174_648689", "hidden": true, "physics": false, "to": "2021-05-12"}, {"from": "https://imag.one/news/finskiy-politolog-zayavil-chto-ukrainy-kak/8024784", "hidden": true, "physics": false, "to": "2021-05-12"}, {"from": "https://www.bbc.com/ukrainian/ukraine_in_russian/2014/07/140716_ru_s_sovereignty_24_anniversary_vc", "hidden": true, "physics": false, "to": "Old article"}, {"from": "https://news-front.info/", "hidden": true, "physics": false, "to": "2021-07-12"}, {"from": "https://ng89.ru/newsone/2018108/polkovnik-vvs-ssha-zayavil-o-nesposobnosti-amerikanskih-voennyh-pobedit-v-vojne-buduschego.html", "hidden": true, "physics": false, "to": "2021-07-12"}, {"from": "https://ng89.ru/newsone/2017883/v-ni-nazvali-oploshnost-po-krymu-kotoraya-moget-stoit-nato-imidga-i-vliyaniya.html", "hidden": true, "physics": false, "to": "2021-07-11"}, {"from": "https://sakhmart.ru/description_769692_iltasanomat_finlyandiya_finskij_ekspert_schitaet_chto_rech_putina_byla_ochen_sovetskoj_po_duhu.html", "hidden": true, "physics": false, "to": "2021-04-21"}, {"from": "https://twitter.com/1302896911528194049/status/1392436967141482498", "hidden": true, "physics": false, "to": "2021-05-12"}, {"from": "https://twitter.com/1268504473321832456/status/1392436659254403076", "hidden": true, "physics": false, "to": "2021-05-12"}, {"from": "https://vk.com/id-193258392?w=wall-193258392_1061", "hidden": true, "physics": false, "to": "2021-06-27"}, {"from": "https://vk.com/id-61324059?w=wall-61324059_80307", "hidden": true, "physics": false, "to": "2021-06-01"}, {"from": "https://vk.com/id255744597?w=wall255744597_394093", "hidden": true, "physics": false, "to": "2021-05-20"}, {"from": "https://vk.com/id-144507381?w=wall-144507381_92350", "hidden": true, "physics": false, "to": "2021-05-20"}, {"from": "https://vk.com/id-101200162?w=wall-101200162_84919", "hidden": true, "physics": false, "to": "2021-05-20"}, {"from": "https://vk.com/id-77035902?w=wall-77035902_133437", "hidden": true, "physics": false, "to": "2021-05-20"}, {"from": "https://vk.com/id-33272687?w=wall-33272687_8935", "hidden": true, "physics": false, "to": "2021-05-20"}, {"from": "https://vk.com/id309708821?w=wall309708821_31566", "hidden": true, "physics": false, "to": "2021-05-18"}, {"from": "https://vk.com/id-153560885?w=wall-153560885_209877", "hidden": true, "physics": false, "to": "2021-05-12"}, {"from": "https://vk.com/id272287004?w=wall272287004_48759", "hidden": true, "physics": false, "to": "2021-05-12"}, {"from": "https://vk.com/id-203158063?w=wall-203158063_1876", "hidden": true, "physics": false, "to": "2021-05-12"}, {"from": "https://vk.com/id-195582061?w=wall-195582061_17419", "hidden": true, "physics": false, "to": "2021-05-12"}, {"from": "https://vk.com/id575107879?w=wall575107879_12905", "hidden": true, "physics": false, "to": "2021-05-12"}, {"from": "https://vk.com/id-94269450?w=wall-94269450_822354", "hidden": true, "physics": false, "to": "2021-04-13"}, {"from": "https://vk.com/id-174855763?w=wall-174855763_24154", "hidden": true, "physics": false, "to": "2021-04-13"}, {"from": "https://vk.com/id-61324059?w=wall-61324059_78923", "hidden": true, "physics": false, "to": "2021-03-07"}, {"from": "https://vk.com/id-61324059?w=wall-61324059_77590", "hidden": true, "physics": false, "to": "2020-12-19"}, {"from": "https://vk.com/id236740162?w=wall236740162_30269", "hidden": true, "physics": false, "to": "2020-12-10"}, {"from": "https://vk.com/id-87029781?w=wall-87029781_30796", "hidden": true, "physics": false, "to": "2020-12-10"}, {"from": "https://vk.com/id-70071454?w=wall-70071454_100855", "hidden": true, "physics": false, "to": "2020-12-10"}, {"from": "https://vk.com/id-106067045?w=wall-106067045_149647", "hidden": true, "physics": false, "to": "2020-12-09"}, {"from": "https://vk.com/id-61324059?w=wall-61324059_76239", "hidden": true, "physics": false, "to": "2020-10-01"}, {"from": "https://vk.com/id11164177?w=wall11164177_44779", "hidden": true, "physics": false, "to": "2020-07-01"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500px;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+        #loadingBar {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width: 1500px;
+            height: 700px;
+            background-color:rgba(200,200,200,0.8);
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -ms-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+            opacity:1;
+        }
+
+        #bar {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width:20px;
+            height:20px;
+            margin:auto auto auto auto;
+            border-radius:11px;
+            border:2px solid rgba(30,30,30,0.05);
+            background: rgb(0, 173, 246); /* Old browsers */
+            box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+        }
+
+        #border {
+            position:absolute;
+            top:10px;
+            left:10px;
+            width:500px;
+            height:23px;
+            margin:auto auto auto auto;
+            box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+            border-radius:10px;
+        }
+
+        #text {
+            position:absolute;
+            top:8px;
+            left:530px;
+            width:30px;
+            height:50px;
+            margin:auto auto auto auto;
+            font-size:22px;
+            color: #000000;
+        }
+
+        div.outerBorder {
+            position:relative;
+            top:400px;
+            width:600px;
+            height:44px;
+            margin:auto auto auto auto;
+            border:8px solid rgba(0,0,0,0.1);
+            background: rgb(252,252,252); /* Old browsers */
+            background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+            border-radius:72px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        }
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+<div id="loadingBar">
+    <div class="outerBorder">
+        <div id="text">0%</div>
+        <div id="border">
+            <div id="bar"></div>
+        </div>
+    </div>
+</div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "id": "vk.com", "label": "vk.com", "shape": "dot", "size": 19.45910149055313, "title": "4"}, {"hidden": true, "id": "https://vk.com/id587982683?w=wall587982683_18621", "label": " ", "shape": "dot", "title": "https://vk.com/id587982683?w=wall587982683_18621"}, {"hidden": true, "id": "https://vk.com/id587982683?w=wall587982683_18611", "label": " ", "shape": "dot", "title": "https://vk.com/id587982683?w=wall587982683_18611"}, {"hidden": true, "id": "https://vk.com/id-29575154?w=wall-29575154_13021", "label": " ", "shape": "dot", "title": "https://vk.com/id-29575154?w=wall-29575154_13021"}, {"hidden": true, "id": "https://vk.com/id302246108?w=wall302246108_216", "label": " ", "shape": "dot", "title": "https://vk.com/id302246108?w=wall302246108_216"}, {"color": "blue", "id": "fortune.com", "label": "fortune.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://fortune.com/2021/04/15/bide-slam-russia-sanctions-over-solarwinds-hack-election-meddling/", "label": " ", "shape": "dot", "title": "https://fortune.com/2021/04/15/bide-slam-russia-sanctions-over-solarwinds-hack-election-meddling/"}, {"color": "blue", "id": "cnet.com", "label": "cnet.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.cnet.com/news/us-sanctions-russia-over-solarwinds-hack-election-interference/", "label": " ", "shape": "dot", "title": "https://www.cnet.com/news/us-sanctions-russia-over-solarwinds-hack-election-interference/"}, {"color": "blue", "id": "lasvegassun.com", "label": "lasvegassun.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://lasvegassun.com/news/2021/apr/15/us-expels-russian-diplomats-imposes-sanctions-for/", "label": " ", "shape": "dot", "title": "https://lasvegassun.com/news/2021/apr/15/us-expels-russian-diplomats-imposes-sanctions-for/"}, {"color": "blue", "id": "click2houston.com", "label": "click2houston.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.click2houston.com/news/politics/2021/04/15/months-after-hack-us-poised-to-announce-sanctions-on-russia-2/", "label": " ", "shape": "dot", "title": "https://www.click2houston.com/news/politics/2021/04/15/months-after-hack-us-poised-to-announce-sanctions-on-russia-2/"}, {"color": "blue", "id": "oregonlive.com", "label": "oregonlive.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.oregonlive.com/nation/2021/04/us-expels-russian-diplomats-imposes-sanctions-for-hacking.html", "label": " ", "shape": "dot", "title": "https://www.oregonlive.com/nation/2021/04/us-expels-russian-diplomats-imposes-sanctions-for-hacking.html"}, {"color": "blue", "id": "adn.com", "label": "adn.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.adn.com/nation-world/2021/04/15/months-after-hack-us-poised-to-announce-sanctions-on-russia/", "label": " ", "shape": "dot", "title": "https://www.adn.com/nation-world/2021/04/15/months-after-hack-us-poised-to-announce-sanctions-on-russia/"}, {"color": "blue", "id": "inquirer.com", "label": "inquirer.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.inquirer.com/news/nation-world/us-russia-expulsions-sanctions-election-interference-hacking-20210415.html", "label": " ", "shape": "dot", "title": "https://www.inquirer.com/news/nation-world/us-russia-expulsions-sanctions-election-interference-hacking-20210415.html"}, {"color": "blue", "id": "dailysabah.com", "label": "dailysabah.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.dailysabah.com/world/americas/us-slaps-russia-with-sanctions-over-solarwinds-hack", "label": " ", "shape": "dot", "title": "https://www.dailysabah.com/world/americas/us-slaps-russia-with-sanctions-over-solarwinds-hack"}, {"color": "blue", "id": "metro.co.uk", "label": "metro.co.uk", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://metro.co.uk/2021/04/15/us-to-sanction-russian-government-over-cyber-hack-and-election-meddling-14414417/", "label": " ", "shape": "dot", "title": "https://metro.co.uk/2021/04/15/us-to-sanction-russian-government-over-cyber-hack-and-election-meddling-14414417/"}, {"color": "blue", "id": "afr.com", "label": "afr.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.afr.com/world/north-america/us-expels-10-diplomats-imposes-sanctions-on-russia-20210415-p57jo1", "label": " ", "shape": "dot", "title": "https://www.afr.com/world/north-america/us-expels-10-diplomats-imposes-sanctions-on-russia-20210415-p57jo1"}, {"color": "blue", "id": "twitter.com", "label": "twitter.com", "shape": "dot", "size": 30.91042453358316, "title": "19"}, {"hidden": true, "id": "https://twitter.com/70032358/status/1384412107194634242", "label": " ", "shape": "dot", "title": "https://twitter.com/70032358/status/1384412107194634242"}, {"hidden": true, "id": "https://twitter.com/351218099/status/1383123875316314113", "label": " ", "shape": "dot", "title": "https://twitter.com/351218099/status/1383123875316314113"}, {"hidden": true, "id": "https://twitter.com/2205728552/status/1382963224816054273", "label": " ", "shape": "dot", "title": "https://twitter.com/2205728552/status/1382963224816054273"}, {"hidden": true, "id": "https://twitter.com/1125416198554955778/status/1382958202652884993", "label": " ", "shape": "dot", "title": "https://twitter.com/1125416198554955778/status/1382958202652884993"}, {"hidden": true, "id": "https://twitter.com/269449509/status/1382957756345421824", "label": " ", "shape": "dot", "title": "https://twitter.com/269449509/status/1382957756345421824"}, {"hidden": true, "id": "https://twitter.com/3233784844/status/1382956540785790978", "label": " ", "shape": "dot", "title": "https://twitter.com/3233784844/status/1382956540785790978"}, {"hidden": true, "id": "https://twitter.com/1230072889/status/1382952476287119362", "label": " ", "shape": "dot", "title": "https://twitter.com/1230072889/status/1382952476287119362"}, {"hidden": true, "id": "https://twitter.com/1828689073/status/1382751636947361802", "label": " ", "shape": "dot", "title": "https://twitter.com/1828689073/status/1382751636947361802"}, {"hidden": true, "id": "https://twitter.com/1067899048609398785/status/1382721106570838028", "label": " ", "shape": "dot", "title": "https://twitter.com/1067899048609398785/status/1382721106570838028"}, {"hidden": true, "id": "https://twitter.com/18199034/status/1382719161990844422", "label": " ", "shape": "dot", "title": "https://twitter.com/18199034/status/1382719161990844422"}, {"hidden": true, "id": "https://twitter.com/174331774/status/1382719130491613189", "label": " ", "shape": "dot", "title": "https://twitter.com/174331774/status/1382719130491613189"}, {"hidden": true, "id": "https://twitter.com/700163778/status/1382716803634376704", "label": " ", "shape": "dot", "title": "https://twitter.com/700163778/status/1382716803634376704"}, {"hidden": true, "id": "https://twitter.com/2676025951/status/1382716433524744194", "label": " ", "shape": "dot", "title": "https://twitter.com/2676025951/status/1382716433524744194"}, {"hidden": true, "id": "https://twitter.com/189529400/status/1382716268172689418", "label": " ", "shape": "dot", "title": "https://twitter.com/189529400/status/1382716268172689418"}, {"hidden": true, "id": "https://twitter.com/74730980/status/1382716095119962112", "label": " ", "shape": "dot", "title": "https://twitter.com/74730980/status/1382716095119962112"}, {"hidden": true, "id": "https://twitter.com/1243665419501744133/status/1382716004929839106", "label": " ", "shape": "dot", "title": "https://twitter.com/1243665419501744133/status/1382716004929839106"}, {"hidden": true, "id": "https://twitter.com/2890961/status/1382715982091718660", "label": " ", "shape": "dot", "title": "https://twitter.com/2890961/status/1382715982091718660"}, {"hidden": true, "id": "https://twitter.com/971401388860243970/status/1382714710336933888", "label": " ", "shape": "dot", "title": "https://twitter.com/971401388860243970/status/1382714710336933888"}, {"hidden": true, "id": "https://twitter.com/thehackersnews/status/1382741193851695108", "label": " ", "shape": "dot", "title": "https://twitter.com/thehackersnews/status/1382741193851695108"}, {"color": "blue", "id": "dailymail.co.uk", "label": "dailymail.co.uk", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.dailymail.co.uk/news/article-9473503/US-poised-announce-sanctions-Russia-retribution-SolarWinds-hack.html", "label": " ", "shape": "dot", "title": "https://www.dailymail.co.uk/news/article-9473503/US-poised-announce-sanctions-Russia-retribution-SolarWinds-hack.html"}, {"color": "blue", "id": "reuters.com", "label": "reuters.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.reuters.com/article/usa-cyber-breach-biden-idUSKBN28U0DV", "label": " ", "shape": "dot", "title": "https://www.reuters.com/article/usa-cyber-breach-biden-idUSKBN28U0DV"}, {"color": "blue", "id": "columbian.com", "label": "columbian.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.columbian.com/news/2021/apr/15/u-s-expels-russian-diplomats-imposes-new-round-of-sanctions/", "label": " ", "shape": "dot", "title": "https://www.columbian.com/news/2021/apr/15/u-s-expels-russian-diplomats-imposes-new-round-of-sanctions/"}, {"color": "blue", "id": "wwmt.com", "label": "wwmt.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://wwmt.com/news/nation-world/us-sanctions-on-russia-will-they-stop-cybersecurity-attacks", "label": " ", "shape": "dot", "title": "https://wwmt.com/news/nation-world/us-sanctions-on-russia-will-they-stop-cybersecurity-attacks"}, {"color": "blue", "id": "taiwannews.com.tw", "label": "taiwannews.com.tw", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.taiwannews.com.tw/en/news/4178797", "label": " ", "shape": "dot", "title": "https://www.taiwannews.com.tw/en/news/4178797"}, {"color": "blue", "id": "abc.net.au", "label": "abc.net.au", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.abc.net.au/news/2021-04-16/us-announces-new-sanctions-on-russia/100073506", "label": " ", "shape": "dot", "title": "https://www.abc.net.au/news/2021-04-16/us-announces-new-sanctions-on-russia/100073506"}, {"color": "blue", "id": "natlawreview.com", "label": "natlawreview.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.natlawreview.com/article/russia-russia-russia-biden-administration-imposes-tough-sanctions-russia", "label": " ", "shape": "dot", "title": "https://www.natlawreview.com/article/russia-russia-russia-biden-administration-imposes-tough-sanctions-russia"}, {"color": "blue", "id": "engadget.com", "label": "engadget.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.engadget.com/us-expels-russia-diplomats-over-solarwinds-hacks-135211509.html", "label": " ", "shape": "dot", "title": "https://www.engadget.com/us-expels-russia-diplomats-over-solarwinds-hacks-135211509.html"}, {"color": "blue", "id": "news.wttw.com", "label": "news.wttw.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://news.wttw.com/2021/04/15/us-expels-russian-diplomats-imposes-sanctions-hacking", "label": " ", "shape": "dot", "title": "https://news.wttw.com/2021/04/15/us-expels-russian-diplomats-imposes-sanctions-hacking"}, {"color": "blue", "id": "democracynow.org", "label": "democracynow.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.democracynow.org/2021/4/16/headlines/biden_admin_imposes_sanctions_on_russia_for_hacking_election_interference_annexation_of_crimea", "label": " ", "shape": "dot", "title": "https://www.democracynow.org/2021/4/16/headlines/biden_admin_imposes_sanctions_on_russia_for_hacking_election_interference_annexation_of_crimea"}, {"color": "blue", "id": "ft.com", "label": "ft.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.ft.com/content/b2bf1be3-a10c-4963-9deb-8a6b319e9363", "label": " ", "shape": "dot", "title": "https://www.ft.com/content/b2bf1be3-a10c-4963-9deb-8a6b319e9363"}, {"color": "blue", "id": "accesswdun.com", "label": "accesswdun.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://accesswdun.com/article/2021/4/997516", "label": " ", "shape": "dot", "title": "https://accesswdun.com/article/2021/4/997516"}, {"color": "blue", "id": "wsls.com", "label": "wsls.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.wsls.com/news/politics/2021/04/16/us-expels-russian-diplomats-imposes-sanctions-for-hacking/", "label": " ", "shape": "dot", "title": "https://www.wsls.com/news/politics/2021/04/16/us-expels-russian-diplomats-imposes-sanctions-for-hacking/"}, {"color": "blue", "id": "wtop.com", "label": "wtop.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://wtop.com/government/2021/04/months-after-hack-us-poised-to-announce-sanctions-on-russia-2/", "label": " ", "shape": "dot", "title": "https://wtop.com/government/2021/04/months-after-hack-us-poised-to-announce-sanctions-on-russia-2/"}, {"color": "blue", "id": "arkansasonline.com", "label": "arkansasonline.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.arkansasonline.com/news/2021/apr/16/biden-retaliates-for-russia-hacking/", "label": " ", "shape": "dot", "title": "https://www.arkansasonline.com/news/2021/apr/16/biden-retaliates-for-russia-hacking/"}, {"color": "blue", "id": "firstpost.com", "label": "firstpost.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.firstpost.com/world/us-to-expel-10-russian-diplomats-imposes-sanctions-following-solarwinds-breach-election-interference-9534661.html", "label": " ", "shape": "dot", "title": "https://www.firstpost.com/world/us-to-expel-10-russian-diplomats-imposes-sanctions-following-solarwinds-breach-election-interference-9534661.html"}, {"color": "blue", "id": "economist.com", "label": "economist.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.economist.com/united-states/2021/04/15/joe-biden-seeks-to-clobber-russia-with-new-economic-sanctions", "label": " ", "shape": "dot", "title": "https://www.economist.com/united-states/2021/04/15/joe-biden-seeks-to-clobber-russia-with-new-economic-sanctions"}, {"color": "blue", "id": "ctvnews.ca", "label": "ctvnews.ca", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.ctvnews.ca/world/six-key-takeaways-from-biden-s-russia-sanctions-announcement-1.5389040", "label": " ", "shape": "dot", "title": "https://www.ctvnews.ca/world/six-key-takeaways-from-biden-s-russia-sanctions-announcement-1.5389040"}, {"color": "blue", "id": "thehackernews.com", "label": "thehackernews.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://thehackernews.com/2021/04/us-sanctions-russia-and-expels-10.html", "label": " ", "shape": "dot", "title": "https://thehackernews.com/2021/04/us-sanctions-russia-and-expels-10.html"}, {"color": "blue", "id": "rollingstone.com", "label": "rollingstone.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.rollingstone.com/politics/politics-news/biden-sanctions-russia-1156537/", "label": " ", "shape": "dot", "title": "https://www.rollingstone.com/politics/politics-news/biden-sanctions-russia-1156537/"}, {"color": "blue", "id": "cbsnews.com", "label": "cbsnews.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.cbsnews.com/video/biden-administration-sanctions-russia-for-election-interference-and-cyber-hack/", "label": " ", "shape": "dot", "title": "https://www.cbsnews.com/video/biden-administration-sanctions-russia-for-election-interference-and-cyber-hack/"}, {"color": "blue", "id": "cyberscoop.com", "label": "cyberscoop.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.cyberscoop.com/biden-russia-solarwinds-sanctions-white-house/", "label": " ", "shape": "dot", "title": "https://www.cyberscoop.com/biden-russia-solarwinds-sanctions-white-house/"}, {"color": "blue", "id": "washingtonpost.com", "label": "washingtonpost.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.washingtonpost.com/national-security/biden-to-announce-tough-sanctions-on-russia-over-cyber-spying/2021/04/15/a4c1d260-746e-11eb-948d-19472e683521_story.html", "label": " ", "shape": "dot", "title": "https://www.washingtonpost.com/national-security/biden-to-announce-tough-sanctions-on-russia-over-cyber-spying/2021/04/15/a4c1d260-746e-11eb-948d-19472e683521_story.html"}, {"color": "blue", "id": "wired.com", "label": "wired.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.wired.com/story/us-russia-sanctions-solarwinds-svr/", "label": " ", "shape": "dot", "title": "https://www.wired.com/story/us-russia-sanctions-solarwinds-svr/"}, {"color": "blue", "id": "chicagotribune.com", "label": "chicagotribune.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.chicagotribune.com/nation-world/ct-aud-nw-biden-russia-sanctions-20210415-mui4uaufgvftbntqbl4g7u5ed4-story.html", "label": " ", "shape": "dot", "title": "https://www.chicagotribune.com/nation-world/ct-aud-nw-biden-russia-sanctions-20210415-mui4uaufgvftbntqbl4g7u5ed4-story.html"}, {"color": "blue", "id": "sports.yahoo.com", "label": "sports.yahoo.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://sports.yahoo.com/u-imposes-sanctions-targeting-russian-121513798.html", "label": " ", "shape": "dot", "title": "https://sports.yahoo.com/u-imposes-sanctions-targeting-russian-121513798.html"}, {"color": "blue", "id": "cnn.com", "label": "cnn.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.cnn.com/2021/04/14/politics/russia-sanctions-expel-officials-hacking-election/index.html", "label": " ", "shape": "dot", "title": "https://www.cnn.com/2021/04/14/politics/russia-sanctions-expel-officials-hacking-election/index.html"}, {"color": "blue", "id": "bbc.com", "label": "bbc.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.bbc.com/news/technology-56755484", "label": " ", "shape": "dot", "title": "https://www.bbc.com/news/technology-56755484"}, {"color": "blue", "id": "siliconangle.com", "label": "siliconangle.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://siliconangle.com/2021/04/15/u-s-imposes-sanctions-russia-election-interference-solarwinds-hack/", "label": " ", "shape": "dot", "title": "https://siliconangle.com/2021/04/15/u-s-imposes-sanctions-russia-election-interference-solarwinds-hack/"}, {"color": "blue", "id": "thehill.com", "label": "thehill.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://thehill.com/homenews/administration/548367-biden-administration-unveils-sweeping-sanctions-on-russia", "label": " ", "shape": "dot", "title": "https://thehill.com/homenews/administration/548367-biden-administration-unveils-sweeping-sanctions-on-russia"}, {"color": "blue", "id": "nytimes.com", "label": "nytimes.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.nytimes.com/2021/04/15/world/europe/us-russia-sanctions.html", "label": " ", "shape": "dot", "title": "https://www.nytimes.com/2021/04/15/world/europe/us-russia-sanctions.html"}, {"color": "red", "id": "gizmodo.com", "label": "gizmodo.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://gizmodo.com/u-s-hits-russia-with-heavy-sanctions-over-solarwinds-h-1846689148", "label": " ", "shape": "dot", "title": "https://gizmodo.com/u-s-hits-russia-with-heavy-sanctions-over-solarwinds-h-1846689148"}]);
+        edges = new vis.DataSet([{"from": "gizmodo.com", "title": 19, "to": "twitter.com", "width": 8.987196820661973}, {"from": "gizmodo.com", "title": 1, "to": "nytimes.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "thehill.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "siliconangle.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "bbc.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "cnn.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "sports.yahoo.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "chicagotribune.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "wired.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "washingtonpost.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "cyberscoop.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "cbsnews.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "rollingstone.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "thehackernews.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "ctvnews.ca", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "economist.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "firstpost.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "arkansasonline.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "wtop.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "wsls.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "accesswdun.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "ft.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "democracynow.org", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "news.wttw.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "engadget.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "natlawreview.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "abc.net.au", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "taiwannews.com.tw", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "wwmt.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "columbian.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "reuters.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "dailymail.co.uk", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "afr.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "metro.co.uk", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "dailysabah.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "inquirer.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "adn.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "oregonlive.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "click2houston.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "lasvegassun.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "cnet.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 1, "to": "fortune.com", "width": 2.0794415416798357}, {"from": "gizmodo.com", "title": 4, "to": "vk.com", "width": 4.828313737302301}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+        network.on("stabilizationProgress", function(params) {
+      		document.getElementById('loadingBar').removeAttribute("style");
+	        var maxWidth = 496;
+	        var minWidth = 20;
+	        var widthFactor = params.iterations/params.total;
+	        var width = Math.max(minWidth,maxWidth * widthFactor);
+
+	        document.getElementById('bar').style.width = width + 'px';
+	        document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+	    });
+	    network.once("stabilizationIterationsDone", function() {
+	        document.getElementById('text').innerHTML = '100%';
+	        document.getElementById('bar').style.width = '496px';
+	        document.getElementById('loadingBar').style.opacity = 0;
+	        // really clean the dom element
+	        setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+	    });
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

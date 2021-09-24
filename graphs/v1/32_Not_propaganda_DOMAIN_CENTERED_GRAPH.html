@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500px;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "id": "migrationpolicy.org", "label": "migrationpolicy.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.migrationpolicy.org/article/eu-turkey-deal-five-years-on", "label": " ", "shape": "dot", "title": "https://www.migrationpolicy.org/article/eu-turkey-deal-five-years-on"}, {"color": "blue", "id": "dw.com", "label": "dw.com", "shape": "dot", "size": 16.094379124341003, "title": "2"}, {"hidden": true, "id": "https://www.dw.com/en/the-eu-turkey-refugee-agreement-a-review/a-43028295", "label": " ", "shape": "dot", "title": "https://www.dw.com/en/the-eu-turkey-refugee-agreement-a-review/a-43028295"}, {"hidden": true, "id": "https://www.dw.com/en/erdogan-warns-millions-of-refugees-heading-to-europe/a-52603580", "label": " ", "shape": "dot", "title": "https://www.dw.com/en/erdogan-warns-millions-of-refugees-heading-to-europe/a-52603580"}, {"color": "blue", "id": "emerald.com", "label": "emerald.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.emerald.com/insight/content/doi/10.1108/REPS-03-2019-0024/full/html", "label": " ", "shape": "dot", "title": "https://www.emerald.com/insight/content/doi/10.1108/REPS-03-2019-0024/full/html"}, {"color": "blue", "id": "dailysabah.com", "label": "dailysabah.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.dailysabah.com/politics/germany-took-in-nearly-10000-migrants-under-turkey-eu-deal-report-says/news", "label": " ", "shape": "dot", "title": "https://www.dailysabah.com/politics/germany-took-in-nearly-10000-migrants-under-turkey-eu-deal-report-says/news"}, {"color": "blue", "id": "turkishminute.com", "label": "turkishminute.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://turkishminute.com/2020/07/08/germany-has-taken-some-10000-migrants-under-turkey-eu-deal-since-2016-report/", "label": " ", "shape": "dot", "title": "https://turkishminute.com/2020/07/08/germany-has-taken-some-10000-migrants-under-turkey-eu-deal-since-2016-report/"}, {"color": "blue", "id": "twitter.com", "label": "twitter.com", "shape": "dot", "size": 23.02585092994046, "title": "7"}, {"hidden": true, "id": "https://twitter.com/1234572524027027456/status/1384745751310487552", "label": " ", "shape": "dot", "title": "https://twitter.com/1234572524027027456/status/1384745751310487552"}, {"hidden": true, "id": "https://twitter.com/1268802921291972608/status/1281136266369777664", "label": " ", "shape": "dot", "title": "https://twitter.com/1268802921291972608/status/1281136266369777664"}, {"hidden": true, "id": "https://twitter.com/838550639202435072/status/1280886663024173057", "label": " ", "shape": "dot", "title": "https://twitter.com/838550639202435072/status/1280886663024173057"}, {"hidden": true, "id": "https://twitter.com/2585808948/status/1280862724143153152", "label": " ", "shape": "dot", "title": "https://twitter.com/2585808948/status/1280862724143153152"}, {"hidden": true, "id": "https://twitter.com/524147013/status/1280862158339833856", "label": " ", "shape": "dot", "title": "https://twitter.com/524147013/status/1280862158339833856"}, {"hidden": true, "id": "https://twitter.com/2858606275/status/1280841843228409856", "label": " ", "shape": "dot", "title": "https://twitter.com/2858606275/status/1280841843228409856"}, {"hidden": true, "id": "https://twitter.com/817317205524316162/status/1280840053292363776", "label": " ", "shape": "dot", "title": "https://twitter.com/817317205524316162/status/1280840053292363776"}, {"color": "red", "id": "infomigrants.net", "label": "infomigrants.net", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.infomigrants.net/en/post/25880/germany-has-taken-nearly-10-000-migrants-under-eu-turkey-deal-since-2016-report", "label": " ", "shape": "dot", "title": "https://www.infomigrants.net/en/post/25880/germany-has-taken-nearly-10-000-migrants-under-eu-turkey-deal-since-2016-report"}]);
+        edges = new vis.DataSet([{"from": "infomigrants.net", "title": 7, "to": "twitter.com", "width": 6.238324625039507}, {"from": "infomigrants.net", "title": 1, "to": "turkishminute.com", "width": 2.0794415416798357}, {"from": "infomigrants.net", "title": 1, "to": "dailysabah.com", "width": 2.0794415416798357}, {"from": "infomigrants.net", "title": 1, "to": "emerald.com", "width": 2.0794415416798357}, {"from": "infomigrants.net", "title": 2, "to": "dw.com", "width": 3.295836866004329}, {"from": "infomigrants.net", "title": 1, "to": "migrationpolicy.org", "width": 2.0794415416798357}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500px;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "id": "vk.com", "label": "vk.com", "shape": "dot", "size": 28.33213344056216, "title": "14"}, {"hidden": true, "id": "https://vk.com/id334029877?w=wall334029877_115039", "label": " ", "shape": "dot", "title": "https://vk.com/id334029877?w=wall334029877_115039"}, {"hidden": true, "id": "https://vk.com/id528604913?w=wall528604913_1367", "label": " ", "shape": "dot", "title": "https://vk.com/id528604913?w=wall528604913_1367"}, {"hidden": true, "id": "https://vk.com/id12025189?w=wall12025189_79032", "label": " ", "shape": "dot", "title": "https://vk.com/id12025189?w=wall12025189_79032"}, {"hidden": true, "id": "https://vk.com/id557746734?w=wall557746734_2241", "label": " ", "shape": "dot", "title": "https://vk.com/id557746734?w=wall557746734_2241"}, {"hidden": true, "id": "https://vk.com/id503731339?w=wall503731339_11991", "label": " ", "shape": "dot", "title": "https://vk.com/id503731339?w=wall503731339_11991"}, {"hidden": true, "id": "https://vk.com/id537430745?w=wall537430745_2229", "label": " ", "shape": "dot", "title": "https://vk.com/id537430745?w=wall537430745_2229"}, {"hidden": true, "id": "https://vk.com/id-29575154?w=wall-29575154_11828", "label": " ", "shape": "dot", "title": "https://vk.com/id-29575154?w=wall-29575154_11828"}, {"hidden": true, "id": "https://vk.com/id503731339?w=wall503731339_9128", "label": " ", "shape": "dot", "title": "https://vk.com/id503731339?w=wall503731339_9128"}, {"hidden": true, "id": "https://vk.com/id-191739538?w=wall-191739538_9555", "label": " ", "shape": "dot", "title": "https://vk.com/id-191739538?w=wall-191739538_9555"}, {"hidden": true, "id": "https://vk.com/id503731339?w=wall503731339_6640", "label": " ", "shape": "dot", "title": "https://vk.com/id503731339?w=wall503731339_6640"}, {"hidden": true, "id": "https://vk.com/id267893108?w=wall267893108_22420", "label": " ", "shape": "dot", "title": "https://vk.com/id267893108?w=wall267893108_22420"}, {"hidden": true, "id": "https://vk.com/id-172612556?w=wall-172612556_3160", "label": " ", "shape": "dot", "title": "https://vk.com/id-172612556?w=wall-172612556_3160"}, {"hidden": true, "id": "https://vk.com/id-172612556?w=wall-172612556_188", "label": " ", "shape": "dot", "title": "https://vk.com/id-172612556?w=wall-172612556_188"}, {"hidden": true, "id": "https://vk.com/id187665853?w=wall187665853_35521", "label": " ", "shape": "dot", "title": "https://vk.com/id187665853?w=wall187665853_35521"}, {"color": "blue", "id": "twitter.com", "label": "twitter.com", "shape": "dot", "size": 36.37586159726386, "title": "35"}, {"hidden": true, "id": "https://twitter.com/23923352/status/1361892102859235332", "label": " ", "shape": "dot", "title": "https://twitter.com/23923352/status/1361892102859235332"}, {"hidden": true, "id": "https://twitter.com/27274887/status/1361691049408757764", "label": " ", "shape": "dot", "title": "https://twitter.com/27274887/status/1361691049408757764"}, {"hidden": true, "id": "https://twitter.com/492098685/status/1361682096532697091", "label": " ", "shape": "dot", "title": "https://twitter.com/492098685/status/1361682096532697091"}, {"hidden": true, "id": "https://twitter.com/1113159183946452993/status/1360671537242796037", "label": " ", "shape": "dot", "title": "https://twitter.com/1113159183946452993/status/1360671537242796037"}, {"hidden": true, "id": "https://twitter.com/728328676497104896/status/1360590252101009408", "label": " ", "shape": "dot", "title": "https://twitter.com/728328676497104896/status/1360590252101009408"}, {"hidden": true, "id": "https://twitter.com/24842995/status/1360578477569810434", "label": " ", "shape": "dot", "title": "https://twitter.com/24842995/status/1360578477569810434"}, {"hidden": true, "id": "https://twitter.com/738015595/status/1360512861647360002", "label": " ", "shape": "dot", "title": "https://twitter.com/738015595/status/1360512861647360002"}, {"hidden": true, "id": "https://twitter.com/3252020225/status/1360505703467790338", "label": " ", "shape": "dot", "title": "https://twitter.com/3252020225/status/1360505703467790338"}, {"hidden": true, "id": "https://twitter.com/2900411445/status/1360490415791755265", "label": " ", "shape": "dot", "title": "https://twitter.com/2900411445/status/1360490415791755265"}, {"hidden": true, "id": "https://twitter.com/281532180/status/1360471847788310528", "label": " ", "shape": "dot", "title": "https://twitter.com/281532180/status/1360471847788310528"}, {"hidden": true, "id": "https://twitter.com/42700240/status/1360453737660231681", "label": " ", "shape": "dot", "title": "https://twitter.com/42700240/status/1360453737660231681"}, {"hidden": true, "id": "https://twitter.com/246848422/status/1360274336834322433", "label": " ", "shape": "dot", "title": "https://twitter.com/246848422/status/1360274336834322433"}, {"hidden": true, "id": "https://twitter.com/72136605/status/1360181311378497537", "label": " ", "shape": "dot", "title": "https://twitter.com/72136605/status/1360181311378497537"}, {"hidden": true, "id": "https://twitter.com/2463854064/status/1360066756337934340", "label": " ", "shape": "dot", "title": "https://twitter.com/2463854064/status/1360066756337934340"}, {"hidden": true, "id": "https://twitter.com/471478950/status/1360066380049969154", "label": " ", "shape": "dot", "title": "https://twitter.com/471478950/status/1360066380049969154"}, {"hidden": true, "id": "https://twitter.com/4243089447/status/1360064904653324291", "label": " ", "shape": "dot", "title": "https://twitter.com/4243089447/status/1360064904653324291"}, {"hidden": true, "id": "https://twitter.com/976250301165592577/status/1360063083125891075", "label": " ", "shape": "dot", "title": "https://twitter.com/976250301165592577/status/1360063083125891075"}, {"hidden": true, "id": "https://twitter.com/42700240/status/1360061194439122945", "label": " ", "shape": "dot", "title": "https://twitter.com/42700240/status/1360061194439122945"}, {"hidden": true, "id": "https://twitter.com/250849580/status/1359864312354009088", "label": " ", "shape": "dot", "title": "https://twitter.com/250849580/status/1359864312354009088"}, {"hidden": true, "id": "https://twitter.com/4473582389/status/1359841268126384128", "label": " ", "shape": "dot", "title": "https://twitter.com/4473582389/status/1359841268126384128"}, {"hidden": true, "id": "https://twitter.com/1706595109/status/1359786027175600131", "label": " ", "shape": "dot", "title": "https://twitter.com/1706595109/status/1359786027175600131"}, {"hidden": true, "id": "https://twitter.com/36080516/status/1359673518431105028", "label": " ", "shape": "dot", "title": "https://twitter.com/36080516/status/1359673518431105028"}, {"hidden": true, "id": "https://twitter.com/1343955020186755074/status/1359663667160092673", "label": " ", "shape": "dot", "title": "https://twitter.com/1343955020186755074/status/1359663667160092673"}, {"hidden": true, "id": "https://twitter.com/2230037077/status/1359643320792870918", "label": " ", "shape": "dot", "title": "https://twitter.com/2230037077/status/1359643320792870918"}, {"hidden": true, "id": "https://twitter.com/44558656/status/1359628838863589376", "label": " ", "shape": "dot", "title": "https://twitter.com/44558656/status/1359628838863589376"}, {"hidden": true, "id": "https://twitter.com/306717460/status/1359624997426388994", "label": " ", "shape": "dot", "title": "https://twitter.com/306717460/status/1359624997426388994"}, {"hidden": true, "id": "https://twitter.com/2973745205/status/1359624788252241931", "label": " ", "shape": "dot", "title": "https://twitter.com/2973745205/status/1359624788252241931"}, {"hidden": true, "id": "https://twitter.com/2931636908/status/1359623650551296003", "label": " ", "shape": "dot", "title": "https://twitter.com/2931636908/status/1359623650551296003"}, {"hidden": true, "id": "https://twitter.com/42700240/status/1359623455319199750", "label": " ", "shape": "dot", "title": "https://twitter.com/42700240/status/1359623455319199750"}, {"hidden": true, "id": "https://twitter.com/156225054/status/1359601293346541569", "label": " ", "shape": "dot", "title": "https://twitter.com/156225054/status/1359601293346541569"}, {"hidden": true, "id": "https://twitter.com/838321345570156545/status/1359592496414683137", "label": " ", "shape": "dot", "title": "https://twitter.com/838321345570156545/status/1359592496414683137"}, {"hidden": true, "id": "https://twitter.com/14104692/status/1362547126350147584", "label": " ", "shape": "dot", "title": "https://twitter.com/14104692/status/1362547126350147584"}, {"hidden": true, "id": "https://twitter.com/135645105/status/1360964522064945152", "label": " ", "shape": "dot", "title": "https://twitter.com/135645105/status/1360964522064945152"}, {"hidden": true, "id": "https://twitter.com/845565736315703296/status/1360964520009601027", "label": " ", "shape": "dot", "title": "https://twitter.com/845565736315703296/status/1360964520009601027"}, {"hidden": true, "id": "https://twitter.com/166530562/status/1359608154057760771", "label": " ", "shape": "dot", "title": "https://twitter.com/166530562/status/1359608154057760771"}, {"color": "blue", "id": "ussanews.com", "label": "ussanews.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://ussanews.com/News1/2021/07/12/biden-and-merkel-to-discuss-afghanistan-cybersecurity-and-nord-stream-pipeline-this-week/", "label": " ", "shape": "dot", "title": "https://ussanews.com/News1/2021/07/12/biden-and-merkel-to-discuss-afghanistan-cybersecurity-and-nord-stream-pipeline-this-week/"}, {"color": "blue", "id": "theanalysis.news", "label": "theanalysis.news", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://theanalysis.news/if-theres-no-fear-of-inflation-why-is-gop-against-more-stimulus-rana-foroohar-and-mark-blyth/", "label": " ", "shape": "dot", "title": "https://theanalysis.news/if-theres-no-fear-of-inflation-why-is-gop-against-more-stimulus-rana-foroohar-and-mark-blyth/"}, {"color": "blue", "id": "yeyh.nonsensoblog.it", "label": "yeyh.nonsensoblog.it", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "http://yeyh.nonsensoblog.it/5g-headaches.html", "label": " ", "shape": "dot", "title": "http://yeyh.nonsensoblog.it/5g-headaches.html"}, {"color": "blue", "id": "hgwv.aiarovigo.it", "label": "hgwv.aiarovigo.it", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "http://hgwv.aiarovigo.it/mobile-reset-code-all-mobile-one.html", "label": " ", "shape": "dot", "title": "http://hgwv.aiarovigo.it/mobile-reset-code-all-mobile-one.html"}, {"color": "blue", "id": "forbes.com", "label": "forbes.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.forbes.com/sites/uhenergy/2021/06/09/is-biden-trying-to-sell-nord-stream-2-approval-as-a-green-energy-initiative/", "label": " ", "shape": "dot", "title": "https://www.forbes.com/sites/uhenergy/2021/06/09/is-biden-trying-to-sell-nord-stream-2-approval-as-a-green-energy-initiative/"}, {"color": "blue", "id": "csmonitor.com", "label": "csmonitor.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.csmonitor.com/World/Europe/2020/1109/Why-a-Russo-German-pipeline-is-a-potential-US-sanctions-battleground", "label": " ", "shape": "dot", "title": "https://www.csmonitor.com/World/Europe/2020/1109/Why-a-Russo-German-pipeline-is-a-potential-US-sanctions-battleground"}, {"color": "blue", "id": "ft.com", "label": "ft.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.ft.com/content/548067b9-2ff0-4a2a-94af-b74d763f4561", "label": " ", "shape": "dot", "title": "https://www.ft.com/content/548067b9-2ff0-4a2a-94af-b74d763f4561"}, {"color": "blue", "id": "woodmac.com", "label": "woodmac.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.woodmac.com/news/opinion/nord-stream-2-and-the-battle-for-gas-market-share-in-europe/", "label": " ", "shape": "dot", "title": "https://www.woodmac.com/news/opinion/nord-stream-2-and-the-battle-for-gas-market-share-in-europe/"}, {"color": "blue", "id": "cepa.org", "label": "cepa.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://cepa.org/back-to-december-exposing-nord-stream-2-spin/", "label": " ", "shape": "dot", "title": "https://cepa.org/back-to-december-exposing-nord-stream-2-spin/"}, {"color": "blue", "id": "washingtontimes.com", "label": "washingtontimes.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.washingtontimes.com/news/2021/mar/28/antony-blinken-offers-mixed-message-on-russian-nor/", "label": " ", "shape": "dot", "title": "https://www.washingtontimes.com/news/2021/mar/28/antony-blinken-offers-mixed-message-on-russian-nor/"}, {"color": "blue", "id": "coffeeordie.com", "label": "coffeeordie.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://coffeeordie.com/russias-attempt-to-divide-us-europe/", "label": " ", "shape": "dot", "title": "https://coffeeordie.com/russias-attempt-to-divide-us-europe/"}, {"color": "blue", "id": "foreignaffairs.com", "label": "foreignaffairs.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.foreignaffairs.com/articles/germany/2021-04-22/russias-gas-pipeline-doesnt-need-rupture-transatlantic-relations", "label": " ", "shape": "dot", "title": "https://www.foreignaffairs.com/articles/germany/2021-04-22/russias-gas-pipeline-doesnt-need-rupture-transatlantic-relations"}, {"color": "blue", "id": "euractiv.com", "label": "euractiv.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.euractiv.com/section/global-europe/opinion/biden-takes-a-realpolitik-approach-on-nord-stream-2/", "label": " ", "shape": "dot", "title": "https://www.euractiv.com/section/global-europe/opinion/biden-takes-a-realpolitik-approach-on-nord-stream-2/"}, {"color": "blue", "id": "eureporter.co", "label": "eureporter.co", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.eureporter.co/world/us/2021/03/17/germany-bets-us-will-make-the-best-of-bad-deal-nord-stream-gas-link/", "label": " ", "shape": "dot", "title": "https://www.eureporter.co/world/us/2021/03/17/germany-bets-us-will-make-the-best-of-bad-deal-nord-stream-gas-link/"}, {"color": "blue", "id": "cnn.com", "label": "cnn.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.cnn.com/2021/05/18/politics/us-nord-stream-decision/index.html", "label": " ", "shape": "dot", "title": "https://www.cnn.com/2021/05/18/politics/us-nord-stream-decision/index.html"}, {"color": "blue", "id": "defensenews.com", "label": "defensenews.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.defensenews.com/opinion/commentary/2021/04/08/punishing-germany-for-nord-stream-2-does-nothing-to-stop-putin/", "label": " ", "shape": "dot", "title": "https://www.defensenews.com/opinion/commentary/2021/04/08/punishing-germany-for-nord-stream-2-does-nothing-to-stop-putin/"}, {"color": "blue", "id": "foreignpolicy.com", "label": "foreignpolicy.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://foreignpolicy.com/2021/04/09/sanctions-wont-stop-nord-stream-2-diplomacy-will/", "label": " ", "shape": "dot", "title": "https://foreignpolicy.com/2021/04/09/sanctions-wont-stop-nord-stream-2-diplomacy-will/"}, {"color": "blue", "id": "rigzone.com", "label": "rigzone.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.rigzone.com/news/wire/biden_admin_official_calls_nord_stream_2_done_deal-07-jun-2021-165624-article/", "label": " ", "shape": "dot", "title": "https://www.rigzone.com/news/wire/biden_admin_official_calls_nord_stream_2_done_deal-07-jun-2021-165624-article/"}, {"color": "blue", "id": "reuters.com", "label": "reuters.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.reuters.com/article/us-germany-usa-nordstream-analysis-idUSKBN2B80H0", "label": " ", "shape": "dot", "title": "https://www.reuters.com/article/us-germany-usa-nordstream-analysis-idUSKBN2B80H0"}, {"color": "blue", "id": "fni.no", "label": "fni.no", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.fni.no/media/nord-stream-2-is-russia-s-bad-deal-for-europe-also-a-done-deal", "label": " ", "shape": "dot", "title": "https://www.fni.no/media/nord-stream-2-is-russia-s-bad-deal-for-europe-also-a-done-deal"}, {"color": "blue", "id": "ndtscouting.info", "label": "ndtscouting.info", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "http://ndtscouting.info/node/627", "label": " ", "shape": "dot", "title": "http://ndtscouting.info/node/627"}, {"color": "red", "id": "rferl.org", "label": "rferl.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.rferl.org/a/nord-stream-2-is-russia-bad-deal-for-europe-also-a-done-deal-/31096487.html", "label": " ", "shape": "dot", "title": "https://www.rferl.org/a/nord-stream-2-is-russia-bad-deal-for-europe-also-a-done-deal-/31096487.html"}]);
+        edges = new vis.DataSet([{"from": "rferl.org", "title": 1, "to": "ndtscouting.info", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 46, "to": "twitter.com", "width": 11.550442805130174}, {"from": "rferl.org", "title": 1, "to": "fni.no", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "reuters.com", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "rigzone.com", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "foreignpolicy.com", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "defensenews.com", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "cnn.com", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "eureporter.co", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "euractiv.com", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "foreignaffairs.com", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "coffeeordie.com", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "washingtontimes.com", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "cepa.org", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "woodmac.com", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "ft.com", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "csmonitor.com", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "forbes.com", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "hgwv.aiarovigo.it", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "yeyh.nonsensoblog.it", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "theanalysis.news", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 1, "to": "ussanews.com", "width": 2.0794415416798357}, {"from": "rferl.org", "title": 14, "to": "vk.com", "width": 8.12415060330663}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

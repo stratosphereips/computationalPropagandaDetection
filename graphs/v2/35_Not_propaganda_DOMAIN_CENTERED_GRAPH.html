@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500px;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "id": "telegraph.co.uk", "label": "telegraph.co.uk", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.telegraph.co.uk/news/2021/06/03/eu-warns-greece-using-sound-cannon-repel-migrants/", "label": " ", "shape": "dot", "title": "https://www.telegraph.co.uk/news/2021/06/03/eu-warns-greece-using-sound-cannon-repel-migrants/"}, {"color": "blue", "id": "modernhealthcare.com", "label": "modernhealthcare.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.modernhealthcare.com/safety-quality/coronavirus-outbreak-live-updates-covid-19", "label": " ", "shape": "dot", "title": "https://www.modernhealthcare.com/safety-quality/coronavirus-outbreak-live-updates-covid-19"}, {"color": "blue", "id": "trendswide.com", "label": "trendswide.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://trendswide.com/greek-border-police-show-off-powerful-anti-migrant-sound-cannons-at-turkish-border/", "label": " ", "shape": "dot", "title": "https://trendswide.com/greek-border-police-show-off-powerful-anti-migrant-sound-cannons-at-turkish-border/"}, {"color": "blue", "id": "rssnewshub.com", "label": "rssnewshub.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://rssnewshub.com/-/how-to-use-javascript-to-play-sound-typewriter-ef-83", "label": " ", "shape": "dot", "title": "https://rssnewshub.com/-/how-to-use-javascript-to-play-sound-typewriter-ef-83"}, {"color": "blue", "id": "twitter.com", "label": "twitter.com", "shape": "dot", "size": 20.79441541679836, "title": "5"}, {"hidden": true, "id": "https://twitter.com/963886910/status/1400454165181071363", "label": " ", "shape": "dot", "title": "https://twitter.com/963886910/status/1400454165181071363"}, {"hidden": true, "id": "https://twitter.com/1347177640243900417/status/1400444546052284420", "label": " ", "shape": "dot", "title": "https://twitter.com/1347177640243900417/status/1400444546052284420"}, {"hidden": true, "id": "https://twitter.com/1345652009618255872/status/1400444545494487043", "label": " ", "shape": "dot", "title": "https://twitter.com/1345652009618255872/status/1400444545494487043"}, {"hidden": true, "id": "https://twitter.com/1343362946852937728/status/1400444543829299211", "label": " ", "shape": "dot", "title": "https://twitter.com/1343362946852937728/status/1400444543829299211"}, {"hidden": true, "id": "https://twitter.com/1643123766/status/1400444443358994447", "label": " ", "shape": "dot", "title": "https://twitter.com/1643123766/status/1400444443358994447"}, {"color": "blue", "id": "quora.com", "label": "quora.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.quora.com/Is-it-true-that-Greece-wants-to-shoot-immigrants-with-a-sound-gun", "label": " ", "shape": "dot", "title": "https://www.quora.com/Is-it-true-that-Greece-wants-to-shoot-immigrants-with-a-sound-gun"}, {"color": "red", "id": "abcnews.go.com", "label": "abcnews.go.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237", "label": " ", "shape": "dot", "title": "https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237"}]);
+        edges = new vis.DataSet([{"from": "abcnews.go.com", "title": 1, "to": "quora.com", "width": 2.0794415416798357}, {"from": "abcnews.go.com", "title": 5, "to": "twitter.com", "width": 5.375278407684165}, {"from": "abcnews.go.com", "title": 1, "to": "rssnewshub.com", "width": 2.0794415416798357}, {"from": "abcnews.go.com", "title": 1, "to": "trendswide.com", "width": 2.0794415416798357}, {"from": "abcnews.go.com", "title": 1, "to": "modernhealthcare.com", "width": 2.0794415416798357}, {"from": "abcnews.go.com", "title": 1, "to": "telegraph.co.uk", "width": 2.0794415416798357}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

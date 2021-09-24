@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500px;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "id": "vk.com", "label": "vk.com", "shape": "dot", "size": 23.978952727983707, "title": "8"}, {"hidden": true, "id": "https://vk.com/id-81596363?w=wall-81596363_164866", "label": " ", "shape": "dot", "title": "https://vk.com/id-81596363?w=wall-81596363_164866"}, {"hidden": true, "id": "https://vk.com/id-59835626?w=wall-59835626_32275", "label": " ", "shape": "dot", "title": "https://vk.com/id-59835626?w=wall-59835626_32275"}, {"hidden": true, "id": "https://vk.com/id-190899285?w=wall-190899285_79", "label": " ", "shape": "dot", "title": "https://vk.com/id-190899285?w=wall-190899285_79"}, {"hidden": true, "id": "https://vk.com/id12619863?w=wall12619863_1568", "label": " ", "shape": "dot", "title": "https://vk.com/id12619863?w=wall12619863_1568"}, {"hidden": true, "id": "https://vk.com/id6012816?w=wall6012816_11922", "label": " ", "shape": "dot", "title": "https://vk.com/id6012816?w=wall6012816_11922"}, {"hidden": true, "id": "https://vk.com/id239334488?w=wall239334488_3872", "label": " ", "shape": "dot", "title": "https://vk.com/id239334488?w=wall239334488_3872"}, {"hidden": true, "id": "https://vk.com/id35547699?w=wall35547699_13375", "label": " ", "shape": "dot", "title": "https://vk.com/id35547699?w=wall35547699_13375"}, {"hidden": true, "id": "https://vk.com/id-51966513?w=wall-51966513_576515", "label": " ", "shape": "dot", "title": "https://vk.com/id-51966513?w=wall-51966513_576515"}, {"color": "blue", "id": "all-events.ru", "label": "all-events.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://all-events.ru/events/calendar/date_begin-from-18.02.2021/price_cat-is-besplatno/", "label": " ", "shape": "dot", "title": "https://all-events.ru/events/calendar/date_begin-from-18.02.2021/price_cat-is-besplatno/"}, {"color": "blue", "id": "itsmycity.ru", "label": "itsmycity.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://itsmycity.ru/2020-12-28/laureaty-premii-its-my-city-za-2020-go", "label": " ", "shape": "dot", "title": "https://itsmycity.ru/2020-12-28/laureaty-premii-its-my-city-za-2020-go"}, {"color": "blue", "id": "bashinform.ru", "label": "bashinform.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.bashinform.ru/news-feed/", "label": " ", "shape": "dot", "title": "https://www.bashinform.ru/news-feed/"}, {"color": "blue", "id": "pravdapfo.ru", "label": "pravdapfo.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://pravdapfo.ru/region/80", "label": " ", "shape": "dot", "title": "https://pravdapfo.ru/region/80"}, {"color": "blue", "id": "polpred.com", "label": "polpred.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://polpred.com/news?cnt_and=1\u0026cnt=61\u0026cnt_2=187\u0026page=3", "label": " ", "shape": "dot", "title": "https://polpred.com/news?cnt_and=1\u0026cnt=61\u0026cnt_2=187\u0026page=3"}, {"color": "blue", "id": "vladimir-city.ru", "label": "vladimir-city.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.vladimir-city.ru/city/history.php", "label": " ", "shape": "dot", "title": "https://www.vladimir-city.ru/city/history.php"}, {"color": "blue", "id": "mk.ru", "label": "mk.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.mk.ru/politics/2021/07/09/v-ubiystve-prezidenta-gaiti-nashelsya-sled-ssha.html", "label": " ", "shape": "dot", "title": "https://www.mk.ru/politics/2021/07/09/v-ubiystve-prezidenta-gaiti-nashelsya-sled-ssha.html"}, {"color": "blue", "id": "russische-botschaft.ru", "label": "russische-botschaft.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://russische-botschaft.ru/ru/2020/12/18/ezhegodnaya-press-konferenciya-prezide/", "label": " ", "shape": "dot", "title": "https://russische-botschaft.ru/ru/2020/12/18/ezhegodnaya-press-konferenciya-prezide/"}, {"color": "blue", "id": "xn--b1aew.xn--p1ai", "label": "xn--b1aew.xn--p1ai", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://xn--b1aew.xn--p1ai/tags/", "label": " ", "shape": "dot", "title": "https://xn--b1aew.xn--p1ai/tags/"}, {"color": "blue", "id": "zelao.ru", "label": "zelao.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.zelao.ru/26596/26434/", "label": " ", "shape": "dot", "title": "https://www.zelao.ru/26596/26434/"}, {"color": "blue", "id": "brkmed.ru", "label": "brkmed.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.brkmed.ru/category/lenta-novostej/", "label": " ", "shape": "dot", "title": "https://www.brkmed.ru/category/lenta-novostej/"}, {"color": "blue", "id": "fontanka.ru", "label": "fontanka.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.fontanka.ru/2021/02/03/69747431/", "label": " ", "shape": "dot", "title": "https://www.fontanka.ru/2021/02/03/69747431/"}, {"color": "blue", "id": "kievvlast.com.ua", "label": "kievvlast.com.ua", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://kievvlast.com.ua/news/hroniki-koronavirusa-v-ukraine-obnovlyaetsya?noredirect=true", "label": " ", "shape": "dot", "title": "https://kievvlast.com.ua/news/hroniki-koronavirusa-v-ukraine-obnovlyaetsya?noredirect=true"}, {"color": "blue", "id": "pravo.ru", "label": "pravo.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://pravo.ru/online/219900/", "label": " ", "shape": "dot", "title": "https://pravo.ru/online/219900/"}, {"color": "blue", "id": "rni.am", "label": "rni.am", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "http://www.rni.am/rus/articles/?SHOWALL_1=1", "label": " ", "shape": "dot", "title": "http://www.rni.am/rus/articles/?SHOWALL_1=1"}, {"color": "blue", "id": "hse.ru", "label": "hse.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.hse.ru/org/persons/372992", "label": " ", "shape": "dot", "title": "https://www.hse.ru/org/persons/372992"}, {"color": "blue", "id": "consultant.ru", "label": "consultant.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "http://www.consultant.ru/law/review/fed/fw2021-07-03.html/", "label": " ", "shape": "dot", "title": "http://www.consultant.ru/law/review/fed/fw2021-07-03.html/"}, {"color": "blue", "id": "gkb15.moscow", "label": "gkb15.moscow", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "http://gkb15.moscow/lenta/", "label": " ", "shape": "dot", "title": "http://gkb15.moscow/lenta/"}, {"color": "blue", "id": "kommersant.ru", "label": "kommersant.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.kommersant.ru/doc/4307948", "label": " ", "shape": "dot", "title": "https://www.kommersant.ru/doc/4307948"}, {"color": "blue", "id": "regnum.ru", "label": "regnum.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://regnum.ru/news/economy/2909938.html", "label": " ", "shape": "dot", "title": "https://regnum.ru/news/economy/2909938.html"}, {"color": "blue", "id": "interaffairs.ru", "label": "interaffairs.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://interaffairs.ru/news/show/28414", "label": " ", "shape": "dot", "title": "https://interaffairs.ru/news/show/28414"}, {"color": "blue", "id": "kremlin.ru", "label": "kremlin.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "http://kremlin.ru/events/president/news/64671", "label": " ", "shape": "dot", "title": "http://kremlin.ru/events/president/news/64671"}, {"color": "blue", "id": "defeatcovid.ru", "label": "defeatcovid.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://defeatcovid.ru/", "label": " ", "shape": "dot", "title": "https://defeatcovid.ru/"}, {"color": "blue", "id": "9tv.co.il", "label": "9tv.co.il", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.9tv.co.il/item/26761", "label": " ", "shape": "dot", "title": "https://www.9tv.co.il/item/26761"}, {"color": "blue", "id": "elitetrader.ru", "label": "elitetrader.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "http://elitetrader.ru/index.php?cstart=10\u0026do=tags\u0026tag=%D0%9A%D0%B0%D1%82%D0%B0%D1%81%D0%BE%D0%BD%D0%BE%D0%B2%20%D0%92%D0%B0%D0%BB%D0%B5%D0%BD%D1%82%D0%B8%D0%BD", "label": " ", "shape": "dot", "title": "http://elitetrader.ru/index.php?cstart=10\u0026do=tags\u0026tag=%D0%9A%D0%B0%D1%82%D0%B0%D1%81%D0%BE%D0%BD%D0%BE%D0%B2%20%D0%92%D0%B0%D0%BB%D0%B5%D0%BD%D1%82%D0%B8%D0%BD"}, {"color": "red", "id": "fondsk.ru", "label": "fondsk.ru", "shape": "dot", "size": 16.094379124341003, "title": "2"}, {"hidden": true, "id": "https://www.fondsk.ru/news/2020/03/25/borba-s-koronavirusom-i-bolshoj-brat-50441.html", "label": " ", "shape": "dot", "title": "https://www.fondsk.ru/news/2020/03/25/borba-s-koronavirusom-i-bolshoj-brat-50441.html"}, {"hidden": true, "id": "https://www.fondsk.ru/rubrics/politics.html?page=32", "label": " ", "shape": "dot", "title": "https://www.fondsk.ru/rubrics/politics.html?page=32"}, {"color": "blue", "id": "arhivach.net", "label": "arhivach.net", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://arhivach.net/thread/550996/", "label": " ", "shape": "dot", "title": "https://arhivach.net/thread/550996/"}, {"color": "blue", "id": "geopolitica.ru", "label": "geopolitica.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.geopolitica.ru/article/covid-19-i-mishel-fuko-nekotorye-mysli-vsluh", "label": " ", "shape": "dot", "title": "https://www.geopolitica.ru/article/covid-19-i-mishel-fuko-nekotorye-mysli-vsluh"}, {"color": "blue", "id": "telegram.me", "label": "telegram.me", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://telegram.me/s/RadioAzadegan?before=4269", "label": " ", "shape": "dot", "title": "https://telegram.me/s/RadioAzadegan?before=4269"}, {"color": "blue", "id": "radioazadegan.com", "label": "radioazadegan.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://radioazadegan.com/wordpress/%D9%85%D8%A8%D8%A7%D8%B1%D8%B2%D9%87-%D8%A8%D8%A7-%DA%A9%D8%B1%D9%88%D9%86%D8%A7%D9%88%DB%8C%D8%B1%D9%88%D8%B3-%D9%88-%D8%A8%D8%B1%D8%A7%D8%AF%D8%B1-%D8%A8%D8%B2%D8%B1%DA%AF-%D8%8C%D9%88%D8%A7/", "label": " ", "shape": "dot", "title": "https://radioazadegan.com/wordpress/%D9%85%D8%A8%D8%A7%D8%B1%D8%B2%D9%87-%D8%A8%D8%A7-%DA%A9%D8%B1%D9%88%D9%86%D8%A7%D9%88%DB%8C%D8%B1%D9%88%D8%B3-%D9%88-%D8%A8%D8%B1%D8%A7%D8%AF%D8%B1-%D8%A8%D8%B2%D8%B1%DA%AF-%D8%8C%D9%88%D8%A7/"}]);
+        edges = new vis.DataSet([{"from": "fondsk.ru", "title": 1, "to": "radioazadegan.com", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "telegram.me", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "geopolitica.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "arhivach.net", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 8, "to": "vk.com", "width": 6.591673732008658}, {"from": "fondsk.ru", "title": 2, "to": "fondsk.ru", "width": 3.295836866004329}, {"from": "fondsk.ru", "title": 1, "to": "elitetrader.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "9tv.co.il", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "defeatcovid.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "kremlin.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "interaffairs.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "regnum.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "kommersant.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "gkb15.moscow", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "consultant.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "hse.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "rni.am", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "pravo.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "kievvlast.com.ua", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "fontanka.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "brkmed.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "zelao.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "xn--b1aew.xn--p1ai", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "russische-botschaft.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "mk.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "vladimir-city.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "polpred.com", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "pravdapfo.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "bashinform.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "itsmycity.ru", "width": 2.0794415416798357}, {"from": "fondsk.ru", "title": 1, "to": "all-events.ru", "width": 2.0794415416798357}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

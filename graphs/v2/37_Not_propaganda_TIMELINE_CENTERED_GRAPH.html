@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "yellow", "fixed": {"x": true, "y": true}, "id": "Old article", "label": " ", "physics": false, "shape": "diamond", "size": 35, "title": "Old article", "x": 0, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-02-13", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-02-13", "x": 4064, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-05-25", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-05-25", "x": 4872, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-07", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-07", "x": 4976, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-11", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-11", "x": 5008, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-12", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-12", "x": 5016, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-14", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-14", "x": 5032, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-16", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-16", "x": 5048, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-17", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-17", "x": 5056, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-20", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-20", "x": 5080, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-21", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-21", "x": 5088, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-07-10", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-07-10", "x": 5240, "y": 0}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "2021-09-23", "label": " ", "physics": false, "shape": "diamond", "size": 25, "title": "2021-09-23", "x": 5840, "y": 0}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://www.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html", "x": 5008, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://www.cnn.com/2021/06/11/politics/vladimir-putin-joe-biden-press-conference/index.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.cnn.com/2021/06/11/politics/vladimir-putin-joe-biden-press-conference/index.html", "x": 5016, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://www.worldnews.easybranches.com/regions/u-s/9606279", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.worldnews.easybranches.com/regions/u-s/9606279", "x": 4976, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/1371357252549025797/status/1403642568257253376", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/1371357252549025797/status/1403642568257253376", "x": 5016, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/3572912359/status/1403624441091854336", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/3572912359/status/1403624441091854336", "x": 5016, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/981670285/status/1403622729723486212", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/981670285/status/1403622729723486212", "x": 5016, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/469164227/status/1403567613695840256", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/469164227/status/1403567613695840256", "x": 5016, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/49586855/status/1403422698752155655", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/49586855/status/1403422698752155655", "x": 5008, "y": 30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/1402348847209271305/status/1403405126862315524", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/1402348847209271305/status/1403405126862315524", "x": 5008, "y": -30}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-202916312?w=wall-202916312_4068", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-202916312?w=wall-202916312_4068", "x": 5016, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.washingtonpost.com/politics/2021/06/16/biden-putin-live-updates/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.washingtonpost.com/politics/2021/06/16/biden-putin-live-updates/", "x": 5048, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.washingtonpost.com/world/europe/russia-putin-biden-summit/2021/06/17/e4e398e8-cd23-11eb-a224-bd59bd22197c_story.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.washingtonpost.com/world/europe/russia-putin-biden-summit/2021/06/17/e4e398e8-cd23-11eb-a224-bd59bd22197c_story.html", "x": 5056, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.cbsnews.com/live-updates/biden-putin-geneva-summit/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.cbsnews.com/live-updates/biden-putin-geneva-summit/", "x": 5056, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.nbcnews.com/news/world/putin-talks-hacking-navalny-capitol-riot-ahead-biden-summit-n1270640", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.nbcnews.com/news/world/putin-talks-hacking-navalny-capitol-riot-ahead-biden-summit-n1270640", "x": 5032, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://en.wikipedia.org/wiki/Russia%E2%80%93United_States_relations", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://en.wikipedia.org/wiki/Russia%E2%80%93United_States_relations", "x": 4064, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.nytimes.com/live/2021/06/16/world/biden-putin", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.nytimes.com/live/2021/06/16/world/biden-putin", "x": 5240, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.dailyadvent.com/news/58ef25be9114a21aa78e1a210bde6f03-USRussia-relations-are-so-poor-that-only-a-summit-can-sort-them-out-Putins-spokesman-says", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.dailyadvent.com/news/58ef25be9114a21aa78e1a210bde6f03-USRussia-relations-are-so-poor-that-only-a-summit-can-sort-them-out-Putins-spokesman-says", "x": 5008, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://apnews.com/article/biden-putin-geneva-summit-c9b0543248313447b0eac28da50c6188", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://apnews.com/article/biden-putin-geneva-summit-c9b0543248313447b0eac28da50c6188", "x": 4872, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.npr.org/2013/09/12/221774010/frenemies-forever-why-putin-and-obama-cant-get-along", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.npr.org/2013/09/12/221774010/frenemies-forever-why-putin-and-obama-cant-get-along", "x": 0, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.reuters.com/article/us-usa-russia-summit/trump-backs-putin-on-election-meddling-at-summit-stirs-fierce-criticism-idUSKBN1K601D", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.reuters.com/article/us-usa-russia-summit/trump-backs-putin-on-election-meddling-at-summit-stirs-fierce-criticism-idUSKBN1K601D", "x": 0, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.brookings.edu/podcast-episode/what-did-the-biden-putin-summit-do-for-us-russian-relations/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.brookings.edu/podcast-episode/what-did-the-biden-putin-summit-do-for-us-russian-relations/", "x": 5056, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.aljazeera.com/news/2021/6/21/kremlin-says-summit-will-not-stop-us-trying-to-contain-russia", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.aljazeera.com/news/2021/6/21/kremlin-says-summit-will-not-stop-us-trying-to-contain-russia", "x": 5088, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.bbc.com/news/world-europe-57494283", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.bbc.com/news/world-europe-57494283", "x": 5048, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.newyorker.com/news/letter-from-bidens-washington/joe-biden-just-had-a-summit-with-vladimir-putin-and-nothing-crazy-happened", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.newyorker.com/news/letter-from-bidens-washington/joe-biden-just-had-a-summit-with-vladimir-putin-and-nothing-crazy-happened", "x": 5048, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.ft.com/content/e6a7e0cb-0fcf-4a9e-b9ea-862ae84fe52b", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.ft.com/content/e6a7e0cb-0fcf-4a9e-b9ea-862ae84fe52b", "x": 5056, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.foxnews.com/us/foreign-policy-experts-divided-on-whether-putin-biden-summit-emboldened-china", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.foxnews.com/us/foreign-policy-experts-divided-on-whether-putin-biden-summit-emboldened-china", "x": 5080, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/709617362396454912/status/1403721237621350404", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/709617362396454912/status/1403721237621350404", "x": 5016, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/24842995/status/1403677989276114952", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/24842995/status/1403677989276114952", "x": 5016, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-194225643?w=wall-194225643_19446", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-194225643?w=wall-194225643_19446", "x": 5008, "y": 30}]);
+        edges = new vis.DataSet([{"from": "https://www.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html", "hidden": true, "physics": false, "to": "2021-06-11"}, {"from": "https://www.cnn.com/2021/06/11/politics/vladimir-putin-joe-biden-press-conference/index.html", "hidden": true, "physics": false, "to": "2021-06-12"}, {"from": "https://www.worldnews.easybranches.com/regions/u-s/9606279", "hidden": true, "physics": false, "to": "2021-06-07"}, {"from": "https://twitter.com/1371357252549025797/status/1403642568257253376", "hidden": true, "physics": false, "to": "2021-06-12"}, {"from": "https://twitter.com/3572912359/status/1403624441091854336", "hidden": true, "physics": false, "to": "2021-06-12"}, {"from": "https://twitter.com/981670285/status/1403622729723486212", "hidden": true, "physics": false, "to": "2021-06-12"}, {"from": "https://twitter.com/469164227/status/1403567613695840256", "hidden": true, "physics": false, "to": "2021-06-12"}, {"from": "https://twitter.com/49586855/status/1403422698752155655", "hidden": true, "physics": false, "to": "2021-06-11"}, {"from": "https://twitter.com/1402348847209271305/status/1403405126862315524", "hidden": true, "physics": false, "to": "2021-06-11"}, {"from": "https://vk.com/id-202916312?w=wall-202916312_4068", "hidden": true, "physics": false, "to": "2021-06-12"}, {"from": "https://www.washingtonpost.com/politics/2021/06/16/biden-putin-live-updates/", "hidden": true, "physics": false, "to": "2021-06-16"}, {"from": "https://www.washingtonpost.com/world/europe/russia-putin-biden-summit/2021/06/17/e4e398e8-cd23-11eb-a224-bd59bd22197c_story.html", "hidden": true, "physics": false, "to": "2021-06-17"}, {"from": "https://www.cbsnews.com/live-updates/biden-putin-geneva-summit/", "hidden": true, "physics": false, "to": "2021-06-17"}, {"from": "https://www.nbcnews.com/news/world/putin-talks-hacking-navalny-capitol-riot-ahead-biden-summit-n1270640", "hidden": true, "physics": false, "to": "2021-06-14"}, {"from": "https://en.wikipedia.org/wiki/Russia%E2%80%93United_States_relations", "hidden": true, "physics": false, "to": "2021-02-13"}, {"from": "https://www.nytimes.com/live/2021/06/16/world/biden-putin", "hidden": true, "physics": false, "to": "2021-07-10"}, {"from": "https://www.dailyadvent.com/news/58ef25be9114a21aa78e1a210bde6f03-USRussia-relations-are-so-poor-that-only-a-summit-can-sort-them-out-Putins-spokesman-says", "hidden": true, "physics": false, "to": "2021-06-11"}, {"from": "https://apnews.com/article/biden-putin-geneva-summit-c9b0543248313447b0eac28da50c6188", "hidden": true, "physics": false, "to": "2021-05-25"}, {"from": "https://www.npr.org/2013/09/12/221774010/frenemies-forever-why-putin-and-obama-cant-get-along", "hidden": true, "physics": false, "to": "Old article"}, {"from": "https://www.reuters.com/article/us-usa-russia-summit/trump-backs-putin-on-election-meddling-at-summit-stirs-fierce-criticism-idUSKBN1K601D", "hidden": true, "physics": false, "to": "Old article"}, {"from": "https://www.brookings.edu/podcast-episode/what-did-the-biden-putin-summit-do-for-us-russian-relations/", "hidden": true, "physics": false, "to": "2021-06-17"}, {"from": "https://www.aljazeera.com/news/2021/6/21/kremlin-says-summit-will-not-stop-us-trying-to-contain-russia", "hidden": true, "physics": false, "to": "2021-06-21"}, {"from": "https://www.bbc.com/news/world-europe-57494283", "hidden": true, "physics": false, "to": "2021-06-16"}, {"from": "https://www.newyorker.com/news/letter-from-bidens-washington/joe-biden-just-had-a-summit-with-vladimir-putin-and-nothing-crazy-happened", "hidden": true, "physics": false, "to": "2021-06-16"}, {"from": "https://www.ft.com/content/e6a7e0cb-0fcf-4a9e-b9ea-862ae84fe52b", "hidden": true, "physics": false, "to": "2021-06-17"}, {"from": "https://www.foxnews.com/us/foreign-policy-experts-divided-on-whether-putin-biden-summit-emboldened-china", "hidden": true, "physics": false, "to": "2021-06-20"}, {"from": "https://twitter.com/709617362396454912/status/1403721237621350404", "hidden": true, "physics": false, "to": "2021-06-12"}, {"from": "https://twitter.com/24842995/status/1403677989276114952", "hidden": true, "physics": false, "to": "2021-06-12"}, {"from": "https://vk.com/id-194225643?w=wall-194225643_19446", "hidden": true, "physics": false, "to": "2021-06-11"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500px;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "id": "rusprav.tv", "label": "rusprav.tv", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://rusprav.tv/partiya-kovida-podstavila-kreml-zachem-vlasti-moskvy-i-podmoskovya-obyavili-obyazatelnuyu-vakcinaciyu-rabotayushhix-grazhdan-118031/", "label": " ", "shape": "dot", "title": "https://rusprav.tv/partiya-kovida-podstavila-kreml-zachem-vlasti-moskvy-i-podmoskovya-obyavili-obyazatelnuyu-vakcinaciyu-rabotayushhix-grazhdan-118031/"}, {"color": "blue", "id": "maxima-library.org", "label": "maxima-library.org", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "http://maxima-library.org/knigi/knigi/b/16483?format=read", "label": " ", "shape": "dot", "title": "http://maxima-library.org/knigi/knigi/b/16483?format=read"}, {"color": "blue", "id": "old.zounb.zp.ua", "label": "old.zounb.zp.ua", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "http://old.zounb.zp.ua/node/6369", "label": " ", "shape": "dot", "title": "http://old.zounb.zp.ua/node/6369"}, {"color": "blue", "id": "bigenc.ru", "label": "bigenc.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://bigenc.ru/domestic_history/text/5610195", "label": " ", "shape": "dot", "title": "https://bigenc.ru/domestic_history/text/5610195"}, {"color": "blue", "id": "regnum.ru", "label": "regnum.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://regnum.ru/news/polit/3024492.html", "label": " ", "shape": "dot", "title": "https://regnum.ru/news/polit/3024492.html"}, {"color": "blue", "id": "rni.am", "label": "rni.am", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "http://www.rni.am/rus/articles/list.php?SHOWALL_1=1\u0026SECTION_ID=169", "label": " ", "shape": "dot", "title": "http://www.rni.am/rus/articles/list.php?SHOWALL_1=1\u0026SECTION_ID=169"}, {"color": "blue", "id": "komitet.info", "label": "komitet.info", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "http://komitet.info/about/direct/?SHOWALL_1=1", "label": " ", "shape": "dot", "title": "http://komitet.info/about/direct/?SHOWALL_1=1"}, {"color": "blue", "id": "istina.msu.ru", "label": "istina.msu.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://istina.msu.ru/workers/581783/", "label": " ", "shape": "dot", "title": "https://istina.msu.ru/workers/581783/"}, {"color": "blue", "id": "partyadela.ru", "label": "partyadela.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://partyadela.ru/media/video/vladimir-orlov-na-kanale-analiticheskaya-sluzhba-donbassa/", "label": " ", "shape": "dot", "title": "https://partyadela.ru/media/video/vladimir-orlov-na-kanale-analiticheskaya-sluzhba-donbassa/"}, {"color": "blue", "id": "eurointegration.com.ua", "label": "eurointegration.com.ua", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.eurointegration.com.ua/rus/search/search_pubs/page_15/?search=%EE%20%F0%EE%F1%F1%E8%E8", "label": " ", "shape": "dot", "title": "https://www.eurointegration.com.ua/rus/search/search_pubs/page_15/?search=%EE%20%F0%EE%F1%F1%E8%E8"}, {"color": "blue", "id": "kommersant.ru", "label": "kommersant.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.kommersant.ru/doc/2910626", "label": " ", "shape": "dot", "title": "https://www.kommersant.ru/doc/2910626"}, {"color": "blue", "id": "19rus.info", "label": "19rus.info", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://19rus.info/index.php/vlast-i-politika/item/151424-brosok-na-krym-kreml-priznal-opasnost-ataki?template=ia15032021\u0026is_preview=on", "label": " ", "shape": "dot", "title": "https://19rus.info/index.php/vlast-i-politika/item/151424-brosok-na-krym-kreml-priznal-opasnost-ataki?template=ia15032021\u0026is_preview=on"}, {"color": "blue", "id": "vk.com", "label": "vk.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://vk.com/id-185415599?w=wall-185415599_6431", "label": " ", "shape": "dot", "title": "https://vk.com/id-185415599?w=wall-185415599_6431"}, {"color": "red", "id": "asd.news", "label": "asd.news", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/", "label": " ", "shape": "dot", "title": "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/"}]);
+        edges = new vis.DataSet([{"from": "asd.news", "title": 1, "to": "vk.com", "width": 2.0794415416798357}, {"from": "asd.news", "title": 1, "to": "19rus.info", "width": 2.0794415416798357}, {"from": "asd.news", "title": 1, "to": "kommersant.ru", "width": 2.0794415416798357}, {"from": "asd.news", "title": 1, "to": "eurointegration.com.ua", "width": 2.0794415416798357}, {"from": "asd.news", "title": 1, "to": "partyadela.ru", "width": 2.0794415416798357}, {"from": "asd.news", "title": 1, "to": "istina.msu.ru", "width": 2.0794415416798357}, {"from": "asd.news", "title": 1, "to": "komitet.info", "width": 2.0794415416798357}, {"from": "asd.news", "title": 1, "to": "rni.am", "width": 2.0794415416798357}, {"from": "asd.news", "title": 1, "to": "regnum.ru", "width": 2.0794415416798357}, {"from": "asd.news", "title": 1, "to": "bigenc.ru", "width": 2.0794415416798357}, {"from": "asd.news", "title": 1, "to": "old.zounb.zp.ua", "width": 2.0794415416798357}, {"from": "asd.news", "title": 1, "to": "maxima-library.org", "width": 2.0794415416798357}, {"from": "asd.news", "title": 1, "to": "rusprav.tv", "width": 2.0794415416798357}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "yellow", "fixed": {"x": true, "y": true}, "id": "Old article", "label": " ", "physics": false, "shape": "diamond", "size": 35, "title": "Old article", "x": 0, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2019-09-27", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2019-09-27", "x": 24, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2019-10-07", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2019-10-07", "x": 104, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2020-01-30", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2020-01-30", "x": 1024, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2020-07-28", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2020-07-28", "x": 2464, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-01-12", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-01-12", "x": 3808, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-02-15", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-02-15", "x": 4080, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-04-29", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-04-29", "x": 4664, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-05-06", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-05-06", "x": 4720, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-05-12", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-05-12", "x": 4768, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-05-27", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-05-27", "x": 4888, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-04", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-04", "x": 4952, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-30", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-30", "x": 5160, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-07-03", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-07-03", "x": 5184, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-07-12", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-07-12", "x": 5256, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-07-20", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-07-20", "x": 5320, "y": 0}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "2021-09-23", "label": " ", "physics": false, "shape": "diamond", "size": 25, "title": "2021-09-23", "x": 5840, "y": 0}, {"color": "#555555", "fixed": {"x": true, "y": true}, "id": "2022-01-12", "label": " ", "physics": false, "shape": "diamond", "size": 15, "title": "2022-01-12", "x": 6728, "y": 0}, {"color": "#555555", "fixed": {"x": true, "y": true}, "id": "2022-02-04", "label": " ", "physics": false, "shape": "diamond", "size": 15, "title": "2022-02-04", "x": 6912, "y": 0}, {"color": "#555555", "fixed": {"x": true, "y": true}, "id": "2022-07-12", "label": " ", "physics": false, "shape": "diamond", "size": 15, "title": "2022-07-12", "x": 8176, "y": 0}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://www.reddit.com/user/Michae1Yeager/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.reddit.com/user/Michae1Yeager/", "x": 5256, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.change.org/p/international-olympic-committee-revoke-beijing-s-hosting-right-of-2022-winter-olympics-on-human-rights-ground", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.change.org/p/international-olympic-committee-revoke-beijing-s-hosting-right-of-2022-winter-olympics-on-human-rights-ground", "x": 104, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.change.org/decision-makers/thomas-bach-30", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.change.org/decision-makers/thomas-bach-30", "x": 4080, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.change.org/decision-makers/international-olympic-committee-17", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.change.org/decision-makers/international-olympic-committee-17", "x": 8176, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.change.org/t/south-korea-2", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.change.org/t/south-korea-2", "x": 5160, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://lostrapposullamaschera.change.org/p/international-olympic-committee-revoke-beijing-s-hosting-right-of-2022-winter-olympics-on-human-rights-ground?original_footer_petition_id=25718581\u0026algorithm=promoted\u0026source_location=petition_footer\u0026grid_position=10\u0026pt=AVBldGl0aW9uAFXBFgEAAAAAX%2Bdf%2FId8v7UzMzliYTIzMw%3D%3D", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://lostrapposullamaschera.change.org/p/international-olympic-committee-revoke-beijing-s-hosting-right-of-2022-winter-olympics-on-human-rights-ground?original_footer_petition_id=25718581\u0026algorithm=promoted\u0026source_location=petition_footer\u0026grid_position=10\u0026pt=AVBldGl0aW9uAFXBFgEAAAAAX%2Bdf%2FId8v7UzMzliYTIzMw%3D%3D", "x": 104, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://wwwo.change.org/p/international-olympic-committee-revoke-beijing-s-hosting-right-of-2022-winter-olympics-on-human-rights-ground?original_footer_petition_id=26141123\u0026algorithm=promoted\u0026source_location=petition_footer\u0026grid_position=7\u0026pt=AVBldGl0aW9uAFXBFgEAAAAAX%2BeXa7ocmDNlNmU1NWQwMg%3D%3D", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://wwwo.change.org/p/international-olympic-committee-revoke-beijing-s-hosting-right-of-2022-winter-olympics-on-human-rights-ground?original_footer_petition_id=26141123\u0026algorithm=promoted\u0026source_location=petition_footer\u0026grid_position=7\u0026pt=AVBldGl0aW9uAFXBFgEAAAAAX%2BeXa7ocmDNlNmU1NWQwMg%3D%3D", "x": 104, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.change.org/p/international-olympic-committee-china-close-internment-camps-before-hosting-2022-olympics-uyghurche-%E4%B8%AD%E6%96%87-%E6%97%A5%E6%9C%AC%E8%AA%9E-t%C3%BCrk%C3%A7e-%D8%B9%D8%B1%D8%A8%D9%89", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.change.org/p/international-olympic-committee-china-close-internment-camps-before-hosting-2022-olympics-uyghurche-%E4%B8%AD%E6%96%87-%E6%97%A5%E6%9C%AC%E8%AA%9E-t%C3%BCrk%C3%A7e-%D8%B9%D8%B1%D8%A8%D9%89", "x": 8176, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://apnews.com/hub/international-olympic-committee", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://apnews.com/hub/international-olympic-committee", "x": 6912, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.espn.com/olympics/news/story?id=6742361", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.espn.com/olympics/news/story?id=6742361", "x": 0, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.cbc.ca/sports/olympics/canada-olympic-house-plans-pyeongchang-1.4477897", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.cbc.ca/sports/olympics/canada-olympic-house-plans-pyeongchang-1.4477897", "x": 0, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.nytimes.com/2017/02/07/sports/winter-athletes-threaten-to-skip-events-unless-russian-olympians-are-kept-out-over-doping.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.nytimes.com/2017/02/07/sports/winter-athletes-threaten-to-skip-events-unless-russian-olympians-are-kept-out-over-doping.html", "x": 0, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://sg.news.yahoo.com/weather/news/change-org-crashes-1-5-115155103.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://sg.news.yahoo.com/weather/news/change-org-crashes-1-5-115155103.html", "x": 5184, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "http://maywespeak.com/petitions/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "http://maywespeak.com/petitions/", "x": 3808, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.change.org/p/cancel-the-tokyo-olympics-to-protect-our-lives-stoptokyoolympic-cancelthetokyoolympics", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.change.org/p/cancel-the-tokyo-olympics-to-protect-our-lives-stoptokyoolympic-cancelthetokyoolympics", "x": 4720, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://responsiblestatecraft.org/2021/05/27/boycotting-china-olympics-is-there-any-right-way-to-go/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://responsiblestatecraft.org/2021/05/27/boycotting-china-olympics-is-there-any-right-way-to-go/", "x": 4888, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://thesportjournal.org/article/olympic-sports-of-the-future/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://thesportjournal.org/article/olympic-sports-of-the-future/", "x": 4952, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://olympics.com/ioc/olympic-games-organising-committees", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://olympics.com/ioc/olympic-games-organising-committees", "x": 4664, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.aph.gov.au/About_Parliament/Parliamentary_Departments/Parliamentary_Library/pubs/rp/RP0708/08rp32", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.aph.gov.au/About_Parliament/Parliamentary_Departments/Parliamentary_Library/pubs/rp/RP0708/08rp32", "x": 2464, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.pinterest.com/fightfortheinnocentinc/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.pinterest.com/fightfortheinnocentinc/", "x": 1024, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "http://paws-li.org/Paws-Action.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "http://paws-li.org/Paws-Action.html", "x": 0, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.cambridge.org/core/books/rights-claiming-in-south-korea/mobilizing-rights-for-the-marginalized/B47E4C53E5178337AF3024593448D5F3/core-reader", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.cambridge.org/core/books/rights-claiming-in-south-korea/mobilizing-rights-for-the-marginalized/B47E4C53E5178337AF3024593448D5F3/core-reader", "x": 4768, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.gilcedillo.com/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.gilcedillo.com/", "x": 6728, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.adweek.com/brand-marketing/tracking-coronavirus-cancellations-and-travel-restrictions/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.adweek.com/brand-marketing/tracking-coronavirus-cancellations-and-travel-restrictions/", "x": 5320, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://colorofhockey.com/2018/03/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://colorofhockey.com/2018/03/", "x": 0, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.swisswetter.ch/bitcoin-profit/4miyr.htm", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.swisswetter.ch/bitcoin-profit/4miyr.htm", "x": 24, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://www.reuters.com/article/us-olympics-2018-nbc-idUSKBN1FV0IS", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.reuters.com/article/us-olympics-2018-nbc-idUSKBN1FV0IS", "x": 0, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://ucao-uut.tg/zw1v4/women%27s-figure-skating-olympics-2018-results", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://ucao-uut.tg/zw1v4/women%27s-figure-skating-olympics-2018-results", "x": 3808, "y": -30}]);
+        edges = new vis.DataSet([{"from": "https://www.reddit.com/user/Michae1Yeager/", "hidden": true, "physics": false, "to": "2021-07-12"}, {"from": "https://www.change.org/p/international-olympic-committee-revoke-beijing-s-hosting-right-of-2022-winter-olympics-on-human-rights-ground", "hidden": true, "physics": false, "to": "2019-10-07"}, {"from": "https://www.change.org/decision-makers/thomas-bach-30", "hidden": true, "physics": false, "to": "2021-02-15"}, {"from": "https://www.change.org/decision-makers/international-olympic-committee-17", "hidden": true, "physics": false, "to": "2022-07-12"}, {"from": "https://www.change.org/t/south-korea-2", "hidden": true, "physics": false, "to": "2021-06-30"}, {"from": "https://lostrapposullamaschera.change.org/p/international-olympic-committee-revoke-beijing-s-hosting-right-of-2022-winter-olympics-on-human-rights-ground?original_footer_petition_id=25718581\u0026algorithm=promoted\u0026source_location=petition_footer\u0026grid_position=10\u0026pt=AVBldGl0aW9uAFXBFgEAAAAAX%2Bdf%2FId8v7UzMzliYTIzMw%3D%3D", "hidden": true, "physics": false, "to": "2019-10-07"}, {"from": "https://wwwo.change.org/p/international-olympic-committee-revoke-beijing-s-hosting-right-of-2022-winter-olympics-on-human-rights-ground?original_footer_petition_id=26141123\u0026algorithm=promoted\u0026source_location=petition_footer\u0026grid_position=7\u0026pt=AVBldGl0aW9uAFXBFgEAAAAAX%2BeXa7ocmDNlNmU1NWQwMg%3D%3D", "hidden": true, "physics": false, "to": "2019-10-07"}, {"from": "https://www.change.org/p/international-olympic-committee-china-close-internment-camps-before-hosting-2022-olympics-uyghurche-%E4%B8%AD%E6%96%87-%E6%97%A5%E6%9C%AC%E8%AA%9E-t%C3%BCrk%C3%A7e-%D8%B9%D8%B1%D8%A8%D9%89", "hidden": true, "physics": false, "to": "2022-07-12"}, {"from": "https://apnews.com/hub/international-olympic-committee", "hidden": true, "physics": false, "to": "2022-02-04"}, {"from": "https://www.espn.com/olympics/news/story?id=6742361", "hidden": true, "physics": false, "to": "Old article"}, {"from": "https://www.cbc.ca/sports/olympics/canada-olympic-house-plans-pyeongchang-1.4477897", "hidden": true, "physics": false, "to": "Old article"}, {"from": "https://www.nytimes.com/2017/02/07/sports/winter-athletes-threaten-to-skip-events-unless-russian-olympians-are-kept-out-over-doping.html", "hidden": true, "physics": false, "to": "Old article"}, {"from": "https://sg.news.yahoo.com/weather/news/change-org-crashes-1-5-115155103.html", "hidden": true, "physics": false, "to": "2021-07-03"}, {"from": "http://maywespeak.com/petitions/", "hidden": true, "physics": false, "to": "2021-01-12"}, {"from": "https://www.change.org/p/cancel-the-tokyo-olympics-to-protect-our-lives-stoptokyoolympic-cancelthetokyoolympics", "hidden": true, "physics": false, "to": "2021-05-06"}, {"from": "https://responsiblestatecraft.org/2021/05/27/boycotting-china-olympics-is-there-any-right-way-to-go/", "hidden": true, "physics": false, "to": "2021-05-27"}, {"from": "https://thesportjournal.org/article/olympic-sports-of-the-future/", "hidden": true, "physics": false, "to": "2021-06-04"}, {"from": "https://olympics.com/ioc/olympic-games-organising-committees", "hidden": true, "physics": false, "to": "2021-04-29"}, {"from": "https://www.aph.gov.au/About_Parliament/Parliamentary_Departments/Parliamentary_Library/pubs/rp/RP0708/08rp32", "hidden": true, "physics": false, "to": "2020-07-28"}, {"from": "https://www.pinterest.com/fightfortheinnocentinc/", "hidden": true, "physics": false, "to": "2020-01-30"}, {"from": "http://paws-li.org/Paws-Action.html", "hidden": true, "physics": false, "to": "Old article"}, {"from": "https://www.cambridge.org/core/books/rights-claiming-in-south-korea/mobilizing-rights-for-the-marginalized/B47E4C53E5178337AF3024593448D5F3/core-reader", "hidden": true, "physics": false, "to": "2021-05-12"}, {"from": "https://www.gilcedillo.com/", "hidden": true, "physics": false, "to": "2022-01-12"}, {"from": "https://www.adweek.com/brand-marketing/tracking-coronavirus-cancellations-and-travel-restrictions/", "hidden": true, "physics": false, "to": "2021-07-20"}, {"from": "https://colorofhockey.com/2018/03/", "hidden": true, "physics": false, "to": "Old article"}, {"from": "https://www.swisswetter.ch/bitcoin-profit/4miyr.htm", "hidden": true, "physics": false, "to": "2019-09-27"}, {"from": "https://www.reuters.com/article/us-olympics-2018-nbc-idUSKBN1FV0IS", "hidden": true, "physics": false, "to": "Old article"}, {"from": "https://ucao-uut.tg/zw1v4/women%27s-figure-skating-olympics-2018-results", "hidden": true, "physics": false, "to": "2021-01-12"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

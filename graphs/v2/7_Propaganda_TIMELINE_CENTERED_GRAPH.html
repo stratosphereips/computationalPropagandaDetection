@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2019-12-10", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2019-12-10", "x": 616, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2019-12-16", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2019-12-16", "x": 664, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2019-12-17", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2019-12-17", "x": 672, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2019-12-18", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2019-12-18", "x": 680, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-03-15", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-03-15", "x": 4304, "y": 0}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "2021-09-23", "label": " ", "physics": false, "shape": "diamond", "size": 25, "title": "2021-09-23", "x": 5840, "y": 0}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "https://rnbee.ru/2019/12/18/evropejskaja-solidarnost-v-dejstvii-es-stroit-novye-centry-razmeshhenija-migrantov-v-jestonii/amp/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://rnbee.ru/2019/12/18/evropejskaja-solidarnost-v-dejstvii-es-stroit-novye-centry-razmeshhenija-migrantov-v-jestonii/amp/", "x": 680, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://rnbee.net/2019/12/18/evropejskaja-solidarnost-v-dejstvii-es-stroit-novye-centry-razmeshhenija-migrantov-v-jestonii/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://rnbee.net/2019/12/18/evropejskaja-solidarnost-v-dejstvii-es-stroit-novye-centry-razmeshhenija-migrantov-v-jestonii/", "x": 680, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://file.liga.net/parties/blok-petra-poroshenko", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://file.liga.net/parties/blok-petra-poroshenko", "x": 4304, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/2392059067/status/1207204702607294465", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/2392059067/status/1207204702607294465", "x": 680, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://twitter.com/795596442031259648/status/1204302503296348160", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://twitter.com/795596442031259648/status/1204302503296348160", "x": 616, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-75974533?w=wall-75974533_54103", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-75974533?w=wall-75974533_54103", "x": 680, "y": 30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id-46878190?w=wall-46878190_9941", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-46878190?w=wall-46878190_9941", "x": 672, "y": -30}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "https://vk.com/id516586472?w=wall516586472_184", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id516586472?w=wall516586472_184", "x": 664, "y": 30}]);
+        edges = new vis.DataSet([{"from": "https://rnbee.ru/2019/12/18/evropejskaja-solidarnost-v-dejstvii-es-stroit-novye-centry-razmeshhenija-migrantov-v-jestonii/amp/", "hidden": true, "physics": false, "to": "2019-12-18"}, {"from": "https://rnbee.net/2019/12/18/evropejskaja-solidarnost-v-dejstvii-es-stroit-novye-centry-razmeshhenija-migrantov-v-jestonii/", "hidden": true, "physics": false, "to": "2019-12-18"}, {"from": "https://file.liga.net/parties/blok-petra-poroshenko", "hidden": true, "physics": false, "to": "2021-03-15"}, {"from": "https://twitter.com/2392059067/status/1207204702607294465", "hidden": true, "physics": false, "to": "2019-12-18"}, {"from": "https://twitter.com/795596442031259648/status/1204302503296348160", "hidden": true, "physics": false, "to": "2019-12-10"}, {"from": "https://vk.com/id-75974533?w=wall-75974533_54103", "hidden": true, "physics": false, "to": "2019-12-18"}, {"from": "https://vk.com/id-46878190?w=wall-46878190_9941", "hidden": true, "physics": false, "to": "2019-12-17"}, {"from": "https://vk.com/id516586472?w=wall516586472_184", "hidden": true, "physics": false, "to": "2019-12-16"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
