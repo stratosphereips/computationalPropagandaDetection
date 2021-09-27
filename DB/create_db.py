@@ -25,7 +25,8 @@ def create_main_db(file_path):
         parent_id INTEGER NOT NULL,
         child_id INTEGER NOT NULL,
         date DATE,
-        SOURCE TEXT,
+        source TEXT,
+        linktype TEXT,
         FOREIGN KEY (parent_id)
           REFERENCES URLS(url_id)
              ON DELETE CASCADE

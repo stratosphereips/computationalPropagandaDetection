@@ -66,11 +66,11 @@ class DB:
             # assuming that the new date_of_query will be always newer which is already in DB, we will change it with the new date
             self.update_date_of_query(url, date_of_query)
 
-    def insert_link_id(self, parent_id: int, child_id: int, link_date: str, source: str = None):
-        self.c.execute("""INSERT INTO LINKS(parent_id, child_id, date, source) VALUES (?, ?, ?, ?) """, (parent_id, child_id, link_date, source))
+    def insert_link_id(self, parent_id: int, child_id: int, link_date: str, linktype: str = None):
+        self.c.execute("""INSERT INTO LINKS(parent_id, child_id, date, linktype) VALUES (?, ?, ?, ?) """, (parent_id, child_id, link_date, linktype))
         self.commit()
 
-    def insert_link_urls(self, parent_url: str, child_url: str, link_date: str, source: str = None):
+    def insert_link_urls(self, parent_url: str, child_url: str, link_date: str, linktype: str = None):
         parent_url_exist = self.url_exist(parent_url)
         child_url_exist = self.url_exist(child_url)
         if not parent_url_exist:
@@ -81,12 +81,12 @@ class DB:
         child_id = self.get_url_id(child_url)
         parent_id = self.get_url_id(parent_url)
         if not self.link_exist(parent_id=parent_id, child_id=child_id):
-            self.insert_link_id(parent_id=parent_id, child_id=child_id, link_date=link_date, source=source)
+            self.insert_link_id(parent_id=parent_id, child_id=child_id, link_date=link_date, linktype=linktype)
         else:
             # If the link types are different, insert
             old_link_type = self.get_type_of_link_by_ids(parent_id=parent_id, child_id=child_id)
-            if source != old_link_type:
-                self.insert_link_id(parent_id=parent_id, child_id=child_id, link_date=link_date, source=source)
+            if linktype != old_link_type:
+                self.insert_link_id(parent_id=parent_id, child_id=child_id, link_date=link_date, linktype=linktype)
             else:
                 # If the link types are the same, check the date
                 old_link_date = self.get_date_of_link_by_ids(parent_id=parent_id, child_id=child_id)  # getting date of existing link
@@ -184,7 +184,7 @@ class DB:
         return None
 
     def get_type_of_link_by_ids(self, parent_id: int, child_id: int) -> str:
-        link_type = self.c.execute("""SELECT source FROM LINKS WHERE parent_id=? and child_id=?""", (parent_id, child_id)).fetchall()
+        link_type = self.c.execute("""SELECT linktype FROM LINKS WHERE parent_id=? and child_id=?""", (parent_id, child_id)).fetchall()
         if len(link_type) > 0:
             return link_type[0][0]
 
