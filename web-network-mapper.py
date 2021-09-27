@@ -23,7 +23,6 @@ SERAPI_KEY = f.readline()
 f.close()
 
 PROPAGANDA_DB_PATH = "DB/databases/propaganda.db"
-SEARCH_ENGINES = ["google", "yandex", "yahoo", "bing", "baidu"]
 COLORS = [Fore.CYAN, Fore.LIGHTGREEN_EX, Fore.MAGENTA, Fore.LIGHTBLUE_EX, Fore.GREEN, Fore.BLUE, Fore.LIGHTCYAN_EX,
           Fore.LIGHTMAGENTA_EX]
 
@@ -79,11 +78,6 @@ def search_by_title(title, url, URLs, search_engine, threshold=0.3):
     - Store the results in the DB
     - Return list of results
     """
-    if search_engine not in SEARCH_ENGINES:
-        print(
-            f"{Fore.RED}Searching in not implemented engine {search_engine}{Style.RESET_ALL}, "
-            f"please choose from implemented engines {SEARCH_ENGINES}")
-        raise NotImplemented
 
     # Use API to get links to this URL
     data = trigger_api(title, search_engine)
@@ -102,16 +96,11 @@ def search_by_link(url, URLs, search_engine, threshold=0.3):
     - Store the results in the DB
     - Return list of results
     """
-    if search_engine not in SEARCH_ENGINES:
-        print(
-            f"{Fore.RED}Searching in not implemented engine {search_engine}{Style.RESET_ALL}, "
-            f"choose from implemented engines {SEARCH_ENGINES}")
-        raise NotImplemented
     # Use API to get links to this URL
     data = trigger_api(url, search_engine)
     child_urls_found = []
     # For each url in the results do
-    if data:
+    if data and data != (False, False):
         google_results = process_data_from_api(data, url, URLs, link_type="link", threshold=threshold)
         child_urls_found = update_urls_with_results(URLs, google_results)
 
@@ -154,11 +143,10 @@ if __name__ == "__main__":
         type=float,
         default=0.3,
     )
-    parser.add_argument("-e", "--engines", help=f"What engines to use, currently possible (default) {SEARCH_ENGINES}",
-                        type=str)
+    parser.add_argument("-e", "--engines", help=f"What engines to use, comma separated. Values: 'google', 'yandex', 'yahoo', 'bing', 'baidu'. Defaults to all of them.",
+                        type=str, default = "google,yandex,yahoo,bing,baidu")
     args = parser.parse_args()
-    if args.engines:
-        SEARCH_ENGINES = args.engines.lower().split(',')
+    search_engines = args.engines.lower().replace(' ','').split(',')
     main_url = args.link
 
     # Always check the largest verbosity first
@@ -192,7 +180,7 @@ if __name__ == "__main__":
                     title = URLs.get_title_by_url(url)
                     all_urls_by_urls, all_urls_by_titles = [], []
                     # Search by link
-                    for i, engine in enumerate(SEARCH_ENGINES):
+                    for i, engine in enumerate(search_engines):
                         print(f"\n{COLORS[i]}== Level {level}. Search {engine} by LINKS to {url}{Style.RESET_ALL}")
                         results_urls = search_by_link(url, URLs, search_engine=engine,
                                                       threshold=args.urls_threshold)
@@ -200,7 +188,7 @@ if __name__ == "__main__":
 
                     if title is not None:
                         print("TITLE ", title)
-                        for color, engine in zip(COLORS, SEARCH_ENGINES):
+                        for color, engine in zip(COLORS, search_engines):
                             print(f"\n{color}== Level {level}. Search {engine} by TITLE as {title}{Style.RESET_ALL}")
                             results_urls_title = search_by_title(title, url, URLs, search_engine=engine,
                                                                  threshold=args.urls_threshold)
