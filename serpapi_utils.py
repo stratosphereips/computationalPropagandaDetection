@@ -380,6 +380,11 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False, 
     result_shown = 1
     results = []
     for result in data:
+
+        # Check if there are any results back
+        if not result:
+            continue
+
         # To have some control on how many result we process
         max_results_to_process -= 1
         if max_results_to_process <= 0:
