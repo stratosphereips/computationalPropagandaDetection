@@ -88,6 +88,8 @@ def trigger_api(search_keyword, engine="google"):
     else:
         print(f"Error in trigger_api(): wrong engine: {engine}")
         return False, False
+
+
     try:
 
         # Here we store all the results of all the search pages returned.
@@ -150,8 +152,6 @@ def trigger_api(search_keyword, engine="google"):
                 # We dont have results. It can happen because search engines
                 # report an amount of results that has a lot of
                 # repetitions. So you can only access a part
-                # print(f'Error accessing organic results.
-                # Results: {new_results}')
                 break
             # print(results["organic_results"] if "organic_results" in results.keys() else "there are no results")
             # amount_of_results_so_far += len(results["organic_results"])
