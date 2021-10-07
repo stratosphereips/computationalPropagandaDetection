@@ -62,6 +62,7 @@ def trigger_api(search_keyword, engine="google"):
             "engine": "google",
             "q": search_keyword,
             "api_key": SERPAPI_KEY,
+            "tbm": "nws",
         }
     elif engine == "yandex":
         params = {
