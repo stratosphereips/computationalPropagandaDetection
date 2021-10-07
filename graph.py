@@ -168,11 +168,22 @@ def create_date_centered(url, db_path, time_window, id=0):
     # g.show(f'level_timeline.html')
 
 
-def create_domain_centered(url, db_path, id=0):
+def create_domain_centered(urls, db_path, id=0):
     db = DB(db_path)
-    edges, nodes = db.get_tree(url)
-    centers = {filter_name(url): (nodes[url][1], [n for n in nodes.keys() if filter_name(n) == filter_name(url)]) for
-               url in list(nodes.keys())[::-1]}
+    if isinstance(urls, string):
+        urls = [urls]
+    edges = list()
+    nodes = dict()
+    centers = dict()
+    for url in urls:
+        cur_edges, cur_nodes = db.get_tree(url)
+        cur_centers = {
+            filter_name(url): (nodes[url][1], [n for n in cur_nodes.keys() if filter_name(n) == filter_name(url)]) for
+            url in list(cur_nodes.keys())[::-1]}
+        for e in cur_edges:
+            edges.append(e)
+        nodes = {**nodes, **cur_nodes}
+        centers = {**centers, **cur_center}
 
     from_to_edges = dict()
     for _, source, target, _ in edges:
