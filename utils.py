@@ -251,12 +251,12 @@ def url_in_content(url, content, content_file):
         return False
 
 
-def add_child_to_db(URLs, child_url, parent_url, search_date, publication_date, link_type, content, title):
+def add_child_to_db(URLs, child_url, parent_url, search_date, publication_date, link_type, content, title, source):
     """
     Add a webpage to the DB as child of a parent URL
     """
     # Add the children to the DB
-    URLs.set_child(parent_url, child_url, search_date, link_type)
+    URLs.set_child(parent_url, child_url, search_date, link_type, source)
     # Store the date of the publication of the URL
     formated_date = convert_date(publication_date)
     URLs.set_publication_datetime(child_url, formated_date)
