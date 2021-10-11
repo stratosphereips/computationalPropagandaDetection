@@ -27,7 +27,7 @@ COLORS = [Fore.CYAN, Fore.LIGHTGREEN_EX, Fore.MAGENTA, Fore.LIGHTBLUE_EX, Fore.G
           Fore.LIGHTMAGENTA_EX]
 
 
-def update_urls_with_results(URLs, results):
+def update_urls_with_results(URLs, results, source):
     child_urls_found = []
     for result in results:
         child_urls_found.append(result["child_url"])
@@ -40,6 +40,7 @@ def update_urls_with_results(URLs, results):
             content=result["content"],
             link_type=result["link_type"],
             title=result["title"],
+            source=source
         )
     return child_urls_found
 
@@ -57,6 +58,7 @@ def extract_and_save_twitter_data(URLs, searched_string, parent_url, type_of_lin
     for result in twitter_result:
         result["parent_url"] = parent_url
         result["link_type"] = type_of_link
+        result["source"] = 'twitter'
     return update_urls_with_results(URLs, twitter_result)
 
 
@@ -67,6 +69,7 @@ def extract_and_save_vk_data(URLs, searched_string, parent_url, type_of_link):
     for result in vk_results:
         result["parent_url"] = parent_url
         result["link_type"] = type_of_link
+        result["source"] = 'vk'
     return update_urls_with_results(URLs, vk_results)
 
 
@@ -85,6 +88,7 @@ def search_by_title(title, url, URLs, search_engine, threshold=0.3):
     if data:
         google_results = process_data_from_api(data, url, URLs, link_type="title", content_similarity=True,
                                                threshold=threshold)
+        google_results["source"] = 'google'
         child_urls_found = update_urls_with_results(URLs, google_results)
     return child_urls_found
 
@@ -102,6 +106,7 @@ def search_by_link(url, URLs, search_engine, threshold=0.3):
     # For each url in the results do
     if data and data != (False, False):
         google_results = process_data_from_api(data, url, URLs, link_type="link", threshold=threshold)
+        #google_results["source"] = 'google'
         child_urls_found = update_urls_with_results(URLs, google_results)
 
         # Special situation to extract date of the main url
@@ -145,34 +150,38 @@ if __name__ == "__main__":
     )
     parser.add_argument("-e", "--engines", help=f"What engines to use, comma separated. Values: 'google', 'yandex', 'yahoo', 'bing', 'baidu'. Defaults to all of them.",
                         type=str, default = "google,yandex,yahoo,bing,baidu")
+    parser.add_argument("-t", "--topic", help=f"These are specific topics that we focus on searching. Specify one to update on them and run the tool on every URL found..",
+                        type=str, default = None)
     args = parser.parse_args()
     search_engines = args.engines.lower().replace(' ','').split(',')
     main_url = args.link
 
-    # Always check the largest verbosity first
-    # if args.verbosity >= 2:
-    # logging.basicConfig(level=logging.DEBUG)
-    # elif args.verbosity >= 1:
-    # logging.basicConfig(level=logging.INFO)
-
     try:
 
-        print(f"Searching the distribution graph of URL {args.link}. Using {args.number_of_levels} levels.\n")
+        # First, check the topic asked by the user. If no topic was asked, use the URL given
+        if args.topic:
+            print(f"Searching the distribution graph of the topic {args.topic}. Using {args.number_of_levels} levels.\n")
 
-        # Get the URLs object
-        URLs = URLs(PROPAGANDA_DB_PATH, args.verbosity)
+        else:
+            # Add the current URL to the list to search
+            print(f"Searching the distribution graph of URL {args.link}. Using {args.number_of_levels} levels.\n")
 
-        # Store the main URL as an url in our DB
-        URLs.add_url(args.link, int(args.is_propaganda))
-        (main_content, main_title, content_file, publication_date) = downloadContent(args.link)
-        print(f'Main title: {main_title}')
+            # Get the URLs object
+            URLs = URLs(PROPAGANDA_DB_PATH, args.verbosity)
 
-        URLs.store_content(args.link, main_content)
-        URLs.store_title(args.link, main_title)
-        URLs.set_query_datetime(args.link, datetime.now())
+            # Store the main URL as an url in our DB
+            URLs.add_url(args.link, int(args.is_propaganda))
+            (main_content, main_title, content_file, publication_date) = downloadContent(args.link)
+            print(f'Main title: {main_title}')
+
+            URLs.store_content(args.link, main_content)
+            URLs.store_title(args.link, main_title)
+            URLs.set_query_datetime(args.link, datetime.now())
+
+            # Store the urls to search
+            urls_to_search_by_level = {0: [args.link]}
 
         # Search by URLs, and by levels
-        urls_to_search_by_level = {0: [args.link]}
         for level in range(args.number_of_levels):
             try:
                 print(f"In level {level} were found {len(urls_to_search_by_level[level])} urls including original")
