@@ -41,3 +41,14 @@ We apply some blacklisting of webpages based on some criteria in order to know w
 ## Useful Info
 - https://towardsdatascience.com/current-google-search-packages-using-python-3-7-a-simple-tutorial-3606e459e0d4
 
+## Database structure
+
+### Table LINKS
+Table links has the following fields: 
+
+- link_id:
+- parent_id:
+- child_id:
+- date:
+- source: Twitter, Facebook, Webpage (this is any generic webpage), VK, Reddit, etc.
+- linktype: '
