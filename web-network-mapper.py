@@ -58,8 +58,7 @@ def extract_and_save_twitter_data(URLs, searched_string, parent_url, type_of_lin
     for result in twitter_result:
         result["parent_url"] = parent_url
         result["link_type"] = type_of_link
-        result["source"] = 'twitter'
-    return update_urls_with_results(URLs, twitter_result)
+    return update_urls_with_results(URLs, twitter_result, 'twitter')
 
 
 def extract_and_save_vk_data(URLs, searched_string, parent_url, type_of_link):
@@ -69,8 +68,7 @@ def extract_and_save_vk_data(URLs, searched_string, parent_url, type_of_link):
     for result in vk_results:
         result["parent_url"] = parent_url
         result["link_type"] = type_of_link
-        result["source"] = 'vk'
-    return update_urls_with_results(URLs, vk_results)
+    return update_urls_with_results(URLs, vk_results, 'vk')
 
 
 def search_by_title(title, url, URLs, search_engine, threshold=0.3):
@@ -88,8 +86,7 @@ def search_by_title(title, url, URLs, search_engine, threshold=0.3):
     if data:
         google_results = process_data_from_api(data, url, URLs, link_type="title", content_similarity=True,
                                                threshold=threshold)
-        google_results["source"] = 'google'
-        child_urls_found = update_urls_with_results(URLs, google_results)
+        child_urls_found = update_urls_with_results(URLs, google_results, search_engine)
     return child_urls_found
 
 
@@ -106,8 +103,7 @@ def search_by_link(url, URLs, search_engine, threshold=0.3):
     # For each url in the results do
     if data and data != (False, False):
         google_results = process_data_from_api(data, url, URLs, link_type="link", threshold=threshold)
-        #google_results["source"] = 'google'
-        child_urls_found = update_urls_with_results(URLs, google_results)
+        child_urls_found = update_urls_with_results(URLs, google_results, search_engine)
 
         # Special situation to extract date of the main url
         # from the API. This is not available after asking
