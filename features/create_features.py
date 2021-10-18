@@ -2,9 +2,12 @@
 import pandas as pd
 import numpy as np
 import argparse
-from DB.propaganda_db import DB
 from typing import Dict, List
 from datetime import datetime
+import sys
+import os
+sys.path.append(os.getcwd())
+from DB.propaganda_db import DB
 
 
 def flatten(list_of_lists):
