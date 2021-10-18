@@ -9,3 +9,5 @@ python-dateutil
 bs4
 networkx
 matplotlib
+google-search-results #serpapi
+pyyaml
