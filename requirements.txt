@@ -1,7 +1,7 @@
 selenium
 lxml
 vk
-googlesearch
+googlesearch-python
 colorama
 pypdf2
 python-Levenshtein
