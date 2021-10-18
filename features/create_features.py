@@ -26,8 +26,11 @@ def get_number_of_urls_published_before_source(url_to_date: Dict[str, datetime],
     for url, date in url_to_date.items():
         if date is None:
             continue
-        if date < main_url_date:
-            number_of_urls_published_before_source += 1
+        if date != None and main_url_date != None:
+            if date < main_url_date:
+                number_of_urls_published_before_source += 1
+        else:
+            continue
     return number_of_urls_published_before_source
 
 
@@ -56,32 +59,35 @@ def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[str, int]
     more_than_30_days_per_level = np.zeros(max_level)
 
     for url, date in url_to_date.items():
-        print(url, date)
+        #print(url, date)
         if url == main_url:
             continue
-        print(date, main_url_date)
+        #print(date, main_url_date)
         if date is None:
             # TODO: not sure what to do if the date is None
             continue
-        day = (date - main_url_date).days
-        if day < 2:  # for the first two days we are creating histogram for seconds
-            minutes = int(((date - main_url_date).seconds) / 60)  # how many seconds from the main publication time
-            level_url = url_to_level[url]  # calculating the level, level>1
-            index = 24 * day * 60 + minutes  # calculating index: if day is zero, we will take first 1400 minutes
-            d = minutes_hist_per_level[level_url]
-            d[index] += 1
-        elif day < 7:  # from day 2 to day 7 we calculate hours histogram
-            hour = int(((date - main_url_date).seconds) / 3600)  # how many hours from the main publication time
-            level_url = url_to_level[url]
-            index = 24 * (day - 2) + hour
-            hours_hist_per_level[level_url][index] += 1
-        elif day <= 30:  # from day 7 to day 30 we calculate daily histogram
-            level_url = url_to_level[url]
-            index = day - 7
-            days_hist_per_level[level_url][index] += 1
-        else:  #
-            level_url = url_to_level[url]
-            more_than_30_days_per_level[level_url] += 1
+        #print(type(date))
+        #print(type(main_url_date))
+        if date != None and main_url_date != None:
+            day = (date - main_url_date).days
+            if day < 2:  # for the first two days we are creating histogram for seconds
+                minutes = int(((date - main_url_date).seconds) / 60)  # how many seconds from the main publication time
+                level_url = url_to_level[url]  # calculating the level, level>1
+                index = 24 * day * 60 + minutes  # calculating index: if day is zero, we will take first 1400 minutes
+                d = minutes_hist_per_level[level_url]
+                d[index] += 1
+            elif day < 7:  # from day 2 to day 7 we calculate hours histogram
+                hour = int(((date - main_url_date).seconds) / 3600)  # how many hours from the main publication time
+                level_url = url_to_level[url]
+                index = 24 * (day - 2) + hour
+                hours_hist_per_level[level_url][index] += 1
+            elif day <= 30:  # from day 7 to day 30 we calculate daily histogram
+                level_url = url_to_level[url]
+                index = day - 7
+                days_hist_per_level[level_url][index] += 1
+            else:  #
+                level_url = url_to_level[url]
+                more_than_30_days_per_level[level_url] += 1
 
     minutes_hist = minutes_hist_per_level.flatten().tolist()
     hour_hist = hours_hist_per_level.flatten().tolist()
@@ -99,7 +105,7 @@ def get_level(links: List[tuple], main_url: str) -> Dict[str, int]:
     """
     url_to_level = {}
     url_to_level[main_url] = -1  # index of the main url
-    print(links)
+    #print(links)
     for (_, l1, l2) in links:
         if l2 not in url_to_level:
             url_to_level[l2] = url_to_level[l1] + 1  # others start with 0
@@ -139,10 +145,10 @@ if __name__ == "__main__":
     for url in urls:
         date = get_date(url)
         url_to_date[url] = date
-    print(url_to_date)
+    #print(url_to_date)
 
     hist_features = get_time_hist(url_to_date, url_to_level, main_url, max_level)
-    print(hist_features)
+    #print(hist_features)
     number_of_urls_published_before_source = get_number_of_urls_published_before_source(url_to_date, main_url)
     print("Number of urls published before source", number_of_urls_published_before_source)
     number_of_urls_in_level = get_total_number_of_urls_in_level(url_to_level, max_level)
