@@ -11,3 +11,4 @@ networkx
 matplotlib
 google-search-results #serpapi
 pyyaml
+pandas
