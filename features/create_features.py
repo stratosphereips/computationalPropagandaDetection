@@ -52,6 +52,7 @@ def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[str, int]
     # we calculate time histogram for each level
     # by this we are saving as time information so connection
     main_url_date = url_to_date[main_url]
+    print(main_url_date)
 
     minutes_hist_per_level = np.zeros((max_level, 24 * 60 * 2)).astype(int)  # 24h,60m, and 2 days
     hours_hist_per_level = np.zeros((max_level, 24 * 5)).astype(int)  # 24h and 5 days
@@ -67,7 +68,7 @@ def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[str, int]
             # TODO: not sure what to do if the date is None
             continue
         #print(type(date))
-        #print(type(main_url_date))
+        #print(main_url_date)
         if date != None and main_url_date != None:
             day = (date - main_url_date).days
             if day < 2:  # for the first two days we are creating histogram for seconds
@@ -128,6 +129,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-l", "--link", help="URL to build features from graph", type=str, required=True)
     parser.add_argument("-d", "--database_path", help="Path to the database", type=str, required=True)
+    parser.add_argument("-e", "--debug", help="Debug", type=int, required=False, default=0)
     args = parser.parse_args()
     print(f'Using DB {args.database_path} and link {args.link}')
 
@@ -140,15 +142,22 @@ if __name__ == "__main__":
     url_to_date = {}
 
     url_to_level = get_level(links, main_url)
-    max_level = 4
+    max_level = 2
 
     for url in urls:
+        if args.debug > 0:
+            print(url)
         date = get_date(url)
+        if args.debug > 0:
+            print(f'URL: {url}, date: {date}')
         url_to_date[url] = date
-    #print(url_to_date)
+    if args.debug > 1:
+        print(f'URLtodate: {url_to_date}')
+
 
     hist_features = get_time_hist(url_to_date, url_to_level, main_url, max_level)
-    #print(hist_features)
+    if args.debug > 1:
+        print(hist_features)
     number_of_urls_published_before_source = get_number_of_urls_published_before_source(url_to_date, main_url)
     print("Number of urls published before source", number_of_urls_published_before_source)
     number_of_urls_in_level = get_total_number_of_urls_in_level(url_to_level, max_level)
