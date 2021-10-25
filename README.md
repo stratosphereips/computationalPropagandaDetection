@@ -2,22 +2,22 @@
 
 A set of tools to work on computational propaganda detection
 
-## Running scirpt
+## Running script
 
-```python web-network-mapper.py -l LINK -n NUMBER_OF_ITERATIONS -p (include if it is propaganda)```
+    python web-network-mapper.py -l LINK -n NUMBER_OF_ITERATIONS -p (include if it is propaganda)
 
 Example of propaganda
 
-```python web-network-mapper.py -l https://euvsdisinfo.eu/report/despite-promises-to-the-contrary-nato-has-been-expanding-further-eastwards/ -p -n 30```
+    python web-network-mapper.py -l https://euvsdisinfo.eu/report/despite-promises-to-the-contrary-nato-has-been-expanding-further-eastwards/ -p -n 30
 
 
 Build a graph
 
-```python graph.py -l LINK```
+    python graph.py -l LINK
 
 Query the DB for the links to a particular URL
 
-```DB/query_db.py -l LINK```
+    DB/query_db.py -l LINK
 
 ## How we get the info
 
@@ -29,7 +29,6 @@ Query the DB for the links to a particular URL
 	- We store its datetime of search from the engine
 	- We store its datetime of our search
 	- We ask the links to this page and we loop.
-
 
 
 ## Blacklist
@@ -51,4 +50,43 @@ Table links has the following fields:
 - child_id:
 - date:
 - source: Twitter, Facebook, Webpage (this is any generic webpage), VK, Reddit, etc.
-- linktype: '
+- linktype:
+
+## Extraction of Features
+
+The features that we are extracting from each graph are:
+
+1. Time histograms
+    Generate the features based on time
+    - For each level:
+        - Calculate a histogram of how many links there are by:
+            - In the next 48hs after the publication date of the main URL (2 days). 
+                - Compute the histogram of urls published by minute
+            - After more than 48hs of the publication, for the next 120hs (5 days), that is from > 2nd day to <= 7th day.
+                - Compute the histogram of urls published by hour
+            - After more than 168hs of the publication, for the next 23 days, that is from > 7th day to <= 30th
+                - Compute the histogram of urls published by day
+
+              ```Publication of    Up to                        More than 48hs
+              main URL          48hs hs                      and up to 120hs
+                    | By minute |         By hour             |                    By day
+                    \/          \/                            \/
+            Days: |--*--|-----|--*--|-----|-----|-----|-----|--*--|-----|-----|-----|-----|-----|-----|-----|-----|-----|
+                     1     2     3     4     5     6     7     8     9    10    11    12    13    14    15    16   17...```
+
+2. The number of urls published before the source
+
+3. The total number of urls in each level 
+
+
+
+
+
+
+
+
+
+
+
+
+
