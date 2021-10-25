@@ -49,46 +49,78 @@ def get_total_number_of_urls_in_level(url_to_level: Dict[str, int], max_level) -
 
 
 def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[str, int], main_url: str, max_level: int) -> Dict:
-    # we calculate time histogram for each level
+    """
+    Generate the features based on time
+    - For each level:
+        - Calculate a histogram of how many links there are by:
+            - In the next 48hs after the publication date of the main URL (2 days). 
+                - Compute the histogram of urls published by minute
+            - After more than 48hs of the publication, for the next 120hs (5 days), that is from > 2nd day to <= 7th day.
+                - Compute the histogram of urls published by hour
+            - After more than 168hs of the publication, for the next 23 days, that is from > 7th day to <= 30th
+                - Compute the histogram of urls published by day
+
+              Publication of    Up to                        More than 48hs
+              main URL          48hs hs                      and up to 120hs
+                    | By minute |         By hour             |                    By day
+                    \/          \/                            \/
+            Days: |--*--|-----|--*--|-----|-----|-----|-----|--*--|-----|-----|-----|-----|-----|-----|-----|-----|-----|
+                     1     2     3     4     5     6     7     8     9    10    11    12    13    14    15    16   17...
+    """
     # by this we are saving as time information so connection
     main_url_date = url_to_date[main_url]
-    print(main_url_date)
 
+    # Create empty lists of 0 for each type of histogram
     minutes_hist_per_level = np.zeros((max_level, 24 * 60 * 2)).astype(int)  # 24h,60m, and 2 days
     hours_hist_per_level = np.zeros((max_level, 24 * 5)).astype(int)  # 24h and 5 days
     days_hist_per_level = np.zeros((max_level, 23)).astype(int)  # 23 days
     more_than_30_days_per_level = np.zeros(max_level)
 
     for url, date in url_to_date.items():
-        #print(url, date)
+        if args.debug > 0:
+            print(f'Processing features for URL {url}, on date {date}')
+        # Avoid processing twice the main url
         if url == main_url:
             continue
-        #print(date, main_url_date)
         if date is None:
             # TODO: not sure what to do if the date is None
             continue
-        #print(type(date))
-        #print(main_url_date)
         if date != None and main_url_date != None:
+
+            # TODO: Convert this to hours instead of days
             day = (date - main_url_date).days
-            if day < 2:  # for the first two days we are creating histogram for seconds
+            if args.debug > 0:
+                print(f'\tMain URL date: {main_url_date}, type {type(date)}. Other URL date {date}, type {type(date)}. Difference in days: {day}')
+            if day >= 0 and day <= 2:  # for the first two days we are creating histogram for seconds
                 minutes = int(((date - main_url_date).seconds) / 60)  # how many seconds from the main publication time
                 level_url = url_to_level[url]  # calculating the level, level>1
                 index = 24 * day * 60 + minutes  # calculating index: if day is zero, we will take first 1400 minutes
+                if args.debug > 0:
+                    print(f'\t\tBetween 0 and 2 days. The minutes is {minutes} the level is {level_url} and the index is {index}')
                 d = minutes_hist_per_level[level_url]
                 d[index] += 1
-            elif day < 7:  # from day 2 to day 7 we calculate hours histogram
+            elif day > 2 and day <= 7:  # from day 2 to day 7 we calculate hours histogram
                 hour = int(((date - main_url_date).seconds) / 3600)  # how many hours from the main publication time
                 level_url = url_to_level[url]
                 index = 24 * (day - 2) + hour
+                if args.debug > 0:
+                    print(f'\t\tBetween 3 and 7 days. The hours is {hour} the level is {level_url} and the index is {index}')
                 hours_hist_per_level[level_url][index] += 1
-            elif day <= 30:  # from day 7 to day 30 we calculate daily histogram
+            elif day > 7 and day <= 30:  # from day 7 to day 30 we calculate daily histogram
                 level_url = url_to_level[url]
-                index = day - 7
+                # Index 0 is the first day, so day 7 is index 8
+                index = day - 8
+                if args.debug > 0:
+                    print(f'\t\tBetween 8 and 30 days. The level is {level_url} and the index is {index}')
                 days_hist_per_level[level_url][index] += 1
-            else:  #
+            elif day > 30:  # from day 7 to day 30 we calculate daily histogram
                 level_url = url_to_level[url]
                 more_than_30_days_per_level[level_url] += 1
+            elif day < 0:  # It was published before the main url
+                if args.debug > 0:
+                    print(f'\t\t[Error] URL was published in {date}, before the main url on {main_url_date}.')
+                pass
+
 
     minutes_hist = minutes_hist_per_level.flatten().tolist()
     hour_hist = hours_hist_per_level.flatten().tolist()
@@ -130,6 +162,7 @@ if __name__ == "__main__":
     parser.add_argument("-l", "--link", help="URL to build features from graph", type=str, required=True)
     parser.add_argument("-d", "--database_path", help="Path to the database", type=str, required=True)
     parser.add_argument("-e", "--debug", help="Debug", type=int, required=False, default=0)
+    parser.add_argument("-v", "--verbosity", help="Verbosity", type=int, required=False, default=0)
     args = parser.parse_args()
     print(f'Using DB {args.database_path} and link {args.link}')
 
@@ -145,20 +178,23 @@ if __name__ == "__main__":
     max_level = 2
 
     for url in urls:
-        if args.debug > 0:
-            print(url)
         date = get_date(url)
-        if args.debug > 0:
-            print(f'URL: {url}, date: {date}')
+        # Be sure the dates have a timezone or not, but we can not mix!
+        date = date.tz_localize(None)
         url_to_date[url] = date
-    if args.debug > 1:
-        print(f'URLtodate: {url_to_date}')
+        #if args.debug > 0:
+            #print(f'\tURL: {url}, date: {date}')
 
 
+    # Generate the features that are a histogram of time
     hist_features = get_time_hist(url_to_date, url_to_level, main_url, max_level)
-    if args.debug > 1:
+    if args.verbosity > 0:
         print(hist_features)
+
+    # Get the number of urls published before the source
     number_of_urls_published_before_source = get_number_of_urls_published_before_source(url_to_date, main_url)
     print("Number of urls published before source", number_of_urls_published_before_source)
+
+    # Get the total number of urls in each level 
     number_of_urls_in_level = get_total_number_of_urls_in_level(url_to_level, max_level)
     print("Number of urls in level", number_of_urls_in_level)
