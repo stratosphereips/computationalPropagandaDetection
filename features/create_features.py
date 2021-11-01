@@ -6,6 +6,7 @@ from typing import Dict, List
 from datetime import datetime
 import sys
 import os
+
 sys.path.append(os.getcwd())
 from DB.propaganda_db import DB
 
@@ -48,7 +49,8 @@ def get_total_number_of_urls_in_level(url_to_level: Dict[str, int], max_level) -
     return total_number_of_urls_in_level
 
 
-def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[str, int], main_url: str, max_level: int) -> Dict:
+def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[str, int], main_url: str,
+                  max_level: int) -> Dict:
     """
     Generate the features based on time
     - For each level:
@@ -74,7 +76,8 @@ def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[str, int]
     minutes_hist_per_level = np.zeros((max_level, 24 * 60 * 2)).astype(int)  # 24h,60m, and 2 days
     hours_hist_per_level = np.zeros((max_level, 24 * 5)).astype(int)  # 24h and 5 days
     days_hist_per_level = np.zeros((max_level, 23)).astype(int)  # 23 days
-    more_than_30_days_per_level = np.zeros(max_level)
+    more_than_30_days_per_level = np.zeros(max_level).astype(int)  # one per each level
+    past_in_time_in_days_per_level = np.zeros((max_level, 8)).astype(int)
 
     for url, date in url_to_date.items():
         if args.debug > 0:
@@ -88,44 +91,59 @@ def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[str, int]
         if date != None and main_url_date != None:
 
             # TODO: Convert this to hours instead of days
-            day = (date - main_url_date).days
+            hours = (date - main_url_date).seconds / (60 * 60)
+            days = hours / 24  # days is float, so it is actually day + part of the hours 2.1 = 2 days and
             if args.debug > 0:
-                print(f'\tMain URL date: {main_url_date}, type {type(date)}. Other URL date {date}, type {type(date)}. Difference in days: {day}')
-            if day >= 0 and day <= 2:  # for the first two days we are creating histogram for seconds
-                minutes = int(((date - main_url_date).seconds) / 60)  # how many seconds from the main publication time
+                print(
+                    f'\tMain URL date: {main_url_date}, type {type(date)}. Other URL date {date}, type {type(date)}. Difference in days: {day}')
+            if 0 <= hours < 48:  # for the first two days we are creating histogram for seconds
+                minutes = int((date - main_url_date).seconds / 60)  # how many minutes from the main publication time
                 level_url = url_to_level[url]  # calculating the level, level>1
-                index = 24 * day * 60 + minutes  # calculating index: if day is zero, we will take first 1400 minutes
+                index = minutes  # calculating index: if day is zero, we will take first 2779 minutes
                 if args.debug > 0:
-                    print(f'\t\tBetween 0 and 2 days. The minutes is {minutes} the level is {level_url} and the index is {index}')
+                    print(
+                        f'\t\tBetween 0 and 2 days. The minutes is {minutes} the level is {level_url} and the index is {index}')
                 d = minutes_hist_per_level[level_url]
                 d[index] += 1
-            elif day > 2 and day <= 7:  # from day 2 to day 7 we calculate hours histogram
-                hour = int(((date - main_url_date).seconds) / 3600)  # how many hours from the main publication time
+            elif 2 <= days < 7:  # from day 2 to day 7 we calculate hours histogram
                 level_url = url_to_level[url]
-                index = 24 * (day - 2) + hour
+                index = int(hours - 24 * 2)  # ignoring the firs two days, from 0 to 119 index
                 if args.debug > 0:
-                    print(f'\t\tBetween 3 and 7 days. The hours is {hour} the level is {level_url} and the index is {index}')
+                    print(
+                        f'\t\tBetween 3 and 7 days. The hours is {hour} the level is {level_url} and the index is {index}')
                 hours_hist_per_level[level_url][index] += 1
-            elif day > 7 and day <= 30:  # from day 7 to day 30 we calculate daily histogram
+            elif 7 <= days < 30:  # from day 7 to day 30 we calculate daily histogram
                 level_url = url_to_level[url]
-                # Index 0 is the first day, so day 7 is index 8
-                index = day - 8
+                index = days - 7  # from 0 to 23
                 if args.debug > 0:
-                    print(f'\t\tBetween 8 and 30 days. The level is {level_url} and the index is {index}')
+                    print(f'\t\tBetween 7 and 30 days. The level is {level_url} and the index is {index}')
                 days_hist_per_level[level_url][index] += 1
-            elif day > 30:  # from day 7 to day 30 we calculate daily histogram
+            elif days >= 30:  # from day 7 to day 30 we calculate daily histogram
                 level_url = url_to_level[url]
                 more_than_30_days_per_level[level_url] += 1
-            elif day < 0:  # It was published before the main url
+            elif days < 0:  # It was published before the main url
+                positive_days = abs(days)  # store the first 7 days per days
+                if positive_days < 7:
+                    index = positive_days  # index is starting from 0 to 6
+                else:
+                    index = 7  # less than 7 days in the past got grouped together
+                level_url = url_to_level[url]
+                past_in_time_in_days_per_level[level_url][index] += 1
                 if args.debug > 0:
                     print(f'\t\t[Error] URL was published in {date}, before the main url on {main_url_date}.')
                 pass
 
-
     minutes_hist = minutes_hist_per_level.flatten().tolist()
     hour_hist = hours_hist_per_level.flatten().tolist()
     day_hist = days_hist_per_level.flatten().tolist()
-    data = {"minute_hist": minutes_hist, "hour_hist": hour_hist, "day_hist": day_hist, "more_than_30_days": more_than_30_days_per_level.tolist()}
+    past_in_time_in_days = past_in_time_in_days_per_level.flatten().tolist()
+
+    data = {"minute_hist": minutes_hist,
+            "hour_hist": hour_hist,
+            "day_hist": day_hist,
+            "more_than_30_days": more_than_30_days_per_level.tolist(),
+            "less_than_date_published": past_in_time_in_days
+            }
     return data
 
 
@@ -138,7 +156,7 @@ def get_level(links: List[tuple], main_url: str) -> Dict[str, int]:
     """
     url_to_level = {}
     url_to_level[main_url] = -1  # index of the main url
-    #print(links)
+    # print(links)
     for (_, l1, l2) in links:
         if l2 not in url_to_level:
             url_to_level[l2] = url_to_level[l1] + 1  # others start with 0
@@ -180,11 +198,11 @@ if __name__ == "__main__":
     for url in urls:
         date = get_date(url)
         # Be sure the dates have a timezone or not, but we can not mix!
-        date = date.tz_localize(None)
+        if date is not None:
+            date = date.tz_localize(None)
         url_to_date[url] = date
-        #if args.debug > 0:
-            #print(f'\tURL: {url}, date: {date}')
-
+        # if args.debug > 0:
+        # print(f'\tURL: {url}, date: {date}')
 
     # Generate the features that are a histogram of time
     hist_features = get_time_hist(url_to_date, url_to_level, main_url, max_level)
