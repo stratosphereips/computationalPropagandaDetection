@@ -1,0 +1,219 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 800;
+            height: 1500;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+        #loadingBar {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width: 800;
+            height: 1500;
+            background-color:rgba(200,200,200,0.8);
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -ms-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+            opacity:1;
+        }
+
+        #bar {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width:20px;
+            height:20px;
+            margin:auto auto auto auto;
+            border-radius:11px;
+            border:2px solid rgba(30,30,30,0.05);
+            background: rgb(0, 173, 246); /* Old browsers */
+            box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+        }
+
+        #border {
+            position:absolute;
+            top:10px;
+            left:10px;
+            width:500px;
+            height:23px;
+            margin:auto auto auto auto;
+            box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+            border-radius:10px;
+        }
+
+        #text {
+            position:absolute;
+            top:8px;
+            left:530px;
+            width:30px;
+            height:50px;
+            margin:auto auto auto auto;
+            font-size:22px;
+            color: #000000;
+        }
+
+        div.outerBorder {
+            position:relative;
+            top:400px;
+            width:600px;
+            height:44px;
+            margin:auto auto auto auto;
+            border:8px solid rgba(0,0,0,0.1);
+            background: rgb(252,252,252); /* Old browsers */
+            background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+            border-radius:72px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        }
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+<div id="loadingBar">
+    <div class="outerBorder">
+        <div id="text">0%</div>
+        <div id="border">
+            <div id="bar"></div>
+        </div>
+    </div>
+</div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "red", "id": "sputnik-ossetia.ru", "label": "sputnik-ossetia.ru", "shape": "dot", "size": 48.49086385308589, "title": "0.1559633027522936"}, {"color": "red", "id": "ria.ru", "label": "ria.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "regnum.ru", "label": "regnum.ru", "shape": "dot", "size": 18.01972739471335, "title": "0.01834862385321101"}, {"color": "red", "id": "vk.com", "label": "vk.com", "shape": "dot", "size": 28.839490125182703, "title": "0.045871559633027525"}, {"color": "red", "id": "sputnik.by", "label": "sputnik.by", "shape": "dot", "size": 31.44734547627316, "title": "0.05504587155963303"}, {"color": "red", "id": "nedvizport.ru", "label": "nedvizport.ru", "shape": "dot", "size": 22.30960358940788, "title": "0.027522935779816515"}, {"color": "orange", "id": "twitter.com", "label": "twitter.com", "shape": "dot", "size": 33.75404655662803, "title": "0.06422018348623854"}, {"color": "red", "id": "mann-ivanov-ferber.ru", "label": "mann-ivanov-ferber.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "bbc.com", "label": "bbc.com", "shape": "dot", "size": 18.01972739471335, "title": "0.01834862385321101"}, {"color": "red", "id": "pl.sputniknews.com", "label": "pl.sputniknews.com", "shape": "dot", "size": 31.44734547627316, "title": "0.05504587155963303"}, {"color": "red", "id": "dw.com", "label": "dw.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "rospolcentr.ru", "label": "rospolcentr.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "niezalezna.pl", "label": "niezalezna.pl", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "m.sputnik-ossetia.ru", "label": "m.sputnik-ossetia.ru", "shape": "dot", "size": 25.839867893372034, "title": "0.03669724770642202"}, {"color": "red", "id": "eadaily.com", "label": "eadaily.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "sputnik-abkhazia.ru", "label": "sputnik-abkhazia.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "ru.sputnik.kg", "label": "ru.sputnik.kg", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "inosmi.ru", "label": "inosmi.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "dag.aif.ru", "label": "dag.aif.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "kommersant.ru", "label": "kommersant.ru", "shape": "dot", "size": 18.01972739471335, "title": "0.01834862385321101"}, {"color": "red", "id": "ru.armeniasputnik.am", "label": "ru.armeniasputnik.am", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "ru.sputnik.kz", "label": "ru.sputnik.kz", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "ruskline.ru", "label": "ruskline.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "fontanka.ru", "label": "fontanka.ru", "shape": "dot", "size": 18.01972739471335, "title": "0.01834862385321101"}, {"color": "red", "id": "tsargrad.tv", "label": "tsargrad.tv", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "securitylab.ru", "label": "securitylab.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "polit.info", "label": "polit.info", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "yugsn.ru", "label": "yugsn.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "news-front.info", "label": "news-front.info", "shape": "dot", "size": 45.089020696586964, "title": "0.12844036697247707"}, {"color": "red", "id": "imag.one", "label": "imag.one", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "crimea.ria.ru", "label": "crimea.ria.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "tnaneve.spb.ru", "label": "tnaneve.spb.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "polpred.com", "label": "polpred.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "yandex.ru", "label": "yandex.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "newdaynews.ru", "label": "newdaynews.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "ng89.ru", "label": "ng89.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "ptoday.ru", "label": "ptoday.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "assiette.ru", "label": "assiette.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "sakhmart.ru", "label": "sakhmart.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "asd.news", "label": "asd.news", "shape": "dot", "size": 43.81307790332973, "title": "0.11926605504587157"}, {"color": "red", "id": "19rus.info", "label": "19rus.info", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "eurointegration.com.ua", "label": "eurointegration.com.ua", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "partyadela.ru", "label": "partyadela.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "istina.msu.ru", "label": "istina.msu.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "komitet.info", "label": "komitet.info", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "rni.am", "label": "rni.am", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "bigenc.ru", "label": "bigenc.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "old.zounb.zp.ua", "label": "old.zounb.zp.ua", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "maxima-library.org", "label": "maxima-library.org", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "red", "id": "rusprav.tv", "label": "rusprav.tv", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "ipress.ua", "label": "ipress.ua", "shape": "dot", "size": 33.75404655662803, "title": "0.06422018348623854"}, {"color": "green", "id": "sud.ua", "label": "sud.ua", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "ukraine.segodnya.ua", "label": "ukraine.segodnya.ua", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "nancy.curieux.net", "label": "nancy.curieux.net", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "zlgn.ru", "label": "zlgn.ru", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "ginnanmoti-ogaya.com", "label": "ginnanmoti-ogaya.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "inpress.ua", "label": "inpress.ua", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "state.gov", "label": "state.gov", "shape": "dot", "size": 58.209039736572656, "title": "0.26605504587155965"}, {"color": "green", "id": "ourindia.com", "label": "ourindia.com", "shape": "dot", "size": 46.288420795102226, "title": "0.13761467889908258"}, {"color": "green", "id": "content.govdelivery.com", "label": "content.govdelivery.com", "shape": "dot", "size": 25.839867893372034, "title": "0.03669724770642202"}, {"color": "green", "id": "subscription.ukrweekly.com", "label": "subscription.ukrweekly.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "uazmi.com", "label": "uazmi.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "en.wikipedia.org", "label": "en.wikipedia.org", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "armscontrol.org", "label": "armscontrol.org", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "rand.org", "label": "rand.org", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "everycrsreport.com", "label": "everycrsreport.com", "shape": "dot", "size": 18.01972739471335, "title": "0.01834862385321101"}, {"color": "green", "id": "urdupoint.com", "label": "urdupoint.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "dia.mil", "label": "dia.mil", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "ua.usembassy.gov", "label": "ua.usembassy.gov", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "valuationtechnology.com", "label": "valuationtechnology.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "hrw.org", "label": "hrw.org", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "nytimes.com", "label": "nytimes.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "wired.com", "label": "wired.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "alabama.ebscoed.com", "label": "alabama.ebscoed.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "ncbi.nlm.nih.gov", "label": "ncbi.nlm.nih.gov", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "cco.ndu.edu", "label": "cco.ndu.edu", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "scotsman.com", "label": "scotsman.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "csis.org", "label": "csis.org", "shape": "dot", "size": 18.01972739471335, "title": "0.01834862385321101"}, {"color": "green", "id": "sciencespo.fr", "label": "sciencespo.fr", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "nature.com", "label": "nature.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "air.tv", "label": "air.tv", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "pacifictruck.ca", "label": "pacifictruck.ca", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "en.interfax.com.ua", "label": "en.interfax.com.ua", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "theatlantic.com", "label": "theatlantic.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "ihl-databases.icrc.org", "label": "ihl-databases.icrc.org", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "congress.gov", "label": "congress.gov", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "sites.austincc.edu", "label": "sites.austincc.edu", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "un.org", "label": "un.org", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "belfercenter.org", "label": "belfercenter.org", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "gq.com", "label": "gq.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "nap.edu", "label": "nap.edu", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "training.fema.gov", "label": "training.fema.gov", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "wilsoncenter.org", "label": "wilsoncenter.org", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "ukrainianweek.com", "label": "ukrainianweek.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "mmafighting.com", "label": "mmafighting.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "reviewed.com", "label": "reviewed.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "krcrtv.com", "label": "krcrtv.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "defensenews.com", "label": "defensenews.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "usaid.gov", "label": "usaid.gov", "shape": "dot", "size": 45.089020696586964, "title": "0.12844036697247707"}, {"color": "green", "id": "thehindu.com", "label": "thehindu.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "business-standard.com", "label": "business-standard.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "facebook.com", "label": "facebook.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "todaynewsafrica.com", "label": "todaynewsafrica.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "theglobalfight.org", "label": "theglobalfight.org", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "medicalbuyer.co.in", "label": "medicalbuyer.co.in", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "in.news.yahoo.com", "label": "in.news.yahoo.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "measureevaluation.org", "label": "measureevaluation.org", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "latestly.com", "label": "latestly.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "medium.com", "label": "medium.com", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}, {"color": "green", "id": "newsbuzz.in", "label": "newsbuzz.in", "shape": "dot", "size": 12.551126399821754, "title": "0.009174311926605505"}]);
+        edges = new vis.DataSet([{"from": "sputnik-ossetia.ru", "to": "ria.ru"}, {"from": "sputnik-ossetia.ru", "to": "regnum.ru"}, {"from": "sputnik-ossetia.ru", "to": "vk.com"}, {"from": "sputnik-ossetia.ru", "to": "m.sputnik-ossetia.ru"}, {"from": "sputnik-ossetia.ru", "to": "eadaily.com"}, {"from": "sputnik-ossetia.ru", "to": "sputnik.by"}, {"from": "sputnik-ossetia.ru", "to": "sputnik-abkhazia.ru"}, {"from": "sputnik-ossetia.ru", "to": "ru.sputnik.kg"}, {"from": "sputnik-ossetia.ru", "to": "inosmi.ru"}, {"from": "sputnik-ossetia.ru", "to": "dag.aif.ru"}, {"from": "sputnik-ossetia.ru", "to": "kommersant.ru"}, {"from": "sputnik-ossetia.ru", "to": "ru.armeniasputnik.am"}, {"from": "sputnik-ossetia.ru", "to": "ru.sputnik.kz"}, {"from": "sputnik-ossetia.ru", "to": "ruskline.ru"}, {"from": "sputnik-ossetia.ru", "to": "fontanka.ru"}, {"from": "sputnik-ossetia.ru", "to": "tsargrad.tv"}, {"from": "sputnik-ossetia.ru", "to": "securitylab.ru"}, {"from": "regnum.ru", "to": "asd.news"}, {"from": "vk.com", "to": "sputnik.by"}, {"from": "vk.com", "to": "m.sputnik-ossetia.ru"}, {"from": "vk.com", "to": "news-front.info"}, {"from": "vk.com", "to": "asd.news"}, {"from": "sputnik.by", "to": "nedvizport.ru"}, {"from": "sputnik.by", "to": "twitter.com"}, {"from": "sputnik.by", "to": "sputnik.by"}, {"from": "nedvizport.ru", "to": "mann-ivanov-ferber.ru"}, {"from": "nedvizport.ru", "to": "bbc.com"}, {"from": "twitter.com", "to": "pl.sputniknews.com"}, {"from": "twitter.com", "to": "news-front.info"}, {"from": "twitter.com", "to": "inpress.ua"}, {"from": "twitter.com", "to": "state.gov"}, {"from": "twitter.com", "to": "content.govdelivery.com"}, {"from": "twitter.com", "to": "usaid.gov"}, {"from": "bbc.com", "to": "news-front.info"}, {"from": "pl.sputniknews.com", "to": "pl.sputniknews.com"}, {"from": "pl.sputniknews.com", "to": "dw.com"}, {"from": "pl.sputniknews.com", "to": "rospolcentr.ru"}, {"from": "pl.sputniknews.com", "to": "niezalezna.pl"}, {"from": "m.sputnik-ossetia.ru", "to": "polit.info"}, {"from": "m.sputnik-ossetia.ru", "to": "yugsn.ru"}, {"from": "kommersant.ru", "to": "asd.news"}, {"from": "fontanka.ru", "to": "news-front.info"}, {"from": "news-front.info", "to": "imag.one"}, {"from": "news-front.info", "to": "crimea.ria.ru"}, {"from": "news-front.info", "to": "tnaneve.spb.ru"}, {"from": "news-front.info", "to": "polpred.com"}, {"from": "news-front.info", "to": "yandex.ru"}, {"from": "news-front.info", "to": "newdaynews.ru"}, {"from": "news-front.info", "to": "ng89.ru"}, {"from": "news-front.info", "to": "ptoday.ru"}, {"from": "news-front.info", "to": "assiette.ru"}, {"from": "news-front.info", "to": "sakhmart.ru"}, {"from": "asd.news", "to": "19rus.info"}, {"from": "asd.news", "to": "eurointegration.com.ua"}, {"from": "asd.news", "to": "partyadela.ru"}, {"from": "asd.news", "to": "istina.msu.ru"}, {"from": "asd.news", "to": "komitet.info"}, {"from": "asd.news", "to": "rni.am"}, {"from": "asd.news", "to": "bigenc.ru"}, {"from": "asd.news", "to": "old.zounb.zp.ua"}, {"from": "asd.news", "to": "maxima-library.org"}, {"from": "asd.news", "to": "rusprav.tv"}, {"from": "ipress.ua", "to": "ipress.ua"}, {"from": "ipress.ua", "to": "sud.ua"}, {"from": "ipress.ua", "to": "ukraine.segodnya.ua"}, {"from": "ipress.ua", "to": "nancy.curieux.net"}, {"from": "ipress.ua", "to": "zlgn.ru"}, {"from": "ipress.ua", "to": "ginnanmoti-ogaya.com"}, {"from": "state.gov", "to": "ourindia.com"}, {"from": "state.gov", "to": "content.govdelivery.com"}, {"from": "state.gov", "to": "state.gov"}, {"from": "state.gov", "to": "subscription.ukrweekly.com"}, {"from": "state.gov", "to": "uazmi.com"}, {"from": "state.gov", "to": "en.wikipedia.org"}, {"from": "state.gov", "to": "armscontrol.org"}, {"from": "state.gov", "to": "rand.org"}, {"from": "state.gov", "to": "everycrsreport.com"}, {"from": "state.gov", "to": "urdupoint.com"}, {"from": "state.gov", "to": "dia.mil"}, {"from": "state.gov", "to": "ua.usembassy.gov"}, {"from": "state.gov", "to": "valuationtechnology.com"}, {"from": "state.gov", "to": "hrw.org"}, {"from": "state.gov", "to": "nytimes.com"}, {"from": "state.gov", "to": "wired.com"}, {"from": "state.gov", "to": "alabama.ebscoed.com"}, {"from": "state.gov", "to": "ncbi.nlm.nih.gov"}, {"from": "state.gov", "to": "cco.ndu.edu"}, {"from": "state.gov", "to": "scotsman.com"}, {"from": "state.gov", "to": "csis.org"}, {"from": "state.gov", "to": "sciencespo.fr"}, {"from": "state.gov", "to": "nature.com"}, {"from": "state.gov", "to": "air.tv"}, {"from": "state.gov", "to": "pacifictruck.ca"}, {"from": "state.gov", "to": "en.interfax.com.ua"}, {"from": "state.gov", "to": "theatlantic.com"}, {"from": "ourindia.com", "to": "everycrsreport.com"}, {"from": "ourindia.com", "to": "ihl-databases.icrc.org"}, {"from": "ourindia.com", "to": "congress.gov"}, {"from": "ourindia.com", "to": "sites.austincc.edu"}, {"from": "ourindia.com", "to": "un.org"}, {"from": "ourindia.com", "to": "belfercenter.org"}, {"from": "ourindia.com", "to": "gq.com"}, {"from": "ourindia.com", "to": "nap.edu"}, {"from": "ourindia.com", "to": "training.fema.gov"}, {"from": "ourindia.com", "to": "wilsoncenter.org"}, {"from": "ourindia.com", "to": "ukrainianweek.com"}, {"from": "ourindia.com", "to": "mmafighting.com"}, {"from": "ourindia.com", "to": "reviewed.com"}, {"from": "ourindia.com", "to": "krcrtv.com"}, {"from": "content.govdelivery.com", "to": "defensenews.com"}, {"from": "content.govdelivery.com", "to": "csis.org"}, {"from": "usaid.gov", "to": "usaid.gov"}, {"from": "usaid.gov", "to": "thehindu.com"}, {"from": "usaid.gov", "to": "business-standard.com"}, {"from": "usaid.gov", "to": "facebook.com"}, {"from": "usaid.gov", "to": "todaynewsafrica.com"}, {"from": "usaid.gov", "to": "theglobalfight.org"}, {"from": "usaid.gov", "to": "medicalbuyer.co.in"}, {"from": "usaid.gov", "to": "in.news.yahoo.com"}, {"from": "usaid.gov", "to": "measureevaluation.org"}, {"from": "usaid.gov", "to": "latestly.com"}, {"from": "usaid.gov", "to": "medium.com"}, {"from": "usaid.gov", "to": "newsbuzz.in"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+        network.on("stabilizationProgress", function(params) {
+      		document.getElementById('loadingBar').removeAttribute("style");
+	        var maxWidth = 496;
+	        var minWidth = 20;
+	        var widthFactor = params.iterations/params.total;
+	        var width = Math.max(minWidth,maxWidth * widthFactor);
+
+	        document.getElementById('bar').style.width = width + 'px';
+	        document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+	    });
+	    network.once("stabilizationIterationsDone", function() {
+	        document.getElementById('text').innerHTML = '100%';
+	        document.getElementById('bar').style.width = '496px';
+	        document.getElementById('loadingBar').style.opacity = 0;
+	        // really clean the dom element
+	        setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+	    });
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
