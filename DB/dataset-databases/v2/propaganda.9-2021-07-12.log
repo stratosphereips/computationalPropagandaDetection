@@ -1,0 +1,99 @@
+Searching the distribution graph of URL https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/. Using 1 levels.
+
+		Date found in the URL: 2021-04-28 00:00:00
+Main title: Володин: Коронавирусът е дело на американска лаборатория
+In level 0 were found 1 urls including original
+
+== Level 0. Google search by LINKS to https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/
+	Total amount of results retrieved: 1
+	Result [1]  Processing URL https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/
+		Date found in the API results: 2021-04-28T00:00:00
+		Repeated url: https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/.  Discarding.  
+		Date found in the API results: 2021-04-28T00:00:00
+
+== Level 0. Twitter search by LINKS as https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/
+https://api.twitter.com/2/tweets/search/all?query=url+%3A+https%253A%252F%252Fbgr.news-front.info%252F2021%252F04%252F28%252Fvolodin-koronavirust-e-delo-na-amerikanska-laboratoriya%252F&max_results=100&tweet.fields=author_id%2Cpublic_metrics%2Ccreated_at&start_time=2020-07-12T18%3A50%3A43.229671Z
+	Downloaded 0 twitter content
+
+== Level 0. VK search by LINKS as https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/
+In total was found 0
+
+== Level 0. Google search by TITLE as Володин: Коронавирусът е дело на американска лаборатория
+	Total amount of results retrieved: 18
+	Result [1]  Processing URL https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/
+		Date found in the API results: 2021-04-28T00:00:00
+		Repeated url: https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/.  Discarding.  
+	Result [2]  Processing URL https://app.cappture.cc/snapshots/1ebac82e-dbc1-62c2-940c-0ebd7f1ed012
+		Date found in the API results: 2021-04-28T00:00:00
+		Date found in the content of the page: None
+		Different. The content of https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/ has distance with https://app.cappture.cc/snapshots/1ebac82e-dbc1-62c2-940c-0ebd7f1ed012 of: 0.2743898293561765. Discarding.
+	Result [3]  Processing URL https://www.rbc.ru/rbcfreenews/6087f0a69a7947f2253cc127
+		Date found in the API results: 2021-04-27T00:00:00
+		The content of https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/ has distance with https://www.rbc.ru/rbcfreenews/6087f0a69a7947f2253cc127 of : 0.3006. Keeping.
+		Adding to DB the URL https://www.rbc.ru/rbcfreenews/6087f0a69a7947f2253cc127
+	Result [4]  Processing URL https://tass.ru/obschestvo/11253773
+		Date found in the API results: 2021-04-27T00:00:00
+		Different. The content of https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/ has distance with https://tass.ru/obschestvo/11253773 of: 0.2929. Discarding.
+	Result [5]  Processing URL https://www.gazeta.ru/social/news/2021/04/27/n_15912548.shtml
+		Date found in the API results: 2021-04-27T00:00:00
+		Date found in the URL: 2021-04-27 00:00:00
+		Different. The content of https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/ has distance with https://www.gazeta.ru/social/news/2021/04/27/n_15912548.shtml of: 0.2837. Discarding.
+	Result [6]  Processing URL https://don24.ru/rubric/zdorove/vyacheslav-volodin-predpolozhil-chto-novyy-koronavirus-sbezhal-iz-amerikanskoy-laboratorii.html
+		Date found in the API results: 2021-04-27T00:00:00
+		Different. The content of https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/ has distance with https://don24.ru/rubric/zdorove/vyacheslav-volodin-predpolozhil-chto-novyy-koronavirus-sbezhal-iz-amerikanskoy-laboratorii.html of: 0.2769. Discarding.
+	Result [7]  Processing URL http://duma.gov.ru/news/51372/
+		Date found in the API results: 2021-04-27T00:00:00
+		Different. The content of https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/ has distance with http://duma.gov.ru/news/51372/ of: 0.261. Discarding.
+	Result [8]  Processing URL https://www.dw.com/bg/%D0%BF%D0%BE-%D1%80%D1%83%D1%81%D0%BA%D0%B8%D1%82%D0%B5-%D0%BC%D0%B5%D0%B4%D0%B8%D0%B8-%D0%BA%D0%BE%D1%80%D0%BE%D0%BD%D0%B0%D0%B2%D0%B8%D1%80%D1%83%D1%81%D1%8A%D1%82-%D0%B5-%D1%81%D1%8A%D0%B7%D0%B4%D0%B0%D0%B4%D0%B5%D0%BD-%D0%BE%D1%82-%D0%B0%D0%BC%D0%B5%D1%80%D0%B8%D0%BA%D0%B0%D0%BD%D1%86%D0%B8%D1%82%D0%B5/a-52339581
+		Date found in the API results: 2020-02-11T00:00:00
+		The content of https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/ has distance with https://www.dw.com/bg/%D0%BF%D0%BE-%D1%80%D1%83%D1%81%D0%BA%D0%B8%D1%82%D0%B5-%D0%BC%D0%B5%D0%B4%D0%B8%D0%B8-%D0%BA%D0%BE%D1%80%D0%BE%D0%BD%D0%B0%D0%B2%D0%B8%D1%80%D1%83%D1%81%D1%8A%D1%82-%D0%B5-%D1%81%D1%8A%D0%B7%D0%B4%D0%B0%D0%B4%D0%B5%D0%BD-%D0%BE%D1%82-%D0%B0%D0%BC%D0%B5%D1%80%D0%B8%D0%BA%D0%B0%D0%BD%D1%86%D0%B8%D1%82%D0%B5/a-52339581 of : 0.3057. Keeping.
+		Adding to DB the URL https://www.dw.com/bg/%D0%BF%D0%BE-%D1%80%D1%83%D1%81%D0%BA%D0%B8%D1%82%D0%B5-%D0%BC%D0%B5%D0%B4%D0%B8%D0%B8-%D0%BA%D0%BE%D1%80%D0%BE%D0%BD%D0%B0%D0%B2%D0%B8%D1%80%D1%83%D1%81%D1%8A%D1%82-%D0%B5-%D1%81%D1%8A%D0%B7%D0%B4%D0%B0%D0%B4%D0%B5%D0%BD-%D0%BE%D1%82-%D0%B0%D0%BC%D0%B5%D1%80%D0%B8%D0%BA%D0%B0%D0%BD%D1%86%D0%B8%D1%82%D0%B5/a-52339581
+	Result [9]  Processing URL https://www.znak.com/2021-04-27/volodin_svyazal_proishozhdenie_covid_19_s_utechkoy_iz_biologicheskoy_laboratorii_ssha
+		Date found in the API results: 2021-04-27T00:00:00
+		Date found in the URL: 2021-04-27 00:00:00
+		Different. The content of https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/ has distance with https://www.znak.com/2021-04-27/volodin_svyazal_proishozhdenie_covid_19_s_utechkoy_iz_biologicheskoy_laboratorii_ssha of: 0.2768. Discarding.
+	Result [10]  Processing URL https://polit.ru/news/2021/04/27/wuhan/
+		Date found in the API results: 2021-04-27T00:00:00
+		Date found in the URL: 2021-04-27 00:00:00
+		Different. The content of https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/ has distance with https://polit.ru/news/2021/04/27/wuhan/ of: 0.29. Discarding.
+	Result [11]  Processing URL https://www.fontanka.ru/2021/04/27/69888620/
+		Date found in the API results: 2021-04-27T00:00:00
+		Date found in the URL: 2021-04-27 00:00:00
+		The content of https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/ has distance with https://www.fontanka.ru/2021/04/27/69888620/ of : 0.3201. Keeping.
+		Adding to DB the URL https://www.fontanka.ru/2021/04/27/69888620/
+	Result [12]  Processing URL https://www.vesti.ru/article/2556056
+		Date found in the API results: 2021-04-27T00:00:00
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/ has distance with https://www.vesti.ru/article/2556056 of: False. Discarding.
+	Result [13]  Processing URL https://news.rambler.ru/world/46462346-rukotvornyy-virus-v-ssha-nashli-dokazatelstva-laboratornogo-proishozhdeniya-covid/
+		Date found in the API results: 2021-05-21T00:00:00
+		Different. The content of https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/ has distance with https://news.rambler.ru/world/46462346-rukotvornyy-virus-v-ssha-nashli-dokazatelstva-laboratornogo-proishozhdeniya-covid/ of: 0.285. Discarding.
+	Result [14]  Processing URL https://tochka.press/blog/2021/04/27/%D0%B2%D0%BE%D0%BB%D0%BE%D0%B4%D0%B8%D0%BD-%D0%B4%D0%BE%D0%BF%D1%83%D1%81%D1%82%D0%B8%D0%BB-%D0%B2%D0%B8%D0%BD%D1%83-%D1%81%D1%88%D0%B0-%D0%B2-%D1%83%D1%82%D0%B5%D1%87%D0%BA%D0%B5-%D0%B8%D0%B7-%D0%BB/
+		Date found in the API results: 2021-04-27T00:00:00
+		Date found in the URL: 2021-04-27 00:00:00
+		Different. The content of https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/ has distance with https://tochka.press/blog/2021/04/27/%D0%B2%D0%BE%D0%BB%D0%BE%D0%B4%D0%B8%D0%BD-%D0%B4%D0%BE%D0%BF%D1%83%D1%81%D1%82%D0%B8%D0%BB-%D0%B2%D0%B8%D0%BD%D1%83-%D1%81%D1%88%D0%B0-%D0%B2-%D1%83%D1%82%D0%B5%D1%87%D0%BA%D0%B5-%D0%B8%D0%B7-%D0%BB/ of: 0.056105293496013064. Discarding.
+	Result [15]  Processing URL https://www.dw.com/bg/%D0%BF%D1%8A%D0%BB%D0%BD%D0%B0-%D0%BB%D1%8A%D0%B6%D0%B0-%D0%BA%D0%B8%D1%82%D0%B0%D0%B9-%D0%BE%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%B3%D0%B0-%D1%80%D0%B0%D0%B7%D1%81%D0%BB%D0%B5%D0%B4%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B7%D0%B0-%D0%BA%D0%BE%D1%80%D0%BE%D0%BD%D0%B0%D0%B2%D0%B8%D1%80%D1%83%D1%81%D0%B0/a-57653357
+		Date found in the API results: 2021-05-25T00:00:00
+		The content of https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/ has distance with https://www.dw.com/bg/%D0%BF%D1%8A%D0%BB%D0%BD%D0%B0-%D0%BB%D1%8A%D0%B6%D0%B0-%D0%BA%D0%B8%D1%82%D0%B0%D0%B9-%D0%BE%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%B3%D0%B0-%D1%80%D0%B0%D0%B7%D1%81%D0%BB%D0%B5%D0%B4%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B7%D0%B0-%D0%BA%D0%BE%D1%80%D0%BE%D0%BD%D0%B0%D0%B2%D0%B8%D1%80%D1%83%D1%81%D0%B0/a-57653357 of : 0.3036. Keeping.
+		Adding to DB the URL https://www.dw.com/bg/%D0%BF%D1%8A%D0%BB%D0%BD%D0%B0-%D0%BB%D1%8A%D0%B6%D0%B0-%D0%BA%D0%B8%D1%82%D0%B0%D0%B9-%D0%BE%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%B3%D0%B0-%D1%80%D0%B0%D0%B7%D1%81%D0%BB%D0%B5%D0%B4%D0%B2%D0%B0%D0%BD%D0%B5-%D0%B7%D0%B0-%D0%BA%D0%BE%D1%80%D0%BE%D0%BD%D0%B0%D0%B2%D0%B8%D1%80%D1%83%D1%81%D0%B0/a-57653357
+	Result [16]  Processing URL https://openmedia.io/news/n1/volodin-nazval-ochevidnym-poyavlenie-covid-19-v-rezultate-utechki-iz-laboratorii-ssha/
+		Date found in the API results: 2021-04-27T00:00:00
+		The content of https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/ has distance with https://openmedia.io/news/n1/volodin-nazval-ochevidnym-poyavlenie-covid-19-v-rezultate-utechki-iz-laboratorii-ssha/ of : 0.4352. Keeping.
+		Adding to DB the URL https://openmedia.io/news/n1/volodin-nazval-ochevidnym-poyavlenie-covid-19-v-rezultate-utechki-iz-laboratorii-ssha/
+	Result [17]  Processing URL https://regnum.ru/news/3254618.html
+		Date found in the API results: 2021-04-27T00:00:00
+		The content of https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/ has distance with https://regnum.ru/news/3254618.html of : 0.3161. Keeping.
+		Adding to DB the URL https://regnum.ru/news/3254618.html
+	Result [18]  Processing URL https://3mv.ru/164605-proizoshla-utechka-spiker-gosdumy-obvinil-ssha-v-sozdanii-koronavirusa-video.html
+		Date found in the API results: 2021-04-28T00:00:00
+		Different. The content of https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/ has distance with https://3mv.ru/164605-proizoshla-utechka-spiker-gosdumy-obvinil-ssha-v-sozdanii-koronavirusa-video.html of: 0.2684. Discarding.
+
+== Level 0. Twitter search by title as Володин: Коронавирусът е дело на американска лаборатория
+https://api.twitter.com/2/tweets/search/all?query=%22%D0%92%D0%BE%D0%BB%D0%BE%D0%B4%D0%B8%D0%BD%3A+%D0%9A%D0%BE%D1%80%D0%BE%D0%BD%D0%B0%D0%B2%D0%B8%D1%80%D1%83%D1%81%D1%8A%D1%82+%D0%B5+%D0%B4%D0%B5%D0%BB%D0%BE+%D0%BD%D0%B0+%D0%B0%D0%BC%D0%B5%D1%80%D0%B8%D0%BA%D0%B0%D0%BD%D1%81%D0%BA%D0%B0+%D0%BB%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%B8%D1%8F%22&max_results=100&tweet.fields=author_id%2Cpublic_metrics%2Ccreated_at&start_time=2020-07-12T18%3A51%3A17.095678Z
+	Downloaded 0 twitter content
+
+== Level 0. VK search by title as Володин: Коронавирусът е дело на американска лаборатория
+In total was found 0

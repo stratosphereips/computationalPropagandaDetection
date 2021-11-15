@@ -1,0 +1,76 @@
+Searching the distribution graph of URL https://pl.sputniknews.com/opinie/2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik/. Using 1 levels.
+
+Main title: Rosja odtajniła dokumenty z wiosny 1945 roku. Nie wszystkim w Polsce to się podoba - 13.05.2021, Sputnik Polska
+In level 0 were found 1 urls including original
+
+== Level 0. Google search by LINKS to https://pl.sputniknews.com/opinie/2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik/
+	Total amount of results retrieved: 1
+	Result [1]  Processing URL https://pl.sputniknews.com/20210513/rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik-14268911.html
+		Date found in the API results: 2021-05-13T00:00:00
+		Date found in the URL: 2021-05-13 00:00:00
+		Not in content. The URL https://pl.sputniknews.com/opinie/2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik/ is not in the content of site https://pl.sputniknews.com/20210513/rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik-14268911.html  Discarding.
+
+== Level 0. Twitter search by LINKS as https://pl.sputniknews.com/opinie/2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik/
+https://api.twitter.com/2/tweets/search/all?query=url+%3A+https%253A%252F%252Fpl.sputniknews.com%252Fopinie%252F2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik%252F&max_results=100&tweet.fields=author_id%2Cpublic_metrics%2Ccreated_at&start_time=2018-07-13T18%3A57%3A10.091861Z
+	Downloaded 1 twitter content
+	Result [1]  Processing twitter ID 1393071185316007937: Rosja odtajniła dokumenty z wiosny 1945 roku. Nie wszystkim w Polsce to się podoba: https://t.co/bSwiG4yGHp
+
+== Level 0. VK search by LINKS as https://pl.sputniknews.com/opinie/2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik/
+In total was found 0
+
+== Level 0. Google search by TITLE as Rosja odtajniła dokumenty z wiosny 1945 roku. Nie wszystkim w Polsce to się podoba - 13.05.2021, Sputnik Polska
+	Total amount of results retrieved: 11
+	Result [1]  Processing URL https://pl.sputniknews.com/20210513/rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik-14268911.html
+		Date found in the API results: 2021-05-13T00:00:00
+		Date found in the URL: 2021-05-13 00:00:00
+		The content of https://pl.sputniknews.com/opinie/2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik/ has distance with https://pl.sputniknews.com/20210513/rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik-14268911.html of : 1.0. Keeping.
+		Adding to DB the URL https://pl.sputniknews.com/20210513/rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik-14268911.html
+	Result [2]  Processing URL https://pl.sputniknews.com/archive/20210513/
+		Date found in the API results: 2021-05-13T00:00:00
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of https://pl.sputniknews.com/opinie/2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik/ has distance with https://pl.sputniknews.com/archive/20210513/ of: False. Discarding.
+	Result [3]  Processing URL https://pl.sputniknews.com/20210513/
+		Date found in the API results: 2021-05-13T00:00:00
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of https://pl.sputniknews.com/opinie/2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik/ has distance with https://pl.sputniknews.com/20210513/ of: False. Discarding.
+	Result [4]  Processing URL https://pl.sputniknews.com/event_II_wojna_swiatowa/
+		The content of https://pl.sputniknews.com/opinie/2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik/ has distance with https://pl.sputniknews.com/event_II_wojna_swiatowa/ of : 0.6445. Keeping.
+		Adding to DB the URL https://pl.sputniknews.com/event_II_wojna_swiatowa/
+	Result [5]  Processing URL https://pl.sputniknews.com/author_wiktor_bezeka/
+		The content of https://pl.sputniknews.com/opinie/2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik/ has distance with https://pl.sputniknews.com/author_wiktor_bezeka/ of : 0.6281. Keeping.
+		Adding to DB the URL https://pl.sputniknews.com/author_wiktor_bezeka/
+	Result [6]  Processing URL https://pl.sputniknews.com/20200117/ministerstwo-obrony-odtajnilo-dokumenty-o-wyzwoleniu-warszawy-sputnik-11669541.html
+		Date found in the API results: 2020-01-17T00:00:00
+		Date found in the URL: 2020-01-17 00:00:00
+		The content of https://pl.sputniknews.com/opinie/2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik/ has distance with https://pl.sputniknews.com/20200117/ministerstwo-obrony-odtajnilo-dokumenty-o-wyzwoleniu-warszawy-sputnik-11669541.html of : 0.7652. Keeping.
+		Adding to DB the URL https://pl.sputniknews.com/20200117/ministerstwo-obrony-odtajnilo-dokumenty-o-wyzwoleniu-warszawy-sputnik-11669541.html
+	Result [7]  Processing URL https://pl.sputniknews.com/20200522/sputnik-odtajnione-przez-rosje-dokumenty-rzucaja-swiatlo-na-niemiecko-polskie-stosunki-w-przededniu-ii-ws-12454433.html
+		Date found in the API results: 2020-05-22T00:00:00
+		Date found in the URL: 2020-05-22 00:00:00
+		The content of https://pl.sputniknews.com/opinie/2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik/ has distance with https://pl.sputniknews.com/20200522/sputnik-odtajnione-przez-rosje-dokumenty-rzucaja-swiatlo-na-niemiecko-polskie-stosunki-w-przededniu-ii-ws-12454433.html of : 0.776. Keeping.
+		Adding to DB the URL https://pl.sputniknews.com/20200522/sputnik-odtajnione-przez-rosje-dokumenty-rzucaja-swiatlo-na-niemiecko-polskie-stosunki-w-przededniu-ii-ws-12454433.html
+	Result [8]  Processing URL https://www.o2.pl/informacje/rosja-ujawnia-dokumenty-o-wyzwoleniu-polski-polacy-kopiowali-nazistow-6637035365747552a
+		Date found in the API results: 2021-05-07T00:00:00
+		Different. The content of https://pl.sputniknews.com/opinie/2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik/ has distance with https://www.o2.pl/informacje/rosja-ujawnia-dokumenty-o-wyzwoleniu-polski-polacy-kopiowali-nazistow-6637035365747552a of: 0.2587. Discarding.
+	Result [9]  Processing URL https://wiadomosci.onet.pl/swiat/rosja-odtajnila-dokumenty-z-czasow-ii-wojny-swiatowej-dotycza-min-wkroczenia-armii/qc07f69
+		Date found in the API results: 2020-01-17T00:00:00
+		Different. The content of https://pl.sputniknews.com/opinie/2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik/ has distance with https://wiadomosci.onet.pl/swiat/rosja-odtajnila-dokumenty-z-czasow-ii-wojny-swiatowej-dotycza-min-wkroczenia-armii/qc07f69 of: 0.2965. Discarding.
+	Result [10]  Processing URL http://rospolcentr.ru/pol/sputnik-polska-o-badaniu-socjologicznym-w-rosji-i-polsce/
+		The content of https://pl.sputniknews.com/opinie/2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik/ has distance with http://rospolcentr.ru/pol/sputnik-polska-o-badaniu-socjologicznym-w-rosji-i-polsce/ of : 0.3063. Keeping.
+		Adding to DB the URL http://rospolcentr.ru/pol/sputnik-polska-o-badaniu-socjologicznym-w-rosji-i-polsce/
+	Result [11]  Processing URL https://wiadomosci.dziennik.pl/swiat/artykuly/6423271,rosja-dokumenty-1945-r-polska-oskarzenie.html
+		Date found in the API results: 2020-01-17T00:00:00
+		Different. The content of https://pl.sputniknews.com/opinie/2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik/ has distance with https://wiadomosci.dziennik.pl/swiat/artykuly/6423271,rosja-dokumenty-1945-r-polska-oskarzenie.html of: 0.2906. Discarding.
+
+== Level 0. Twitter search by title as Rosja odtajniła dokumenty z wiosny 1945 roku. Nie wszystkim w Polsce to się podoba - 13.05.2021, Sputnik Polska
+https://api.twitter.com/2/tweets/search/all?query=%22Rosja+odtajni%C5%82a+dokumenty+z+wiosny+1945+roku.+Nie+wszystkim+w+Polsce+to+si%C4%99+podoba+-+13.05.2021%2C+Sputnik+Polska%22&max_results=100&tweet.fields=author_id%2Cpublic_metrics%2Ccreated_at&start_time=2018-07-13T18%3A57%3A26.358604Z
+	Downloaded 0 twitter content
+
+== Level 0. VK search by title as Rosja odtajniła dokumenty z wiosny 1945 roku. Nie wszystkim w Polsce to się podoba - 13.05.2021, Sputnik Polska
+In total was found 0

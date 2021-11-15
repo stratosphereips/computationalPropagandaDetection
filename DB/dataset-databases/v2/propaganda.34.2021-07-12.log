@@ -1,0 +1,413 @@
+Searching the distribution graph of URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe. Using 1 levels.
+
+Main title: Escalating Violence in Libya Sends Migrants Fleeing for Europe | Voice of America - English
+In level 0 were found 1 urls including original
+
+== Level 0. Google search by LINKS to https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe
+	Total amount of results retrieved: 100
+	Result [1]  Processing URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe
+		Date found in the API results: 2020-01-14T00:00:00
+		Repeated url: https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe.  Discarding.  
+	Result [2]  Processing URL https://www.voanews.com/africa?refresh=1&date=&to=&page=251
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.voanews.com/africa?refresh=1&date=&to=&page=251  Discarding.
+	Result [3]  Processing URL https://www.voanews.com/africa?d=8&m=3&y=2017&date=&to=&page=245
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.voanews.com/africa?d=8&m=3&y=2017&date=&to=&page=245  Discarding.
+	Result [4]  Processing URL https://www.voanews.com/middle-east/germanys-foreign-minister-libya-push-peace-efforts
+		Date found in the API results: 2020-01-16T00:00:00
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.voanews.com/middle-east/germanys-foreign-minister-libya-push-peace-efforts  Discarding.
+	Result [5]  Processing URL https://www.voanews.com/africa?d=8&m=1&y=2018&date=&to=&page=249
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.voanews.com/africa?d=8&m=1&y=2018&date=&to=&page=249  Discarding.
+	Result [6]  Processing URL https://www.voanews.com/middle-east?d=4&m=9&p=1&y=2018&date=&to=&page=150
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.voanews.com/middle-east?d=4&m=9&p=1&y=2018&date=&to=&page=150  Discarding.
+	Result [7]  Processing URL https://www.voanews.com/africa?date=05/06/2015&to=06/06/2015&page=19
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.voanews.com/africa?date=05/06/2015&to=06/06/2015&page=19  Discarding.
+	Result [8]  Processing URL https://www.voanews.com/middle-east?d=4&m=2&p=1&y=2015&date=&to=&page=152
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.voanews.com/middle-east?d=4&m=2&p=1&y=2015&date=&to=&page=152  Discarding.
+	Result [9]  Processing URL https://www.e-ir.info/publications/download/file/75192/75194
+		! Error getting the content of the web.
+		! unsupported operand type(s) for +: 'int' and 'str'
+		<class 'TypeError'>
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.e-ir.info/publications/download/file/75192/75194  Discarding.
+	Result [10]  Processing URL https://reliefweb.int/sites/reliefweb.int/files/resources/Mixed-Migration-Review-2020.pdf
+		Date found in the API results: 2020-11-01T00:00:00
+		Blacklisted url: https://reliefweb.int/sites/reliefweb.int/files/resources/Mixed-Migration-Review-2020.pdf.  Discarding.  
+	Result [11]  Processing URL https://freedomhouse.org/sites/default/files/2021-02/Complete_FH_TransnationalRepressionReport2021_rev020221.pdf
+		Date found in the API results: None
+		Blacklisted url: https://freedomhouse.org/sites/default/files/2021-02/Complete_FH_TransnationalRepressionReport2021_rev020221.pdf.  Discarding.  
+	Result [12]  Processing URL https://mixedmigration.org/wp-content/uploads/2020/11/Mixed-Migration-Review-2020.pdf
+		Date found in the API results: 2020-11-01T00:00:00
+		Blacklisted url: https://mixedmigration.org/wp-content/uploads/2020/11/Mixed-Migration-Review-2020.pdf.  Discarding.  
+	Result [13]  Processing URL http://www.ia-forum.org/Files/QNEMHW.pdf
+		Date found in the API results: None
+		Blacklisted url: http://www.ia-forum.org/Files/QNEMHW.pdf.  Discarding.  
+	Result [14]  Processing URL https://reliefweb.int/sites/reliefweb.int/files/resources/084-disorder-on-the%20border.pdf
+		Date found in the API results: 2020-12-14T00:00:00
+		Blacklisted url: https://reliefweb.int/sites/reliefweb.int/files/resources/084-disorder-on-the%20border.pdf.  Discarding.  
+	Result [15]  Processing URL https://en.wikipedia.org/wiki/Syrian_civil_war
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://en.wikipedia.org/wiki/Syrian_civil_war  Discarding.
+	Result [16]  Processing URL https://www.amnesty.org/fr/sitemap/latest/
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.amnesty.org/fr/sitemap/latest/  Discarding.
+	Result [17]  Processing URL https://www.un.org/development/desa/dpad/wp-content/uploads/sites/45/WESP2019_BOOK-web.pdf
+		Blacklisted url: https://www.un.org/development/desa/dpad/wp-content/uploads/sites/45/WESP2019_BOOK-web.pdf.  Discarding.  
+	Result [18]  Processing URL https://www.state.gov/wp-content/uploads/2019/11/Country-Reports-on-Terrorism-2018-FINAL.pdf
+		Date found in the API results: 2018-02-05T00:00:00
+		Blacklisted url: https://www.state.gov/wp-content/uploads/2019/11/Country-Reports-on-Terrorism-2018-FINAL.pdf.  Discarding.  
+	Result [19]  Processing URL https://www.hrw.org/sites/default/files/world_report_download/hrw_world_report_2020_0.pdf
+		Blacklisted url: https://www.hrw.org/sites/default/files/world_report_download/hrw_world_report_2020_0.pdf.  Discarding.  
+	Result [20]  Processing URL https://www.refworld.org/pdfid/5724aba34.pdf
+		Blacklisted url: https://www.refworld.org/pdfid/5724aba34.pdf.  Discarding.  
+	Result [21]  Processing URL https://www.swp-berlin.org/publications/products/research_papers/2015_RP05_sbg_web.pdf
+		Blacklisted url: https://www.swp-berlin.org/publications/products/research_papers/2015_RP05_sbg_web.pdf.  Discarding.  
+	Result [22]  Processing URL https://etd.ohiolink.edu/apexprod/rws_etd/send_file/send?accession=ohiou1175695071&disposition=attachment
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://etd.ohiolink.edu/apexprod/rws_etd/send_file/send?accession=ohiou1175695071&disposition=attachment  Discarding.
+	Result [23]  Processing URL https://www.stjornarradid.is/raduneyti/utanrikisraduneytid/heimsljos/frettir-og-frettaskyringar/
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.stjornarradid.is/raduneyti/utanrikisraduneytid/heimsljos/frettir-og-frettaskyringar/  Discarding.
+	Result [24]  Processing URL https://www.govinfo.gov/content/pkg/CHRG-112shrg73914/html/CHRG-112shrg73914.htm
+		Date found in the content of the page: None
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.govinfo.gov/content/pkg/CHRG-112shrg73914/html/CHRG-112shrg73914.htm  Discarding.
+	Result [25]  Processing URL https://www.rand.org/content/dam/rand/pubs/research_reports/RR2700/RR2799/RAND_RR2799.pdf
+		Blacklisted url: https://www.rand.org/content/dam/rand/pubs/research_reports/RR2700/RR2799/RAND_RR2799.pdf.  Discarding.  
+	Result [26]  Processing URL https://www.globalr2p.org/wp-content/uploads/2019/01/adamsrohingya_opaper_final.pdf
+		Blacklisted url: https://www.globalr2p.org/wp-content/uploads/2019/01/adamsrohingya_opaper_final.pdf.  Discarding.  
+	Result [27]  Processing URL https://horninstitute.org/wp-content/uploads/2021/02/HORN-Bulletin-Vol-IV-%E2%80%A2-Iss-I-%E2%80%A2-January-February-2021.pdf
+		Blacklisted url: https://horninstitute.org/wp-content/uploads/2021/02/HORN-Bulletin-Vol-IV-%E2%80%A2-Iss-I-%E2%80%A2-January-February-2021.pdf.  Discarding.  
+	Result [28]  Processing URL https://www.behorizon.org/wp-content/uploads/2020/01/LIBYA-CRISIS-WATCH-ARCHIVE-2018-2019.pdf
+		Date found in the API results: 2019-12-29T00:00:00
+		Blacklisted url: https://www.behorizon.org/wp-content/uploads/2020/01/LIBYA-CRISIS-WATCH-ARCHIVE-2018-2019.pdf.  Discarding.  
+	Result [29]  Processing URL https://rsc-banks.house.gov/sites/republicanstudycommittee.house.gov/files/%5BFINAL%5D%20NSTF%20Report.pdf?utm_source=yxnews&utm_medium=mobile
+		Date found in the API results: 2020-06-11T00:00:00
+		Blacklisted url: https://rsc-banks.house.gov/sites/republicanstudycommittee.house.gov/files/%5BFINAL%5D%20NSTF%20Report.pdf?utm_source=yxnews&utm_medium=mobile.  Discarding.  
+	Result [30]  Processing URL https://www.dhs.gov/sites/default/files/publications/no_mas_muertes_01_0.pdf
+		Date found in the API results: 2017-01-19T00:00:00
+		Blacklisted url: https://www.dhs.gov/sites/default/files/publications/no_mas_muertes_01_0.pdf.  Discarding.  
+	Result [31]  Processing URL https://rsc-banks.house.gov/sites/republicanstudycommittee.house.gov/files/%5BFINAL%5D%20NSTF%20Report.pdf?utm_source=yxnews&utm_medium=mobile
+		Date found in the API results: 2020-06-11T00:00:00
+		Blacklisted url: https://rsc-banks.house.gov/sites/republicanstudycommittee.house.gov/files/%5BFINAL%5D%20NSTF%20Report.pdf?utm_source=yxnews&utm_medium=mobile.  Discarding.  
+	Result [32]  Processing URL https://www.behorizon.org/wp-content/uploads/2020/01/LIBYA-CRISIS-WATCH-ARCHIVE-2018-2019.pdf
+		Date found in the API results: 2019-12-29T00:00:00
+		Blacklisted url: https://www.behorizon.org/wp-content/uploads/2020/01/LIBYA-CRISIS-WATCH-ARCHIVE-2018-2019.pdf.  Discarding.  
+	Result [33]  Processing URL https://www.dhs.gov/sites/default/files/publications/no_mas_muertes_01_0.pdf
+		Date found in the API results: 2017-01-19T00:00:00
+		Blacklisted url: https://www.dhs.gov/sites/default/files/publications/no_mas_muertes_01_0.pdf.  Discarding.  
+	Result [34]  Processing URL https://www.icc-cpi.int/RelatedRecords/CR2021_01167.PDF
+		Date found in the API results: 2021-02-05T00:00:00
+		! Error getting the content of the web.
+		! unsupported operand type(s) for +: 'int' and 'str'
+		<class 'TypeError'>
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.icc-cpi.int/RelatedRecords/CR2021_01167.PDF  Discarding.
+	Result [35]  Processing URL https://www.ibcr.org/wp-content/uploads/2020/01/Enfants-conflits-arm%C3%A9s-Revue-de-presse-2016.pdf
+		Date found in the API results: 2016-01-08T00:00:00
+		Blacklisted url: https://www.ibcr.org/wp-content/uploads/2020/01/Enfants-conflits-arm%C3%A9s-Revue-de-presse-2016.pdf.  Discarding.  
+	Result [36]  Processing URL https://www.msf.org/sites/msf.org/files/2020-11/socs-rohingya-en_0.pdf
+		Date found in the API results: 2020-11-09T00:00:00
+		Blacklisted url: https://www.msf.org/sites/msf.org/files/2020-11/socs-rohingya-en_0.pdf.  Discarding.  
+	Result [37]  Processing URL https://repositorio.comillas.edu/xmlui/bitstream/handle/11531/42585/TD00369.pdf?sequence=1&isAllowed=y
+		Blacklisted url: https://repositorio.comillas.edu/xmlui/bitstream/handle/11531/42585/TD00369.pdf?sequence=1&isAllowed=y.  Discarding.  
+	Result [38]  Processing URL https://www.globalcenter.org/wp-content/uploads/2016/05/GCCS_VIOLENT-EXTREMISM_low_3.pdf
+		Blacklisted url: https://www.globalcenter.org/wp-content/uploads/2016/05/GCCS_VIOLENT-EXTREMISM_low_3.pdf.  Discarding.  
+	Result [39]  Processing URL https://www.usmcu.edu/Portals/218/CAOCL/RCLF%20Workbooks/OB5EB6%20Senior%20Workbook.pdf?ver
+		Blacklisted url: https://www.usmcu.edu/Portals/218/CAOCL/RCLF%20Workbooks/OB5EB6%20Senior%20Workbook.pdf?ver.  Discarding.  
+	Result [40]  Processing URL https://natolibguides.info/c.php?g=48561&p=311268
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://natolibguides.info/c.php?g=48561&p=311268  Discarding.
+	Result [41]  Processing URL https://www.cia.gov/library/abbottabad-compound/13/130AEF1531746AAD6AC03EF59F91E1A1_Killing_Hope_Blum_William.pdf
+		Blacklisted url: https://www.cia.gov/library/abbottabad-compound/13/130AEF1531746AAD6AC03EF59F91E1A1_Killing_Hope_Blum_William.pdf.  Discarding.  
+	Result [42]  Processing URL https://media.defense.gov/2021/Mar/07/2002595040/-1/-1/1/JIPA%20SPRING%202021%20MH%203.1X2.PDF
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://media.defense.gov/2021/Mar/07/2002595040/-1/-1/1/JIPA%20SPRING%202021%20MH%203.1X2.PDF  Discarding.
+	Result [43]  Processing URL https://www.usagm.gov/wp-content/uploads/2012/02/FY-2013-BBG-Congressional-Budget-Request-FINAL-2-9-12-Small.pdf
+		Blacklisted url: https://www.usagm.gov/wp-content/uploads/2012/02/FY-2013-BBG-Congressional-Budget-Request-FINAL-2-9-12-Small.pdf.  Discarding.  
+	Result [44]  Processing URL https://www.armyupress.army.mil/Portals/7/combat-studies-institute/csi-books/cultural-perspectives.pdf
+		Blacklisted url: https://www.armyupress.army.mil/Portals/7/combat-studies-institute/csi-books/cultural-perspectives.pdf.  Discarding.  
+	Result [45]  Processing URL https://tac.nist.gov/2018/SM-KBP/guidelines/en_voa_pre_20131126.txt
+		Date found in the API results: 2013-11-26T00:00:00
+		! Error getting the content of the web.
+		! unsupported operand type(s) for +: 'int' and 'str'
+		<class 'TypeError'>
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://tac.nist.gov/2018/SM-KBP/guidelines/en_voa_pre_20131126.txt  Discarding.
+	Result [46]  Processing URL https://s3.amazonaws.com/arena-attachments/770323/6a088e6a4baa083e1f720982c0bff8b9.pdf
+		Blacklisted url: https://s3.amazonaws.com/arena-attachments/770323/6a088e6a4baa083e1f720982c0bff8b9.pdf.  Discarding.  
+	Result [47]  Processing URL http://link.springer.com/content/pdf/10.1007%2F978-3-319-51352-2.pdf
+		Blacklisted url: http://link.springer.com/content/pdf/10.1007%2F978-3-319-51352-2.pdf.  Discarding.  
+	Result [48]  Processing URL https://www.civicus.org/index.php/media-resources/news/united-nations/geneva?start=200
+		! Error getting the content of the web.
+		! unsupported operand type(s) for +: 'int' and 'str'
+		<class 'TypeError'>
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.civicus.org/index.php/media-resources/news/united-nations/geneva?start=200  Discarding.
+	Result [49]  Processing URL https://www.eastwest.ngo/sites/default/files/ideas-files/ewi-terrorism-in-afghanistan-joint-threat-assessment-202005_0.pdf
+		Date found in the API results: 2020-05-17T00:00:00
+		Blacklisted url: https://www.eastwest.ngo/sites/default/files/ideas-files/ewi-terrorism-in-afghanistan-joint-threat-assessment-202005_0.pdf.  Discarding.  
+	Result [50]  Processing URL https://www.law.ox.ac.uk/sites/files/oxlaw/ssrn-id3576732-1.pdf
+		Blacklisted url: https://www.law.ox.ac.uk/sites/files/oxlaw/ssrn-id3576732-1.pdf.  Discarding.  
+	Result [51]  Processing URL https://www.boell.de/sites/default/files/Somalia-engl-i.pdf
+		Blacklisted url: https://www.boell.de/sites/default/files/Somalia-engl-i.pdf.  Discarding.  
+	Result [52]  Processing URL https://egrove.olemiss.edu/cgi/viewcontent.cgi?article=1597&context=hon_thesis
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://egrove.olemiss.edu/cgi/viewcontent.cgi?article=1597&context=hon_thesis  Discarding.
+	Result [53]  Processing URL https://www.norwich.edu/pdfs/nupress/PAWC_Journal_2020_final_single-r1.pdf
+		Blacklisted url: https://www.norwich.edu/pdfs/nupress/PAWC_Journal_2020_final_single-r1.pdf.  Discarding.  
+	Result [54]  Processing URL https://www.ida.org/-/media/feature/publications/t/th/the-africa-watch-january--march-2013/d-4819.ashx
+		Date found in the API results: 2013-03-23T00:00:00
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.ida.org/-/media/feature/publications/t/th/the-africa-watch-january--march-2013/d-4819.ashx  Discarding.
+	Result [55]  Processing URL https://www.ijcv.org/index.php/ijcv/issue/download/257/95
+		! Error getting the content of the web.
+		! unsupported operand type(s) for +: 'int' and 'str'
+		<class 'TypeError'>
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.ijcv.org/index.php/ijcv/issue/download/257/95  Discarding.
+	Result [56]  Processing URL https://www.stateoig.gov/system/files/q3fy2019_leadig_oir_report.pdf
+		Blacklisted url: https://www.stateoig.gov/system/files/q3fy2019_leadig_oir_report.pdf.  Discarding.  
+	Result [57]  Processing URL https://escholarship.org/content/qt0n17g0n0/qt0n17g0n0_noSplash_2d9eb59a47755e945342834df998b9f2.pdf
+		Blacklisted url: https://escholarship.org/content/qt0n17g0n0/qt0n17g0n0_noSplash_2d9eb59a47755e945342834df998b9f2.pdf.  Discarding.  
+	Result [58]  Processing URL https://www.issuelab.org/resources/27690/27690.pdf?download=true
+		Blacklisted url: https://www.issuelab.org/resources/27690/27690.pdf?download=true.  Discarding.  
+	Result [59]  Processing URL https://www.amacad.org/sites/default/files/daedalus/downloads/Su18_Anticorruption.pdf
+		Blacklisted url: https://www.amacad.org/sites/default/files/daedalus/downloads/Su18_Anticorruption.pdf.  Discarding.  
+	Result [60]  Processing URL https://connectedlearning4refugees.org/wp-content/uploads/2019/12/gcpea_education_under_attack_2014-compressed.pdf
+		Date found in the API results: None
+		Blacklisted url: https://connectedlearning4refugees.org/wp-content/uploads/2019/12/gcpea_education_under_attack_2014-compressed.pdf.  Discarding.  
+	Result [61]  Processing URL https://ndupress.ndu.edu/Portals/68/Documents/jfq/jfq-75/jfq-75.pdf
+		Blacklisted url: https://ndupress.ndu.edu/Portals/68/Documents/jfq/jfq-75/jfq-75.pdf.  Discarding.  
+	Result [62]  Processing URL https://www.hsdl.org/?view&did=732206
+		Date found in the API results: 2012-12-02T00:00:00
+		Date found in the content of the page: None
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.hsdl.org/?view&did=732206  Discarding.
+	Result [63]  Processing URL https://papers.ssrn.com/sol3/Delivery.cfm/SSRN_ID3576732_code4116297.pdf?abstractid=3576732&mirid=1
+		Date found in the API results: 2020-04-01T00:00:00
+		Blacklisted url: https://papers.ssrn.com/sol3/Delivery.cfm/SSRN_ID3576732_code4116297.pdf?abstractid=3576732&mirid=1.  Discarding.  
+	Result [64]  Processing URL https://scholarship.claremont.edu/cgi/viewcontent.cgi?article=3234&context=cmc_theses
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://scholarship.claremont.edu/cgi/viewcontent.cgi?article=3234&context=cmc_theses  Discarding.
+	Result [65]  Processing URL https://www.uscirf.gov/sites/default/files/2021-04/AnnualReport2007.pdf
+		Date found in the API results: 2007-05-01T00:00:00
+		Blacklisted url: https://www.uscirf.gov/sites/default/files/2021-04/AnnualReport2007.pdf.  Discarding.  
+	Result [66]  Processing URL https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1467-825X.2021.09778.x
+		Date found in the API results: 2020-12-07T00:00:00
+		Date found in the URL: 2021-07-13 00:00:00
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1467-825X.2021.09778.x  Discarding.
+	Result [67]  Processing URL https://www.lpwntb.or.id/wp-content/uploads/2021/03/Green-Criminology-Avi-Brisman-Nigel-South-Rob-White-Environmental-Crime-and-Social-Conflict_-Contemporary-and-Emerging-Issues-Ashgate-Pub-Co-2015.pdf
+		Blacklisted url: https://www.lpwntb.or.id/wp-content/uploads/2021/03/Green-Criminology-Avi-Brisman-Nigel-South-Rob-White-Environmental-Crime-and-Social-Conflict_-Contemporary-and-Emerging-Issues-Ashgate-Pub-Co-2015.pdf.  Discarding.  
+	Result [68]  Processing URL https://digitalcommons.tourolaw.edu/cgi/viewcontent.cgi?article=2835&context=lawreview
+		! Error getting the content of the web.
+		! unsupported operand type(s) for +: 'int' and 'str'
+		<class 'TypeError'>
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://digitalcommons.tourolaw.edu/cgi/viewcontent.cgi?article=2835&context=lawreview  Discarding.
+	Result [69]  Processing URL https://transatlanticrelations.org/wp-content/uploads/2018/09/Eastern-Question-full.pdf
+		Blacklisted url: https://transatlanticrelations.org/wp-content/uploads/2018/09/Eastern-Question-full.pdf.  Discarding.  
+	Result [70]  Processing URL https://www.scholarsatrisk.org/wp-content/uploads/2016/05/Education_Under_Attack_2014.pdf
+		Date found in the API results: None
+		Blacklisted url: https://www.scholarsatrisk.org/wp-content/uploads/2016/05/Education_Under_Attack_2014.pdf.  Discarding.  
+	Result [71]  Processing URL https://assets.publishing.service.gov.uk/media/57a08aad40f0b649740006f2/China-and-conflict-affected-states.pdf
+		Blacklisted url: https://assets.publishing.service.gov.uk/media/57a08aad40f0b649740006f2/China-and-conflict-affected-states.pdf.  Discarding.  
+	Result [72]  Processing URL https://transatlanticrelations.org/wp-content/uploads/2018/09/Eastern-Question-full.pdf
+		Blacklisted url: https://transatlanticrelations.org/wp-content/uploads/2018/09/Eastern-Question-full.pdf.  Discarding.  
+	Result [73]  Processing URL https://www.gicj.org/conferences-meetings/human-rights-council-sessions/session-reports/1442-gicj-report-on-the-thirty-eighth-regular-session-of-the-human-rights-council
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.gicj.org/conferences-meetings/human-rights-council-sessions/session-reports/1442-gicj-report-on-the-thirty-eighth-regular-session-of-the-human-rights-council  Discarding.
+	Result [74]  Processing URL https://africacenter.org/daily-media-review/media-review-for-july-14-2016/
+		Date found in the API results: 2016-07-14T00:00:00
+		Date found in the content of the page: None
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://africacenter.org/daily-media-review/media-review-for-july-14-2016/  Discarding.
+	Result [75]  Processing URL https://digitalcommons.tourolaw.edu/cgi/viewcontent.cgi?article=2835&context=lawreview
+		! Error getting the content of the web.
+		! unsupported operand type(s) for +: 'int' and 'str'
+		<class 'TypeError'>
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://digitalcommons.tourolaw.edu/cgi/viewcontent.cgi?article=2835&context=lawreview  Discarding.
+	Result [76]  Processing URL https://www.nikolaymarinov.com/research/process-or-candidate-how-states-intervene-elections
+		Date found in the content of the page: None
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.nikolaymarinov.com/research/process-or-candidate-how-states-intervene-elections  Discarding.
+	Result [77]  Processing URL https://www.files.ethz.ch/isn/94263/iraq-report_08.pdf
+		Blacklisted url: https://www.files.ethz.ch/isn/94263/iraq-report_08.pdf.  Discarding.  
+	Result [78]  Processing URL http://www.gppi.net/fileadmin/user_upload/media/pub/2017/Alleblas_Aloyo_Brockmeier_Rotmann_Western__2017__In_the_Shadow_of_Syria.pdf
+		Date found in the API results: 2014-01-29T00:00:00
+		Blacklisted url: http://www.gppi.net/fileadmin/user_upload/media/pub/2017/Alleblas_Aloyo_Brockmeier_Rotmann_Western__2017__In_the_Shadow_of_Syria.pdf.  Discarding.  
+	Result [79]  Processing URL https://fass.ubd.edu.bn/staff/docs/AU/books/The%20Migration%20Myth%20in%20Policy%20and%20Practice.pdf
+		Blacklisted url: https://fass.ubd.edu.bn/staff/docs/AU/books/The%20Migration%20Myth%20in%20Policy%20and%20Practice.pdf.  Discarding.  
+	Result [80]  Processing URL https://www.rferl.org/sitemap_8_2.xml.gz
+		Date found in the content of the page: None
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.rferl.org/sitemap_8_2.xml.gz  Discarding.
+	Result [81]  Processing URL https://www.cambridge.org/core/books/memory-and-justice-in-postgenocide-rwanda/creating-what-you-are-afraid-of/D9BC056959B759028754F32CC9EC651B/core-reader
+		Date found in the API results: 2017-08-30T00:00:00
+		Date found in the content of the page: None
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.cambridge.org/core/books/memory-and-justice-in-postgenocide-rwanda/creating-what-you-are-afraid-of/D9BC056959B759028754F32CC9EC651B/core-reader  Discarding.
+	Result [82]  Processing URL https://africacenter.org/daily-media-review/media-review-for-july-14-2016/
+		Date found in the API results: 2016-07-14T00:00:00
+		Date found in the content of the page: None
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://africacenter.org/daily-media-review/media-review-for-july-14-2016/  Discarding.
+	Result [83]  Processing URL https://www.gicj.org/conferences-meetings/human-rights-council-sessions/session-reports/1442-gicj-report-on-the-thirty-eighth-regular-session-of-the-human-rights-council
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.gicj.org/conferences-meetings/human-rights-council-sessions/session-reports/1442-gicj-report-on-the-thirty-eighth-regular-session-of-the-human-rights-council  Discarding.
+	Result [84]  Processing URL https://scholarcommons.usf.edu/cgi/viewcontent.cgi?article=1712&context=gsp
+		Date found in the API results: 1995-04-22T00:00:00
+		! Error getting the content of the web.
+		! unsupported operand type(s) for +: 'int' and 'str'
+		<class 'TypeError'>
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://scholarcommons.usf.edu/cgi/viewcontent.cgi?article=1712&context=gsp  Discarding.
+	Result [85]  Processing URL https://www.fdd.org/wp-content/uploads/2020/12/fdd-monograph-defending-forward.pdf
+		Date found in the API results: 2020-12-02T00:00:00
+		Blacklisted url: https://www.fdd.org/wp-content/uploads/2020/12/fdd-monograph-defending-forward.pdf.  Discarding.  
+	Result [86]  Processing URL https://www.easo.europa.eu/sites/default/files/public/COI-Report-Somalia.pdf
+		Date found in the API results: 2014-08-22T00:00:00
+		Blacklisted url: https://www.easo.europa.eu/sites/default/files/public/COI-Report-Somalia.pdf.  Discarding.  
+	Result [87]  Processing URL https://ctc.usma.edu/wp-content/uploads/2018/05/Boko-Haram-Beyond-the-Headlines.pdf
+		Date found in the API results: 2018-05-01T00:00:00
+		Blacklisted url: https://ctc.usma.edu/wp-content/uploads/2018/05/Boko-Haram-Beyond-the-Headlines.pdf.  Discarding.  
+	Result [88]  Processing URL https://apps.dtic.mil/sti/pdfs/ADA621096.pdf
+		Blacklisted url: https://apps.dtic.mil/sti/pdfs/ADA621096.pdf.  Discarding.  
+	Result [89]  Processing URL https://protectingeducation.org/wp-content/uploads/documents/documents_eua_2014_full_0.pdf
+		Date found in the API results: 2013-10-09T00:00:00
+		Blacklisted url: https://protectingeducation.org/wp-content/uploads/documents/documents_eua_2014_full_0.pdf.  Discarding.  
+	Result [90]  Processing URL http://clinton.presidentiallibraries.us/items/browse?advanced%5B0%5D%5Belement_id%5D=39&advanced%5B0%5D%5Btype%5D=is+exactly&advanced%5B0%5D%5Bterms%5D=David+Kusnet&output=omeka-xml
+		! Timeout waiting for the web server to answer.  We ignore and continue.
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site http://clinton.presidentiallibraries.us/items/browse?advanced%5B0%5D%5Belement_id%5D=39&advanced%5B0%5D%5Btype%5D=is+exactly&advanced%5B0%5D%5Bterms%5D=David+Kusnet&output=omeka-xml  Discarding.
+	Result [91]  Processing URL https://nesa-center.org/dev/wp-content/uploads/2021/05/20210514_CSAG-STRATEGIC-ESTIMATE-2021.pdf
+		Date found in the API results: 2021-05-12T00:00:00
+		Blacklisted url: https://nesa-center.org/dev/wp-content/uploads/2021/05/20210514_CSAG-STRATEGIC-ESTIMATE-2021.pdf.  Discarding.  
+	Result [92]  Processing URL https://www.nikolaymarinov.com/research/process-or-candidate-how-states-intervene-elections
+		Date found in the content of the page: None
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site https://www.nikolaymarinov.com/research/process-or-candidate-how-states-intervene-elections  Discarding.
+	Result [93]  Processing URL https://roape.net/site/wp-content/uploads/2020/10/Volume-36-2009-Issue-120.pdf
+		Blacklisted url: https://roape.net/site/wp-content/uploads/2020/10/Volume-36-2009-Issue-120.pdf.  Discarding.  
+	Result [94]  Processing URL http://arabcenterdc.org/wp-content/uploads/2017/11/Trump-and-the-Arab-World-A-First-Year-Assessment.pdf
+		Date found in the API results: 2017-10-10T00:00:00
+		Blacklisted url: http://arabcenterdc.org/wp-content/uploads/2017/11/Trump-and-the-Arab-World-A-First-Year-Assessment.pdf.  Discarding.  
+	Result [95]  Processing URL https://www.bosch-stiftung.de/sites/default/files/publications/pdf_import/The_Eastern_Question.pdf
+		Blacklisted url: https://www.bosch-stiftung.de/sites/default/files/publications/pdf_import/The_Eastern_Question.pdf.  Discarding.  
+	Result [96]  Processing URL http://www.smallarmssurvey.org/fileadmin/docs/D-Book-series/book-01-Armed-and-Aimless/SAS-Armed-Aimless-1-Full-manuscript.pdf
+		Blacklisted url: http://www.smallarmssurvey.org/fileadmin/docs/D-Book-series/book-01-Armed-and-Aimless/SAS-Armed-Aimless-1-Full-manuscript.pdf.  Discarding.  
+	Result [97]  Processing URL https://www.ojp.gov/pdffiles1/Digitization/126990NCJRS.pdf
+		Date found in the API results: 2020-09-05T00:00:00
+		Blacklisted url: https://www.ojp.gov/pdffiles1/Digitization/126990NCJRS.pdf.  Discarding.  
+	Result [98]  Processing URL http://www.preventgenocide.org/prevent/news-monitor/
+		Date found in the content of the page: None
+		Not in content. The URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe is not in the content of site http://www.preventgenocide.org/prevent/news-monitor/  Discarding.
+	Result [99]  Processing URL https://www.kaldorcentre.unsw.edu.au/sites/default/files/ResearchBrief_EuropeanApproachesToForcedMigration_Final.pdf
+		Date found in the API results: 2018-12-31T00:00:00
+		Blacklisted url: https://www.kaldorcentre.unsw.edu.au/sites/default/files/ResearchBrief_EuropeanApproachesToForcedMigration_Final.pdf.  Discarding.  
+	Result [100]  Processing URL https://publications.armywarcollege.edu/pubs/3705.pdf
+		Blacklisted url: https://publications.armywarcollege.edu/pubs/3705.pdf.  Discarding.  
+		Date found in the API results: 2020-01-14T00:00:00
+
+== Level 0. Twitter search by LINKS as https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe
+https://api.twitter.com/2/tweets/search/all?query=url+%3A+https%253A%252F%252Fwww.voanews.com%252Fafrica%252Fescalating-violence-libya-sends-migrants-fleeing-europe&max_results=100&tweet.fields=author_id%2Cpublic_metrics%2Ccreated_at&start_time=2020-07-13T00%3A08%3A05.656847Z
+	Downloaded 0 twitter content
+
+== Level 0. VK search by LINKS as https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe
+In total was found 0
+
+== Level 0. Google search by TITLE as Escalating Violence in Libya Sends Migrants Fleeing for Europe | Voice of America - English
+	Total amount of results retrieved: 37
+	Result [1]  Processing URL https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe
+		Date found in the API results: 2020-01-14T00:00:00
+		Repeated url: https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe.  Discarding.  
+	Result [2]  Processing URL https://www.unhcr.org/news/latest/2020/5/5eb503954/conflict-pandemic-drive-people-risk-deadly-sea-route-libya.html
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://www.unhcr.org/news/latest/2020/5/5eb503954/conflict-pandemic-drive-people-risk-deadly-sea-route-libya.html of: 0.2842. Discarding.
+	Result [3]  Processing URL https://www.unhcr.org/56bb369c9.pdf
+		Date found in the API results: None
+		Blacklisted url: https://www.unhcr.org/56bb369c9.pdf.  Discarding.  
+	Result [4]  Processing URL https://publications.iom.int/system/files/pdf/migrationcaughtincrisis_forweb.pdf
+		Date found in the API results: None
+		Blacklisted url: https://publications.iom.int/system/files/pdf/migrationcaughtincrisis_forweb.pdf.  Discarding.  
+	Result [5]  Processing URL https://publications.iom.int/books/migrants-caught-crisis-iom-experience-libya
+		Date found in the content of the page: None
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://publications.iom.int/books/migrants-caught-crisis-iom-experience-libya of: 0.296. Discarding.
+	Result [6]  Processing URL https://www.msf.org/libya%E2%80%99s-cycle-detention-exploitation-and-abuse-against-migrants-and-refugees
+		Date found in the API results: None
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://www.msf.org/libya%E2%80%99s-cycle-detention-exploitation-and-abuse-against-migrants-and-refugees of: 0.2686. Discarding.
+	Result [7]  Processing URL https://www.msf.org.br/publicacoes/dying_to_reach_europe.pdf
+		Date found in the API results: None
+		Blacklisted url: https://www.msf.org.br/publicacoes/dying_to_reach_europe.pdf.  Discarding.  
+	Result [8]  Processing URL https://www.dw.com/en/libya-must-release-refugees-held-in-detention-centers-says-unhcr-chief/a-38928899
+		Date found in the API results: None
+		Date found in the content of the page: None
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://www.dw.com/en/libya-must-release-refugees-held-in-detention-centers-says-unhcr-chief/a-38928899 of: 0.2797. Discarding.
+	Result [9]  Processing URL https://reliefweb.int/sites/reliefweb.int/files/resources/Libya_CaseStudy_FINAL.pdf
+		Date found in the API results: None
+		Blacklisted url: https://reliefweb.int/sites/reliefweb.int/files/resources/Libya_CaseStudy_FINAL.pdf.  Discarding.  
+	Result [10]  Processing URL https://www.unhcr.ca/our-work/emergencies/libya/
+		Date found in the content of the page: None
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://www.unhcr.ca/our-work/emergencies/libya/ of: 0.02227478809383008. Discarding.
+	Result [11]  Processing URL https://www.aljazeera.com/news/2021/2/24/un-says-41-europe-bound-migrants-drown-in-mediterranean
+		Date found in the API results: 2021-02-24T00:00:00
+		Date found in the URL: 2021-02-24 00:00:00
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://www.aljazeera.com/news/2021/2/24/un-says-41-europe-bound-migrants-drown-in-mediterranean of: 0.2882. Discarding.
+	Result [12]  Processing URL https://www.migreurop.org/IMG/pdf/hamood-libya.pdf
+		Date found in the API results: None
+		Blacklisted url: https://www.migreurop.org/IMG/pdf/hamood-libya.pdf.  Discarding.  
+	Result [13]  Processing URL https://globalinitiative.net/wp-content/uploads/2018/01/Libya_ISS_Smuggling.pdf
+		Date found in the API results: None
+		Blacklisted url: https://globalinitiative.net/wp-content/uploads/2018/01/Libya_ISS_Smuggling.pdf.  Discarding.  
+	Result [14]  Processing URL https://www.npr.org/2021/02/13/949182773/the-harrowing-journeys-to-safety-of-asylum-seekers-during-a-pandemic
+		Date found in the API results: 2021-02-13T00:00:00
+		Date found in the URL: 2021-02-13 00:00:00
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://www.npr.org/2021/02/13/949182773/the-harrowing-journeys-to-safety-of-asylum-seekers-during-a-pandemic of: 0.2738511003935917. Discarding.
+	Result [15]  Processing URL https://www.crisisgroup.org/middle-east-north-africa/north-africa/libya/179-how-libyas-fezzan-became-europes-new-border
+		! Error getting the content of the web.
+		! Document is empty
+		<class 'lxml.etree.ParserError'>
+		The content of the pages were not string. Verify.
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://www.crisisgroup.org/middle-east-north-africa/north-africa/libya/179-how-libyas-fezzan-became-europes-new-border of: False. Discarding.
+	Result [16]  Processing URL https://www.infomigrants.net/en/post/21089/spike-in-migrants-boats-leaving-libya
+		Date found in the API results: 2019-11-25T00:00:00
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://www.infomigrants.net/en/post/21089/spike-in-migrants-boats-leaving-libya of: 0.2337. Discarding.
+	Result [17]  Processing URL https://ec.europa.eu/trustfundforafrica/sites/euetfa/files/darfur_web.pdf
+		Blacklisted url: https://ec.europa.eu/trustfundforafrica/sites/euetfa/files/darfur_web.pdf.  Discarding.  
+	Result [18]  Processing URL https://www.statewatch.org/media/documents/news/2019/jun/eu-icc-case-EU-Migration-Policies.pdf
+		Date found in the API results: 2019-06-03T00:00:00
+		Blacklisted url: https://www.statewatch.org/media/documents/news/2019/jun/eu-icc-case-EU-Migration-Policies.pdf.  Discarding.  
+	Result [19]  Processing URL https://www.saferworld.org.uk/downloads/partners-in-crime.-the-impacts-of-europes-outsourced-migration-controls-on-peace-stability-and-rights.pdf
+		Blacklisted url: https://www.saferworld.org.uk/downloads/partners-in-crime.-the-impacts-of-europes-outsourced-migration-controls-on-peace-stability-and-rights.pdf.  Discarding.  
+	Result [20]  Processing URL https://www.fmreview.org/sites/fmr/files/FMRdownloads/en/north-africa.pdf
+		Blacklisted url: https://www.fmreview.org/sites/fmr/files/FMRdownloads/en/north-africa.pdf.  Discarding.  
+	Result [21]  Processing URL https://www.msf.org.br/publicacoes/dying_to_reach_europe.pdf
+		Blacklisted url: https://www.msf.org.br/publicacoes/dying_to_reach_europe.pdf.  Discarding.  
+	Result [22]  Processing URL https://www.aljazeera.com/tag/migration/
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://www.aljazeera.com/tag/migration/ of: 0.2999. Discarding.
+	Result [23]  Processing URL http://www.ifrc.org/Global/Documents/Secretariat/2012_WDR_Full_Report.pdf
+		Blacklisted url: http://www.ifrc.org/Global/Documents/Secretariat/2012_WDR_Full_Report.pdf.  Discarding.  
+	Result [24]  Processing URL https://www.ecoi.net/en/file/local/2049565/606427d97.pdf
+		Blacklisted url: https://www.ecoi.net/en/file/local/2049565/606427d97.pdf.  Discarding.  
+	Result [25]  Processing URL https://www.bbc.com/news/world-middle-east-32386370
+		Date found in the API results: 2015-04-20T00:00:00
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://www.bbc.com/news/world-middle-east-32386370 of: 0.2754. Discarding.
+	Result [26]  Processing URL https://www.amnesty.ch/de/ueber-amnesty/publikationen/amnesty-report/jahre/2020/202021-air-english_2021-04-07_final.pdf
+		Blacklisted url: https://www.amnesty.ch/de/ueber-amnesty/publikationen/amnesty-report/jahre/2020/202021-air-english_2021-04-07_final.pdf.  Discarding.  
+	Result [27]  Processing URL https://www.eda.admin.ch/eda/en/fdfa/fdfa/aktuell/news.par_newsfilter3_page1.par_newsfilter1_page210.par_newsfilter2_page28.html?_charset_=utf-8&term=&fromYear=&toYear=&filtercountry%3Acountries-eda=Selection&filtertopic%3Aeda=topic%3Aeda%2Fmigration
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://www.eda.admin.ch/eda/en/fdfa/fdfa/aktuell/news.par_newsfilter3_page1.par_newsfilter1_page210.par_newsfilter2_page28.html?_charset_=utf-8&term=&fromYear=&toYear=&filtercountry%3Acountries-eda=Selection&filtertopic%3Aeda=topic%3Aeda%2Fmigration of: 0.2693. Discarding.
+	Result [28]  Processing URL https://www.acaps.org/sites/acaps/files/resources/files/20201210_acaps_access_assessment_final_change_map.xlsx
+		Date found in the content of the page: None
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://www.acaps.org/sites/acaps/files/resources/files/20201210_acaps_access_assessment_final_change_map.xlsx of: 0.0836. Discarding.
+	Result [29]  Processing URL http://migrationdataportal.org/regional-data-overview/northern-africa
+		Date found in the API results: 2021-06-14T00:00:00
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with http://migrationdataportal.org/regional-data-overview/northern-africa of: 0.2596. Discarding.
+	Result [30]  Processing URL https://www.unicef.org/press-releases/114-unaccompanied-children-rescued-sea-coast-libya
+		Date found in the content of the page: None
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://www.unicef.org/press-releases/114-unaccompanied-children-rescued-sea-coast-libya of: 0.04420849420849421. Discarding.
+	Result [31]  Processing URL http://www.ifrc.org/Global/Documents/Secretariat/2012_WDR_Full_Report.pdf
+		Blacklisted url: http://www.ifrc.org/Global/Documents/Secretariat/2012_WDR_Full_Report.pdf.  Discarding.  
+	Result [32]  Processing URL https://www.acaps.org/sites/acaps/files/resources/files/20201210_acaps_access_assessment_final_change_map.xlsx
+		Date found in the content of the page: None
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://www.acaps.org/sites/acaps/files/resources/files/20201210_acaps_access_assessment_final_change_map.xlsx of: 0.0836. Discarding.
+	Result [33]  Processing URL https://www.thenewhumanitarian.org/news-feature/2021/6/2/a-sicilian-fishing-town-and-the-perils-of-italys-migration-deal-with-libya
+		Date found in the API results: 2021-06-02T00:00:00
+		Date found in the URL: 2021-06-02 00:00:00
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://www.thenewhumanitarian.org/news-feature/2021/6/2/a-sicilian-fishing-town-and-the-perils-of-italys-migration-deal-with-libya of: 0.2834. Discarding.
+	Result [34]  Processing URL https://www.cidob.org/en/publications/publication_series/notes_internacionals/n1_124_tragedies_in_the_mediterranean/tragedies_in_the_mediterranean_analyzing_the_causes_and_addressing_the_solutions_from_the_roots_to_the_boats
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://www.cidob.org/en/publications/publication_series/notes_internacionals/n1_124_tragedies_in_the_mediterranean/tragedies_in_the_mediterranean_analyzing_the_causes_and_addressing_the_solutions_from_the_roots_to_the_boats of: 0.2476. Discarding.
+	Result [35]  Processing URL https://www.unison.org.uk/content/uploads/2016/05/2016-National-Delegate-Conference_Final_Agenda_online.docx
+		Date found in the content of the page: None
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://www.unison.org.uk/content/uploads/2016/05/2016-National-Delegate-Conference_Final_Agenda_online.docx of: 0.0886. Discarding.
+	Result [36]  Processing URL https://unsmil.unmissions.org/situation-migrants-transit-through-libya-en-route-europe-breifing-note-08-may-2015
+		Date found in the API results: None
+		Different. The content of https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe has distance with https://unsmil.unmissions.org/situation-migrants-transit-through-libya-en-route-europe-breifing-note-08-may-2015 of: 0.2749. Discarding.
+	Result [37]  Processing URL https://cmsny.org/wp-content/uploads/2018/06/JMHSspecialcoll-Global-Refugee-Protection.pdf
+		Blacklisted url: https://cmsny.org/wp-content/uploads/2018/06/JMHSspecialcoll-Global-Refugee-Protection.pdf.  Discarding.  
+
+== Level 0. Twitter search by title as Escalating Violence in Libya Sends Migrants Fleeing for Europe | Voice of America - English
+https://api.twitter.com/2/tweets/search/all?query=%22Escalating+Violence+in+Libya+Sends+Migrants+Fleeing+for+Europe+%7C+Voice+of+America+-+English%22&max_results=100&tweet.fields=author_id%2Cpublic_metrics%2Ccreated_at&start_time=2020-07-13T00%3A08%3A56.946590Z
+	Downloaded 0 twitter content
+
+== Level 0. VK search by title as Escalating Violence in Libya Sends Migrants Fleeing for Europe | Voice of America - English
+In total was found 0

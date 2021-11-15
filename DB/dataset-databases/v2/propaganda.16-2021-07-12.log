@@ -1,0 +1,87 @@
+Searching the distribution graph of URL https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html. Using 1 levels.
+
+		Date found in the URL: 2021-05-04 00:00:00
+Main title: От иллюзий к обвинениям и обратно: как Запад то строит, то рушит отношения с РФ - 04.05.2021, Sputnik Беларусь
+In level 0 were found 1 urls including original
+
+== Level 0. Google search by LINKS to https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html
+	Total amount of results retrieved: 2
+	Result [1]  Processing URL https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html
+		Date found in the API results: 2021-05-04T00:00:00
+		Repeated url: https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html.  Discarding.  
+	Result [2]  Processing URL https://sputnik.by/sitemap_article.xml?date=axqdwfttovarm
+		Date found in the content of the page: None
+		Not in content. The URL https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html is not in the content of site https://sputnik.by/sitemap_article.xml?date=axqdwfttovarm  Discarding.
+		Date found in the API results: 2021-05-04T00:00:00
+
+== Level 0. Twitter search by LINKS as https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html
+https://api.twitter.com/2/tweets/search/all?query=url+%3A+https%253A%252F%252Fsputnik.by%252Fcolumnists%252F20210504%252F1047548484%252FOt-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html&max_results=100&tweet.fields=author_id%2Cpublic_metrics%2Ccreated_at&start_time=2020-07-12T18%3A56%3A42.445681Z
+	Downloaded 1 twitter content
+	Result [1]  Processing twitter ID 1389583815094509569: В понедельник в Лондоне началась трехдневная серия встреч глав МИД стран "Большой семерки". Это первое очное мероприятие такого рода за два года. О главным темах меро...
+https://t.co/aOOvt2Gppj
+
+== Level 0. VK search by LINKS as https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html
+In total was found 0
+
+== Level 0. Google search by TITLE as От иллюзий к обвинениям и обратно: как Запад то строит, то рушит отношения с РФ - 04.05.2021, Sputnik Беларусь
+	Total amount of results retrieved: 14
+	Result [1]  Processing URL https://sputnik.by/20210504/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF-1047548484.html
+		Date found in the API results: 2021-05-04T00:00:00
+		Date found in the URL: 2021-05-04 00:00:00
+		The content of https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html has distance with https://sputnik.by/20210504/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF-1047548484.html of : 1.0. Keeping.
+		Adding to DB the URL https://sputnik.by/20210504/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF-1047548484.html
+	Result [2]  Processing URL https://sputnik.by/columnists/2019031/?id=1043322837&date=20191125T105736
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html has distance with https://sputnik.by/columnists/2019031/?id=1043322837&date=20191125T105736 of: False. Discarding.
+	Result [3]  Processing URL https://app.cappture.cc/snapshots/1ebb279c-50c7-623e-b184-0e716e7d7ade
+		Date found in the API results: 2021-05-04T00:00:00
+		Date found in the content of the page: None
+		The content of https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html has distance with https://app.cappture.cc/snapshots/1ebb279c-50c7-623e-b184-0e716e7d7ade of : 0.3508056292066082. Keeping.
+		Adding to DB the URL https://app.cappture.cc/snapshots/1ebb279c-50c7-623e-b184-0e716e7d7ade
+	Result [4]  Processing URL https://www.vesti.ru/article/2576365
+		Date found in the API results: 2021-06-16T00:00:00
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html has distance with https://www.vesti.ru/article/2576365 of: False. Discarding.
+	Result [5]  Processing URL https://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D0%B9%D1%81%D0%BA%D0%BE-%D0%B1%D0%B5%D0%BB%D0%BE%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B5_%D0%BE%D1%82%D0%BD%D0%BE%D1%88%D0%B5%D0%BD%D0%B8%D1%8F
+		Different. The content of https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html has distance with https://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D0%B9%D1%81%D0%BA%D0%BE-%D0%B1%D0%B5%D0%BB%D0%BE%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B5_%D0%BE%D1%82%D0%BD%D0%BE%D1%88%D0%B5%D0%BD%D0%B8%D1%8F of: 0.2674. Discarding.
+	Result [6]  Processing URL https://pdfs.semanticscholar.org/82c0/1d79523c51bb25e598fca0f96fb4ac661ebf.pdf
+		Date found in the API results: None
+		Blacklisted url: https://pdfs.semanticscholar.org/82c0/1d79523c51bb25e598fca0f96fb4ac661ebf.pdf.  Discarding.  
+	Result [7]  Processing URL https://lv.sputniknews.ru/20210513/Posol-Latvii-otnosheniya-Moskvy-i-Rigi-nakhodyatsya-v-nizshey-tochke-so-vremen-kholodnoy-voyny-15659250.html
+		Date found in the API results: 2021-05-13T00:00:00
+		Date found in the URL: 2021-05-13 00:00:00
+		The content of https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html has distance with https://lv.sputniknews.ru/20210513/Posol-Latvii-otnosheniya-Moskvy-i-Rigi-nakhodyatsya-v-nizshey-tochke-so-vremen-kholodnoy-voyny-15659250.html of : 0.8231. Keeping.
+		Adding to DB the URL https://lv.sputniknews.ru/20210513/Posol-Latvii-otnosheniya-Moskvy-i-Rigi-nakhodyatsya-v-nizshey-tochke-so-vremen-kholodnoy-voyny-15659250.html
+	Result [8]  Processing URL https://sputnik.yjhgjghj.space/politics/
+		Date found in the API results: 2021-05-04T00:00:00
+		Date found in the content of the page: None
+		Different. The content of https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html has distance with https://sputnik.yjhgjghj.space/politics/ of: 0.25037005709452315. Discarding.
+	Result [9]  Processing URL https://rg.ru/sujet/1884/
+		Different. The content of https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html has distance with https://rg.ru/sujet/1884/ of: 0.2855. Discarding.
+	Result [10]  Processing URL https://24minus.ru/page/24?app=core&module=search&controller=search&csrfKey=dab7e34fe5ccf9c9526563bc4c36856f
+		Different. The content of https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html has distance with https://24minus.ru/page/24?app=core&module=search&controller=search&csrfKey=dab7e34fe5ccf9c9526563bc4c36856f of: 0.2981. Discarding.
+	Result [11]  Processing URL https://rg.ru/sujet/1884/
+		Different. The content of https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html has distance with https://rg.ru/sujet/1884/ of: 0.2855. Discarding.
+	Result [12]  Processing URL https://www.inafran.ru/sites/default/files/page_file/mwt1.pdf
+		Blacklisted url: https://www.inafran.ru/sites/default/files/page_file/mwt1.pdf.  Discarding.  
+	Result [13]  Processing URL https://www.dw.com/ru/4-%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D1%8B%D1%85-%D0%BF%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D1%8B-%D0%B1%D0%B5%D0%BB%D0%BE%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE-%D1%80%D0%BE%D1%81%D1%81%D0%B8%D0%B9%D1%81%D0%BA%D0%B8%D1%85-%D0%BE%D1%82%D0%BD%D0%BE%D1%88%D0%B5%D0%BD%D0%B8%D0%B9/a-44238024
+		Date found in the API results: 2018-06-18T00:00:00
+		The content of https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html has distance with https://www.dw.com/ru/4-%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D1%8B%D1%85-%D0%BF%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D1%8B-%D0%B1%D0%B5%D0%BB%D0%BE%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE-%D1%80%D0%BE%D1%81%D1%81%D0%B8%D0%B9%D1%81%D0%BA%D0%B8%D1%85-%D0%BE%D1%82%D0%BD%D0%BE%D1%88%D0%B5%D0%BD%D0%B8%D0%B9/a-44238024 of : 0.3244. Keeping.
+		Adding to DB the URL https://www.dw.com/ru/4-%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D1%8B%D1%85-%D0%BF%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D1%8B-%D0%B1%D0%B5%D0%BB%D0%BE%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE-%D1%80%D0%BE%D1%81%D1%81%D0%B8%D0%B9%D1%81%D0%BA%D0%B8%D1%85-%D0%BE%D1%82%D0%BD%D0%BE%D1%88%D0%B5%D0%BD%D0%B8%D0%B9/a-44238024
+	Result [14]  Processing URL https://www.kommersant.ru/doc/2290252
+		Date found in the API results: 2002-05-26T00:00:00
+		The content of https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html has distance with https://www.kommersant.ru/doc/2290252 of : 0.4234. Keeping.
+		Adding to DB the URL https://www.kommersant.ru/doc/2290252
+
+== Level 0. Twitter search by title as От иллюзий к обвинениям и обратно: как Запад то строит, то рушит отношения с РФ - 04.05.2021, Sputnik Беларусь
+https://api.twitter.com/2/tweets/search/all?query=%22%D0%9E%D1%82+%D0%B8%D0%BB%D0%BB%D1%8E%D0%B7%D0%B8%D0%B9+%D0%BA+%D0%BE%D0%B1%D0%B2%D0%B8%D0%BD%D0%B5%D0%BD%D0%B8%D1%8F%D0%BC+%D0%B8+%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D0%BD%D0%BE%3A+%D0%BA%D0%B0%D0%BA+%D0%97%D0%B0%D0%BF%D0%B0%D0%B4+%D1%82%D0%BE+%D1%81%D1%82%D1%80%D0%BE%D0%B8%D1%82%2C+%D1%82%D0%BE+%D1%80%D1%83%D1%88%D0%B8%D1%82+%D0%BE%D1%82%D0%BD%D0%BE%D1%88%D0%B5%D0%BD%D0%B8%D1%8F+%D1%81+%D0%A0%D0%A4+-+04.05.2021%2C+Sputnik+%D0%91%D0%B5%D0%BB%D0%B0%D1%80%D1%83%D1%81%D1%8C%22&max_results=100&tweet.fields=author_id%2Cpublic_metrics%2Ccreated_at&start_time=2020-07-12T18%3A57%3A04.131062Z
+	Downloaded 0 twitter content
+
+== Level 0. VK search by title as От иллюзий к обвинениям и обратно: как Запад то строит, то рушит отношения с РФ - 04.05.2021, Sputnik Беларусь
+In total was found 0

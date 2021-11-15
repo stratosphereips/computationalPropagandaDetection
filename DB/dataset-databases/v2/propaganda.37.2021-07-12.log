@@ -1,0 +1,175 @@
+Searching the distribution graph of URL https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html. Using 1 levels.
+
+		Date found in the URL: 2021-06-11 00:00:00
+Main title: US-Russia relations are so poor that only a summit can sort them out, Putin's spokesman says - CNN
+In level 0 were found 1 urls including original
+
+== Level 0. Google search by LINKS to https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html
+	Total amount of results retrieved: 11
+	Result [1]  Processing URL https://www.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html
+		Date found in the API results: 2021-06-11T00:00:00
+		Date found in the URL: 2021-06-11 00:00:00
+		The URL https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html IS in the content of site https://www.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html  Keeping.
+		Adding to DB the URL https://www.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html
+	Result [2]  Processing URL https://www.cnn.com/2021/06/11/politics/vladimir-putin-joe-biden-press-conference/index.html
+		Date found in the API results: 2021-06-12T00:00:00
+		Date found in the URL: 2021-06-11 00:00:00
+		The URL https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html IS in the content of site https://www.cnn.com/2021/06/11/politics/vladimir-putin-joe-biden-press-conference/index.html  Keeping.
+		Adding to DB the URL https://www.cnn.com/2021/06/11/politics/vladimir-putin-joe-biden-press-conference/index.html
+	Result [3]  Processing URL https://lebanonews.net/En/2021/06/12/us-russia-relations-are-so-poor-that-only-a-summit-can-sort-them-out-putins-spokesman-says/
+		! Error in getting content due to a Connection Error. Port closed, web down?
+		Not in content. The URL https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html is not in the content of site https://lebanonews.net/En/2021/06/12/us-russia-relations-are-so-poor-that-only-a-summit-can-sort-them-out-putins-spokesman-says/  Discarding.
+	Result [4]  Processing URL https://lebanonews.net/En/2021/06/12/nigerias-president-vows-to-fight-militant-groups-and-fix-economy-as-activists-call-for-anti-government-protests/
+		! Error in getting content due to a Connection Error. Port closed, web down?
+		Not in content. The URL https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html is not in the content of site https://lebanonews.net/En/2021/06/12/nigerias-president-vows-to-fight-militant-groups-and-fix-economy-as-activists-call-for-anti-government-protests/  Discarding.
+	Result [5]  Processing URL http://godzlla.com/pla-sends-28-warplanes-into-taiwans-air-defense-zone-taipei-says/
+		! Timeout waiting for the web server to answer.  We ignore and continue.
+		Not in content. The URL https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html is not in the content of site http://godzlla.com/pla-sends-28-warplanes-into-taiwans-air-defense-zone-taipei-says/  Discarding.
+	Result [6]  Processing URL https://www.worldnews.easybranches.com/regions/u-s/9606279
+		The URL https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html IS in the content of site https://www.worldnews.easybranches.com/regions/u-s/9606279  Keeping.
+		Adding to DB the URL https://www.worldnews.easybranches.com/regions/u-s/9606279
+	Result [7]  Processing URL http://mappingaset.bnpb.go.id/new/public/asset/13812/submit.html
+		Not in content. The URL https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html is not in the content of site http://mappingaset.bnpb.go.id/new/public/asset/13812/submit.html  Discarding.
+	Result [8]  Processing URL http://www.linuxengineeringgroup.com/
+		Not in content. The URL https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html is not in the content of site http://www.linuxengineeringgroup.com/  Discarding.
+	Result [9]  Processing URL https://8kun.top/qresearch/res/14069103.html
+		Date found in the API results: 2021-07-07T00:17:14.175402
+		Not in content. The URL https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html is not in the content of site https://8kun.top/qresearch/res/14069103.html  Discarding.
+	Result [10]  Processing URL https://qresear.ch/?q=Putin
+		! Timeout waiting for the web server to answer.  We ignore and continue.
+		Not in content. The URL https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html is not in the content of site https://qresear.ch/?q=Putin  Discarding.
+	Result [11]  Processing URL https://qanon.news/archives/x/13235698
+		Not in content. The URL https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html is not in the content of site https://qanon.news/archives/x/13235698  Discarding.
+
+== Level 0. Twitter search by LINKS as https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html
+https://api.twitter.com/2/tweets/search/all?query=url+%3A+https%253A%252F%252Fedition.cnn.com%252F2021%252F06%252F11%252Feurope%252Fdmitry-peskov-putin-biden-summit-intl%252Findex.html&max_results=100&tweet.fields=author_id%2Cpublic_metrics%2Ccreated_at&start_time=2018-07-14T00%3A17%3A29.558153Z
+	Downloaded 6 twitter content
+	Result [1]  Processing twitter ID 1403642568257253376: https://t.co/5mwI3vIHEu
+	Result [2]  Processing twitter ID 1403624441091854336: RT @Teddywade32: STOP!
+The poor state of relations would immediately improve if Russia shut down all hacking and ransomware. 
+As a matter o…
+	Result [3]  Processing twitter ID 1403622729723486212: STOP!
+The poor state of relations would immediately improve if Russia shut down all hacking and ransomware. 
+As a matter of fact hacking should be justification for tactical strikes on sources or designated targets in response. 
+
+https://t.co/USEqMtBqGO
+	Result [4]  Processing twitter ID 1403567613695840256: https://t.co/Ox9S3ysKzj @POTUS @JoeBiden @KamalaHarris @VP @SecBlinken @NATO Why can not you arrange a summit in Geneva with @VPutinOfficial @VPutinOfficial @RussiaUN @mfa_russia? Mr Putin, Please withdraw forces from Ukraine and demand to give full self-determination to Creamia
+	Result [5]  Processing twitter ID 1403422698752155655: https://t.co/NnzYe50fa4
+	Result [6]  Processing twitter ID 1403405126862315524: https://t.co/fdeai7DFKr
+
+== Level 0. VK search by LINKS as https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html
+	Result [0]  Processing URL https://vk.com/id-202916312?w=wall-202916312_4068. Date: 2021-06-12 10:38:25
+In total was found 1
+
+== Level 0. Google search by TITLE as US-Russia relations are so poor that only a summit can sort them out, Putin's spokesman says - CNN
+	Total amount of results retrieved: 24
+	Result [1]  Processing URL https://www.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html
+		Date found in the API results: 2021-06-11T00:00:00
+		Repeated url: https://www.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html.  Discarding.  
+	Result [2]  Processing URL https://www.kyivpost.com/eastern-europe/cnn-peskov-says-us-russia-relations-are-so-poor-that-only-a-summit-can-sort-them-out.html
+		Date found in the API results: 2021-06-11T00:00:00
+		Date found in the content of the page: None
+		Different. The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.kyivpost.com/eastern-europe/cnn-peskov-says-us-russia-relations-are-so-poor-that-only-a-summit-can-sort-them-out.html of: 0.026217228464419477. Discarding.
+	Result [3]  Processing URL https://www.washingtonpost.com/politics/2021/06/16/biden-putin-live-updates/
+		Date found in the API results: 2021-06-16T00:00:00
+		Date found in the URL: 2021-06-16 00:00:00
+		The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.washingtonpost.com/politics/2021/06/16/biden-putin-live-updates/ of : 0.3421. Keeping.
+		Adding to DB the URL https://www.washingtonpost.com/politics/2021/06/16/biden-putin-live-updates/
+	Result [4]  Processing URL https://www.washingtonpost.com/world/europe/russia-putin-biden-summit/2021/06/17/e4e398e8-cd23-11eb-a224-bd59bd22197c_story.html
+		Date found in the API results: 2021-06-17T00:00:00
+		Date found in the URL: 2021-06-17 00:00:00
+		The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.washingtonpost.com/world/europe/russia-putin-biden-summit/2021/06/17/e4e398e8-cd23-11eb-a224-bd59bd22197c_story.html of : 0.3075. Keeping.
+		Adding to DB the URL https://www.washingtonpost.com/world/europe/russia-putin-biden-summit/2021/06/17/e4e398e8-cd23-11eb-a224-bd59bd22197c_story.html
+	Result [5]  Processing URL https://www.cbsnews.com/live-updates/biden-putin-geneva-summit/
+		Date found in the API results: 2021-06-17T00:00:00
+		The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.cbsnews.com/live-updates/biden-putin-geneva-summit/ of : 0.344. Keeping.
+		Adding to DB the URL https://www.cbsnews.com/live-updates/biden-putin-geneva-summit/
+	Result [6]  Processing URL https://www.nbcnews.com/news/world/putin-talks-hacking-navalny-capitol-riot-ahead-biden-summit-n1270640
+		Date found in the API results: 2021-06-14T00:00:00
+		The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.nbcnews.com/news/world/putin-talks-hacking-navalny-capitol-riot-ahead-biden-summit-n1270640 of : 0.3668. Keeping.
+		Adding to DB the URL https://www.nbcnews.com/news/world/putin-talks-hacking-navalny-capitol-riot-ahead-biden-summit-n1270640
+	Result [7]  Processing URL https://www.cbs58.com/news/biden-says-putin-is-right-about-us-russia-relations-being-at-a-low-point-ahead-of-summit
+		Date found in the API results: 2021-06-13T00:00:00
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.cbs58.com/news/biden-says-putin-is-right-about-us-russia-relations-being-at-a-low-point-ahead-of-summit of: False. Discarding.
+	Result [8]  Processing URL https://www.seattletimes.com/nation-world/bidens-goal-with-putin-keep-u-s-russia-ties-from-worsening/
+		Date found in the API results: 2021-06-14T00:00:00
+		! Timeout waiting for the web server to answer.  We ignore and continue.
+		The content of the pages were not string. Verify.
+		Different. The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.seattletimes.com/nation-world/bidens-goal-with-putin-keep-u-s-russia-ties-from-worsening/ of: False. Discarding.
+	Result [9]  Processing URL https://en.wikipedia.org/wiki/Russia%E2%80%93United_States_relations
+		The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://en.wikipedia.org/wiki/Russia%E2%80%93United_States_relations of : 0.3227. Keeping.
+		Adding to DB the URL https://en.wikipedia.org/wiki/Russia%E2%80%93United_States_relations
+	Result [10]  Processing URL https://www.nytimes.com/live/2021/06/16/world/biden-putin
+		Date found in the API results: 2021-07-10T00:18:32.283247
+		Date found in the URL: 2021-06-16 00:00:00
+		The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.nytimes.com/live/2021/06/16/world/biden-putin of : 0.3155. Keeping.
+		Adding to DB the URL https://www.nytimes.com/live/2021/06/16/world/biden-putin
+	Result [11]  Processing URL https://www.dailyadvent.com/news/58ef25be9114a21aa78e1a210bde6f03-USRussia-relations-are-so-poor-that-only-a-summit-can-sort-them-out-Putins-spokesman-says
+		The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.dailyadvent.com/news/58ef25be9114a21aa78e1a210bde6f03-USRussia-relations-are-so-poor-that-only-a-summit-can-sort-them-out-Putins-spokesman-says of : 0.3262. Keeping.
+		Adding to DB the URL https://www.dailyadvent.com/news/58ef25be9114a21aa78e1a210bde6f03-USRussia-relations-are-so-poor-that-only-a-summit-can-sort-them-out-Putins-spokesman-says
+	Result [12]  Processing URL https://apnews.com/article/biden-putin-geneva-summit-c9b0543248313447b0eac28da50c6188
+		Date found in the API results: 2021-05-25T00:00:00
+		The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://apnews.com/article/biden-putin-geneva-summit-c9b0543248313447b0eac28da50c6188 of : 0.3902. Keeping.
+		Adding to DB the URL https://apnews.com/article/biden-putin-geneva-summit-c9b0543248313447b0eac28da50c6188
+	Result [13]  Processing URL https://www.everycrsreport.com/reports/RL33407.html
+		Date found in the content of the page: None
+		The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.everycrsreport.com/reports/RL33407.html of : 0.3505. Keeping.
+		Adding to DB the URL https://www.everycrsreport.com/reports/RL33407.html
+	Result [14]  Processing URL https://www.politico.com/f/?id=0000016b-a5a1-d241-adff-fdf908e00001
+		Date found in the content of the page: None
+		Different. The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.politico.com/f/?id=0000016b-a5a1-d241-adff-fdf908e00001 of: 0.1229. Discarding.
+	Result [15]  Processing URL https://www.npr.org/2013/09/12/221774010/frenemies-forever-why-putin-and-obama-cant-get-along
+		Date found in the API results: 2013-09-12T00:00:00
+		Date found in the content of the page: None
+		The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.npr.org/2013/09/12/221774010/frenemies-forever-why-putin-and-obama-cant-get-along of : 0.3088863019014358. Keeping.
+		Adding to DB the URL https://www.npr.org/2013/09/12/221774010/frenemies-forever-why-putin-and-obama-cant-get-along
+	Result [16]  Processing URL https://www.reuters.com/article/us-usa-russia-summit/trump-backs-putin-on-election-meddling-at-summit-stirs-fierce-criticism-idUSKBN1K601D
+		Date found in the API results: 2018-07-15T00:00:00
+		The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.reuters.com/article/us-usa-russia-summit/trump-backs-putin-on-election-meddling-at-summit-stirs-fierce-criticism-idUSKBN1K601D of : 0.3731. Keeping.
+		Adding to DB the URL https://www.reuters.com/article/us-usa-russia-summit/trump-backs-putin-on-election-meddling-at-summit-stirs-fierce-criticism-idUSKBN1K601D
+	Result [17]  Processing URL https://www.brookings.edu/podcast-episode/what-did-the-biden-putin-summit-do-for-us-russian-relations/
+		Date found in the API results: 2021-06-17T00:00:00
+		The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.brookings.edu/podcast-episode/what-did-the-biden-putin-summit-do-for-us-russian-relations/ of : 0.336. Keeping.
+		Adding to DB the URL https://www.brookings.edu/podcast-episode/what-did-the-biden-putin-summit-do-for-us-russian-relations/
+	Result [18]  Processing URL https://www.aljazeera.com/news/2021/6/21/kremlin-says-summit-will-not-stop-us-trying-to-contain-russia
+		Date found in the API results: 2021-06-21T00:00:00
+		Date found in the URL: 2021-06-21 00:00:00
+		The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.aljazeera.com/news/2021/6/21/kremlin-says-summit-will-not-stop-us-trying-to-contain-russia of : 0.3548. Keeping.
+		Adding to DB the URL https://www.aljazeera.com/news/2021/6/21/kremlin-says-summit-will-not-stop-us-trying-to-contain-russia
+	Result [19]  Processing URL https://www.bbc.com/news/world-europe-57494283
+		Date found in the API results: 2021-06-16T00:00:00
+		The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.bbc.com/news/world-europe-57494283 of : 0.3199. Keeping.
+		Adding to DB the URL https://www.bbc.com/news/world-europe-57494283
+	Result [20]  Processing URL https://www.atlanticcouncil.org/blogs/menasource/us-russia-summit-much-ado-about-nothing-in-the-middle-east/
+		Date found in the API results: 2021-06-24T00:00:00
+		Different. The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.atlanticcouncil.org/blogs/menasource/us-russia-summit-much-ado-about-nothing-in-the-middle-east/ of: 0.2916. Discarding.
+	Result [21]  Processing URL https://www.newyorker.com/news/letter-from-bidens-washington/joe-biden-just-had-a-summit-with-vladimir-putin-and-nothing-crazy-happened
+		Date found in the API results: 2021-06-16T00:00:00
+		The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.newyorker.com/news/letter-from-bidens-washington/joe-biden-just-had-a-summit-with-vladimir-putin-and-nothing-crazy-happened of : 0.3108. Keeping.
+		Adding to DB the URL https://www.newyorker.com/news/letter-from-bidens-washington/joe-biden-just-had-a-summit-with-vladimir-putin-and-nothing-crazy-happened
+	Result [22]  Processing URL https://www.ft.com/content/e6a7e0cb-0fcf-4a9e-b9ea-862ae84fe52b
+		Date found in the API results: 2021-06-17T00:00:00
+		The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.ft.com/content/e6a7e0cb-0fcf-4a9e-b9ea-862ae84fe52b of : 0.3732. Keeping.
+		Adding to DB the URL https://www.ft.com/content/e6a7e0cb-0fcf-4a9e-b9ea-862ae84fe52b
+	Result [23]  Processing URL https://www.latimes.com/politics/story/2021-06-16/biden-putin-summit-tensions-rise-between-us-russia
+		Date found in the API results: 2021-06-16T00:00:00
+		Date found in the URL: 2021-06-16 00:00:00
+		Different. The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.latimes.com/politics/story/2021-06-16/biden-putin-summit-tensions-rise-between-us-russia of: 0.11594468357908233. Discarding.
+	Result [24]  Processing URL https://www.foxnews.com/us/foreign-policy-experts-divided-on-whether-putin-biden-summit-emboldened-china
+		Date found in the API results: 2021-06-20T00:00:00
+		The content of https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html has distance with https://www.foxnews.com/us/foreign-policy-experts-divided-on-whether-putin-biden-summit-emboldened-china of : 0.368. Keeping.
+		Adding to DB the URL https://www.foxnews.com/us/foreign-policy-experts-divided-on-whether-putin-biden-summit-emboldened-china
+
+== Level 0. Twitter search by title as US-Russia relations are so poor that only a summit can sort them out, Putin's spokesman says - CNN
+https://api.twitter.com/2/tweets/search/all?query=%22US-Russia+relations+are+so+poor+that+only+a+summit+can+sort+them+out%2C+Putin%27s+spokesman+says+-+CNN%22&max_results=100&tweet.fields=author_id%2Cpublic_metrics%2Ccreated_at&start_time=2018-07-14T00%3A18%3A52.198281Z
+	Downloaded 2 twitter content
+	Result [1]  Processing twitter ID 1403721237621350404: US-Russia relations are so poor that only a summit can sort them out, Putin's spokesman says - CNN - Maybe stop Cyberattacks on the US to improve relations you scumbags https://t.co/4HeZhjT7fU
+	Result [2]  Processing twitter ID 1403677989276114952: US-Russia relations are so poor that only a summit can sort them out, Putin's spokesman says - @CNN https://t.co/cV8mv3Lujv
+
+== Level 0. VK search by title as US-Russia relations are so poor that only a summit can sort them out, Putin's spokesman says - CNN
+	Result [0]  Processing URL https://vk.com/id-194225643?w=wall-194225643_19446. Date: 2021-06-11 17:29:11
+In total was found 1

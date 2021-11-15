@@ -1,0 +1,209 @@
+Searching the distribution graph of URL https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237. Using 1 levels.
+
+Main title: EU concerned about Greek use of anti-migrant sound cannon - ABC News
+In level 0 were found 1 urls including original
+
+== Level 0. Google search by LINKS to https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237
+	Total amount of results retrieved: 4
+	Result [1]  Processing URL https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237
+		Date found in the API results: 2021-06-03T00:00:00
+		Repeated url: https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237.  Discarding.  
+	Result [2]  Processing URL https://www.quora.com/Is-it-true-that-Greece-wants-to-shoot-immigrants-with-a-sound-gun
+		Date found in the API results: None
+		The URL https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 IS in the content of site https://www.quora.com/Is-it-true-that-Greece-wants-to-shoot-immigrants-with-a-sound-gun  Keeping.
+		Adding to DB the URL https://www.quora.com/Is-it-true-that-Greece-wants-to-shoot-immigrants-with-a-sound-gun
+	Result [3]  Processing URL https://alivequote.com/-/EU-concerned-about-Greek-use-of-anti-migrant-sound-cannon/
+		! Error in getting content due to a Connection Error. Port closed, web down?
+		Not in content. The URL https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 is not in the content of site https://alivequote.com/-/EU-concerned-about-Greek-use-of-anti-migrant-sound-cannon/  Discarding.
+	Result [4]  Processing URL https://upstract.com/p/nmdeyt2z
+		Not in content. The URL https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 is not in the content of site https://upstract.com/p/nmdeyt2z  Discarding.
+		Date found in the API results: 2021-06-03T00:00:00
+
+== Level 0. Twitter search by LINKS as https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237
+https://api.twitter.com/2/tweets/search/all?query=url+%3A+https%253A%252F%252Fabcnews.go.com%252FInternational%252FwireStory%252Feu-concerned-greek-anti-migrant-sound-cannon-78063237&max_results=100&tweet.fields=author_id%2Cpublic_metrics%2Ccreated_at&start_time=2020-07-13T00%3A09%3A08.248725Z
+	Downloaded 5 twitter content
+	Result [1]  Processing twitter ID 1400454165181071363: @ambrowoll @LongPlay_fi Kyllä, tosin tuohon hulluuteen on kai jotain toivoa, että reagoidaan oikeasti. Toivottavasti. https://t.co/0jjkE9CzBN
+	Result [2]  Processing twitter ID 1400444546052284420: RT @akbarth3great: #International EU concerned about Greek use of anti-migrant sound cannon https://t.co/W6kt2BYXGJ
+	Result [3]  Processing twitter ID 1400444545494487043: RT @akbarth3great: #International EU concerned about Greek use of anti-migrant sound cannon https://t.co/W6kt2BYXGJ
+	Result [4]  Processing twitter ID 1400444543829299211: RT @akbarth3great: #International EU concerned about Greek use of anti-migrant sound cannon https://t.co/W6kt2BYXGJ
+	Result [5]  Processing twitter ID 1400444443358994447: #International EU concerned about Greek use of anti-migrant sound cannon https://t.co/W6kt2BYXGJ
+
+== Level 0. VK search by LINKS as https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237
+In total was found 0
+
+== Level 0. Google search by TITLE as EU concerned about Greek use of anti-migrant sound cannon - ABC News
+	Total amount of results retrieved: 50
+	Result [1]  Processing URL https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237
+		Date found in the API results: 2021-06-03T00:00:00
+		Repeated url: https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237.  Discarding.  
+	Result [2]  Processing URL https://www.youtube.com/watch?v=h0XnbpPDPNo
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.youtube.com/watch?v=h0XnbpPDPNo of: 0.2672. Discarding.
+	Result [3]  Processing URL https://ktiv.com/2021/06/03/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/
+		Date found in the API results: 2021-06-03T00:00:00
+		Date found in the URL: 2021-06-03 00:00:00
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://ktiv.com/2021/06/03/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/ of: 0.2711. Discarding.
+	Result [4]  Processing URL https://alivequote.com/-/EU-concerned-about-Greek-use-of-anti-migrant-sound-cannon/
+		! Error in getting content due to a Connection Error. Port closed, web down?
+		The content of the pages were not string. Verify.
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://alivequote.com/-/EU-concerned-about-Greek-use-of-anti-migrant-sound-cannon/ of: False. Discarding.
+	Result [5]  Processing URL https://rssnewshub.com/-/how-to-use-javascript-to-play-sound-typewriter-ef-83
+		The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://rssnewshub.com/-/how-to-use-javascript-to-play-sound-typewriter-ef-83 of : 0.3819. Keeping.
+		Adding to DB the URL https://rssnewshub.com/-/how-to-use-javascript-to-play-sound-typewriter-ef-83
+	Result [6]  Processing URL https://www.reddit.com/r/ABCauto/comments/nrdj2n/world_eu_concerned_about_greek_use_of_antimigrant/
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.reddit.com/r/ABCauto/comments/nrdj2n/world_eu_concerned_about_greek_use_of_antimigrant/ of: 0.2625. Discarding.
+	Result [7]  Processing URL https://www.reddit.com/r/AutoNewspaper/comments/nrdwe7/world_eu_concerned_about_greek_use_of_antimigrant/
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.reddit.com/r/AutoNewspaper/comments/nrdwe7/world_eu_concerned_about_greek_use_of_antimigrant/ of: 0.2625. Discarding.
+	Result [8]  Processing URL https://rssnews24h.com/news/10062165/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/
+		Date found in the content of the page: None
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://rssnews24h.com/news/10062165/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon/ of: 0.03832312031903511. Discarding.
+	Result [9]  Processing URL https://upstract.com/p/nmdeyt2z
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://upstract.com/p/nmdeyt2z of: 0.285303038091811. Discarding.
+	Result [10]  Processing URL https://www.newsbk.com/news/international/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon.2H/
+		Date found in the content of the page: None
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.newsbk.com/news/international/eu-concerned-about-greek-use-of-anti-migrant-sound-cannon.2H/ of: 0.2666. Discarding.
+	Result [11]  Processing URL https://trendswide.com/greek-border-police-show-off-powerful-anti-migrant-sound-cannons-at-turkish-border/
+		Date found in the API results: 2021-06-03T00:00:00
+		The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://trendswide.com/greek-border-police-show-off-powerful-anti-migrant-sound-cannons-at-turkish-border/ of : 0.3378. Keeping.
+		Adding to DB the URL https://trendswide.com/greek-border-police-show-off-powerful-anti-migrant-sound-cannons-at-turkish-border/
+	Result [12]  Processing URL https://www.euractiv.com/section/justice-home-affairs/news/greece-defends-use-of-anti-migrant-sound-cannons/
+		Date found in the API results: 2021-06-09T00:00:00
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.euractiv.com/section/justice-home-affairs/news/greece-defends-use-of-anti-migrant-sound-cannons/ of: 0.2988. Discarding.
+	Result [13]  Processing URL https://en.wikipedia.org/wiki/Long_Range_Acoustic_Device
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://en.wikipedia.org/wiki/Long_Range_Acoustic_Device of: 0.2821. Discarding.
+	Result [14]  Processing URL https://lipaiufu.com.br/h6cmmv/executive-branch-news-articles-2021
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://lipaiufu.com.br/h6cmmv/executive-branch-news-articles-2021 of: False. Discarding.
+	Result [15]  Processing URL http://villa-visnjan.eu/yxzzhe/lipid-panel-icd-10-code
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with http://villa-visnjan.eu/yxzzhe/lipid-panel-icd-10-code of: 0.2767. Discarding.
+	Result [16]  Processing URL https://wkow.com/category/news/national-news-from-the-associated-press/page/42/
+		Date found in the Snippet of the API results: None
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://wkow.com/category/news/national-news-from-the-associated-press/page/42/ of: 0.2729. Discarding.
+	Result [17]  Processing URL https://www.unhcr.org/56bb369c9.pdf
+		Date found in the API results: None
+		Blacklisted url: https://www.unhcr.org/56bb369c9.pdf.  Discarding.  
+	Result [18]  Processing URL https://www.hamara.co.il/nlo/executive-branch-news-articles-2021
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.hamara.co.il/nlo/executive-branch-news-articles-2021 of: False. Discarding.
+	Result [19]  Processing URL https://citynews.app/?r=getnews&ndb=GR53&place=Doxato%2C%20Perifereia%20Anatolikis%20Makedonias%20kai%20Thrakis%2C%20Greece
+		! Error in getting content due to a Connection Error. Port closed, web down?
+		The content of the pages were not string. Verify.
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://citynews.app/?r=getnews&ndb=GR53&place=Doxato%2C%20Perifereia%20Anatolikis%20Makedonias%20kai%20Thrakis%2C%20Greece of: False. Discarding.
+	Result [20]  Processing URL https://www.newsbreak.com/news/2267889155446/eu-backs-800-million-euro-greek-scheme-to-help-tourism-industry-through-pandemic
+		Date found in the content of the page: None
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.newsbreak.com/news/2267889155446/eu-backs-800-million-euro-greek-scheme-to-help-tourism-industry-through-pandemic of: 0.2719. Discarding.
+	Result [21]  Processing URL https://www.quora.com/How-strong-is-the-gun-culture-in-Greece-Do-Greeks-have-a-particular-love-of-guns
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.quora.com/How-strong-is-the-gun-culture-in-Greece-Do-Greeks-have-a-particular-love-of-guns of: 0.2765. Discarding.
+	Result [22]  Processing URL https://www.cbsnews.com/sunday-morning/show-notes/
+		Date found in the API results: 2021-07-04T00:00:00
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.cbsnews.com/sunday-morning/show-notes/ of: 0.2743. Discarding.
+	Result [23]  Processing URL https://ca.movies.yahoo.com/lz-granderson-us-hasn-t-213128936.html
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://ca.movies.yahoo.com/lz-granderson-us-hasn-t-213128936.html of: 0.2748. Discarding.
+	Result [24]  Processing URL https://english.alarabiya.net/News/world/2021/06/03/EU-expresses-concern-about-Greek-use-of-sound-cannon-to-scare-away-migrants
+		Date found in the API results: 2021-06-03T00:00:00
+		Date found in the URL: 2021-06-03 00:00:00
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://english.alarabiya.net/News/world/2021/06/03/EU-expresses-concern-about-Greek-use-of-sound-cannon-to-scare-away-migrants of: 0.2696. Discarding.
+	Result [25]  Processing URL https://www.europarl.europa.eu/RegData/etudes/STUD/2018/608838/IPOL_STU(2018)608838_EN.pdf
+		Blacklisted url: https://www.europarl.europa.eu/RegData/etudes/STUD/2018/608838/IPOL_STU(2018)608838_EN.pdf.  Discarding.  
+	Result [26]  Processing URL https://www.modernhealthcare.com/safety-quality/coronavirus-outbreak-live-updates-covid-19
+		Date found in the API results: 2020-12-26T00:00:00
+		The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.modernhealthcare.com/safety-quality/coronavirus-outbreak-live-updates-covid-19 of : 0.3013. Keeping.
+		Adding to DB the URL https://www.modernhealthcare.com/safety-quality/coronavirus-outbreak-live-updates-covid-19
+	Result [27]  Processing URL https://otheringandbelonging.org/wp-content/uploads/2016/07/OtheringAndBelonging_Issue1.pdf
+		Blacklisted url: https://otheringandbelonging.org/wp-content/uploads/2016/07/OtheringAndBelonging_Issue1.pdf.  Discarding.  
+	Result [28]  Processing URL https://www.sandiegouniontribune.com/news/us-politics/ct-trump-gold-star-family-20171018-story.html?_amp=true
+		Date found in the content of the page: None
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.sandiegouniontribune.com/news/us-politics/ct-trump-gold-star-family-20171018-story.html?_amp=true of: 0.10257349574136826. Discarding.
+	Result [29]  Processing URL https://www.bbc.com/news/world-europe-35706238
+		Date found in the API results: 2016-03-02T00:00:00
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.bbc.com/news/world-europe-35706238 of: 0.2725. Discarding.
+	Result [30]  Processing URL https://win.gg/news/6509/this-dota-2-pro-just-played-152-games-in-only-8-days?utm_source=msn&amp;utm_medium=rss
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://win.gg/news/6509/this-dota-2-pro-just-played-152-games-in-only-8-days?utm_source=msn&amp;utm_medium=rss of: 0.2818. Discarding.
+	Result [31]  Processing URL https://www.telegraph.co.uk/news/2021/06/03/eu-warns-greece-using-sound-cannon-repel-migrants/
+		Date found in the API results: 2021-06-03T00:00:00
+		Date found in the URL: 2021-06-03 00:00:00
+		The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.telegraph.co.uk/news/2021/06/03/eu-warns-greece-using-sound-cannon-repel-migrants/ of : 0.3187. Keeping.
+		Adding to DB the URL https://www.telegraph.co.uk/news/2021/06/03/eu-warns-greece-using-sound-cannon-repel-migrants/
+	Result [32]  Processing URL https://www.bbc.com/news/world-europe-27559714
+		Date found in the API results: None
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.bbc.com/news/world-europe-27559714 of: 0.2714. Discarding.
+	Result [33]  Processing URL https://www.islamophobiaeurope.com/wp-content/uploads/2020/06/EIR_2019.pdf
+		Date found in the API results: 2020-06-24T00:00:00
+		Blacklisted url: https://www.islamophobiaeurope.com/wp-content/uploads/2020/06/EIR_2019.pdf.  Discarding.  
+	Result [34]  Processing URL https://reutersinstitute.politics.ox.ac.uk/sites/default/files/digital-news-report-2018.pdf
+		Blacklisted url: https://reutersinstitute.politics.ox.ac.uk/sites/default/files/digital-news-report-2018.pdf.  Discarding.  
+	Result [35]  Processing URL https://win.gg/news/6509/this-dota-2-pro-just-played-152-games-in-only-8-days?utm_source=msn&amp;utm_medium=rss
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://win.gg/news/6509/this-dota-2-pro-just-played-152-games-in-only-8-days?utm_source=msn&amp;utm_medium=rss of: 0.2818. Discarding.
+	Result [36]  Processing URL https://wgnradio.com/news/international/top-eu-official-says-aid-access-to-syrians-must-stay-open/
+		Date found in the API results: None
+		Date found in the content of the page: None
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://wgnradio.com/news/international/top-eu-official-says-aid-access-to-syrians-must-stay-open/ of: 0.18825617035005646. Discarding.
+	Result [37]  Processing URL https://www.msn.com/en-us/health/medical/key-indicators-suggest-us-covid-19-outbreak-is-headed-in-wrong-direction/ar-BB1a6YYA
+		Date found in the API results: None
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.msn.com/en-us/health/medical/key-indicators-suggest-us-covid-19-outbreak-is-headed-in-wrong-direction/ar-BB1a6YYA of: False. Discarding.
+	Result [38]  Processing URL https://psi329.cankaya.edu.tr/uploads/files/Doherty%2C%20Cold%20War%2C%20Cool%20Medium%20Television%2C%20McCarthyism%2C%20and%20American%20Culture%20Film%20and%20Culture.pdf
+		Blacklisted url: https://psi329.cankaya.edu.tr/uploads/files/Doherty%2C%20Cold%20War%2C%20Cool%20Medium%20Television%2C%20McCarthyism%2C%20and%20American%20Culture%20Film%20and%20Culture.pdf.  Discarding.  
+	Result [39]  Processing URL http://transcripts.cnn.com/TRANSCRIPTS/1904/07/rs.01.html
+		Date found in the API results: 2019-04-07T00:00:00
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with http://transcripts.cnn.com/TRANSCRIPTS/1904/07/rs.01.html of: 0.2693. Discarding.
+	Result [40]  Processing URL https://www.wsj.com/articles/americas-nato-allies-are-stepping-up-1531074241
+		Date found in the API results: 2018-07-08T00:00:00
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.wsj.com/articles/americas-nato-allies-are-stepping-up-1531074241 of: 0.2541. Discarding.
+	Result [41]  Processing URL https://www.msn.com/en-gb/news/world/greek-border-police-show-off-powerful-anti-migrant-sound-cannons/ar-AAKFHos
+		Date found in the API results: 2021-06-03T00:00:00
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.msn.com/en-gb/news/world/greek-border-police-show-off-powerful-anti-migrant-sound-cannons/ar-AAKFHos of: False. Discarding.
+	Result [42]  Processing URL https://www.wsj.com/articles/americas-nato-allies-are-stepping-up-1531074241
+		Date found in the API results: 2018-07-08T00:00:00
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.wsj.com/articles/americas-nato-allies-are-stepping-up-1531074241 of: 0.2541. Discarding.
+	Result [43]  Processing URL http://transcripts.cnn.com/TRANSCRIPTS/1904/07/rs.01.html
+		Date found in the API results: 2019-04-07T00:00:00
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with http://transcripts.cnn.com/TRANSCRIPTS/1904/07/rs.01.html of: 0.2693. Discarding.
+	Result [44]  Processing URL https://www.reuters.com/article/us-korea-ship/south-korea-rules-out-navy-ship-sunk-by-north-korea-idUSTRE62P30E20100327
+		Date found in the API results: 2010-03-27T00:00:00
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://www.reuters.com/article/us-korea-ship/south-korea-rules-out-navy-ship-sunk-by-north-korea-idUSTRE62P30E20100327 of: 0.2815. Discarding.
+	Result [45]  Processing URL https://avkon.net/ubxeqsw/5p2lgb8/article.php?tag=executive-branch-news-articles-2021
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://avkon.net/ubxeqsw/5p2lgb8/article.php?tag=executive-branch-news-articles-2021 of: False. Discarding.
+	Result [46]  Processing URL https://ktar.com/story/73345/valley-team-raises-funds-awareness-for-blood-cancers/
+		Date found in the API results: 2013-06-01T00:00:00
+		Date found in the content of the page: None
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://ktar.com/story/73345/valley-team-raises-funds-awareness-for-blood-cancers/ of: 0.020106445890005913. Discarding.
+	Result [47]  Processing URL https://greekreporter.com/2021/06/10/greece-defends-use-sound-cannons-deter-migrants/
+		Date found in the API results: 2021-06-10T00:00:00
+		Date found in the URL: 2021-06-10 00:00:00
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://greekreporter.com/2021/06/10/greece-defends-use-sound-cannons-deter-migrants/ of: 0.020120327448466317. Discarding.
+	Result [48]  Processing URL http://www.canirank.com/blog/google-medic-update-data/
+		Date found in the API results: 2020-11-25T00:00:00
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with http://www.canirank.com/blog/google-medic-update-data/ of: 0.2805. Discarding.
+	Result [49]  Processing URL http://m.gmenc.kr/jng436u/executive-branch-news-articles-2021
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with http://m.gmenc.kr/jng436u/executive-branch-news-articles-2021 of: False. Discarding.
+	Result [50]  Processing URL https://books.google.com/books?id=bl0EAAAAMBAJ&pg=PA45&lpg=PA45&dq=EU+concerned+about+Greek+use+of+anti-migrant+sound+cannon+-+ABC+News&source=bl&ots=D19tKWPP2h&sig=ACfU3U115I0RO9ih8VyCQNY5P_R7PRRhGA&hl=en&sa=X&ved=2ahUKEwjZprqCxt7xAhXHfH0KHccABXk4KRDoATAJegQIERAD
+		Date found in the content of the page: None
+		Different. The content of https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237 has distance with https://books.google.com/books?id=bl0EAAAAMBAJ&pg=PA45&lpg=PA45&dq=EU+concerned+about+Greek+use+of+anti-migrant+sound+cannon+-+ABC+News&source=bl&ots=D19tKWPP2h&sig=ACfU3U115I0RO9ih8VyCQNY5P_R7PRRhGA&hl=en&sa=X&ved=2ahUKEwjZprqCxt7xAhXHfH0KHccABXk4KRDoATAJegQIERAD of: 0.2586. Discarding.
+
+== Level 0. Twitter search by title as EU concerned about Greek use of anti-migrant sound cannon - ABC News
+https://api.twitter.com/2/tweets/search/all?query=%22EU+concerned+about+Greek+use+of+anti-migrant+sound+cannon+-+ABC+News%22&max_results=100&tweet.fields=author_id%2Cpublic_metrics%2Ccreated_at&start_time=2020-07-13T00%3A10%3A24.547988Z
+	Downloaded 0 twitter content
+
+== Level 0. VK search by title as EU concerned about Greek use of anti-migrant sound cannon - ABC News
+In total was found 0

@@ -1,0 +1,939 @@
+Searching the distribution graph of URL http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2. Using 1 levels.
+
+		! Error in getting content due to a Connection Error. Port closed, web down?
+Main title: False
+In level 0 were found 1 urls including original
+
+== Level 0. Google search by LINKS to http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2
+	Total amount of results retrieved: 2
+	Result [1]  Processing URL https://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2
+		Date found in the API results: 2021-06-07T00:00:00
+		! Error in getting content due to a Connection Error. Port closed, web down?
+		Not in content. The URL http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 is not in the content of site https://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2  Discarding.
+	Result [2]  Processing URL http://178.62.233.36/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2
+		! Error in getting content due to a Connection Error. Port closed, web down?
+		Not in content. The URL http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 is not in the content of site http://178.62.233.36/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2  Discarding.
+
+== Level 0. Twitter search by LINKS as http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2
+https://api.twitter.com/2/tweets/search/all?query=url+%3A+http%253A%252F%252Finpress.ua%252Fru%252Feconomics%252F65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2&max_results=100&tweet.fields=author_id%2Cpublic_metrics%2Ccreated_at&start_time=2018-07-13T19%3A05%3A40.239851Z
+	Downloaded 0 twitter content
+
+== Level 0. VK search by LINKS as http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2
+In total was found 0
+
+== Level 0. Google search by TITLE as 0
+	Total amount of results retrieved: 186
+	Result [1]  Processing URL https://en.wikipedia.org/wiki/0
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://en.wikipedia.org/wiki/0 of: 0.00019998000199980003. Discarding.
+	Result [2]  Processing URL https://www.maa.org/book/export/html/116806
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.maa.org/book/export/html/116806 of: 0.00019998000199980003. Discarding.
+	Result [3]  Processing URL https://zero-factorial.com/whatis.html
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://zero-factorial.com/whatis.html of: 0.0005031446540880503. Discarding.
+	Result [4]  Processing URL https://en.wiktionary.org/wiki/0
+		! Error getting the content of the web.
+		! unsupported operand type(s) for +: 'int' and 'str'
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://en.wiktionary.org/wiki/0 of: False. Discarding.
+	Result [5]  Processing URL https://www.mlssoccer.com/news/recap-usa-1-haiti-0
+		Date found in the API results: 2021-07-12
+		! Error getting the content of the web.
+		! unsupported operand type(s) for +: 'int' and 'str'
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.mlssoccer.com/news/recap-usa-1-haiti-0 of: False. Discarding.
+	Result [6]  Processing URL https://classroom.google.com/u/0/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://classroom.google.com/u/0/ of: 0.00019998000199980003. Discarding.
+	Result [7]  Processing URL https://www.cnn.com/2021/07/11/football/copa-america-intl-spt/index.html
+		Date found in the API results: 2021-07-11T19:06:47.136075
+		Date found in the URL: 2021-07-11 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.cnn.com/2021/07/11/football/copa-america-intl-spt/index.html of: 0.00019998000199980003. Discarding.
+	Result [8]  Processing URL https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:prob-comb/x9e81a4f98389efdf:combinatorics-precalc/v/zero-factorial-or-0
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:prob-comb/x9e81a4f98389efdf:combinatorics-precalc/v/zero-factorial-or-0 of: 0.00019998000199980003. Discarding.
+	Result [9]  Processing URL https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:foundation-algebra/x2f8bb11595b61c86:division-zero/v/why-zero-divided-by-zero-is-undefined-indeterminate
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:foundation-algebra/x2f8bb11595b61c86:division-zero/v/why-zero-divided-by-zero-is-undefined-indeterminate of: 0.00019998000199980003. Discarding.
+	Result [10]  Processing URL https://www.youtube.com/watch?v=37fdEgR2tBA
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.youtube.com/watch?v=37fdEgR2tBA of: 0.00019998000199980003. Discarding.
+	Result [11]  Processing URL https://classroom.google.com/u/0/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://classroom.google.com/u/0/ of: 0.00019998000199980003. Discarding.
+	Result [12]  Processing URL https://www.cnn.com/2021/07/11/football/copa-america-intl-spt/index.html
+		Date found in the API results: 2021-07-11T19:06:58.229398
+		Date found in the URL: 2021-07-11 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.cnn.com/2021/07/11/football/copa-america-intl-spt/index.html of: 0.00019998000199980003. Discarding.
+	Result [13]  Processing URL https://www.cnn.com/2021/07/09/sport/phoenix-suns-milwaukee-bucks-nba-finals-spt-intl/index.html
+		Date found in the API results: 2021-07-09T19:06:58.491718
+		Date found in the URL: 2021-07-09 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.cnn.com/2021/07/09/sport/phoenix-suns-milwaukee-bucks-nba-finals-spt-intl/index.html of: 0.00019998000199980003. Discarding.
+	Result [14]  Processing URL https://theathletic.com/news/copa-america-lionel-messi-argentina-beat-brazil-1-0-to-end-trophy-drought/b9ZqHYLGitj2
+		Date found in the API results: 2021-07-10T19:06:59.008466
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://theathletic.com/news/copa-america-lionel-messi-argentina-beat-brazil-1-0-to-end-trophy-drought/b9ZqHYLGitj2 of: 0.00019998000199980003. Discarding.
+	Result [15]  Processing URL https://www.fieldgulls.com/2021/7/11/22556953/crunching-the-numbers-on-nfc-west-rosters-part-five-seahawks-niners-cardinals-rams-roster-analysis
+		Date found in the API results: 2021-07-11T19:07:01.210146
+		Date found in the URL: 2021-07-11 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.fieldgulls.com/2021/7/11/22556953/crunching-the-numbers-on-nfc-west-rosters-part-five-seahawks-niners-cardinals-rams-roster-analysis of: 0.00019998000199980003. Discarding.
+	Result [16]  Processing URL https://www.nytimes.com/2021/07/12/sports/nba-finals-game-3-bucks-suns.html
+		Date found in the API results: 2021-07-12
+		Date found in the URL: 2021-07-12 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.nytimes.com/2021/07/12/sports/nba-finals-game-3-bucks-suns.html of: 0.00019998000199980003. Discarding.
+	Result [17]  Processing URL https://www.alaskapublic.org/2021/07/12/as-contagious-strain-rises-in-alaska-regions-with-low-vaccination-rates-raise-concern/
+		Date found in the API results: 2021-07-12
+		Date found in the URL: 2021-07-12 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.alaskapublic.org/2021/07/12/as-contagious-strain-rises-in-alaska-regions-with-low-vaccination-rates-raise-concern/ of: 0.00019998000199980003. Discarding.
+	Result [18]  Processing URL https://www.nytimes.com/2021/07/12/sports/nba-finals-game-3-bucks-suns.html
+		Date found in the API results: 2021-07-12
+		Date found in the URL: 2021-07-12 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.nytimes.com/2021/07/12/sports/nba-finals-game-3-bucks-suns.html of: 0.00019998000199980003. Discarding.
+	Result [19]  Processing URL https://www.alaskapublic.org/2021/07/12/as-contagious-strain-rises-in-alaska-regions-with-low-vaccination-rates-raise-concern/
+		Date found in the API results: 2021-07-12
+		Date found in the URL: 2021-07-12 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.alaskapublic.org/2021/07/12/as-contagious-strain-rises-in-alaska-regions-with-low-vaccination-rates-raise-concern/ of: 0.00019998000199980003. Discarding.
+	Result [20]  Processing URL https://www.ussoccer.com/stories/2021/07/2021-concacaf-gold-cup-usmnt-1-haiti-0-match-report-stats-and-group-standings
+		Date found in the API results: 2021-07-12
+		Date found in the URL: 2021-07-20 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.ussoccer.com/stories/2021/07/2021-concacaf-gold-cup-usmnt-1-haiti-0-match-report-stats-and-group-standings of: 0.00019998000199980003. Discarding.
+	Result [21]  Processing URL https://outlook.live.com/mail/0/inbox
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://outlook.live.com/mail/0/inbox of: 0.00019998000199980003. Discarding.
+	Result [22]  Processing URL https://www.thefreedictionary.com/0
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.thefreedictionary.com/0 of: 0.00019998000199980003. Discarding.
+	Result [23]  Processing URL https://www.nbcsports.com/chicago/cubs/mlb-draft-2021-day-1-picks-pirates-take-henry-davis-jack-leiter-goes-rangers
+		Date found in the API results: 2021-07-12
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.nbcsports.com/chicago/cubs/mlb-draft-2021-day-1-picks-pirates-take-henry-davis-jack-leiter-goes-rangers of: 0.00019998000199980003. Discarding.
+	Result [24]  Processing URL https://docs.google.com/document/u/0/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://docs.google.com/document/u/0/ of: 0.00019998000199980003. Discarding.
+	Result [25]  Processing URL https://support.microsoft.com/en-us/office/how-to-correct-a-div-0-error-3a5a18a9-8d80-4ebb-a908-39e759a009a5
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://support.microsoft.com/en-us/office/how-to-correct-a-div-0-error-3a5a18a9-8d80-4ebb-a908-39e759a009a5 of: 0.00019998000199980003. Discarding.
+	Result [26]  Processing URL https://brilliant.org/wiki/what-is-00/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://brilliant.org/wiki/what-is-00/ of: 0.00019998000199980003. Discarding.
+	Result [27]  Processing URL https://studentaid.gov/announcements-events/coronavirus
+		! Timeout waiting for the web server to answer.  We ignore and continue.
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://studentaid.gov/announcements-events/coronavirus of: False. Discarding.
+	Result [28]  Processing URL https://www.zerotothree.org/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.zerotothree.org/ of: 0.00019998000199980003. Discarding.
+	Result [29]  Processing URL https://management30.com/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://management30.com/ of: 0.013605442176870748. Discarding.
+	Result [30]  Processing URL https://play.google.com/store/apps/details?id=com.wakeup.wearfit2&hl=en_US&gl=US
+		! Error getting the content of the web.
+		! signed integer is greater than maximum
+		<class 'OverflowError'>
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://play.google.com/store/apps/details?id=com.wakeup.wearfit2&hl=en_US&gl=US of: False. Discarding.
+	Result [31]  Processing URL https://www.asrock.com/mb/amd/a320m-hdv%20r4.0/index.asp
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.asrock.com/mb/amd/a320m-hdv%20r4.0/index.asp of: 0.00019998000199980003. Discarding.
+	Result [32]  Processing URL https://store.playstation.com/en-us/product/UP0177-CUSA05070_00-YAKUZA0AMERICA00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://store.playstation.com/en-us/product/UP0177-CUSA05070_00-YAKUZA0AMERICA00 of: 0.00019998000199980003. Discarding.
+	Result [33]  Processing URL https://www.azcentral.com/story/sports/nba/suns/2021/07/10/up-2-0-phoenix-suns-treating-game-3-nba-finals-must-win/7927062002/
+		Date found in the API results: 2021-07-10T19:07:25.439619
+		Date found in the URL: 2021-07-10 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.azcentral.com/story/sports/nba/suns/2021/07/10/up-2-0-phoenix-suns-treating-game-3-nba-finals-must-win/7927062002/ of: 0.00019998000199980003. Discarding.
+	Result [34]  Processing URL https://creativecommons.org/licenses/by/3.0/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://creativecommons.org/licenses/by/3.0/ of: 0.00019998000199980003. Discarding.
+	Result [35]  Processing URL https://www.degreesymbol.net/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.degreesymbol.net/ of: 0.00019998000199980003. Discarding.
+	Result [36]  Processing URL https://www.dropbox.com/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.dropbox.com/ of: 0.00019998000199980003. Discarding.
+	Result [37]  Processing URL https://www.merriam-webster.com/dictionary/zero
+		! Error getting the content of the web.
+		! unsupported operand type(s) for +: 'int' and 'str'
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.merriam-webster.com/dictionary/zero of: False. Discarding.
+	Result [38]  Processing URL https://www.degreesymbol.net/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.degreesymbol.net/ of: 0.00019998000199980003. Discarding.
+	Result [39]  Processing URL https://www.britannica.com/story/is-zero-an-even-or-an-odd-number
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.britannica.com/story/is-zero-an-even-or-an-odd-number of: 0.00019998000199980003. Discarding.
+	Result [40]  Processing URL https://play0ad.com/
+		Date found in the API results: 2021-05-31T00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://play0ad.com/ of: 0.00019998000199980003. Discarding.
+	Result [41]  Processing URL https://www.rapidtables.com/math/number/zero-number.html
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.rapidtables.com/math/number/zero-number.html of: 0.000611807892321811. Discarding.
+	Result [42]  Processing URL https://virologyj.biomedcentral.com/articles/10.1186/s12985-019-1182-0
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://virologyj.biomedcentral.com/articles/10.1186/s12985-019-1182-0 of: 0.00019998000199980003. Discarding.
+	Result [43]  Processing URL https://www.michigan.gov/lara/0,4601,7-154-89334_72600---,00.html
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.michigan.gov/lara/0,4601,7-154-89334_72600---,00.html of: 0.00019998000199980003. Discarding.
+	Result [44]  Processing URL https://semver.org/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://semver.org/ of: 0.00019998000199980003. Discarding.
+	Result [45]  Processing URL https://chicago.suntimes.com/cubs/2021/7/10/22571887/willson-contreras-questions-cubs-effort-after-6-0-loss-to-st-louis-cardinals
+		Date found in the API results: 2021-07-10T19:07:31.801609
+		Date found in the URL: 2021-07-10 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://chicago.suntimes.com/cubs/2021/7/10/22571887/willson-contreras-questions-cubs-effort-after-6-0-loss-to-st-louis-cardinals of: 0.00019998000199980003. Discarding.
+	Result [46]  Processing URL https://www.dji.com/phantom-4-pro-v2
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.dji.com/phantom-4-pro-v2 of: 0.00019998000199980003. Discarding.
+	Result [47]  Processing URL https://getbootstrap.com/docs/5.0/utilities/position/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://getbootstrap.com/docs/5.0/utilities/position/ of: 0.00019998000199980003. Discarding.
+	Result [48]  Processing URL https://www.citi.com/credit-cards/compare/0-percent-intro-apr-credit-cards
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.citi.com/credit-cards/compare/0-percent-intro-apr-credit-cards of: 0.00031220730565095225. Discarding.
+	Result [49]  Processing URL https://www.subaru.com/special-offers/index.html
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.subaru.com/special-offers/index.html of: 0.00019998000199980003. Discarding.
+	Result [50]  Processing URL https://www.espn.com/mlb/recap/_/gameId/401228383
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.espn.com/mlb/recap/_/gameId/401228383 of: 0.00019998000199980003. Discarding.
+	Result [51]  Processing URL https://wausaupilotandreview.com/2021/07/11/been-there-before-bucks-down-2-0-look-for-life-at-home/
+		Date found in the API results: 2021-07-11
+		Date found in the URL: 2021-07-11 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://wausaupilotandreview.com/2021/07/11/been-there-before-bucks-down-2-0-look-for-life-at-home/ of: 0.00019998000199980003. Discarding.
+	Result [52]  Processing URL https://auth0.com/
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://auth0.com/ of: False. Discarding.
+	Result [53]  Processing URL https://cmake.org/download/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://cmake.org/download/ of: 0.00019998000199980003. Discarding.
+	Result [54]  Processing URL https://contacts.google.com/u/0/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://contacts.google.com/u/0/ of: 0.00019998000199980003. Discarding.
+	Result [55]  Processing URL https://fontawesome.com/v4.7/icons/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://fontawesome.com/v4.7/icons/ of: 0.00019998000199980003. Discarding.
+	Result [56]  Processing URL https://www.readingfc.co.uk/news/2021/july/Pre-season-Reading-1-0-Lincoln-City/
+		Date found in the API results: 2021-07-10T19:07:39.322396
+		Date found in the URL: 2021-07-12 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.readingfc.co.uk/news/2021/july/Pre-season-Reading-1-0-Lincoln-City/ of: 0.00019998000199980003. Discarding.
+	Result [57]  Processing URL https://photos.google.com/u/0/albums
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://photos.google.com/u/0/albums of: 0.00019998000199980003. Discarding.
+	Result [58]  Processing URL https://cmake.org/download/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://cmake.org/download/ of: 0.00019998000199980003. Discarding.
+	Result [59]  Processing URL https://www.bbc.com/sport/live/football/57107457
+		Date found in the API results: 2021-07-11T19:07:40.749813
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.bbc.com/sport/live/football/57107457 of: 0.00019998000199980003. Discarding.
+	Result [60]  Processing URL https://git-scm.com/download/win
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://git-scm.com/download/win of: 0.00028885037550548814. Discarding.
+	Result [61]  Processing URL https://www.python.org/downloads/
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.python.org/downloads/ of: 0.00019998000199980003. Discarding.
+	Result [62]  Processing URL https://www.dji.com/phantom-4-pro-v2
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.dji.com/phantom-4-pro-v2 of: 0.00019998000199980003. Discarding.
+	Result [63]  Processing URL https://www.themaneland.com/2021/7/4/22563295/orlando-pride-vs-north-carolina-courage-final-score-2-0-as-pride-drop-second-straight-match
+		Date found in the API results: 2021-07-04T00:00:00
+		Date found in the URL: 2021-07-04 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.themaneland.com/2021/7/4/22563295/orlando-pride-vs-north-carolina-courage-final-score-2-0-as-pride-drop-second-straight-match of: 0.00019998000199980003. Discarding.
+	Result [64]  Processing URL https://photos.google.com/u/0/albums
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://photos.google.com/u/0/albums of: 0.00019998000199980003. Discarding.
+	Result [65]  Processing URL https://pubs.acs.org/toc/jacsat/0/0
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://pubs.acs.org/toc/jacsat/0/0 of: 0.00019998000199980003. Discarding.
+	Result [66]  Processing URL https://github.com/topjohnwu/Magisk/releases/tag/v23.0
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://github.com/topjohnwu/Magisk/releases/tag/v23.0 of: 0.00019998000199980003. Discarding.
+	Result [67]  Processing URL https://www.smith-wesson.com/product/mp-m20
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.smith-wesson.com/product/mp-m20 of: 0.00019998000199980003. Discarding.
+	Result [68]  Processing URL https://www.mathsisfun.com/numbers/zero.html
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.mathsisfun.com/numbers/zero.html of: 0.00031357792411414236. Discarding.
+	Result [69]  Processing URL https://www.math.utah.edu/~pa/math/0to0.html
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.math.utah.edu/~pa/math/0to0.html of: 0.0007736943907156673. Discarding.
+	Result [70]  Processing URL https://keep.google.com/u/0/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://keep.google.com/u/0/ of: 0.00019998000199980003. Discarding.
+	Result [71]  Processing URL https://www.coolmathgames.com/0-chess
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.coolmathgames.com/0-chess of: 0.00019998000199980003. Discarding.
+	Result [72]  Processing URL https://www.vox.com/science-and-health/2018/7/5/17500782/zero-number-math-explained
+		Date found in the API results: 2018-12-05T00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.vox.com/science-and-health/2018/7/5/17500782/zero-number-math-explained of: 0.00019998000199980003. Discarding.
+	Result [73]  Processing URL https://www.nerdwallet.com/best/credit-cards/low-interest
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.nerdwallet.com/best/credit-cards/low-interest of: 0.00019998000199980003. Discarding.
+	Result [74]  Processing URL https://www.first.org/cvss/specification-document
+		! Error getting the content of the web.
+		! signed integer is greater than maximum
+		<class 'OverflowError'>
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.first.org/cvss/specification-document of: False. Discarding.
+	Result [75]  Processing URL https://openvpn.net/community-downloads/
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://openvpn.net/community-downloads/ of: False. Discarding.
+	Result [76]  Processing URL https://cran.r-project.org/bin/windows/base/
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://cran.r-project.org/bin/windows/base/ of: 0.0006814310051107325. Discarding.
+	Result [77]  Processing URL https://www.definitions.net/definition/0
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.definitions.net/definition/0 of: 0.00019998000199980003. Discarding.
+	Result [78]  Processing URL https://www.lowes.com/cart
+		! Timeout waiting for the web server to answer.  We ignore and continue.
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.lowes.com/cart of: False. Discarding.
+	Result [79]  Processing URL https://www.ny.gov/services/unemployment-0
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.ny.gov/services/unemployment-0 of: 0.00019998000199980003. Discarding.
+	Result [80]  Processing URL https://twitter.com/?lang=en
+		Blacklisted url: https://twitter.com/?lang=en.  Discarding.  
+	Result [81]  Processing URL https://en.uncyclopedia.co/wiki/0
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://en.uncyclopedia.co/wiki/0 of: 0.00019998000199980003. Discarding.
+	Result [82]  Processing URL http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/ of: 0.00019998000199980003. Discarding.
+	Result [83]  Processing URL https://www.eclipse.org/legal/epl-v10.html
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.eclipse.org/legal/epl-v10.html of: 0.00019998000199980003. Discarding.
+	Result [84]  Processing URL https://www.un.org/securitycouncil/content/resolutions-0
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.un.org/securitycouncil/content/resolutions-0 of: 0.00019998000199980003. Discarding.
+	Result [85]  Processing URL https://www.brewcrewball.com/2021/7/8/22568317/milwaukee-brewers-daily-prospect-report-wednesday-july-7
+		Date found in the API results: 2021-07-08T19:08:14.715807
+		Date found in the URL: 2021-07-08 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.brewcrewball.com/2021/7/8/22568317/milwaukee-brewers-daily-prospect-report-wednesday-july-7 of: 0.00019998000199980003. Discarding.
+	Result [86]  Processing URL https://www.panerabread.com/en-us/menu/categories/beverages.html
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.panerabread.com/en-us/menu/categories/beverages.html of: 0.006153846153846154. Discarding.
+	Result [87]  Processing URL https://www.libreoffice.org/download/download/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.libreoffice.org/download/download/ of: 0.00019998000199980003. Discarding.
+	Result [88]  Processing URL https://pytorch.org/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://pytorch.org/ of: 0.00019998000199980003. Discarding.
+	Result [89]  Processing URL https://in.nba.com/news/teams-that-have-come-back-from-a-2-0-series-deficit-in-nba-finals-history-heat-cavaliers-trailblazers-celtics/1j9t1zn2pq1b51jsrt8huuzq7i
+		Date found in the API results: 2021-07-08T19:08:17.882968
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://in.nba.com/news/teams-that-have-come-back-from-a-2-0-series-deficit-in-nba-finals-history-heat-cavaliers-trailblazers-celtics/1j9t1zn2pq1b51jsrt8huuzq7i of: 0.00019998000199980003. Discarding.
+	Result [90]  Processing URL http://ufcstats.com/fighter-details/032cc3922d871c7f
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with http://ufcstats.com/fighter-details/032cc3922d871c7f of: 0.00019998000199980003. Discarding.
+	Result [91]  Processing URL https://opendatacommons.org/licenses/odbl/1-0/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://opendatacommons.org/licenses/odbl/1-0/ of: 0.00019998000199980003. Discarding.
+	Result [92]  Processing URL https://mathworld.wolfram.com/Aleph-0.html
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://mathworld.wolfram.com/Aleph-0.html of: 0.00019998000199980003. Discarding.
+	Result [93]  Processing URL https://www.forbes.com/advisor/credit-cards/best/0-apr/
+		Date found in the API results: 2021-07-02T00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.forbes.com/advisor/credit-cards/best/0-apr/ of: 0.00019998000199980003. Discarding.
+	Result [94]  Processing URL https://scratch.mit.edu/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://scratch.mit.edu/ of: 0.0005293806246691371. Discarding.
+	Result [95]  Processing URL https://www.cdc.gov/ncbddd/childdevelopment/positiveparenting/infants.html
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.cdc.gov/ncbddd/childdevelopment/positiveparenting/infants.html of: 0.00019998000199980003. Discarding.
+	Result [96]  Processing URL https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php of: 0.00019998000199980003. Discarding.
+	Result [97]  Processing URL https://tools.ietf.org/html/rfc6749
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://tools.ietf.org/html/rfc6749 of: 0.00019998000199980003. Discarding.
+	Result [98]  Processing URL https://jquery.com/download/
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://jquery.com/download/ of: 0.00019998000199980003. Discarding.
+	Result [99]  Processing URL https://www.cdc.gov/ncbddd/childdevelopment/positiveparenting/infants.html
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.cdc.gov/ncbddd/childdevelopment/positiveparenting/infants.html of: 0.00019998000199980003. Discarding.
+	Result [100]  Processing URL https://tools.ietf.org/html/rfc6749
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://tools.ietf.org/html/rfc6749 of: 0.00019998000199980003. Discarding.
+	Result [101]  Processing URL https://www.w3.org/TR/did-core/
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.w3.org/TR/did-core/ of: 0.00019998000199980003. Discarding.
+	Result [102]  Processing URL https://apps.apple.com/us/app/5-0-radio-police-scanner/id356336433
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://apps.apple.com/us/app/5-0-radio-police-scanner/id356336433 of: 0.00019998000199980003. Discarding.
+	Result [103]  Processing URL https://starwars.fandom.com/wiki/0_BBY
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://starwars.fandom.com/wiki/0_BBY of: 0.00019998000199980003. Discarding.
+	Result [104]  Processing URL https://maven.apache.org/download.cgi
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://maven.apache.org/download.cgi of: 0.00019998000199980003. Discarding.
+	Result [105]  Processing URL https://www.boost.org/
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.boost.org/ of: 0.00019998000199980003. Discarding.
+	Result [106]  Processing URL https://www.asus.com/Motherboards-Components/Motherboards/Accessories/TPM-M-R2-0/
+		! Error getting the content of the web.
+		! ('Received response with content-encoding: gzip, but failed to decode it.', error('Error -3 while decompressing data: incorrect header check'))
+		<class 'requests.exceptions.ContentDecodingError'>
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.asus.com/Motherboards-Components/Motherboards/Accessories/TPM-M-R2-0/ of: False. Discarding.
+	Result [107]  Processing URL https://pathways.org/growth-development/0-3-months/milestones/
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://pathways.org/growth-development/0-3-months/milestones/ of: 0.00019998000199980003. Discarding.
+	Result [108]  Processing URL https://firebase.google.com/support/release-notes/android
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://firebase.google.com/support/release-notes/android of: 0.00019998000199980003. Discarding.
+	Result [109]  Processing URL https://www.brown.edu/academics/education-alliance/teaching-diverse-learners/strategies-0/culturally-responsive-teaching-0
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.brown.edu/academics/education-alliance/teaching-diverse-learners/strategies-0/culturally-responsive-teaching-0 of: 0.00019998000199980003. Discarding.
+	Result [110]  Processing URL https://www.mozilla.org/en-US/MPL/2.0/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.mozilla.org/en-US/MPL/2.0/ of: 0.00019998000199980003. Discarding.
+	Result [111]  Processing URL https://www.atum.bio/
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.atum.bio/ of: 0.00019998000199980003. Discarding.
+	Result [112]  Processing URL https://online-learning.harvard.edu/course/cs50-introduction-computer-science
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://online-learning.harvard.edu/course/cs50-introduction-computer-science of: 0.00019998000199980003. Discarding.
+	Result [113]  Processing URL https://www.aging2.com/
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.aging2.com/ of: 0.00019998000199980003. Discarding.
+	Result [114]  Processing URL https://www.imdb.com/title/tt1600194/
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.imdb.com/title/tt1600194/ of: 0.00019998000199980003. Discarding.
+	Result [115]  Processing URL https://www.worldometers.info/coronavirus/
+		! Error getting the content of the web.
+		! signed integer is greater than maximum
+		<class 'OverflowError'>
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.worldometers.info/coronavirus/ of: False. Discarding.
+	Result [116]  Processing URL https://books.google.com/books?id=3-SV54nrQCoC&pg=PA435&lpg=PA435&dq=0&source=bl&ots=FAhclgmq3k&sig=ACfU3U3XO4ek_NUstPZIYedeVKWx9PDAJg&hl=en&sa=X&ved=2ahUKEwiY4M-egt7xAhXVUjUKHUnaDq44bBDoATAIegQIDRAD
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://books.google.com/books?id=3-SV54nrQCoC&pg=PA435&lpg=PA435&dq=0&source=bl&ots=FAhclgmq3k&sig=ACfU3U3XO4ek_NUstPZIYedeVKWx9PDAJg&hl=en&sa=X&ved=2ahUKEwiY4M-egt7xAhXVUjUKHUnaDq44bBDoATAIegQIDRAD of: 0.00019998000199980003. Discarding.
+	Result [117]  Processing URL https://books.google.com/books?id=sd-DI5l1CaMC&pg=PT84&lpg=PT84&dq=0&source=bl&ots=2tmcSSYCAf&sig=ACfU3U1CDJsDF5c1rAzpcK3tSsUQ0FAJ2g&hl=en&sa=X&ved=2ahUKEwiY4M-egt7xAhXVUjUKHUnaDq44bBDoATAJegQIDBAD
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://books.google.com/books?id=sd-DI5l1CaMC&pg=PT84&lpg=PT84&dq=0&source=bl&ots=2tmcSSYCAf&sig=ACfU3U1CDJsDF5c1rAzpcK3tSsUQ0FAJ2g&hl=en&sa=X&ved=2ahUKEwiY4M-egt7xAhXVUjUKHUnaDq44bBDoATAJegQIDBAD of: 0.00019998000199980003. Discarding.
+	Result [118]  Processing URL https://www.chilimath.com/lessons/intermediate-algebra/zero-factorial/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.chilimath.com/lessons/intermediate-algebra/zero-factorial/ of: 0.0014124293785310734. Discarding.
+	Result [119]  Processing URL https://developer.android.com/studio/releases/gradle-plugin
+		! Error getting the content of the web.
+		! unsupported operand type(s) for +: 'int' and 'str'
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://developer.android.com/studio/releases/gradle-plugin of: False. Discarding.
+	Result [120]  Processing URL https://www.onetonline.org/
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.onetonline.org/ of: 0.00019998000199980003. Discarding.
+	Result [121]  Processing URL https://www.soundersfc.com/news/seattle-sounders-defeat-houston-dynamo-2-0-set-mls-unbeaten-streak-record-to-sta
+		Date found in the API results: 2021-07-07T19:08:56.252381
+		! Error getting the content of the web.
+		! unsupported operand type(s) for +: 'int' and 'str'
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.soundersfc.com/news/seattle-sounders-defeat-houston-dynamo-2-0-set-mls-unbeaten-streak-record-to-sta of: False. Discarding.
+	Result [122]  Processing URL https://developers.virustotal.com/v3.0/reference
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://developers.virustotal.com/v3.0/reference of: 0.00019998000199980003. Discarding.
+	Result [123]  Processing URL https://www.cuemath.com/questions/what-is-the-absolute-value-of-0/
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.cuemath.com/questions/what-is-the-absolute-value-of-0/ of: 0.00019998000199980003. Discarding.
+	Result [124]  Processing URL https://matplotlib.org/stable/tutorials/colors/colormaps.html
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://matplotlib.org/stable/tutorials/colors/colormaps.html of: 0.00019998000199980003. Discarding.
+	Result [125]  Processing URL https://stackoverflow.com/questions/14461695/what-does-0-stand-for/14461711
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://stackoverflow.com/questions/14461695/what-does-0-stand-for/14461711 of: 0.00019998000199980003. Discarding.
+	Result [126]  Processing URL https://www.cc.com/shows/tosh-o
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.cc.com/shows/tosh-o of: 0.00019998000199980003. Discarding.
+	Result [127]  Processing URL https://books.google.com/books?id=bdY8AAAAIAAJ&pg=RA9-SA7-PA15&lpg=RA9-SA7-PA15&dq=0&source=bl&ots=RMJxN97lXy&sig=ACfU3U0C7-bnBRxB2l0VQ4K-6xQj11PPOQ&hl=en&sa=X&ved=2ahUKEwjHy5mfgt7xAhW9EFkFHW-AAfI4dhDoATAJegQIEhAD
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://books.google.com/books?id=bdY8AAAAIAAJ&pg=RA9-SA7-PA15&lpg=RA9-SA7-PA15&dq=0&source=bl&ots=RMJxN97lXy&sig=ACfU3U0C7-bnBRxB2l0VQ4K-6xQj11PPOQ&hl=en&sa=X&ved=2ahUKEwjHy5mfgt7xAhW9EFkFHW-AAfI4dhDoATAJegQIEhAD of: 0.00019998000199980003. Discarding.
+	Result [128]  Processing URL https://www.cfr.org/backgrounder/us-immigration-debate-0
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.cfr.org/backgrounder/us-immigration-debate-0 of: 0.00019998000199980003. Discarding.
+	Result [129]  Processing URL https://oauth.net/2/
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://oauth.net/2/ of: 0.00019998000199980003. Discarding.
+	Result [130]  Processing URL https://www.motortrend.com/reviews/2022-tesla-model-s-plaid-first-test-review/
+		Date found in the API results: 2021-06-17T00:00:00
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.motortrend.com/reviews/2022-tesla-model-s-plaid-first-test-review/ of: 0.001841620626151013. Discarding.
+	Result [131]  Processing URL https://bioinfo.ut.ee/primer3-0.4.0/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://bioinfo.ut.ee/primer3-0.4.0/ of: 0.00019998000199980003. Discarding.
+	Result [132]  Processing URL https://www.techpowerup.com/download/techpowerup-gpu-z/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.techpowerup.com/download/techpowerup-gpu-z/ of: 0.0. Discarding.
+	Result [133]  Processing URL https://www.socialworkers.org/LinkClick.aspx?fileticket=7dVckZAYUmk%3D&portalid=0
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.socialworkers.org/LinkClick.aspx?fileticket=7dVckZAYUmk%3D&portalid=0 of: 0.002372479240806643. Discarding.
+	Result [134]  Processing URL https://en-americas-support.nintendo.com/app/answers/detail/a_id/22525/~/nintendo-switch-system-updates-and-change-history
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://en-americas-support.nintendo.com/app/answers/detail/a_id/22525/~/nintendo-switch-system-updates-and-change-history of: 0.00019998000199980003. Discarding.
+	Result [135]  Processing URL https://www.amazon.com/StrengthsFinder-2-0-Tom-Rath/dp/159562015X
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.amazon.com/StrengthsFinder-2-0-Tom-Rath/dp/159562015X of: 0.00030012004801920766. Discarding.
+	Result [136]  Processing URL https://www.gnu.org/licenses/agpl-3.0.en.html
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.gnu.org/licenses/agpl-3.0.en.html of: 0.00019998000199980003. Discarding.
+	Result [137]  Processing URL http://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-tech-overview-2.0.html
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with http://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-tech-overview-2.0.html of: 0.00019998000199980003. Discarding.
+	Result [138]  Processing URL http://glew.sourceforge.net/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with http://glew.sourceforge.net/ of: 0.00019998000199980003. Discarding.
+	Result [139]  Processing URL https://www.skysports.com/football/news/19692/12344919/england-2-0-germany-raheem-sterling-and-harry-kane-strike-in-second-half-to-send-three-lions-into-euro-2020-quarter-finals
+		Date found in the API results: 2021-06-30T00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.skysports.com/football/news/19692/12344919/england-2-0-germany-raheem-sterling-and-harry-kane-strike-in-second-half-to-send-three-lions-into-euro-2020-quarter-finals of: 0.00019998000199980003. Discarding.
+	Result [140]  Processing URL https://www.bleepingcomputer.com/news/security/public-windows-printnightmare-0-day-exploit-allows-domain-takeover/
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.bleepingcomputer.com/news/security/public-windows-printnightmare-0-day-exploit-allows-domain-takeover/ of: 0.00019998000199980003. Discarding.
+	Result [141]  Processing URL https://iabeurope.eu/vendor-list-tcf-v2-0/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://iabeurope.eu/vendor-list-tcf-v2-0/ of: 0.00019998000199980003. Discarding.
+	Result [142]  Processing URL https://www.rawcharge.com/2021/7/8/22567699/tampa-bay-lightning-clinch-stanley-cup-with-1-0-win-over-montreal-canadiens
+		Date found in the API results: 2021-07-07T19:09:16.529415
+		Date found in the URL: 2021-07-08 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.rawcharge.com/2021/7/8/22567699/tampa-bay-lightning-clinch-stanley-cup-with-1-0-win-over-montreal-canadiens of: 0.00019998000199980003. Discarding.
+	Result [143]  Processing URL https://techcrunch.com/2021/06/29/shopify-drops-its-app-store-commissions-to-0-on-developers-first-million-in-revenue/
+		Date found in the API results: 2021-06-29T00:00:00
+		Date found in the URL: 2021-06-29 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://techcrunch.com/2021/06/29/shopify-drops-its-app-store-commissions-to-0-on-developers-first-million-in-revenue/ of: 0.00019998000199980003. Discarding.
+	Result [144]  Processing URL https://docs.docker.com/docker-for-windows/release-notes/
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://docs.docker.com/docker-for-windows/release-notes/ of: 0.00019998000199980003. Discarding.
+	Result [145]  Processing URL https://www.uhd.edu/myuhd
+		Date found in the API results: 2021-04-07T00:00:00
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.uhd.edu/myuhd of: False. Discarding.
+	Result [146]  Processing URL https://academickids.com/encyclopedia/index.php/0_%28number%29
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://academickids.com/encyclopedia/index.php/0_%28number%29 of: 0.00019998000199980003. Discarding.
+	Result [147]  Processing URL https://www.10news.com/sports/padres/marquez-dominates-for-7-pitches-rockies-past-padres-3-0
+		Date found in the API results: 2021-07-11T19:09:20.641470
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.10news.com/sports/padres/marquez-dominates-for-7-pitches-rockies-past-padres-3-0 of: 0.00019998000199980003. Discarding.
+	Result [148]  Processing URL https://www.rawcharge.com/2021/7/8/22567699/tampa-bay-lightning-clinch-stanley-cup-with-1-0-win-over-montreal-canadiens
+		Date found in the API results: 2021-07-07T19:09:21.087028
+		Date found in the URL: 2021-07-08 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.rawcharge.com/2021/7/8/22567699/tampa-bay-lightning-clinch-stanley-cup-with-1-0-win-over-montreal-canadiens of: 0.00019998000199980003. Discarding.
+	Result [149]  Processing URL https://www.bleepingcomputer.com/news/security/public-windows-printnightmare-0-day-exploit-allows-domain-takeover/
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.bleepingcomputer.com/news/security/public-windows-printnightmare-0-day-exploit-allows-domain-takeover/ of: 0.00019998000199980003. Discarding.
+	Result [150]  Processing URL https://academickids.com/encyclopedia/index.php/0_%28number%29
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://academickids.com/encyclopedia/index.php/0_%28number%29 of: 0.00019998000199980003. Discarding.
+	Result [151]  Processing URL https://www.10news.com/sports/padres/marquez-dominates-for-7-pitches-rockies-past-padres-3-0
+		Date found in the API results: 2021-07-11T19:09:22.700116
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.10news.com/sports/padres/marquez-dominates-for-7-pitches-rockies-past-padres-3-0 of: 0.00019998000199980003. Discarding.
+	Result [152]  Processing URL https://www.uhd.edu/myuhd
+		Date found in the API results: 2021-04-07T00:00:00
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.uhd.edu/myuhd of: False. Discarding.
+	Result [153]  Processing URL https://techcrunch.com/2021/06/29/shopify-drops-its-app-store-commissions-to-0-on-developers-first-million-in-revenue/
+		Date found in the API results: 2021-06-29T00:00:00
+		Date found in the URL: 2021-06-29 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://techcrunch.com/2021/06/29/shopify-drops-its-app-store-commissions-to-0-on-developers-first-million-in-revenue/ of: 0.00019998000199980003. Discarding.
+	Result [154]  Processing URL https://docs.docker.com/docker-for-windows/release-notes/
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://docs.docker.com/docker-for-windows/release-notes/ of: 0.00019998000199980003. Discarding.
+	Result [155]  Processing URL https://www.wordnik.com/words/0
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.wordnik.com/words/0 of: 0.00019998000199980003. Discarding.
+	Result [156]  Processing URL https://www.yourdictionary.com/0
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.yourdictionary.com/0 of: 0.00019998000199980003. Discarding.
+	Result [157]  Processing URL https://www.gov.scot/publications/coronavirus-covid-19-protection-levels/pages/protection-level-0/
+		Date found in the API results: 2021-05-11T00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.gov.scot/publications/coronavirus-covid-19-protection-levels/pages/protection-level-0/ of: 0.00019998000199980003. Discarding.
+	Result [158]  Processing URL https://www.wordnik.com/words/0
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.wordnik.com/words/0 of: 0.00019998000199980003. Discarding.
+	Result [159]  Processing URL https://www.uhd.edu/myuhd
+		Date found in the API results: 2021-04-07T00:00:00
+		! Error getting the content of the web.
+		! can't compare offset-naive and offset-aware datetimes
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.uhd.edu/myuhd of: False. Discarding.
+	Result [160]  Processing URL https://www.sufc.co.uk/news/2021/july/Europa-Point-0-3-Blades-report/
+		Date found in the API results: 2021-07-10T19:09:30.672751
+		Date found in the URL: 2021-07-12 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.sufc.co.uk/news/2021/july/Europa-Point-0-3-Blades-report/ of: 0.00019998000199980003. Discarding.
+	Result [161]  Processing URL https://pixabay.com/vectors/zero-numbers-0-shiny-glowing-33773/
+		Date found in the API results: 2012-04-14T00:00:00
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://pixabay.com/vectors/zero-numbers-0-shiny-glowing-33773/ of: 0.00019998000199980003. Discarding.
+	Result [162]  Processing URL https://www.nujournal.com/sports/local-sports/2021/07/12/area-roundup-new-ulm-gold-goes-3-0-at-gopher-classic-over-weekend/
+		Date found in the API results: 2021-07-12
+		Date found in the URL: 2021-07-12 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.nujournal.com/sports/local-sports/2021/07/12/area-roundup-new-ulm-gold-goes-3-0-at-gopher-classic-over-weekend/ of: 0.00019998000199980003. Discarding.
+	Result [163]  Processing URL https://baseball.yahoo.co.jp/m/mlb/game/table/?id=2021071011
+		Date found in the API results: 2021-07-10T19:09:31.363534
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://baseball.yahoo.co.jp/m/mlb/game/table/?id=2021071011 of: 0.00019998000199980003. Discarding.
+	Result [164]  Processing URL https://googology.wikia.org/wiki/0
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://googology.wikia.org/wiki/0 of: 0.00019998000199980003. Discarding.
+	Result [165]  Processing URL http://sriaurosaltlake.in/zgwdy/zgmpa.php?roysn=limbo-pc-emulator-5.0.0-apk
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with http://sriaurosaltlake.in/zgwdy/zgmpa.php?roysn=limbo-pc-emulator-5.0.0-apk of: 0.00019998000199980003. Discarding.
+	Result [166]  Processing URL https://downloadcenter.intel.com/download/30515/Intel-Wireless-Bluetooth-for-Windows-10
+		Date found in the API results: 2021-01-06T00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://downloadcenter.intel.com/download/30515/Intel-Wireless-Bluetooth-for-Windows-10 of: 0.00019998000199980003. Discarding.
+	Result [167]  Processing URL https://id.cisco.com/signin/register
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://id.cisco.com/signin/register of: 0.00019998000199980003. Discarding.
+	Result [168]  Processing URL https://seminoles.com/sports/soccer/schedule/season/2021-22/
+		! Error getting the content of the web.
+		! unsupported operand type(s) for +: 'int' and 'str'
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://seminoles.com/sports/soccer/schedule/season/2021-22/ of: False. Discarding.
+	Result [169]  Processing URL https://www.themillers.co.uk/news/2021/july/match-report-for-parkgate-fc-vs-rotherham-united-on-10-jul-21/
+		Date found in the URL: 2021-07-12 00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.themillers.co.uk/news/2021/july/match-report-for-parkgate-fc-vs-rotherham-united-on-10-jul-21/ of: 0.00019998000199980003. Discarding.
+	Result [170]  Processing URL https://www.vooruit.org/robux/free_robux_hack_generator_-_free_robux_0_verification
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.vooruit.org/robux/free_robux_hack_generator_-_free_robux_0_verification of: 0.00019998000199980003. Discarding.
+	Result [171]  Processing URL https://www.illinoislottery.com/dbg/results/pick4/draw/20261
+		Date found in the API results: 2021-07-12
+		! Error in getting content due to a Connection Error. Port closed, web down?
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.illinoislottery.com/dbg/results/pick4/draw/20261 of: False. Discarding.
+	Result [172]  Processing URL https://id.cisco.com/signin/register
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://id.cisco.com/signin/register of: 0.00019998000199980003. Discarding.
+	Result [173]  Processing URL https://store.steampowered.com/app/339340/Resident_Evil_0/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://store.steampowered.com/app/339340/Resident_Evil_0/ of: 0.00019998000199980003. Discarding.
+	Result [174]  Processing URL https://ctep.cancer.gov/protocoldevelopment/electronic_applications/ctc.htm
+		Date found in the API results: 2020-09-21T00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://ctep.cancer.gov/protocoldevelopment/electronic_applications/ctc.htm of: 0.00019998000199980003. Discarding.
+	Result [175]  Processing URL https://english.stackexchange.com/questions/15874/should-the-number-0-be-pronounced-zero-or-oh
+		Date found in the API results: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://english.stackexchange.com/questions/15874/should-the-number-0-be-pronounced-zero-or-oh of: 0.00019998000199980003. Discarding.
+	Result [176]  Processing URL https://www.englishmind-online.com/post/when-do-you-say-zero-nil-oh
+		Date found in the API results: 2020-01-26T00:00:00
+		! Error getting the content of the web.
+		! unsupported operand type(s) for +: 'int' and 'str'
+		<class 'TypeError'>
+		The content of the pages were not string. Verify.
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.englishmind-online.com/post/when-do-you-say-zero-nil-oh of: False. Discarding.
+	Result [177]  Processing URL https://www.icd10data.com/ICD10CM/Codes/L00-L99/L40-L45/L40-/L40.0
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.icd10data.com/ICD10CM/Codes/L00-L99/L40-L45/L40-/L40.0 of: 0.00019998000199980003. Discarding.
+	Result [178]  Processing URL https://www.ign.com/wikis/yakuza-0/Substories
+		Date found in the API results: 2020-10-23T00:00:00
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.ign.com/wikis/yakuza-0/Substories of: 0.00019998000199980003. Discarding.
+	Result [179]  Processing URL https://www.fcc.gov/general/radio-frequency-safety-0
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.fcc.gov/general/radio-frequency-safety-0 of: 0.00019998000199980003. Discarding.
+	Result [180]  Processing URL https://www.nationalbreastcancer.org/breast-cancer-stage-0-and-stage-1
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.nationalbreastcancer.org/breast-cancer-stage-0-and-stage-1 of: 0.013605442176870748. Discarding.
+	Result [181]  Processing URL https://www.armis.com/research/nat-slipstreaming-v20/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.armis.com/research/nat-slipstreaming-v20/ of: 0.013605442176870748. Discarding.
+	Result [182]  Processing URL https://www.dictionary.com/e/o-zero/
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.dictionary.com/e/o-zero/ of: 0.00019998000199980003. Discarding.
+	Result [183]  Processing URL https://www.healthline.com/health/r-nought-reproduction-number
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.healthline.com/health/r-nought-reproduction-number of: 0.00019998000199980003. Discarding.
+	Result [184]  Processing URL https://www.epa.gov/sunsafety/uv-index-scale-0
+		Date found in the API results: 2019-05-21T00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.epa.gov/sunsafety/uv-index-scale-0 of: 0.00019998000199980003. Discarding.
+	Result [185]  Processing URL https://www.sciencefriday.com/articles/the-origin-of-the-word-zero/
+		Date found in the API results: 2018-07-17T00:00:00
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://www.sciencefriday.com/articles/the-origin-of-the-word-zero/ of: 0.00019998000199980003. Discarding.
+	Result [186]  Processing URL https://drive.google.com/drive/u/0/
+		Date found in the content of the page: None
+		Different. The content of http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2 has distance with https://drive.google.com/drive/u/0/ of: 0.00019998000199980003. Discarding.
+
+== Level 0. Twitter search by title as 0
+https://api.twitter.com/2/tweets/search/all?query=%220%22&max_results=100&tweet.fields=author_id%2Cpublic_metrics%2Ccreated_at&start_time=2018-07-13T19%3A10%3A01.951447Z
+	Downloaded 100 twitter content
+	Result [1]  Processing twitter ID 1414633115193167879: 🇲🇽 Onlyfans - Packs caseros y muchas mas sin publicidad 🇲🇽
+
+👇 Packs gratis y OnlyFans: 👇
+
+https://t.co/HjdmeGWqsi
+	Result [2]  Processing twitter ID 1414633114836643852: RT @sanholobeats: dude stood right in front of me all night hating every song 😂 legend!
+https://t.co/lCSkhtuQ5O https://t.co/1mZoYW8in4
+	Result [3]  Processing twitter ID 1414633114018541568: RT @bilalahmad_TMC: 2 बच्चे = सरकारी लाभ
+1 बच्चा = विशेष सुविधाएं
+0 बच्चे = विधायक मंत्री बनने की पूरी संभावना
+कुंवारा = पूरी सरकार आपकी
+(…
+	Result [4]  Processing twitter ID 1414633112777154563: @Loo___Kaa__ @Abdelrahman_k18 @_yasmein_ @mostafa_Tyasoon @amira0_mahmoud @R3nia0_0 @Eslam63429421 @moel_97 @aboals7s23 @Alaa286383 @omaryasserh1 @SbTQ3BaAKHSNRlE الباك
+	Result [5]  Processing twitter ID 1414633112680603651: RT @yaknonjang: —จจสเล่ม0— https://t.co/SDKzInkB2a
+	Result [6]  Processing twitter ID 1414633112542220288: @NoneYa30863617 @RandPaul @GOP tell that to your zero (0) followers.  reported...
+	Result [7]  Processing twitter ID 1414633112475160577: RT @aafsh321: افضل💯شركه نقل عفش بالرياض داخل وخارج مع 🇸🇦الفك والتركيب والتغليف والتخزين 💯مع الضمان يوجد لدينا فنيون متخصصون في فك وتركيب غر…
+	Result [8]  Processing twitter ID 1414633112332537857: RT @Monica_Garcia_G: No nos quedemos solo en la crítica a Naim Darrechi (que también), hay que echar la mirada a la importancia de la educa…
+	Result [9]  Processing twitter ID 1414633112286339078: RT @kittyfox_sings: 200713 출근길 라이브!!
+
+#영케이 #Youngk
+
+🐱　　      Justin Bieber - Baby             🦊
+0:00 ━━━━●────────── 12:19
+⇆ㅤㅤㅤㅤㅤ ◁ㅤㅤ❚❚ㅤㅤ▷…
+	Result [10]  Processing twitter ID 1414633112194060288: RT @NHK_PR: 【満島ひかり × 江戸川乱歩】
+
+今週、総合テレビで3作放送します（ご案内遅くなってごめんなさい！）。
+
+「怪人二十面相」
+今夜 10:45
+
+「少年探偵団」
+14（水）午前1:14 ※火曜深夜
+
+「妖怪博士」
+17（土）深夜0:25 ※金曜深夜
+
+▼詳…
+	Result [11]  Processing twitter ID 1414633111715913728: @robertpijkeren Nietszeggende woorden van Dhr. Rutte. Deze man met psychopatische trekken meent hier 0,0 van. En Dhr. de Jonge zal excuus niet uit zijn keel krijgen.
+	Result [12]  Processing twitter ID 1414633111556612097: 0 pq eu sou pobre https://t.co/SryWovJpgf
+	Result [13]  Processing twitter ID 1414633111372111877: @pofahd_0 @_1F9o @1qnq_ @IeIvs @_Gzl0 موفقين
+	Result [14]  Processing twitter ID 1414633111246286852: RT @2seokily: A lot of healthcare frontliners are using ptd and doing the challenges on tiktok it’s so cute and heart-warming!! 
+
+here’s an…
+	Result [15]  Processing twitter ID 1414633111187566593: point positif : 0 remarque sur mon bronzage inexistant
+	Result [16]  Processing twitter ID 1414633110784942090: @felicitasema Askm bende de öyle oluyor ya altyazı olmadan film falan izleyemiyorum listening 0 resmen
+	Result [17]  Processing twitter ID 1414633110738714625: #Renegade sealed a nice victory, but had 0 arbitration due to Speciation, Congress, &amp; his placement by the #CIA. We underwhelmingly re-elected him, so what could he do? Bush set up a recession &amp; 2 perfect Wars, so he was cleaning up a mess &amp; adding to #Intelligence-Surveillance.
+	Result [18]  Processing twitter ID 1414633110658961410: 即対応🙆‍♀️即配達🙆‍♀️
+
+0.25     11000円
+0.5       17000円
+１         27000円
+
+テレグラム→https://t.co/4sfSsiX2QX
+	Result [19]  Processing twitter ID 1414633110273146889: @bh___89 @Allbbero @Krza_0 @mr_demon_5 النوبه ذي اول وحده تطيح نوك بيننا
+	Result [20]  Processing twitter ID 1414633110214529028: eu criei... eu criei um tik tok 😔
+
+https://t.co/Hk1GXyVbFI
+	Result [21]  Processing twitter ID 1414633110096994309: NPSL
+Midwest Region
+North Conference
+W-L-T - Pts
+x-Minneapolis City 10-1-0 - 30
+Duluth FC 8-3-0 - 24
+Med City FC 7-3-0 - 24
+Joy St Louis Park 4-6-2 - 14
+Dakota Fusion FC 3-8-0 - 9
+Sioux Falls Thunder FC 2-6-3 - 9
+LC Aris FC 0-7-3 - 3
+x - clinched title
+#wisoccer
+	Result [22]  Processing twitter ID 1414633109967056906: RT @kodxofficial: 🔥2 KODX LOTTERY! For loyal and patient #KODX warriors, and beginners!
+More details on our news channel https://t.co/VJ5Y9…
+	Result [23]  Processing twitter ID 1414633109782286338: https://t.co/AFJMxrY7rs
+	Result [24]  Processing twitter ID 1414633109560123399: RT @Poloniex: 5 years ago today to put things in perspective 🚀
+
+1 #BTC 🤝 $526.23
+1 $ETH 🤝 $12.35
+1 $LTC 🤝 $4.61
+1 $XRP 🤝 $0.005662
+1 $DOGE…
+	Result [25]  Processing twitter ID 1414633109388075015: RT @shl: Work-life balance: 0% work, 100% life.
+	Result [26]  Processing twitter ID 1414633109144879104: RT @MeteoEnGranada: Granada-Norte
+🕒 19h | ☀ Soleado
+
+Viento: 4.0 km/h S
+Racha: 7.2 km/h
+Temperatura: 31.2 °C
+Humedad: 13 %
+Presión: 1016.4…
+	Result [27]  Processing twitter ID 1414633108737957895: toko_rin0315
+受け取ったリプライ数:0(前日比:0)
+
+https://t.co/0xQiG5iubM
+	Result [28]  Processing twitter ID 1414633108599500800: 最後ただのイケメンやんけ！！
+https://t.co/sgaxiAUfpJ
+	Result [29]  Processing twitter ID 1414633108507332608: @GuilhermeBoulos Verdade e a Coreia do Norte 0 mortes.
+Kkkkkk sério que tu acredita nas coisas que tu fala?
+	Result [30]  Processing twitter ID 1414633108104572928: とりあえず目の前にあるものに飛びついてみる。動いてみる。それが正解かはわからない。でも、何もしなければ何も得られなくてプラマイ0。もしやってだめだとしても「それが違う」という収穫がある。それはもしかしたらマイナスではなく、むしろプラスなのかもしれない。
+	Result [31]  Processing twitter ID 1414633107982938118: RT @jwy_lele: 0.19 นะทุกคน น่ารักมาก แล้วก็โคตรจะมินเล่อ มันคือที่สุด ใครทำคลิปนี้ขอให้ชีวิตเจริญรุ่งเรืองค่ะ 🥲 #minle คลิปนี้ที่คุณคู่ควร…
+	Result [32]  Processing twitter ID 1414633107794186243: toko_rin0315
+07月13日の天気:小雨 最高気温30度 最低気温24度
+ツイート数:4(前日比:0)
+RTした数:0(前日比:-1)
+RTされた数:0(前日比:0)
+送ったリプライ数:0(前日比:0)
+	Result [33]  Processing twitter ID 1414633107496525827: RT @YiXiaoXuan1202: 2021.2.11 编号95A 除夕夜特别限定① 身经百战的小骚0 朋友介绍的 第一次想约的时候放我鸽子 让我拉黑了 过几天居然换了个号又来找我 怎奈何我脸盲 没认出来 草完了 才知道是谁 不过有一说一 这身材和蜜桃 我还是很有感觉的 要…
+	Result [34]  Processing twitter ID 1414633107475550212: Corre pro Tik Tok!!!!
+
+https://t.co/uycprT1YEY
+	Result [35]  Processing twitter ID 1414633107261689856: @ElCondeClive2_0 Briones a Sichel
+	Result [36]  Processing twitter ID 1414633107240759300: @meneer_pastoor @questauthority Yes, this "evidentiary hearing" is a core piece of the continued grift. Right-wing eco-system has absorbed 0 won:65 lost election court cases via excuse that "evidence was never heard."
+	Result [37]  Processing twitter ID 1414633106838020104: 6.2k primos for ayaka but i’m at 0 pity
+	Result [38]  Processing twitter ID 1414633106590638082: https://t.co/AcnRL4okWK
+	Result [39]  Processing twitter ID 1414633105676251140: RT @WanminLeaks: Banner da Ayaka, primeiro da 2.0!
+
+*Sujeito a mudanças https://t.co/pTw9baX75p
+	Result [40]  Processing twitter ID 1414633105453944832: RT @pv3dr: Los mismos que solo fueron capaces de construir una barda inútil de miles de millones de pesos y una suavicrema horrible, se pon…
+	Result [41]  Processing twitter ID 1414633105386704899: RT @amyfinance: 😻Hey cat lovers, AMY #airdrop #001 is coming! Golden Cat for 100 Participants!
+✅Follow @amyfinance +Like+RT+tag 3 friends…
+	Result [42]  Processing twitter ID 1414633105252552711: Check out Uzma 's video! #TikTok https://t.co/P9Q9jKZSW0
+	Result [43]  Processing twitter ID 1414633105147580419: RT @karog283: ตุย…0(:3 )～ ('､3_ヽ)_ https://t.co/OlJYLrUIUU
+	Result [44]  Processing twitter ID 1414633105084743681: RT @TBS_SOCCER: 【TBSサッカー中継プレゼント】
+前半 #吉田麻也 #堂安律 がゴールを決め 🇯🇵2-0🇭🇳
+#TBS 系列放送中⚡️
+
+サッカー日本代表2020
+全選手サイン入りホームユニフォームを1名様に🎁
+
+応募方法は👇
+☑️ @TBS_SOCCER をフ…
+	Result [45]  Processing twitter ID 1414633104921141254: @_ts0p 헉 진짜요?! 저 3분 남은 거보고 일단 냅다 들어갔서요...🔥 넷낯가림을 극복하구...ㅠ0ㅠ💪💪 사람님 알려주셔서 감사합니다 진짜 다들 진짜.. 짜앙..~
+	Result [46]  Processing twitter ID 1414633104724041729: eastestest1
+07月13日の天気:厚い雲 最高気温32度 最低気温24度
+ツイート数:10(前日比:-9)
+RTした数:4(前日比:0)
+RTされた数:0(前日比:0)
+送ったリプライ数:3(前日比:-3)
+	Result [47]  Processing twitter ID 1414633104673738758: @iraqi_saqer @0_0Karbalaei الحمدالله على السلامه هي هاي ضربيه الجلد،،، نستمر بجلد الفرس المجوس واذنابه 💪💪
+	Result [48]  Processing twitter ID 1414633104270979073: RT @Jae838: PS this is a private sale! of 0.047eth. But dont fret the floor price of these are atleast 0.4eth! ✨
+	Result [49]  Processing twitter ID 1414633103864176640: RT @yaknonjang: —จจสเล่ม0— https://t.co/SDKzInkB2a
+	Result [50]  Processing twitter ID 1414633103654408192: RT @saturn0rbit: cara belajar bahasa inggris dari 0 
+
+🛸，a thread
+	Result [51]  Processing twitter ID 1414633103642046477: RT @LowEffortPunks: ZOMBE SOLD THE OTHER DAY FOR 0.35ETH
+
+https://t.co/aixalt8Wad
+	Result [52]  Processing twitter ID 1414633103633567747: RT @aafsh321: افضل💯شركه نقل عفش بالرياض داخل وخارج مع 🇸🇦الفك والتركيب والتغليف والتخزين 💯مع الضمان يوجد لدينا فنيون متخصصون في فك وتركيب غر…
+	Result [53]  Processing twitter ID 1414633103381856256: shopee pet baru mulai 19 lagi stay notif lgsg backk snack yuk fasttt 🍬
+
+game reff fast sirbal auto siram tanam #mintasnack #shopeepets https://t.co/LrJd1gqLJk
+	Result [54]  Processing twitter ID 1414633102920531968: https://t.co/SRL8IVzbBf
+	Result [55]  Processing twitter ID 1414633101829935106: RT @NHK_PR: 【満島ひかり × 江戸川乱歩】
+
+今週、総合テレビで3作放送します（ご案内遅くなってごめんなさい！）。
+
+「怪人二十面相」
+今夜 10:45
+
+「少年探偵団」
+14（水）午前1:14 ※火曜深夜
+
+「妖怪博士」
+17（土）深夜0:25 ※金曜深夜
+
+▼詳…
+	Result [56]  Processing twitter ID 1414633101787996166: aoi_gannbaranai
+受け取ったリプライ数:0(前日比:-21)
+
+https://t.co/b1Id3rrD4J
+	Result [57]  Processing twitter ID 1414633101742026756: RT @FootyAccums: Harry Kane, Raheem Sterling and Mason Mount accumulated 0.00(xG) between them in yesterday’s Euro 2020 final.
+
+Via @xGPhil…
+	Result [58]  Processing twitter ID 1414633101670555651: 나루토 치비메가 10주년 소분
+1차금 0.95(개당)
+2차금 국배비
+개당 되는데 세트로 가져가시는 분 있으면 넘겨요!!
+
+나루토 사쿠라 하나타 남았어요! https://t.co/8oSZrGGzBI
+	Result [59]  Processing twitter ID 1414633101188386828: does anyone want a dt in an obx boys edit??? (jj, pope, john b) 
+
+also if u want a dt on instagram as well then drop your instagram names :0
+	Result [60]  Processing twitter ID 1414633101154689026: #NEW Consumer expectations for inflation surge
+
+NY Fed June Survey of Consumer Expectations shows median inflation expectations for next 12 months jumped to 4.8%
+
+Up 0.8% from May, highest reading in survey history
+
+Outlook for next 3yrs unchanged at 3.6%
+
+https://t.co/3nxe4lIlm3
+	Result [61]  Processing twitter ID 1414633101121056770: Masih full, pasti sirbal https://t.co/vpo7lngmV9
+	Result [62]  Processing twitter ID 1414633100995272712: aoi_gannbaranai
+07月13日の天気:小雨 最高気温30度 最低気温24度
+ツイート数:4(前日比:-41)
+RTした数:0(前日比:-4)
+RTされた数:0(前日比:0)
+送ったリプライ数:0(前日比:-20)
+	Result [63]  Processing twitter ID 1414633100559138817: @_g_i_o_0 eu bjo
+	Result [64]  Processing twitter ID 1414633100538175491: 足を出すのはスタイルのいい私だけ๐·°(৹˃ᗝ˂৹)°·๐
+	Result [65]  Processing twitter ID 1414633100496171014: 방탄 온콘 방방콘 맵솔콘 미니포카 윤기 드볼 각각 운미포 3.0에 양도해요 스픽❌ 디엠 주세요
+
+ㅅㅊㅇ) BE 앨범 에센셜 디럭스 럽셀콘 메모리즈 뉴욕 런던 웸블리 윈패 엠투유 사웨 사운드웨이브 머스터 매직샵 DVD 포카 슈가 럭드 일직샵 공굿 시그 bts suga poca https://t.co/OsNMuALA18
+	Result [66]  Processing twitter ID 1414633100357906433: RT @NYtwinks: Watch #FullLength HD HelixStudios Videos on https://t.co/zKdDw5iT4l | Euroboys on https://t.co/FJRhh39K6h [#RT] https://t.co/…
+	Result [67]  Processing twitter ID 1414633099925893125: @eternal_guaje @Elektra994 @IvanRC_ @thegirl012 @superloquito @pablo_jaquete @SaraSalamo No existiría la trata si no existiese el trabajo 👇🏻
+
+1️⃣ Centros de uñas https://t.co/4mr8zKjeoi
+
+2️⃣ Fruterías https://t.co/AcLvWJQ89f
+
+3️⃣ Servicio doméstico https://t.co/h02zS5ozcQ
+
+4️⃣ Recolección agrícola
+https://t.co/xRFUVKCfXN
+
+5️⃣ Cuidado de ancianos https://t.co/2LlLQacdwy
+	Result [68]  Processing twitter ID 1414633099791536128: RT @AirdropStario: 💧TitansX Protocol Airdrop 💧
+
+🏆 Task:          ➕ 0.5 TXP (~$5)
+
+👨‍👩‍👧 Referral:   ➕ 0.25 TXP  (~$2.5)
+
+🔛 Airdrop Link &amp; I…
+	Result [69]  Processing twitter ID 1414633099716186118: RT @boobies10442472: Think I’ll sit on his face later👅👅👅💦🔥🥵🤤 if you haven’t made the plunge,  DO IT!! Go get that Onlyfans👌🏼🔥🔥🔥  Didn’t mak…
+	Result [70]  Processing twitter ID 1414633099078557697: RT @tuchogc: Este hombre es un mal chiste. De colombia 0, de los atropellos de la señora K estos meses 0. Cuando se Trata de su modelo econ…
+	Result [71]  Processing twitter ID 1414633099019710465: @__evergrin__ 그쳐 그쳐 ◠‿◠ 글고 저는 당시 어떤 아저씨가 남긴 악플이라 …. 진짜 오 타격 0% .. 도태되셨구나 에궁 ㅠ ~~
+	Result [72]  Processing twitter ID 1414633098847744001: RT @kittyfox_sings: 200713 출근길 라이브!!
+
+#영케이 #Youngk
+
+🐱　             　 박상철 - 무조건                  🦊
+0:00 ━━━━●────────── 12:19
+⇆ㅤㅤㅤㅤㅤ ◁ㅤㅤ❚❚ㅤㅤ…
+	Result [73]  Processing twitter ID 1414633098805919746: RT @_BeFoot: On rappel que le PSG a recruté Gianluigi Donnarumma pour 0€ 🥵 https://t.co/xBaXJCGvEV
+	Result [74]  Processing twitter ID 1414633098780815373: @rockjeonguk No éramos mutis. :0
+	Result [75]  Processing twitter ID 1414633098587873280: Accelerate big data analytics with the Spark 3.0 connector for SQL Server—now generally available https://t.co/ziLs1kh1HA #Azure
+	Result [76]  Processing twitter ID 1414633098491408384: RT @ENHYPEN_members: #ENHYPEN #JAY #JUNGWON #NI_KI
+
+세븐틴 선배님의 ready to love♥️
+제이, 니키, 정원의 두번째 커버✌
+I'm ready to love ENGENE😍
+
+https://t.co/Ne…
+	Result [77]  Processing twitter ID 1414633098457894924: Like 0 or so https://t.co/pz6rBEWgPC
+	Result [78]  Processing twitter ID 1414633098323574786: RT @SofaScoreINT: 🔎 | FOCUS
+
+Gonzalo Montiel vs Brazil:
+
+👌 53 touches
+⚔️ 9/10 duels won
+❌ 7 tackles (most)
+🚀 4 clearances (most)
+⛔️ 1 block…
+	Result [79]  Processing twitter ID 1414633098155683842: @SeZeThe__0 역시!!!신야는 붉은색이랑 어두운 계열이bbbbb 흠 이현이...그러네요 뭔가 원색계열은 잘 없을 것 같고... 채도 낮은 색이 많지 않을가요? 원색계열이 있다면 옷에 달린 포인트 장식 정도일 듯한... ㅋㅋㅋ아 ㅠㅋㅋㅋㅋ사부한테도 잔소리를 들엇지만 고쳐지지 않는 그의 전투방식-...
+	Result [80]  Processing twitter ID 1414633098071969792: RT @RBKr4B: Las reglas del servidor sancionan con mano dura la toxicidad del fandom por favor les sugiero que ciertos comentarios se los gu…
+	Result [81]  Processing twitter ID 1414633097455235073: RT @2seokily: A lot of healthcare frontliners are using ptd and doing the challenges on tiktok it’s so cute and heart-warming!! 
+
+here’s an…
+	Result [82]  Processing twitter ID 1414633097325281280: RT @TitansX_bsc: Airdrop link : https://t.co/sMUuxYtyxd
+Step guide 👇👇👇
+(1) Complete Task and get 0.5 TXP ($5)
+(2) Submit details 
+(3) copy…
+	Result [83]  Processing twitter ID 1414633097262518276: Tanta merda e agora vai a custo 0 🤣
+	Result [84]  Processing twitter ID 1414633097228808194: The simplest way to explain the current stock market stonks sitch:
+
+It’s like when an unstoppable force (retail) meets an immovable object (hedge funds over-shorting companies into bankruptcy) but the only way the object can win is if video game company bankrupts to $0.  
+
+So no.
+	Result [85]  Processing twitter ID 1414633097048559628: RT @TheFlashsPrime: D Wade after doing down 0-2 During the 2006 NBA Finals 
+
+• 39.3 PPG
+
+• 8.3 RPG
+
+• 3.5 APG
+
+• 2.5 SPG
+
+• 50% From the Fi…
+	Result [86]  Processing twitter ID 1414633097031602178: RT @ninety1999: รีแลกโด ดันยอดบั้มน้องนายด้วยคนครับ 
+1 รี = 0.50 บาท 
+1 ฟอล = 1 บาท (726) 
+
+ปิด 6:00 วันที่ 13 ก.ค. 64 🥰🥰
+	Result [87]  Processing twitter ID 1414633096993902603: RT @Sveta14775941: Звезда с именем "Димаш" внесена в карту небесных светил. А земной Димаш дарит нам свет любви своими песнями.
+✨🎼✨🎼✨🎼✨🎼✨…
+	Result [88]  Processing twitter ID 1414633096629080067: Check out NC TYRANT HUNTER's video! #TikTok https://t.co/7HPASGUAdP who died and left this cop boss deserving. The hate how can you respect cops
+	Result [89]  Processing twitter ID 1414633096578617344: RT @Hamkdy_: https://t.co/zprBLpgkBd  ⊹🪞◞💍𓂋 กี้ดดดดสวย แหวนเพชรแท้แบบminimal (0.03ct. White Gold 9k) สลักชื่อได้ด้วย สวยสมคาดหวังไว้เลย เพช…
+	Result [90]  Processing twitter ID 1414633096553578501: @lwxws @fa0_z1 @07e__ @foz3x3 @AS0i_ @jrilll @ljjti @b_z52 @Nonr_99 @Gnoja_22 @Ali_Ki02 @Me4ui @sfllft @smmz136 @Tr_1611 @msh12851 @ho88_sh @jilfjfj @i3__g @misk_eve @shaim_0 @o19ll @62sr__ @_20rm @Samryhtw @aalyfo @aborfal @ab243221 @1fs_2 @ibraksa89 @polin_5 @Mestfa19 @sma__09 @fa_1_rs @nMofCl @7M__f @M4na444 @y1z1d_2 @imy8899 @xjiji4 @_BADR_85 @HamstAlm @___S2G @jui_kn Good Evening follow me back 💯💯💯💯
+	Result [91]  Processing twitter ID 1414633096515756034: RT @FerdinandHaean3: Sy mendukung sepenuhnya dan mengajak seluruh warga NKRI mendukung @KPK_RI utk memeriksa Gub DKI Jakarta Anies Baswedan…
+	Result [92]  Processing twitter ID 1414633096247320601: これwww好きwwwwww
+https://t.co/EopC0oJZxm
+	Result [93]  Processing twitter ID 1414633095903412224: RT @made_by_dot: 탑꾸 판매합니당
+💗 1.0 💛 1.0 💚 1.1 💙 1.1 💜 1.1
+
+디엠 보내주세요 ෆ https://t.co/t4m78zeZLU
+	Result [94]  Processing twitter ID 1414633095752519684: @Lvnaaa_0 @ViveOden @__acecles Tqt jayson tes bg mon reuf
+	Result [95]  Processing twitter ID 1414633095718899712: HELP! There are only 800 Tapanuli orangutans left on Earth -- and greedy gold miners are decimating their forest home. Can you chip in to help save these frizzy-haired, mustachioed orangutans before they're completely wiped out? &gt;&gt; https://t.co/IIRIbnyi0Z HELP!
+	Result [96]  Processing twitter ID 1414633095710445570: RT @TitansX_bsc: Airdrop link : https://t.co/sMUuxYtyxd
+Step guide 👇👇👇
+(1) Complete Task and get 0.5 TXP ($5)
+(2) Submit details 
+(3) copy…
+	Result [97]  Processing twitter ID 1414633095706333186: RT @F_A_N_i__: ختم نبوتﷺپرجان بھی قربان #ن_لیگی_خان پرموشن گروپ💞jui
+L899
+@F_A_N_i__
+@FWK42
+@AzK9201
+@R_KhaN5
+@Saba5670
+@riyy60
+@ZafarIqbal5…
+	Result [98]  Processing twitter ID 1414633095479840770: 12/07/21 - 18:00. #UKRoads #A5 #Northamptonshire
+The A5 southbound between the junctions with the A43 and the A508 . Delays expected. Best avoid (if possible)
+#UKTraffic #SafeRoads 
+Ad: Indulge yourself with #formal #events - https://t.co/tLhFOLASVK
+ https://t.co/GsVeBkCQb2
+	Result [99]  Processing twitter ID 1414633094410346498: RT @aafsh321: افضل💯شركه نقل عفش بالرياض داخل وخارج مع 🇸🇦الفك والتركيب والتغليف والتخزين 💯مع الضمان يوجد لدينا فنيون متخصصون في فك وتركيب غر…
+	Result [100]  Processing twitter ID 1414633094125076482: @Mohddlol Nadav1x n words tweeted: 
+Ending in a: 1
+Hard Rs: 0
+
+== Level 0. VK search by title as 0
+In total was found 0

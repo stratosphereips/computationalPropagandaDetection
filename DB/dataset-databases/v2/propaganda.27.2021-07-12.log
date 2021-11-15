@@ -1,0 +1,39 @@
+Searching the distribution graph of URL https://www.hindustantimes.com/world-news/us-asks-russia-to-explain-provocations-on-ukraine-border-state-department-101617645462774.html. Using 1 levels.
+
+		Date found in the content of the page: None
+Main title: None
+In level 0 were found 1 urls including original
+
+== Level 0. Google search by LINKS to https://www.hindustantimes.com/world-news/us-asks-russia-to-explain-provocations-on-ukraine-border-state-department-101617645462774.html
+	Total amount of results retrieved: 4
+	Result [1]  Processing URL https://www.hindustantimes.com/world-news/us-asks-russia-to-explain-provocations-on-ukraine-border-state-department-101617645462774.html
+		Date found in the API results: 2021-04-06T00:00:00
+		Repeated url: https://www.hindustantimes.com/world-news/us-asks-russia-to-explain-provocations-on-ukraine-border-state-department-101617645462774.html.  Discarding.  
+	Result [2]  Processing URL https://twitter.com/httweets/status/1379134366685745169
+		Date found in the content of the page: None
+		Not in content. The URL https://www.hindustantimes.com/world-news/us-asks-russia-to-explain-provocations-on-ukraine-border-state-department-101617645462774.html is not in the content of site https://twitter.com/httweets/status/1379134366685745169  Discarding.
+	Result [3]  Processing URL https://twitter.com/httweets/status/1379134366685745169?lang=ar
+		Date found in the content of the page: None
+		Not in content. The URL https://www.hindustantimes.com/world-news/us-asks-russia-to-explain-provocations-on-ukraine-border-state-department-101617645462774.html is not in the content of site https://twitter.com/httweets/status/1379134366685745169?lang=ar  Discarding.
+	Result [4]  Processing URL https://navy.mil.ph/downloads/1617680924-06%20APRIL%202021.pdf
+		Date found in the API results: 2021-04-05T00:00:00
+		Blacklisted url: https://navy.mil.ph/downloads/1617680924-06%20APRIL%202021.pdf.  Discarding.  
+		Date found in the API results: 2021-04-06T00:00:00
+
+== Level 0. Twitter search by LINKS as https://www.hindustantimes.com/world-news/us-asks-russia-to-explain-provocations-on-ukraine-border-state-department-101617645462774.html
+https://api.twitter.com/2/tweets/search/all?query=url+%3A+https%253A%252F%252Fwww.hindustantimes.com%252Fworld-news%252Fus-asks-russia-to-explain-provocations-on-ukraine-border-state-department-101617645462774.html&max_results=100&tweet.fields=author_id%2Cpublic_metrics%2Ccreated_at&start_time=2020-07-12T21%3A27%3A15.597440Z
+	Downloaded 9 twitter content
+	Result [1]  Processing twitter ID 1379976538691620869: US asks Russia to explain 'provocations' on Ukraine border: State Department https://t.co/ZYO8IQTSlx
+	Result [2]  Processing twitter ID 1379276183783677952: RT @htTweets: The United States has asked Moscow to explain "provocations" on the border with Ukraine, the US State Department said, amid a…
+	Result [3]  Processing twitter ID 1379136488902889474: RT @htTweets: The United States has asked Moscow to explain "provocations" on the border with Ukraine, the US State Department said, amid a…
+	Result [4]  Processing twitter ID 1379135218737504259: RT @htTweets: The United States has asked Moscow to explain "provocations" on the border with Ukraine, the US State Department said, amid a…
+	Result [5]  Processing twitter ID 1379134593639538688: RT @htTweets: The United States has asked Moscow to explain "provocations" on the border with Ukraine, the US State Department said, amid a…
+	Result [6]  Processing twitter ID 1379134568322719752: RT @htTweets: The United States has asked Moscow to explain "provocations" on the border with Ukraine, the US State Department said, amid a…
+	Result [7]  Processing twitter ID 1379134494360236034: RT @htTweets: The United States has asked Moscow to explain "provocations" on the border with Ukraine, the US State Department said, amid a…
+	Result [8]  Processing twitter ID 1379134366685745169: The United States has asked Moscow to explain "provocations" on the border with Ukraine, the US State Department said, amid a Russian military build-up.
+
+https://t.co/poWDWR3u7X
+	Result [9]  Processing twitter ID 1379133493347708929: US asks Russia to explain 'provocations' on Ukraine border: State Department https://t.co/HDd6Q4nbNR
+
+== Level 0. VK search by LINKS as https://www.hindustantimes.com/world-news/us-asks-russia-to-explain-provocations-on-ukraine-border-state-department-101617645462774.html
+In total was found 0
