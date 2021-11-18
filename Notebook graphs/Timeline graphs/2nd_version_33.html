@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2020-02-18", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2020-02-18", "x": 728, "y": 0}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "2020-02-19", "label": " ", "physics": true, "shape": "diamond", "size": 25, "title": "original date2020-02-19", "x": 736, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2020-02-20", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2020-02-20", "x": 744, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2020-02-23", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2020-02-23", "x": 768, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2020-02-24", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2020-02-24", "x": 776, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2020-02-26", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2020-02-26", "x": 792, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2020-07-22", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2020-07-22", "x": 1968, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-01-22", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-01-22", "x": 3440, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-03-23", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-03-23", "x": 3920, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-03-31", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-03-31", "x": 3984, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-11", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-11", "x": 4560, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-17", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-17", "x": 4608, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-20", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-20", "x": 4632, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-22", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-22", "x": 4648, "y": 0}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "2021-11-18", "label": " ", "physics": false, "shape": "diamond", "size": 25, "title": "Query date 2021-11-18", "x": 5840, "y": 0}, {"color": "yellow", "fixed": {"x": true, "y": true}, "id": "Old article", "label": " ", "physics": true, "shape": "diamond", "size": 35, "title": "Old article", "x": 0, "y": 0}, {"color": "blue", "fixed": {"x": false, "y": true}, "id": "https://themomentum.co/no-visas-for-low-skilled-workers/", "label": "themomentum.co", "length": 120, "mass": 2, "shape": "dot", "size": 30, "title": "4", "y": -120}, {"fixed": {"x": true, "y": true}, "id": "https://www.dw.com/en/uks-new-immigration-system-to-shut-door-on-low-skilled-eu-workers/a-52428669", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.dw.com/en/uks-new-immigration-system-to-shut-door-on-low-skilled-eu-workers/a-52428669", "x": 736, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.nytimes.com/2020/02/19/world/europe/uk-immigration-low-skilled-workers.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.nytimes.com/2020/02/19/world/europe/uk-immigration-low-skilled-workers.html", "x": 736, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.peoplemanagement.co.uk/news/articles/doors-close-on-low-skilled-migrants-as-government-reveals-new-points-based-system", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.peoplemanagement.co.uk/news/articles/doors-close-on-low-skilled-migrants-as-government-reveals-new-points-based-system", "x": 736, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://www.bbc.com/news/uk-politics-55133506", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.bbc.com/news/uk-politics-55133506", "x": 4648, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.forbes.com/sites/freylindsay/2020/02/19/low-skilled-workers-need-not-apply-in-post-brexit-britain/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.forbes.com/sites/freylindsay/2020/02/19/low-skilled-workers-need-not-apply-in-post-brexit-britain/", "x": 736, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://news.sky.com/story/low-skilled-workers-to-be-denied-visas-under-immigration-shake-up-11937527", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://news.sky.com/story/low-skilled-workers-to-be-denied-visas-under-immigration-shake-up-11937527", "x": 736, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.personneltoday.com/hr/points-based-immigration-scheme-shuts-out-low-skilled-workers/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.personneltoday.com/hr/points-based-immigration-scheme-shuts-out-low-skilled-workers/", "x": 736, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://www.lexology.com/library/detail.aspx?g=11876505-65ac-4036-9925-942bf9648da7", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.lexology.com/library/detail.aspx?g=11876505-65ac-4036-9925-942bf9648da7", "x": 736, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.independent.co.uk/news/business/analysis-and-features/low-skilled-immigration-uk-economy-brexit-eu-freedom-movement-business-theresa-may-a8564641.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.independent.co.uk/news/business/analysis-and-features/low-skilled-immigration-uk-economy-brexit-eu-freedom-movement-business-theresa-may-a8564641.html", "x": 0, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://www.wionews.com/world/no-special-treatment-for-eu-citizens-after-brexit-report-recommends-166497", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.wionews.com/world/no-special-treatment-for-eu-citizens-after-brexit-report-recommends-166497", "x": 0, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.nap.edu/read/23550/chapter/6", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.nap.edu/read/23550/chapter/6", "x": 0, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://www.airswift.com/blog/uk-visa-immigration-system-engineering-recruitment", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.airswift.com/blog/uk-visa-immigration-system-engineering-recruitment", "x": 792, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.thenews.com.pk/print/616827-uk-to-close-door-on-non-english-speakers-unskilled-workers", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.thenews.com.pk/print/616827-uk-to-close-door-on-non-english-speakers-unskilled-workers", "x": 744, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://www.migrationpolicy.org/article/eu-enlargement-2007-no-warm-welcome-labor-migrants", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.migrationpolicy.org/article/eu-enlargement-2007-no-warm-welcome-labor-migrants", "x": 0, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.irishtimes.com/business/economy/pulling-up-of-uk-s-drawbridge-to-low-skilled-workers-may-aid-irish-construction-1.4178840", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.irishtimes.com/business/economy/pulling-up-of-uk-s-drawbridge-to-low-skilled-workers-may-aid-irish-construction-1.4178840", "x": 744, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://ourglobalfuture.com/reports/closing-the-door-the-true-cost-of-the-immigration-white-paper/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://ourglobalfuture.com/reports/closing-the-door-the-true-cost-of-the-immigration-white-paper/", "x": 0, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.rte.ie/news/uk/2020/0219/1116218-uk-immigration/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.rte.ie/news/uk/2020/0219/1116218-uk-immigration/", "x": 736, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://www.thetimes.co.uk/article/immigration-reforms-will-stop-firms-using-cheap-foreign-labour-l9pgxklrs", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.thetimes.co.uk/article/immigration-reforms-will-stop-firms-using-cheap-foreign-labour-l9pgxklrs", "x": 736, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.independent.co.uk/news/uk/politics/brexit-eu-citizens-immigration-rules-work-home-office-a9342766.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.independent.co.uk/news/uk/politics/brexit-eu-citizens-immigration-rules-work-home-office-a9342766.html", "x": 728, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://www.bloombergquint.com/business/brexit-mustn-t-shut-door-on-unskilled-eu-workers-retailers-warn", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.bloombergquint.com/business/brexit-mustn-t-shut-door-on-unskilled-eu-workers-retailers-warn", "x": 0, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.statista.com/chart/20873/percentage-of-workers-in-the-uk-who-came-from-eu-countries/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.statista.com/chart/20873/percentage-of-workers-in-the-uk-who-came-from-eu-countries/", "x": 736, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://english.alarabiya.net/views/2020/02/23/Saudi-Arabia-is-not-ready-to-close-the-door-on-low-skilled-immigrants", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://english.alarabiya.net/views/2020/02/23/Saudi-Arabia-is-not-ready-to-close-the-door-on-low-skilled-immigrants", "x": 768, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.computerweekly.com/news/252479008/Tech-reaction-to-UKs-upcoming-immigration-rules", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.computerweekly.com/news/252479008/Tech-reaction-to-UKs-upcoming-immigration-rules", "x": 776, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://www.theweek.in/news/world/2020/02/19/what-is-new-points-based-visa-system-introduced-by-uk-minister-priti-patel.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.theweek.in/news/world/2020/02/19/what-is-new-points-based-visa-system-introduced-by-uk-minister-priti-patel.html", "x": 736, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://en.wikipedia.org/wiki/Immigration", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://en.wikipedia.org/wiki/Immigration", "x": 4648, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.workpermitsouthafrica.co.za/new-uk-points-based-immigration-system-set-to-impact-employers-reliant-on-unskilled-workers/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.workpermitsouthafrica.co.za/new-uk-points-based-immigration-system-set-to-impact-employers-reliant-on-unskilled-workers/", "x": 3440, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://www.seraphus.co.uk/news/newsarchive/files/tag-skilled-worker.php", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.seraphus.co.uk/news/newsarchive/files/tag-skilled-worker.php", "x": 3920, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.aljazeera.com/opinions/2020/2/20/the-uk-wants-the-best-immigrants-why-would-they-want-the-uk", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.aljazeera.com/opinions/2020/2/20/the-uk-wants-the-best-immigrants-why-would-they-want-the-uk", "x": 744, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://www.oecd.org/coronavirus/policy-responses/skill-measures-to-mobilise-the-workforce-during-the-covid-19-crisis-afd33a65/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.oecd.org/coronavirus/policy-responses/skill-measures-to-mobilise-the-workforce-during-the-covid-19-crisis-afd33a65/", "x": 1968, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.bnnbloomberg.ca/china-s-falling-unemployment-masks-a-lack-of-jobs-for-the-young-1.1619454", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.bnnbloomberg.ca/china-s-falling-unemployment-masks-a-lack-of-jobs-for-the-young-1.1619454", "x": 4632, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://hr.economictimes.indiatimes.com/news/industry/mcdonalds-to-create-20000-jobs-in-uk-and-ireland/83739391", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://hr.economictimes.indiatimes.com/news/industry/mcdonalds-to-create-20000-jobs-in-uk-and-ireland/83739391", "x": 4648, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://finance.yahoo.com/news/migrants-call-pm-trudeau-unite-120000952.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://finance.yahoo.com/news/migrants-call-pm-trudeau-unite-120000952.html", "x": 4632, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://www.foreignaffairs.com/articles/burma-myanmar/2021-06-11/myanmars-coming-revolution", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.foreignaffairs.com/articles/burma-myanmar/2021-06-11/myanmars-coming-revolution", "x": 4560, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.fox9.com/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.fox9.com/", "x": 4608, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://www.pbctoday.co.uk/news/hr-skills-news/immigration-system-construction/72061/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.pbctoday.co.uk/news/hr-skills-news/immigration-system-construction/72061/", "x": 736, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.bloomsburycollections.com/book/europes-immigration-challenge-reconciling-work-welfare-and-mobility/introduction", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.bloomsburycollections.com/book/europes-immigration-challenge-reconciling-work-welfare-and-mobility/introduction", "x": 4648, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://time.com/5786459/uk-points-based-immigration-system/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://time.com/5786459/uk-points-based-immigration-system/", "x": 736, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.natlawreview.com/article/us-faces-worker-shortage-chamber-commerce-says-ramping-immigration-can-resolve", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.natlawreview.com/article/us-faces-worker-shortage-chamber-commerce-says-ramping-immigration-can-resolve", "x": 4608, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://vk.com/id614823203?w=wall614823203_295", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id614823203?w=wall614823203_295", "x": 3984, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://vk.com/id535893635?w=wall535893635_820", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id535893635?w=wall535893635_820", "x": 0, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://vk.com/id535893635?w=wall535893635_809", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id535893635?w=wall535893635_809", "x": 0, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://vk.com/id-100938941?w=wall-100938941_143", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://vk.com/id-100938941?w=wall-100938941_143", "x": 0, "y": -30}]);
+        edges = new vis.DataSet([{"color": "red", "from": "https://themomentum.co/no-visas-for-low-skilled-workers/", "title": "1", "to": "2020-02-19", "width": 1}, {"from": "https://themomentum.co/no-visas-for-low-skilled-workers/", "label": "title", "physics": true, "title": "1", "to": "2021-03-31", "width": 1}, {"color": "yellow", "from": "https://themomentum.co/no-visas-for-low-skilled-workers/", "label": "title", "physics": true, "title": "1", "to": "Old article", "width": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "smooth"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

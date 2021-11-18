@@ -1,0 +1,204 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 700;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+        #loadingBar {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width: 700;
+            height: 700px;
+            background-color:rgba(200,200,200,0.8);
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -ms-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+            opacity:1;
+        }
+
+        #bar {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width:20px;
+            height:20px;
+            margin:auto auto auto auto;
+            border-radius:11px;
+            border:2px solid rgba(30,30,30,0.05);
+            background: rgb(0, 173, 246); /* Old browsers */
+            box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+        }
+
+        #border {
+            position:absolute;
+            top:10px;
+            left:10px;
+            width:500px;
+            height:23px;
+            margin:auto auto auto auto;
+            box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+            border-radius:10px;
+        }
+
+        #text {
+            position:absolute;
+            top:8px;
+            left:530px;
+            width:30px;
+            height:50px;
+            margin:auto auto auto auto;
+            font-size:22px;
+            color: #000000;
+        }
+
+        div.outerBorder {
+            position:relative;
+            top:400px;
+            width:600px;
+            height:44px;
+            margin:auto auto auto auto;
+            border:8px solid rgba(0,0,0,0.1);
+            background: rgb(252,252,252); /* Old browsers */
+            background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+            border-radius:72px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        }
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+<div id="loadingBar">
+    <div class="outerBorder">
+        <div id="text">0%</div>
+        <div id="border">
+            <div id="bar"></div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "id": "https://economictimes.indiatimes.com/news/international/world-news/how-the-united-states-beat-the-coronavirus-variants-for-now/articleshow/82652253.cms", "label": "economictimes.indiatimes.com", "shape": "dot"}, {"color": "blue", "id": "https://ihpi.umich.edu/experts-news-covid-19", "label": "ihpi.umich.edu", "shape": "dot"}, {"color": "blue", "id": "https://www.usaid.gov/coronavirus", "label": "usaid.gov", "shape": "dot"}, {"color": "blue", "id": "https://www.npr.org/sections/goatsandsoda/2021/05/12/995855343/will-covid-19-vaccines-still-work-against-the-variant-from-india", "label": "npr.org", "shape": "dot"}, {"color": "blue", "id": "https://www.newyorker.com/science/medical-dispatch/what-the-coronavirus-variants-mean-for-the-end-of-the-pandemic", "label": "newyorker.com", "shape": "dot"}, {"color": "blue", "id": "https://www.who.int/news/item/08-04-2021-covax-reaches-over-100-economies-42-days-after-first-international-delivery", "label": "who.int", "shape": "dot"}, {"color": "blue", "id": "https://www.pbs.org/newshour/health/covid-19-is-out-of-control-in-india-where-most-vaccines-are-made-how-did-that-happen", "label": "pbs.org", "shape": "dot"}, {"color": "blue", "id": "https://www.statnews.com/2021/01/19/coronavirus-variants-transmissibility-disease-reinfection/", "label": "statnews.com", "shape": "dot"}, {"color": "blue", "id": "https://www.whitehouse.gov/briefing-room/speeches-remarks/2021/03/11/remarks-by-president-biden-on-the-anniversary-of-the-covid-19-shutdown/", "label": "whitehouse.gov", "shape": "dot"}, {"color": "blue", "id": "https://www.ft.com/content/a8cf7f88-7bfc-46c5-bb25-a914266f0377", "label": "ft.com", "shape": "dot"}, {"color": "blue", "id": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(21)01121-1/fulltext?rss=yes", "label": "thelancet.com", "shape": "dot"}, {"color": "blue", "id": "https://www.wsj.com/articles/as-covid-19-variants-spread-and-vaccines-dont-asia-suffers-outbreaks-where-disease-had-seemed-beaten-11621419961", "label": "wsj.com", "shape": "dot"}, {"color": "blue", "id": "https://www.healthline.com/health-news/covid-19-updates", "label": "healthline.com", "shape": "dot"}, {"color": "blue", "id": "https://www.nature.com/articles/d41586-021-00367-7", "label": "nature.com", "shape": "dot"}, {"color": "blue", "id": "https://www.mckinsey.com/industries/healthcare-systems-and-services/our-insights/when-will-the-covid-19-pandemic-end", "label": "mckinsey.com", "shape": "dot"}, {"color": "blue", "id": "https://www.cnn.com/2021/03/07/health/us-coronavirus-sunday/index.html", "label": "cnn.com", "shape": "dot"}, {"color": "blue", "id": "https://www.cnn.com/2021/04/12/health/b117-covid-variant-young-patients/index.html", "label": "cnn.com", "shape": "dot"}, {"color": "blue", "id": "https://www.ctvnews.ca/health/coronavirus/covid-19-in-canada-variants-now-more-than-half-of-new-cases-modelling-shows-1.5399468", "label": "ctvnews.ca", "shape": "dot"}, {"color": "blue", "id": "https://www.cnbc.com/2021/04/07/cdc-says-variant-from-the-uk-is-now-the-most-common-strain-circulating-in-the-us.html", "label": "cnbc.com", "shape": "dot"}, {"color": "blue", "id": "https://www.statnews.com/2021/01/14/more-infectious-variants-could-make-things-much-worse/", "label": "statnews.com", "shape": "dot"}, {"color": "blue", "id": "https://www.lanl.gov/updates/sars-cov-2-variant.php", "label": "lanl.gov", "shape": "dot"}, {"color": "blue", "id": "https://www.newyorker.com/science/medical-dispatch/the-beginning-of-the-end-of-the-american-pandemic", "label": "newyorker.com", "shape": "dot"}, {"color": "blue", "id": "https://www.scientificamerican.com/article/booster-shots-against-scary-covid-virus-variants-are-in-the-works1/", "label": "scientificamerican.com", "shape": "dot"}, {"color": "blue", "id": "https://www.wired.com/story/as-coronavirus-variants-spread-the-us-struggles-to-keep-up/", "label": "wired.com", "shape": "dot"}, {"color": "blue", "id": "https://pulse.zerodha.com/", "label": "pulse.zerodha.com", "shape": "dot"}, {"color": "blue", "id": "https://www.theatlantic.com/health/archive/2021/03/covid-19-variants-covid-21/618427/", "label": "theatlantic.com", "shape": "dot"}, {"color": "blue", "id": "https://in.finance.yahoo.com/news/bharat-biotech-submits-data-covaxins-034142298.html", "label": "in.finance.yahoo.com", "shape": "dot"}, {"color": "blue", "id": "https://www.amprogress.org/covid-19-resources/covid19animalresearch/", "label": "amprogress.org", "shape": "dot"}, {"color": "blue", "id": "https://directorsblog.nih.gov/2021/02/09/mapping-which-coronavirus-variants-will-resist-antibody-treatments/", "label": "directorsblog.nih.gov", "shape": "dot"}, {"color": "blue", "id": "https://www.wilsoncenter.org/blog-post/three-stubborn-things", "label": "wilsoncenter.org", "shape": "dot"}, {"color": "blue", "id": "https://www.cbsnews.com/video/new-variants-discovered-in-us-raise-fears-over-covid-mutations/", "label": "cbsnews.com", "shape": "dot"}, {"color": "blue", "id": "https://theconversation.com/why-more-contagious-variants-are-emerging-now-more-than-a-year-into-the-covid-19-pandemic-155302", "label": "theconversation.com", "shape": "dot"}, {"color": "blue", "id": "https://www.thehindu.com/opinion/lead/the-state-of-indias-poor-must-be-acknowledged/article34895792.ece", "label": "thehindu.com", "shape": "dot"}, {"color": "blue", "id": "https://dfw.cbslocal.com/2021/06/17/stimulus-check-fourth-relief-payment-covid-pandemic/", "label": "dfw.cbslocal.com", "shape": "dot"}, {"color": "blue", "id": "https://www.cbc.ca/news/health/us-covid-19-blood-study-1.6066094", "label": "cbc.ca", "shape": "dot"}, {"color": "blue", "id": "https://www.downtoearth.org.in/news/health/covid-19-now-2nd-biggest-cause-of-death-in-india-76752", "label": "downtoearth.org.in", "shape": "dot"}, {"color": "blue", "id": "https://www.cnn.com/us/live-news/coronavirus-pandemic-vaccine-updates-06-14-21/index.html", "label": "cnn.com", "shape": "dot"}, {"color": "blue", "id": "https://www.cnn.com/2021/01/21/health/us-coronavirus-thursday/index.html", "label": "cnn.com", "shape": "dot"}, {"color": "blue", "id": "https://timesofindia.indiatimes.com/international/us/ustr-discusses-trips-waiver-proposal-for-covid-19-vaccines-with-gavis-ceo/articleshow/82118156.cms", "label": "timesofindia.indiatimes.com", "shape": "dot"}, {"color": "blue", "id": "https://www.khaleejtimes.com/coronavirus-pandemic/covid-19-delta-likely-to-become-dominant-strain-in-us", "label": "khaleejtimes.com", "shape": "dot"}, {"color": "blue", "id": "https://www.vox.com/22385588/covid-19-vaccine-variant-mutation-n440k-india-moderna-pfizer-b1617", "label": "vox.com", "shape": "dot"}, {"color": "blue", "id": "https://www.technologyreview.com/2021/05/13/1024850/dont-panic-coronavirus-variants/", "label": "technologyreview.com", "shape": "dot"}, {"color": "blue", "id": "https://thehill.com/policy/healthcare/540982-us-reports-record-number-of-variant-coronavirus-cases", "label": "thehill.com", "shape": "dot"}, {"color": "blue", "id": "https://observer.com/2021/03/covid-mutation-variants-overtake-vaccines/", "label": "observer.com", "shape": "dot"}, {"color": "blue", "id": "https://www.nbcnews.com/news/us-news/gov-greg-abbott-lift-texas-mask-mandate-open-state-100-n1259329", "label": "nbcnews.com", "shape": "dot"}, {"color": "blue", "id": "https://www.governor.ny.gov/news/video-audio-photos-rush-transcript-governor-cuomo-announces-covid-19-restrictions-lifted-70", "label": "governor.ny.gov", "shape": "dot"}, {"color": "blue", "id": "https://www.dallasnews.com/news/public-health/2021/01/16/dallas-county-confirms-its-first-case-of-more-contagious-coronavirus-variant/", "label": "dallasnews.com", "shape": "dot"}, {"color": "blue", "id": "https://observer-reporter.com/daily-data-on-covid-19-still-important/article_2a2967a0-d285-11eb-98d6-d3e9eceb811a.html", "label": "observer-reporter.com", "shape": "dot"}, {"color": "green", "id": "https://vk.com/id-191739538?w=wall-191739538_18506", "label": "vk.com", "shape": "dot"}, {"color": "green", "id": "https://vk.com/id-191740297?w=wall-191740297_14075", "label": "vk.com", "shape": "dot"}, {"color": "green", "id": "https://vk.com/id-191740297?w=wall-191740297_13805", "label": "vk.com", "shape": "dot"}, {"color": "green", "id": "https://vk.com/id-191739538?w=wall-191739538_17891", "label": "vk.com", "shape": "dot"}, {"color": "green", "id": "https://vk.com/id-195212510?w=wall-195212510_2386", "label": "vk.com", "shape": "dot"}, {"color": "green", "id": "https://www.nairaland.com/6558334/how-united-states-beat-variants", "label": "nairaland.com", "shape": "dot"}, {"color": "green", "id": "https://twitter.com/772314409335083008/status/1393713794442883072", "label": "twitter.com", "shape": "dot"}, {"color": "green", "id": "https://twitter.com/20715638/status/1393643197981724672", "label": "twitter.com", "shape": "dot"}, {"color": "green", "id": "https://twitter.com/1238467680773894146/status/1393642366016180225", "label": "twitter.com", "shape": "dot"}, {"color": "green", "id": "https://twitter.com/39743812/status/1393642342922428416", "label": "twitter.com", "shape": "dot"}, {"color": "green", "id": "https://twitter.com/921959617508163584/status/1393544393668263940", "label": "twitter.com", "shape": "dot"}, {"color": "green", "id": "https://twitter.com/921959617508163584/status/1393536275773198338", "label": "twitter.com", "shape": "dot"}, {"color": "green", "id": "https://twitter.com/1263898793012916224/status/1393448146194235394", "label": "twitter.com", "shape": "dot"}, {"color": "green", "id": "https://www.modernhealthcare.com/safety-quality/coronavirus-outbreak-live-updates-covid-19", "label": "modernhealthcare.com", "shape": "dot"}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2020-08-05", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-08-05", "x": -245, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2020-10-25", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-10-25", "x": -164, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2020-12-22", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-12-22", "x": -106, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2020-12-26", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-12-26", "x": -102, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-01-14", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-01-14", "x": -83, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-01-16", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-01-16", "x": -81, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-01-19", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-01-19", "x": -78, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-01-21", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-01-21", "x": -76, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-02-09", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-02-09", "x": -57, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-02-12", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-02-12", "x": -54, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-02-15", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-02-15", "x": -51, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-02-18", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-02-18", "x": -48, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-02-19", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-02-19", "x": -47, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-02-22", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-02-22", "x": -44, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-03-01", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-03-01", "x": -37, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-03-02", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-03-02", "x": -36, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-03-06", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-03-06", "x": -32, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-03-07", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-03-07", "x": -31, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-03-11", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-03-11", "x": -27, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-03-26", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-03-26", "x": -12, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-03-30", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-03-30", "x": -8, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-04-07", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-07", "x": 0, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-04-08", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-08", "x": 0, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-04-12", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-12", "x": 4, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-04-17", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-17", "x": 9, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-04-22", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-22", "x": 14, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-04-23", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-23", "x": 15, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-04-27", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-27", "x": 19, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-04-30", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-30", "x": 22, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-05-05", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-05", "x": 27, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-05-12", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-12", "x": 34, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-05-13", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-13", "x": 35, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-05-14", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-14", "x": 36, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-05-15", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-15", "x": 37, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-05-20", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-20", "x": 42, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-05-22", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-22", "x": 44, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-06-09", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-09", "x": 62, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-06-14", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-14", "x": 67, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-06-15", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-15", "x": 68, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-06-16", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-16", "x": 69, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-06-18", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-18", "x": 71, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-06-19", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-19", "x": 72, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-06-20", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-20", "x": 73, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-06-21", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-21", "x": 74, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-06-22", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-22", "x": 75, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2022-06-22", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2022-06-22", "x": 440, "y": 0}]);
+        edges = new vis.DataSet([{"from": "https://economictimes.indiatimes.com/news/international/world-news/how-the-united-states-beat-the-coronavirus-variants-for-now/articleshow/82652253.cms", "hidden": true, "physics": true, "to": "https://www.nairaland.com/6558334/how-united-states-beat-variants"}, {"from": "https://economictimes.indiatimes.com/news/international/world-news/how-the-united-states-beat-the-coronavirus-variants-for-now/articleshow/82652253.cms", "hidden": true, "physics": true, "to": "https://twitter.com/772314409335083008/status/1393713794442883072"}, {"from": "https://economictimes.indiatimes.com/news/international/world-news/how-the-united-states-beat-the-coronavirus-variants-for-now/articleshow/82652253.cms", "hidden": true, "physics": true, "to": "https://twitter.com/20715638/status/1393643197981724672"}, {"from": "https://economictimes.indiatimes.com/news/international/world-news/how-the-united-states-beat-the-coronavirus-variants-for-now/articleshow/82652253.cms", "hidden": true, "physics": true, "to": "https://twitter.com/1238467680773894146/status/1393642366016180225"}, {"from": "https://economictimes.indiatimes.com/news/international/world-news/how-the-united-states-beat-the-coronavirus-variants-for-now/articleshow/82652253.cms", "hidden": true, "physics": true, "to": "https://twitter.com/39743812/status/1393642342922428416"}, {"from": "https://economictimes.indiatimes.com/news/international/world-news/how-the-united-states-beat-the-coronavirus-variants-for-now/articleshow/82652253.cms", "hidden": true, "physics": true, "to": "https://twitter.com/921959617508163584/status/1393544393668263940"}, {"from": "https://economictimes.indiatimes.com/news/international/world-news/how-the-united-states-beat-the-coronavirus-variants-for-now/articleshow/82652253.cms", "hidden": true, "physics": true, "to": "https://twitter.com/921959617508163584/status/1393536275773198338"}, {"from": "https://economictimes.indiatimes.com/news/international/world-news/how-the-united-states-beat-the-coronavirus-variants-for-now/articleshow/82652253.cms", "hidden": true, "physics": true, "to": "https://twitter.com/1263898793012916224/status/1393448146194235394"}, {"from": "https://economictimes.indiatimes.com/news/international/world-news/how-the-united-states-beat-the-coronavirus-variants-for-now/articleshow/82652253.cms", "hidden": true, "physics": true, "to": "https://www.modernhealthcare.com/safety-quality/coronavirus-outbreak-live-updates-covid-19"}, {"from": "https://economictimes.indiatimes.com/news/international/world-news/how-the-united-states-beat-the-coronavirus-variants-for-now/articleshow/82652253.cms", "hidden": true, "physics": true, "to": "https://vk.com/id-191739538?w=wall-191739538_18506"}, {"from": "https://economictimes.indiatimes.com/news/international/world-news/how-the-united-states-beat-the-coronavirus-variants-for-now/articleshow/82652253.cms", "hidden": true, "physics": true, "to": "https://vk.com/id-191740297?w=wall-191740297_14075"}, {"from": "https://economictimes.indiatimes.com/news/international/world-news/how-the-united-states-beat-the-coronavirus-variants-for-now/articleshow/82652253.cms", "hidden": true, "physics": true, "to": "https://vk.com/id-191740297?w=wall-191740297_13805"}, {"from": "https://economictimes.indiatimes.com/news/international/world-news/how-the-united-states-beat-the-coronavirus-variants-for-now/articleshow/82652253.cms", "hidden": true, "physics": true, "to": "https://vk.com/id-191739538?w=wall-191739538_17891"}, {"from": "https://economictimes.indiatimes.com/news/international/world-news/how-the-united-states-beat-the-coronavirus-variants-for-now/articleshow/82652253.cms", "hidden": true, "physics": true, "to": "https://vk.com/id-195212510?w=wall-195212510_2386"}, {"color": "gray", "from": "https://economictimes.indiatimes.com/news/international/world-news/how-the-united-states-beat-the-coronavirus-variants-for-now/articleshow/82652253.cms", "physics": false, "to": "2021-05-15"}, {"color": "gray", "from": "https://ihpi.umich.edu/experts-news-covid-19", "physics": false, "to": "2021-06-09"}, {"color": "gray", "from": "https://www.usaid.gov/coronavirus", "physics": false, "to": "2021-05-20"}, {"color": "gray", "from": "https://www.npr.org/sections/goatsandsoda/2021/05/12/995855343/will-covid-19-vaccines-still-work-against-the-variant-from-india", "physics": false, "to": "2021-05-12"}, {"color": "gray", "from": "https://www.newyorker.com/science/medical-dispatch/what-the-coronavirus-variants-mean-for-the-end-of-the-pandemic", "physics": false, "to": "2021-03-07"}, {"color": "gray", "from": "https://www.who.int/news/item/08-04-2021-covax-reaches-over-100-economies-42-days-after-first-international-delivery", "physics": false, "to": "2021-04-08"}, {"color": "gray", "from": "https://www.pbs.org/newshour/health/covid-19-is-out-of-control-in-india-where-most-vaccines-are-made-how-did-that-happen", "physics": false, "to": "2021-04-27"}, {"color": "gray", "from": "https://www.statnews.com/2021/01/19/coronavirus-variants-transmissibility-disease-reinfection/", "physics": false, "to": "2021-01-19"}, {"color": "gray", "from": "https://www.whitehouse.gov/briefing-room/speeches-remarks/2021/03/11/remarks-by-president-biden-on-the-anniversary-of-the-covid-19-shutdown/", "physics": false, "to": "2021-03-11"}, {"color": "gray", "from": "https://www.ft.com/content/a8cf7f88-7bfc-46c5-bb25-a914266f0377", "physics": false, "to": "2020-12-22"}, {"color": "gray", "from": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(21)01121-1/fulltext?rss=yes", "physics": false, "to": "2021-05-14"}, {"color": "gray", "from": "https://www.wsj.com/articles/as-covid-19-variants-spread-and-vaccines-dont-asia-suffers-outbreaks-where-disease-had-seemed-beaten-11621419961", "physics": false, "to": "2021-06-22"}, {"color": "gray", "from": "https://www.healthline.com/health-news/covid-19-updates", "physics": false, "to": "2021-06-20"}, {"color": "gray", "from": "https://www.nature.com/articles/d41586-021-00367-7", "physics": false, "to": "2021-02-12"}, {"color": "gray", "from": "https://www.mckinsey.com/industries/healthcare-systems-and-services/our-insights/when-will-the-covid-19-pandemic-end", "physics": false, "to": "2021-03-26"}, {"color": "gray", "from": "https://www.cnn.com/2021/03/07/health/us-coronavirus-sunday/index.html", "physics": false, "to": "2021-03-07"}, {"color": "gray", "from": "https://www.cnn.com/2021/04/12/health/b117-covid-variant-young-patients/index.html", "physics": false, "to": "2021-04-12"}, {"color": "gray", "from": "https://www.ctvnews.ca/health/coronavirus/covid-19-in-canada-variants-now-more-than-half-of-new-cases-modelling-shows-1.5399468", "physics": false, "to": "2021-04-23"}, {"color": "gray", "from": "https://www.cnbc.com/2021/04/07/cdc-says-variant-from-the-uk-is-now-the-most-common-strain-circulating-in-the-us.html", "physics": false, "to": "2021-04-07"}, {"color": "gray", "from": "https://www.statnews.com/2021/01/14/more-infectious-variants-could-make-things-much-worse/", "physics": false, "to": "2021-01-14"}, {"color": "gray", "from": "https://www.lanl.gov/updates/sars-cov-2-variant.php", "physics": false, "to": "2020-08-05"}, {"color": "gray", "from": "https://www.newyorker.com/science/medical-dispatch/the-beginning-of-the-end-of-the-american-pandemic", "physics": false, "to": "2021-05-13"}, {"color": "gray", "from": "https://www.scientificamerican.com/article/booster-shots-against-scary-covid-virus-variants-are-in-the-works1/", "physics": false, "to": "2021-02-18"}, {"color": "gray", "from": "https://www.wired.com/story/as-coronavirus-variants-spread-the-us-struggles-to-keep-up/", "physics": false, "to": "2021-02-19"}, {"color": "gray", "from": "https://pulse.zerodha.com/", "physics": false, "to": "2022-06-22"}, {"color": "gray", "from": "https://www.theatlantic.com/health/archive/2021/03/covid-19-variants-covid-21/618427/", "physics": false, "to": "2021-03-26"}, {"color": "gray", "from": "https://in.finance.yahoo.com/news/bharat-biotech-submits-data-covaxins-034142298.html", "physics": false, "to": "2021-06-22"}, {"color": "gray", "from": "https://www.amprogress.org/covid-19-resources/covid19animalresearch/", "physics": false, "to": "2021-06-18"}, {"color": "gray", "from": "https://directorsblog.nih.gov/2021/02/09/mapping-which-coronavirus-variants-will-resist-antibody-treatments/", "physics": false, "to": "2021-02-09"}, {"color": "gray", "from": "https://www.wilsoncenter.org/blog-post/three-stubborn-things", "physics": false, "to": "2021-04-22"}, {"color": "gray", "from": "https://www.cbsnews.com/video/new-variants-discovered-in-us-raise-fears-over-covid-mutations/", "physics": false, "to": "2021-02-15"}, {"color": "gray", "from": "https://theconversation.com/why-more-contagious-variants-are-emerging-now-more-than-a-year-into-the-covid-19-pandemic-155302", "physics": false, "to": "2021-02-15"}, {"color": "gray", "from": "https://www.thehindu.com/opinion/lead/the-state-of-indias-poor-must-be-acknowledged/article34895792.ece", "physics": false, "to": "2021-06-22"}, {"color": "gray", "from": "https://dfw.cbslocal.com/2021/06/17/stimulus-check-fourth-relief-payment-covid-pandemic/", "physics": false, "to": "2021-06-22"}, {"color": "gray", "from": "https://www.cbc.ca/news/health/us-covid-19-blood-study-1.6066094", "physics": false, "to": "2021-06-15"}, {"color": "gray", "from": "https://www.downtoearth.org.in/news/health/covid-19-now-2nd-biggest-cause-of-death-in-india-76752", "physics": false, "to": "2021-04-30"}, {"color": "gray", "from": "https://www.cnn.com/us/live-news/coronavirus-pandemic-vaccine-updates-06-14-21/index.html", "physics": false, "to": "2021-06-14"}, {"color": "gray", "from": "https://www.cnn.com/2021/01/21/health/us-coronavirus-thursday/index.html", "physics": false, "to": "2021-01-21"}, {"color": "gray", "from": "https://timesofindia.indiatimes.com/international/us/ustr-discusses-trips-waiver-proposal-for-covid-19-vaccines-with-gavis-ceo/articleshow/82118156.cms", "physics": false, "to": "2021-04-17"}, {"color": "gray", "from": "https://www.khaleejtimes.com/coronavirus-pandemic/covid-19-delta-likely-to-become-dominant-strain-in-us", "physics": false, "to": "2021-06-19"}, {"color": "gray", "from": "https://www.vox.com/22385588/covid-19-vaccine-variant-mutation-n440k-india-moderna-pfizer-b1617", "physics": false, "to": "2021-05-05"}, {"color": "gray", "from": "https://www.technologyreview.com/2021/05/13/1024850/dont-panic-coronavirus-variants/", "physics": false, "to": "2021-05-13"}, {"color": "gray", "from": "https://thehill.com/policy/healthcare/540982-us-reports-record-number-of-variant-coronavirus-cases", "physics": false, "to": "2021-03-01"}, {"color": "gray", "from": "https://observer.com/2021/03/covid-mutation-variants-overtake-vaccines/", "physics": false, "to": "2021-03-30"}, {"color": "gray", "from": "https://www.nbcnews.com/news/us-news/gov-greg-abbott-lift-texas-mask-mandate-open-state-100-n1259329", "physics": false, "to": "2021-03-02"}, {"color": "gray", "from": "https://www.governor.ny.gov/news/video-audio-photos-rush-transcript-governor-cuomo-announces-covid-19-restrictions-lifted-70", "physics": false, "to": "2021-06-16"}, {"color": "gray", "from": "https://www.dallasnews.com/news/public-health/2021/01/16/dallas-county-confirms-its-first-case-of-more-contagious-coronavirus-variant/", "physics": false, "to": "2021-01-16"}, {"color": "gray", "from": "https://observer-reporter.com/daily-data-on-covid-19-still-important/article_2a2967a0-d285-11eb-98d6-d3e9eceb811a.html", "physics": false, "to": "2021-06-21"}, {"color": "gray", "from": "https://vk.com/id-191739538?w=wall-191739538_18506", "physics": false, "to": "2021-03-06"}, {"color": "gray", "from": "https://vk.com/id-191740297?w=wall-191740297_14075", "physics": false, "to": "2021-03-06"}, {"color": "gray", "from": "https://vk.com/id-191740297?w=wall-191740297_13805", "physics": false, "to": "2021-03-01"}, {"color": "gray", "from": "https://vk.com/id-191739538?w=wall-191739538_17891", "physics": false, "to": "2021-02-22"}, {"color": "gray", "from": "https://vk.com/id-195212510?w=wall-195212510_2386", "physics": false, "to": "2020-10-25"}, {"color": "gray", "from": "https://www.nairaland.com/6558334/how-united-states-beat-variants", "physics": false, "to": "2021-05-22"}, {"color": "gray", "from": "https://twitter.com/772314409335083008/status/1393713794442883072", "physics": false, "to": "2021-05-15"}, {"color": "gray", "from": "https://twitter.com/20715638/status/1393643197981724672", "physics": false, "to": "2021-05-15"}, {"color": "gray", "from": "https://twitter.com/1238467680773894146/status/1393642366016180225", "physics": false, "to": "2021-05-15"}, {"color": "gray", "from": "https://twitter.com/39743812/status/1393642342922428416", "physics": false, "to": "2021-05-15"}, {"color": "gray", "from": "https://twitter.com/921959617508163584/status/1393544393668263940", "physics": false, "to": "2021-05-15"}, {"color": "gray", "from": "https://twitter.com/921959617508163584/status/1393536275773198338", "physics": false, "to": "2021-05-15"}, {"color": "gray", "from": "https://twitter.com/1263898793012916224/status/1393448146194235394", "physics": false, "to": "2021-05-15"}, {"color": "gray", "from": "https://www.modernhealthcare.com/safety-quality/coronavirus-outbreak-live-updates-covid-19", "physics": false, "to": "2020-12-26"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "smooth"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+        network.on("stabilizationProgress", function(params) {
+      		document.getElementById('loadingBar').removeAttribute("style");
+	        var maxWidth = 496;
+	        var minWidth = 20;
+	        var widthFactor = params.iterations/params.total;
+	        var width = Math.max(minWidth,maxWidth * widthFactor);
+
+	        document.getElementById('bar').style.width = width + 'px';
+	        document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+	    });
+	    network.once("stabilizationIterationsDone", function() {
+	        document.getElementById('text').innerHTML = '100%';
+	        document.getElementById('bar').style.width = '496px';
+	        document.getElementById('loadingBar').style.opacity = 0;
+	        // really clean the dom element
+	        setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+	    });
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

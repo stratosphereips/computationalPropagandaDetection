@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "red", "id": "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/", "label": " ", "shape": "dot", "title": "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/"}, {"color": "blue", "id": "https://vk.com/id-185415599?w=wall-185415599_6431", "label": " ", "shape": "dot", "title": "https://vk.com/id-185415599?w=wall-185415599_6431"}, {"color": "blue", "id": "https://19rus.info/index.php/vlast-i-politika/item/151424-brosok-na-krym-kreml-priznal-opasnost-ataki?template=ia15032021\u0026is_preview=on", "label": " ", "shape": "dot", "title": "https://19rus.info/index.php/vlast-i-politika/item/151424-brosok-na-krym-kreml-priznal-opasnost-ataki?template=ia15032021\u0026is_preview=on"}, {"color": "blue", "id": "https://www.kommersant.ru/doc/2910626", "label": " ", "shape": "dot", "title": "https://www.kommersant.ru/doc/2910626"}, {"color": "blue", "id": "https://www.eurointegration.com.ua/rus/search/search_pubs/page_15/?search=%EE%20%F0%EE%F1%F1%E8%E8", "label": " ", "shape": "dot", "title": "https://www.eurointegration.com.ua/rus/search/search_pubs/page_15/?search=%EE%20%F0%EE%F1%F1%E8%E8"}, {"color": "blue", "id": "https://partyadela.ru/media/video/vladimir-orlov-na-kanale-analiticheskaya-sluzhba-donbassa/", "label": " ", "shape": "dot", "title": "https://partyadela.ru/media/video/vladimir-orlov-na-kanale-analiticheskaya-sluzhba-donbassa/"}, {"color": "blue", "id": "https://istina.msu.ru/workers/581783/", "label": " ", "shape": "dot", "title": "https://istina.msu.ru/workers/581783/"}, {"color": "blue", "id": "http://komitet.info/about/direct/?SHOWALL_1=1", "label": " ", "shape": "dot", "title": "http://komitet.info/about/direct/?SHOWALL_1=1"}, {"color": "blue", "id": "http://www.rni.am/rus/articles/list.php?SHOWALL_1=1\u0026SECTION_ID=169", "label": " ", "shape": "dot", "title": "http://www.rni.am/rus/articles/list.php?SHOWALL_1=1\u0026SECTION_ID=169"}, {"color": "blue", "id": "https://regnum.ru/news/polit/3024492.html", "label": " ", "shape": "dot", "title": "https://regnum.ru/news/polit/3024492.html"}, {"color": "blue", "id": "https://bigenc.ru/domestic_history/text/5610195", "label": " ", "shape": "dot", "title": "https://bigenc.ru/domestic_history/text/5610195"}, {"color": "blue", "id": "http://old.zounb.zp.ua/node/6369", "label": " ", "shape": "dot", "title": "http://old.zounb.zp.ua/node/6369"}, {"color": "blue", "id": "http://maxima-library.org/knigi/knigi/b/16483?format=read", "label": " ", "shape": "dot", "title": "http://maxima-library.org/knigi/knigi/b/16483?format=read"}, {"color": "blue", "id": "https://rusprav.tv/partiya-kovida-podstavila-kreml-zachem-vlasti-moskvy-i-podmoskovya-obyavili-obyazatelnuyu-vakcinaciyu-rabotayushhix-grazhdan-118031/", "label": " ", "shape": "dot", "title": "https://rusprav.tv/partiya-kovida-podstavila-kreml-zachem-vlasti-moskvy-i-podmoskovya-obyavili-obyazatelnuyu-vakcinaciyu-rabotayushhix-grazhdan-118031/"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/", "length": "0.0", "title": "0", "to": "https://vk.com/id-185415599?w=wall-185415599_6431"}, {"arrows": "to", "from": "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/", "length": "109.86122886681098", "title": "2", "to": "https://19rus.info/index.php/vlast-i-politika/item/151424-brosok-na-krym-kreml-priznal-opasnost-ataki?template=ia15032021\u0026is_preview=on"}, {"arrows": "to", "from": "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/", "length": "427.6666119016055", "title": "71", "to": "https://www.kommersant.ru/doc/2910626"}, {"arrows": "to", "from": "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/", "length": "427.6666119016055", "title": "71", "to": "https://www.eurointegration.com.ua/rus/search/search_pubs/page_15/?search=%EE%20%F0%EE%F1%F1%E8%E8"}, {"arrows": "to", "from": "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/", "length": "299.57322735539907", "title": "19", "to": "https://partyadela.ru/media/video/vladimir-orlov-na-kanale-analiticheskaya-sluzhba-donbassa/"}, {"arrows": "to", "from": "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/", "length": "427.6666119016055", "title": "71", "to": "https://istina.msu.ru/workers/581783/"}, {"arrows": "to", "from": "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/", "length": "495.5827057601261", "title": "141", "to": "http://komitet.info/about/direct/?SHOWALL_1=1"}, {"arrows": "to", "from": "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/", "length": "427.6666119016055", "title": "71", "to": "http://www.rni.am/rus/articles/list.php?SHOWALL_1=1\u0026SECTION_ID=169"}, {"arrows": "to", "from": "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/", "length": "551.7452896464707", "title": "248", "to": "https://regnum.ru/news/polit/3024492.html"}, {"arrows": "to", "from": "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/", "title": "None", "to": "https://bigenc.ru/domestic_history/text/5610195"}, {"arrows": "to", "from": "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/", "title": "None", "to": "http://old.zounb.zp.ua/node/6369"}, {"arrows": "to", "from": "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/", "title": "None", "to": "http://maxima-library.org/knigi/knigi/b/16483?format=read"}, {"arrows": "to", "from": "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/", "length": "417.4387269895637", "title": "64", "to": "https://rusprav.tv/partiya-kovida-podstavila-kreml-zachem-vlasti-moskvy-i-podmoskovya-obyavili-obyazatelnuyu-vakcinaciyu-rabotayushhix-grazhdan-118031/"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "smooth"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

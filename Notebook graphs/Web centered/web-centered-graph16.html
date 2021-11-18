@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "green", "id": "bbc.com", "label": "bbc.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.bbc.com/russian/vert-fut-47732933", "label": " ", "shape": "dot", "title": "https://www.bbc.com/russian/vert-fut-47732933"}, {"color": "green", "id": "mann-ivanov-ferber.ru", "label": "mann-ivanov-ferber.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://www.mann-ivanov-ferber.ru/tag/relations-books/", "label": " ", "shape": "dot", "title": "https://www.mann-ivanov-ferber.ru/tag/relations-books/"}, {"color": "blue", "id": "vk.com", "label": "vk.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://vk.com/id-199525880?w=wall-199525880_5870", "label": " ", "shape": "dot", "title": "https://vk.com/id-199525880?w=wall-199525880_5870"}, {"color": "red", "id": "sputnik.by", "label": "sputnik.by", "shape": "dot", "size": 16.094379124341003, "title": "2"}, {"hidden": true, "id": "https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html", "label": " ", "shape": "dot", "title": "https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html"}, {"hidden": true, "id": "https://sputnik.by/authors/alksnis_irina/", "label": " ", "shape": "dot", "title": "https://sputnik.by/authors/alksnis_irina/"}, {"color": "blue", "id": "twitter.com", "label": "twitter.com", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://twitter.com/1207646168081195008/status/1389583815094509569", "label": " ", "shape": "dot", "title": "https://twitter.com/1207646168081195008/status/1389583815094509569"}, {"color": "blue", "id": "nedvizport.ru", "label": "nedvizport.ru", "shape": "dot", "size": 13.862943611198906, "title": "1"}, {"hidden": true, "id": "https://nedvizport.ru/politika/ot-illuzii-k-obvineniiam-i-obratno-kak-zapad-to-stroit-to-ryshit-otnosheniia-s-rf/", "label": " ", "shape": "dot", "title": "https://nedvizport.ru/politika/ot-illuzii-k-obvineniiam-i-obratno-kak-zapad-to-stroit-to-ryshit-otnosheniia-s-rf/"}]);
+        edges = new vis.DataSet([{"from": "sputnik.by", "title": 1, "to": "nedvizport.ru", "width": 2.0794415416798357}, {"from": "sputnik.by", "title": 1, "to": "twitter.com", "width": 2.0794415416798357}, {"from": "sputnik.by", "title": 2, "to": "sputnik.by", "width": 3.295836866004329}, {"from": "sputnik.by", "title": 1, "to": "vk.com", "width": 2.0794415416798357}, {"from": "nedvizport.ru", "title": 1, "to": "mann-ivanov-ferber.ru", "width": 2.0794415416798357}, {"from": "nedvizport.ru", "title": 1, "to": "bbc.com", "width": 2.0794415416798357}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

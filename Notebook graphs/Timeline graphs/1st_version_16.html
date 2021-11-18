@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 700;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "id": "https://nedvizport.ru/politika/ot-illuzii-k-obvineniiam-i-obratno-kak-zapad-to-stroit-to-ryshit-otnosheniia-s-rf/", "label": "nedvizport.ru", "shape": "dot"}, {"color": "blue", "id": "https://twitter.com/1207646168081195008/status/1389583815094509569", "label": "twitter.com", "shape": "dot"}, {"color": "blue", "id": "https://sputnik.by/authors/alksnis_irina/", "label": "sputnik.by", "shape": "dot"}, {"color": "blue", "id": "https://vk.com/id-199525880?w=wall-199525880_5870", "label": "vk.com", "shape": "dot"}, {"color": "green", "id": "https://www.mann-ivanov-ferber.ru/tag/relations-books/", "label": "mann-ivanov-ferber.ru", "shape": "dot"}, {"color": "green", "id": "https://www.bbc.com/russian/vert-fut-47732933", "label": "bbc.com", "shape": "dot"}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2019-03-30", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2019-03-30", "x": -700, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-05-04", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-04", "x": 65, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-05-05", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-05", "x": 66, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-05-24", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-24", "x": 85, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2022-06-24", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2022-06-24", "x": 481, "y": 0}]);
+        edges = new vis.DataSet([{"from": "https://nedvizport.ru/politika/ot-illuzii-k-obvineniiam-i-obratno-kak-zapad-to-stroit-to-ryshit-otnosheniia-s-rf/", "hidden": true, "physics": true, "to": "https://www.mann-ivanov-ferber.ru/tag/relations-books/"}, {"from": "https://nedvizport.ru/politika/ot-illuzii-k-obvineniiam-i-obratno-kak-zapad-to-stroit-to-ryshit-otnosheniia-s-rf/", "hidden": true, "physics": true, "to": "https://www.bbc.com/russian/vert-fut-47732933"}, {"color": "gray", "from": "https://nedvizport.ru/politika/ot-illuzii-k-obvineniiam-i-obratno-kak-zapad-to-stroit-to-ryshit-otnosheniia-s-rf/", "physics": false, "to": "2021-05-05"}, {"color": "gray", "from": "https://twitter.com/1207646168081195008/status/1389583815094509569", "physics": false, "to": "2021-05-04"}, {"color": "gray", "from": "https://sputnik.by/authors/alksnis_irina/", "physics": false, "to": "2021-05-24"}, {"color": "gray", "from": "https://vk.com/id-199525880?w=wall-199525880_5870", "physics": false, "to": "2021-05-04"}, {"color": "gray", "from": "https://www.mann-ivanov-ferber.ru/tag/relations-books/", "physics": false, "to": "2022-06-24"}, {"color": "gray", "from": "https://www.bbc.com/russian/vert-fut-47732933", "physics": false, "to": "2019-03-30"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "smooth"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

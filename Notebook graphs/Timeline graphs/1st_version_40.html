@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 700;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "id": "https://twitter.com/1155193160676466688/status/1386398582429732864", "label": "twitter.com", "shape": "dot"}, {"color": "blue", "id": "https://twitter.com/2608248157/status/1386282711271280640", "label": "twitter.com", "shape": "dot"}, {"color": "blue", "id": "https://twitter.com/108556027/status/1386199216142393345", "label": "twitter.com", "shape": "dot"}, {"color": "blue", "id": "https://twitter.com/248505587/status/1386198789040402436", "label": "twitter.com", "shape": "dot"}, {"color": "blue", "id": "https://twitter.com/248505587/status/1385864083266707456", "label": "twitter.com", "shape": "dot"}, {"color": "blue", "id": "https://twitter.com/248505587/status/1385179146561675264", "label": "twitter.com", "shape": "dot"}, {"color": "blue", "id": "https://bne.eu/navalny-close-to-death-as-kremlin-attempts-to-ban-his-group-as-extremist-208397/", "label": "bne.eu", "shape": "dot"}, {"color": "blue", "id": "https://bne.eu/amid-war-armenians-closely-watching-the-signals-from-russia-194397/?source=azerbaijan", "label": "bne.eu", "shape": "dot"}, {"color": "blue", "id": "http://lawsdocbox.com/Immigration/73712257-Power-to-the-people-inside-this-issue-latvian-banks-fuel-scotland-s-shell-factory-brics-upstart-begins-to-flex-its-muscles.html", "label": "lawsdocbox.com", "shape": "dot"}, {"color": "blue", "id": "https://issuu.com/businessneweurope/docs/bne_magazine_september_2015", "label": "issuu.com", "shape": "dot"}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2015-08-27", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2015-08-27", "x": -1839, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-04-19", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-19", "x": 222, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-04-22", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-22", "x": 225, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-04-24", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-24", "x": 227, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-04-25", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-25", "x": 228, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-06-20", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-20", "x": 284, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2022-06-23", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2022-06-23", "x": 652, "y": 0}]);
+        edges = new vis.DataSet([{"color": "gray", "from": "https://twitter.com/1155193160676466688/status/1386398582429732864", "physics": false, "to": "2021-04-25"}, {"color": "gray", "from": "https://twitter.com/2608248157/status/1386282711271280640", "physics": false, "to": "2021-04-25"}, {"color": "gray", "from": "https://twitter.com/108556027/status/1386199216142393345", "physics": false, "to": "2021-04-25"}, {"color": "gray", "from": "https://twitter.com/248505587/status/1386198789040402436", "physics": false, "to": "2021-04-25"}, {"color": "gray", "from": "https://twitter.com/248505587/status/1385864083266707456", "physics": false, "to": "2021-04-24"}, {"color": "gray", "from": "https://twitter.com/248505587/status/1385179146561675264", "physics": false, "to": "2021-04-22"}, {"color": "gray", "from": "https://bne.eu/navalny-close-to-death-as-kremlin-attempts-to-ban-his-group-as-extremist-208397/", "physics": false, "to": "2021-04-19"}, {"color": "gray", "from": "https://bne.eu/amid-war-armenians-closely-watching-the-signals-from-russia-194397/?source=azerbaijan", "physics": false, "to": "2021-06-20"}, {"color": "gray", "from": "http://lawsdocbox.com/Immigration/73712257-Power-to-the-people-inside-this-issue-latvian-banks-fuel-scotland-s-shell-factory-brics-upstart-begins-to-flex-its-muscles.html", "physics": false, "to": "2022-06-23"}, {"color": "gray", "from": "https://issuu.com/businessneweurope/docs/bne_magazine_september_2015", "physics": false, "to": "2015-08-27"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "smooth"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

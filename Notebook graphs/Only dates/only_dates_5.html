@@ -1,0 +1,123 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 700;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "gray", "fixed": {"x": false, "y": false}, "id": "2015-09-04", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2015-09-04"}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2015-09-09", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2015-09-09"}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2016-01-09", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2016-01-09"}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2016-03-03", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2016-03-03"}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2018-06-26", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2018-06-26"}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2019-06-15", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2019-06-15"}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2019-12-19", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2019-12-19"}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2020-01-31", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-01-31"}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-04-08", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-08"}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-13", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-13"}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-15", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-15"}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-05-25", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-25"}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "2021-06-15", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-15"}, {"color": "gray", "fixed": {"x": false, "y": false}, "id": "None", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "None"}]);
+        edges = new vis.DataSet([{"arrows": "to", "color": "blue", "from": "2019-12-19", "physics": false, "to": "2016-01-09"}, {"arrows": "to", "color": "blue", "from": "2019-12-19", "physics": false, "to": "2021-05-15"}, {"arrows": "to", "color": "blue", "from": "2019-12-19", "physics": false, "to": "2020-01-31"}, {"arrows": "to", "color": "blue", "from": "2019-12-19", "physics": false, "to": "2021-05-13"}, {"arrows": "to", "color": "blue", "from": "2019-12-19", "physics": false, "to": "2021-06-15"}, {"arrows": "to", "color": "blue", "from": "2019-12-19", "physics": false, "to": "2021-05-25"}, {"arrows": "to", "color": "blue", "from": "2019-12-19", "physics": false, "to": "2019-06-15"}, {"arrows": "to", "color": "blue", "from": "2019-12-19", "physics": false, "to": "2021-04-08"}, {"arrows": "to", "color": "blue", "from": "2019-12-19", "physics": false, "to": "2021-06-15"}, {"arrows": "to", "color": "blue", "from": "2019-12-19", "physics": false, "to": "2018-06-26"}, {"arrows": "to", "color": "blue", "from": "2019-12-19", "physics": false, "to": "2016-03-03"}, {"arrows": "to", "color": "blue", "from": "2019-12-19", "physics": false, "to": "2015-09-09"}, {"arrows": "to", "color": "blue", "from": "2019-12-19", "physics": false, "to": "2015-09-04"}, {"arrows": "to", "from": "2015-09-04", "physics": true, "to": "2015-09-09"}, {"arrows": "to", "from": "2015-09-09", "physics": true, "to": "2016-01-09"}, {"arrows": "to", "from": "2016-01-09", "physics": true, "to": "2016-03-03"}, {"arrows": "to", "from": "2016-03-03", "physics": true, "to": "2018-06-26"}, {"arrows": "to", "from": "2018-06-26", "physics": true, "to": "2019-06-15"}, {"arrows": "to", "from": "2019-06-15", "physics": true, "to": "2019-12-19"}, {"arrows": "to", "from": "2019-12-19", "physics": true, "to": "2020-01-31"}, {"arrows": "to", "from": "2020-01-31", "physics": true, "to": "2021-04-08"}, {"arrows": "to", "from": "2021-04-08", "physics": true, "to": "2021-05-13"}, {"arrows": "to", "from": "2021-05-13", "physics": true, "to": "2021-05-15"}, {"arrows": "to", "from": "2021-05-15", "physics": true, "to": "2021-05-25"}, {"arrows": "to", "from": "2021-05-25", "physics": true, "to": "2021-06-15"}, {"arrows": "to", "from": "2021-06-15", "physics": true, "to": "None"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "smooth"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

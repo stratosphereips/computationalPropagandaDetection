@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "red", "id": "https://russian.rt.com/ussr/news/859197-gosduma-zelenskii-krym-donbass", "label": " ", "shape": "dot", "title": "https://russian.rt.com/ussr/news/859197-gosduma-zelenskii-krym-donbass"}, {"color": "blue", "id": "https://twitter.com/1305882067373355009/status/1389649255967727616", "label": " ", "shape": "dot", "title": "https://twitter.com/1305882067373355009/status/1389649255967727616"}, {"color": "blue", "id": "https://twitter.com/2358421700/status/1389621964524883974", "label": " ", "shape": "dot", "title": "https://twitter.com/2358421700/status/1389621964524883974"}, {"color": "blue", "id": "https://twitter.com/1268329723165360129/status/1389589699879186435", "label": " ", "shape": "dot", "title": "https://twitter.com/1268329723165360129/status/1389589699879186435"}, {"color": "blue", "id": "https://vk.com/id72346343?w=wall72346343_14747", "label": " ", "shape": "dot", "title": "https://vk.com/id72346343?w=wall72346343_14747"}, {"color": "blue", "id": "https://vk.com/id-40316705?w=wall-40316705_39286497", "label": " ", "shape": "dot", "title": "https://vk.com/id-40316705?w=wall-40316705_39286497"}, {"color": "blue", "id": "https://dumatv.ru/news/deputat-turov-otsenil-slova-zelenskogo-o--voine-v-evrope--iz-za-krima-i-donbassa", "label": " ", "shape": "dot", "title": "https://dumatv.ru/news/deputat-turov-otsenil-slova-zelenskogo-o--voine-v-evrope--iz-za-krima-i-donbassa"}, {"color": "blue", "id": "https://eadaily.com/ru/news/2021/06/18/v-mid-ukrainy-nazvali-glavnuyu-temu-peregovorov-baydena-i-zelenskogo", "label": " ", "shape": "dot", "title": "https://eadaily.com/ru/news/2021/06/18/v-mid-ukrainy-nazvali-glavnuyu-temu-peregovorov-baydena-i-zelenskogo"}, {"color": "blue", "id": "https://riafan.ru/1467660-voennyi-ekspert-usomnilsya-v-slovah-zelenskogo-o-samoi-moshchnoi-armii", "label": " ", "shape": "dot", "title": "https://riafan.ru/1467660-voennyi-ekspert-usomnilsya-v-slovah-zelenskogo-o-samoi-moshchnoi-armii"}, {"color": "blue", "id": "https://www.sportmk.ru/sports/2021/06/23/portugaliya-franciya-onlayntranslyaciya-chempionata-evropy-po-futbolu2020.html", "label": " ", "shape": "dot", "title": "https://www.sportmk.ru/sports/2021/06/23/portugaliya-franciya-onlayntranslyaciya-chempionata-evropy-po-futbolu2020.html"}, {"color": "blue", "id": "https://www.rbc.ru/society/04/05/2021/60911a089a79476d8e02f393", "label": " ", "shape": "dot", "title": "https://www.rbc.ru/society/04/05/2021/60911a089a79476d8e02f393"}, {"color": "blue", "id": "https://expert.ru/", "label": " ", "shape": "dot", "title": "https://expert.ru/"}, {"color": "blue", "id": "https://vk.com/id209502077?w=wall209502077_11273", "label": " ", "shape": "dot", "title": "https://vk.com/id209502077?w=wall209502077_11273"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": "https://russian.rt.com/ussr/news/859197-gosduma-zelenskii-krym-donbass", "length": "0.0", "title": "0", "to": "https://twitter.com/1305882067373355009/status/1389649255967727616"}, {"arrows": "to", "from": "https://russian.rt.com/ussr/news/859197-gosduma-zelenskii-krym-donbass", "length": "0.0", "title": "0", "to": "https://twitter.com/2358421700/status/1389621964524883974"}, {"arrows": "to", "from": "https://russian.rt.com/ussr/news/859197-gosduma-zelenskii-krym-donbass", "length": "0.0", "title": "0", "to": "https://twitter.com/1268329723165360129/status/1389589699879186435"}, {"arrows": "to", "from": "https://russian.rt.com/ussr/news/859197-gosduma-zelenskii-krym-donbass", "length": "0.0", "title": "0", "to": "https://vk.com/id72346343?w=wall72346343_14747"}, {"arrows": "to", "from": "https://russian.rt.com/ussr/news/859197-gosduma-zelenskii-krym-donbass", "length": "0.0", "title": "0", "to": "https://vk.com/id-40316705?w=wall-40316705_39286497"}, {"arrows": "to", "from": "https://russian.rt.com/ussr/news/859197-gosduma-zelenskii-krym-donbass", "length": "0.0", "title": "0", "to": "https://dumatv.ru/news/deputat-turov-otsenil-slova-zelenskogo-o--voine-v-evrope--iz-za-krima-i-donbassa"}, {"arrows": "to", "from": "https://russian.rt.com/ussr/news/859197-gosduma-zelenskii-krym-donbass", "length": "382.8641396489095", "title": "45", "to": "https://eadaily.com/ru/news/2021/06/18/v-mid-ukrainy-nazvali-glavnuyu-temu-peregovorov-baydena-i-zelenskogo"}, {"arrows": "to", "from": "https://russian.rt.com/ussr/news/859197-gosduma-zelenskii-krym-donbass", "length": "380.66624897703196", "title": "44", "to": "https://riafan.ru/1467660-voennyi-ekspert-usomnilsya-v-slovah-zelenskogo-o-samoi-moshchnoi-armii"}, {"arrows": "to", "from": "https://russian.rt.com/ussr/news/859197-gosduma-zelenskii-krym-donbass", "length": "393.18256327243256", "title": "50", "to": "https://www.sportmk.ru/sports/2021/06/23/portugaliya-franciya-onlayntranslyaciya-chempionata-evropy-po-futbolu2020.html"}, {"arrows": "to", "from": "https://russian.rt.com/ussr/news/859197-gosduma-zelenskii-krym-donbass", "length": "340.11973816621554", "title": "29", "to": "https://www.rbc.ru/society/04/05/2021/60911a089a79476d8e02f393"}, {"arrows": "to", "from": "https://russian.rt.com/ussr/news/859197-gosduma-zelenskii-krym-donbass", "length": "395.12437185814275", "title": "51", "to": "https://expert.ru/"}, {"arrows": "to", "from": "https://russian.rt.com/ussr/news/859197-gosduma-zelenskii-krym-donbass", "length": "0.0", "title": "0", "to": "https://twitter.com/1305882067373355009/status/1389649255967727616"}, {"arrows": "to", "from": "https://russian.rt.com/ussr/news/859197-gosduma-zelenskii-krym-donbass", "length": "0.0", "title": "0", "to": "https://vk.com/id209502077?w=wall209502077_11273"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "smooth"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

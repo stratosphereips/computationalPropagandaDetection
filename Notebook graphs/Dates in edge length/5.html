@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "red", "id": "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html", "label": " ", "shape": "dot", "title": "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html"}, {"color": "blue", "id": "https://oko-planet.su/politik/politikmir/305827-migracionnyy-krizis-kak-vyglyadit-buduschee-evropy.html", "label": " ", "shape": "dot", "title": "https://oko-planet.su/politik/politikmir/305827-migracionnyy-krizis-kak-vyglyadit-buduschee-evropy.html"}, {"color": "blue", "id": "https://oko-planet.su/xfsearch/2/page/356/", "label": " ", "shape": "dot", "title": "https://oko-planet.su/xfsearch/2/page/356/"}, {"color": "blue", "id": "https://oko-planet.su/politik/politikday/560170-britaniya-tyanet-evropu-na-dno-kto-sleduyuschim-vyydet-iz-es.html", "label": " ", "shape": "dot", "title": "https://oko-planet.su/politik/politikday/560170-britaniya-tyanet-evropu-na-dno-kto-sleduyuschim-vyydet-iz-es.html"}, {"color": "blue", "id": "https://www.gazeta.ru/business/2021/05/13/13591772.shtml", "label": " ", "shape": "dot", "title": "https://www.gazeta.ru/business/2021/05/13/13591772.shtml"}, {"color": "blue", "id": "https://polpred.com/news?cnt_and=1\u0026cnt=144\u0026cnt_2=170\u0026page=6", "label": " ", "shape": "dot", "title": "https://polpred.com/news?cnt_and=1\u0026cnt=144\u0026cnt_2=170\u0026page=6"}, {"color": "blue", "id": "https://istina.msu.ru/workers/581783/", "label": " ", "shape": "dot", "title": "https://istina.msu.ru/workers/581783/"}, {"color": "blue", "id": "https://www.justmedia.ru/news/russiaandworld/yevropu-zhdet-novyy-migratsionnyy-krizis", "label": " ", "shape": "dot", "title": "https://www.justmedia.ru/news/russiaandworld/yevropu-zhdet-novyy-migratsionnyy-krizis"}, {"color": "blue", "id": "http://logos.press.md/tochka-zreniya/", "label": " ", "shape": "dot", "title": "http://logos.press.md/tochka-zreniya/"}, {"color": "blue", "id": "http://chertanovocentr.ru/deputat_gosudarstvennoj_dumy_fs_rf_anatolij_borisovich_vybornyj_210_izbiratel_nyj_okrug/", "label": " ", "shape": "dot", "title": "http://chertanovocentr.ru/deputat_gosudarstvennoj_dumy_fs_rf_anatolij_borisovich_vybornyj_210_izbiratel_nyj_okrug/"}, {"color": "blue", "id": "https://istina.ipmnet.ru/workers/581783/", "label": " ", "shape": "dot", "title": "https://istina.ipmnet.ru/workers/581783/"}, {"color": "blue", "id": "https://alleuropa.ru/?number=111", "label": " ", "shape": "dot", "title": "https://alleuropa.ru/?number=111"}, {"color": "blue", "id": "https://aif.ru/politics/world/ultimatum_merkel_grozit_li_evrope_novyy_migracionnyy_krizis", "label": " ", "shape": "dot", "title": "https://aif.ru/politics/world/ultimatum_merkel_grozit_li_evrope_novyy_migracionnyy_krizis"}, {"color": "blue", "id": "http://pravorf.org/index.php/itemlist?start=135", "label": " ", "shape": "dot", "title": "http://pravorf.org/index.php/itemlist?start=135"}, {"color": "blue", "id": "https://vk.com/id-77327914?w=wall-77327914_95425", "label": " ", "shape": "dot", "title": "https://vk.com/id-77327914?w=wall-77327914_95425"}, {"color": "blue", "id": "https://vk.com/id-35276355?w=wall-35276355_1064636", "label": " ", "shape": "dot", "title": "https://vk.com/id-35276355?w=wall-35276355_1064636"}, {"color": "blue", "id": "https://vk.com/id66973133?w=wall66973133_37485", "label": " ", "shape": "dot", "title": "https://vk.com/id66973133?w=wall66973133_37485"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html", "length": "727.3092595999522", "title": "1440", "to": "https://oko-planet.su/politik/politikmir/305827-migracionnyy-krizis-kak-vyglyadit-buduschee-evropy.html"}, {"arrows": "to", "from": "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html", "length": "624.2223265455166", "title": "513", "to": "https://oko-planet.su/xfsearch/2/page/356/"}, {"arrows": "to", "from": "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html", "length": "378.4189633918261", "title": "43", "to": "https://oko-planet.su/politik/politikday/560170-britaniya-tyanet-evropu-na-dno-kto-sleduyuschim-vyydet-iz-es.html"}, {"arrows": "to", "from": "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html", "length": "623.8324625039508", "title": "511", "to": "https://www.gazeta.ru/business/2021/05/13/13591772.shtml"}, {"arrows": "to", "from": "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html", "title": "None", "to": "https://polpred.com/news?cnt_and=1\u0026cnt=144\u0026cnt_2=170\u0026page=6"}, {"arrows": "to", "from": "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html", "length": "630.0785794663244", "title": "544", "to": "https://istina.msu.ru/workers/581783/"}, {"arrows": "to", "from": "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html", "length": "626.1491684321041", "title": "523", "to": "https://www.justmedia.ru/news/russiaandworld/yevropu-zhdet-novyy-migratsionnyy-krizis"}, {"arrows": "to", "from": "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html", "length": "523.6441962829949", "title": "187", "to": "http://logos.press.md/tochka-zreniya/"}, {"arrows": "to", "from": "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html", "length": "616.7516490888341", "title": "476", "to": "http://chertanovocentr.ru/deputat_gosudarstvennoj_dumy_fs_rf_anatolij_borisovich_vybornyj_210_izbiratel_nyj_okrug/"}, {"arrows": "to", "from": "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html", "length": "630.0785794663244", "title": "544", "to": "https://istina.ipmnet.ru/workers/581783/"}, {"arrows": "to", "from": "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html", "title": "None", "to": "https://alleuropa.ru/?number=111"}, {"arrows": "to", "from": "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html", "length": "629.5266001439646", "title": "541", "to": "https://aif.ru/politics/world/ultimatum_merkel_grozit_li_evrope_novyy_migracionnyy_krizis"}, {"arrows": "to", "from": "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html", "title": "None", "to": "http://pravorf.org/index.php/itemlist?start=135"}, {"arrows": "to", "from": "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html", "length": "723.4898420314831", "title": "1386", "to": "https://vk.com/id-77327914?w=wall-77327914_95425"}, {"arrows": "to", "from": "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html", "length": "735.4362330421477", "title": "1562", "to": "https://vk.com/id-35276355?w=wall-35276355_1064636"}, {"arrows": "to", "from": "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html", "length": "735.7556200910353", "title": "1567", "to": "https://vk.com/id66973133?w=wall66973133_37485"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "smooth"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

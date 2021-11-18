@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 700;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "id": "https://allafrica.com/stories/202001150049.html", "label": "allafrica.com", "shape": "dot"}, {"color": "blue", "id": "https://www.voanews.com/middle-east/migrants-stuck-libya-demand-evacuation-conflict-escalates", "label": "voanews.com", "shape": "dot"}, {"color": "blue", "id": "https://www.pbs.org/wgbh/frontline/article/the-human-cost-of-the-eus-response-to-the-refugee-crisis/", "label": "pbs.org", "shape": "dot"}, {"color": "green", "id": "https://www.unhcr.org/en-us/news/press/2020/7/5f1ee9314/thousands-refugees-migrants-suffer-extreme-rights-abuses-journeys-africas.html", "label": "unhcr.org", "shape": "dot"}, {"color": "green", "id": "https://en.wikipedia.org/wiki/First_Libyan_Civil_War", "label": "en.wikipedia.org", "shape": "dot"}, {"color": "green", "id": "https://www.acaps.org/country/libya/crisis/complex-crisis", "label": "acaps.org", "shape": "dot"}, {"color": "green", "id": "https://apnews.com/article/united-nations-tripoli-ap-top-news-international-news-immigration-9d9e8d668ae4b73a336a636a86bdf27f", "label": "apnews.com", "shape": "dot"}, {"color": "green", "id": "https://www.thenewhumanitarian.org/news/2020/02/26/Libya-migrants-refugees-Italy-EU-Europe-detention", "label": "thenewhumanitarian.org", "shape": "dot"}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2019-07-07", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2019-07-07", "x": -15229, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2019-12-30", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2019-12-30", "x": -15053, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2020-01-15", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-01-15", "x": -15037, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2020-02-26", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-02-26", "x": -14995, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2020-07-29", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2020-07-29", "x": -14841, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-06-20", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-20", "x": -14515, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-06-21", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-21", "x": -14514, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2346-06-22", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2346-06-22", "x": 104189, "y": 0}]);
+        edges = new vis.DataSet([{"from": "https://allafrica.com/stories/202001150049.html", "hidden": true, "physics": true, "to": "https://www.unhcr.org/en-us/news/press/2020/7/5f1ee9314/thousands-refugees-migrants-suffer-extreme-rights-abuses-journeys-africas.html"}, {"from": "https://allafrica.com/stories/202001150049.html", "hidden": true, "physics": true, "to": "https://en.wikipedia.org/wiki/First_Libyan_Civil_War"}, {"from": "https://allafrica.com/stories/202001150049.html", "hidden": true, "physics": true, "to": "https://www.acaps.org/country/libya/crisis/complex-crisis"}, {"from": "https://allafrica.com/stories/202001150049.html", "hidden": true, "physics": true, "to": "https://apnews.com/article/united-nations-tripoli-ap-top-news-international-news-immigration-9d9e8d668ae4b73a336a636a86bdf27f"}, {"from": "https://allafrica.com/stories/202001150049.html", "hidden": true, "physics": true, "to": "https://www.thenewhumanitarian.org/news/2020/02/26/Libya-migrants-refugees-Italy-EU-Europe-detention"}, {"color": "gray", "from": "https://allafrica.com/stories/202001150049.html", "physics": false, "to": "2020-01-15"}, {"color": "gray", "from": "https://www.voanews.com/middle-east/migrants-stuck-libya-demand-evacuation-conflict-escalates", "physics": false, "to": "2019-07-07"}, {"color": "gray", "from": "https://www.pbs.org/wgbh/frontline/article/the-human-cost-of-the-eus-response-to-the-refugee-crisis/", "physics": false, "to": "2021-06-21"}, {"color": "gray", "from": "https://www.unhcr.org/en-us/news/press/2020/7/5f1ee9314/thousands-refugees-migrants-suffer-extreme-rights-abuses-journeys-africas.html", "physics": false, "to": "2020-07-29"}, {"color": "gray", "from": "https://en.wikipedia.org/wiki/First_Libyan_Civil_War", "physics": false, "to": "2346-06-22"}, {"color": "gray", "from": "https://www.acaps.org/country/libya/crisis/complex-crisis", "physics": false, "to": "2021-06-20"}, {"color": "gray", "from": "https://apnews.com/article/united-nations-tripoli-ap-top-news-international-news-immigration-9d9e8d668ae4b73a336a636a86bdf27f", "physics": false, "to": "2019-12-30"}, {"color": "gray", "from": "https://www.thenewhumanitarian.org/news/2020/02/26/Libya-migrants-refugees-Italy-EU-Europe-detention", "physics": false, "to": "2020-02-26"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "smooth"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

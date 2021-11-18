@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 700;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "id": "https://twitter.com/1305882067373355009/status/1389649255967727616", "label": "twitter.com", "shape": "dot"}, {"color": "blue", "id": "https://twitter.com/2358421700/status/1389621964524883974", "label": "twitter.com", "shape": "dot"}, {"color": "blue", "id": "https://twitter.com/1268329723165360129/status/1389589699879186435", "label": "twitter.com", "shape": "dot"}, {"color": "blue", "id": "https://vk.com/id72346343?w=wall72346343_14747", "label": "vk.com", "shape": "dot"}, {"color": "blue", "id": "https://vk.com/id-40316705?w=wall-40316705_39286497", "label": "vk.com", "shape": "dot"}, {"color": "blue", "id": "https://dumatv.ru/news/deputat-turov-otsenil-slova-zelenskogo-o--voine-v-evrope--iz-za-krima-i-donbassa", "label": "dumatv.ru", "shape": "dot"}, {"color": "blue", "id": "https://eadaily.com/ru/news/2021/06/18/v-mid-ukrainy-nazvali-glavnuyu-temu-peregovorov-baydena-i-zelenskogo", "label": "eadaily.com", "shape": "dot"}, {"color": "blue", "id": "https://riafan.ru/1467660-voennyi-ekspert-usomnilsya-v-slovah-zelenskogo-o-samoi-moshchnoi-armii", "label": "riafan.ru", "shape": "dot"}, {"color": "blue", "id": "https://www.sportmk.ru/sports/2021/06/23/portugaliya-franciya-onlayntranslyaciya-chempionata-evropy-po-futbolu2020.html", "label": "sportmk.ru", "shape": "dot"}, {"color": "blue", "id": "https://www.rbc.ru/society/04/05/2021/60911a089a79476d8e02f393", "label": "rbc.ru", "shape": "dot"}, {"color": "blue", "id": "https://expert.ru/", "label": "expert.ru", "shape": "dot"}, {"color": "blue", "id": "https://vk.com/id209502077?w=wall209502077_11273", "label": "vk.com", "shape": "dot"}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-04-05", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-04-05", "x": -55, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-05-04", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-05-04", "x": -26, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-06-17", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-17", "x": 17, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-06-18", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-18", "x": 18, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-06-23", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-23", "x": 23, "y": 0}, {"color": "gray", "fixed": {"x": true, "y": true}, "id": "2021-06-24", "label": " ", "physics": true, "shape": "diamond", "size": 40, "title": "2021-06-24", "x": 24, "y": 0}]);
+        edges = new vis.DataSet([{"color": "gray", "from": "https://twitter.com/1305882067373355009/status/1389649255967727616", "physics": false, "to": "2021-05-04"}, {"color": "gray", "from": "https://twitter.com/2358421700/status/1389621964524883974", "physics": false, "to": "2021-05-04"}, {"color": "gray", "from": "https://twitter.com/1268329723165360129/status/1389589699879186435", "physics": false, "to": "2021-05-04"}, {"color": "gray", "from": "https://vk.com/id72346343?w=wall72346343_14747", "physics": false, "to": "2021-05-04"}, {"color": "gray", "from": "https://vk.com/id-40316705?w=wall-40316705_39286497", "physics": false, "to": "2021-05-04"}, {"color": "gray", "from": "https://dumatv.ru/news/deputat-turov-otsenil-slova-zelenskogo-o--voine-v-evrope--iz-za-krima-i-donbassa", "physics": false, "to": "2021-05-04"}, {"color": "gray", "from": "https://eadaily.com/ru/news/2021/06/18/v-mid-ukrainy-nazvali-glavnuyu-temu-peregovorov-baydena-i-zelenskogo", "physics": false, "to": "2021-06-18"}, {"color": "gray", "from": "https://riafan.ru/1467660-voennyi-ekspert-usomnilsya-v-slovah-zelenskogo-o-samoi-moshchnoi-armii", "physics": false, "to": "2021-06-17"}, {"color": "gray", "from": "https://www.sportmk.ru/sports/2021/06/23/portugaliya-franciya-onlayntranslyaciya-chempionata-evropy-po-futbolu2020.html", "physics": false, "to": "2021-06-23"}, {"color": "gray", "from": "https://www.rbc.ru/society/04/05/2021/60911a089a79476d8e02f393", "physics": false, "to": "2021-04-05"}, {"color": "gray", "from": "https://expert.ru/", "physics": false, "to": "2021-06-24"}, {"color": "gray", "from": "https://vk.com/id209502077?w=wall209502077_11273", "physics": false, "to": "2021-05-04"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "smooth"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

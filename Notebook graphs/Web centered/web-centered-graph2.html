@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "blue", "id": "vk.com", "label": "vk.com", "shape": "dot", "size": 26.390573296152585, "title": "11"}, {"hidden": true, "id": "https://vk.com/id-71686014?w=wall-71686014_181182", "label": " ", "shape": "dot", "title": "https://vk.com/id-71686014?w=wall-71686014_181182"}, {"hidden": true, "id": "https://vk.com/id528169265?w=wall528169265_11090", "label": " ", "shape": "dot", "title": "https://vk.com/id528169265?w=wall528169265_11090"}, {"hidden": true, "id": "https://vk.com/id528167893?w=wall528167893_11020", "label": " ", "shape": "dot", "title": "https://vk.com/id528167893?w=wall528167893_11020"}, {"hidden": true, "id": "https://vk.com/id528156374?w=wall528156374_11351", "label": " ", "shape": "dot", "title": "https://vk.com/id528156374?w=wall528156374_11351"}, {"hidden": true, "id": "https://vk.com/id528004022?w=wall528004022_11957", "label": " ", "shape": "dot", "title": "https://vk.com/id528004022?w=wall528004022_11957"}, {"hidden": true, "id": "https://vk.com/id528001663?w=wall528001663_12215", "label": " ", "shape": "dot", "title": "https://vk.com/id528001663?w=wall528001663_12215"}, {"hidden": true, "id": "https://vk.com/id527991747?w=wall527991747_12701", "label": " ", "shape": "dot", "title": "https://vk.com/id527991747?w=wall527991747_12701"}, {"hidden": true, "id": "https://vk.com/id528012105?w=wall528012105_11793", "label": " ", "shape": "dot", "title": "https://vk.com/id528012105?w=wall528012105_11793"}, {"hidden": true, "id": "https://vk.com/id575110737?w=wall575110737_5556", "label": " ", "shape": "dot", "title": "https://vk.com/id575110737?w=wall575110737_5556"}, {"hidden": true, "id": "https://vk.com/id-115312870?w=wall-115312870_194318", "label": " ", "shape": "dot", "title": "https://vk.com/id-115312870?w=wall-115312870_194318"}, {"hidden": true, "id": "https://vk.com/id575112916?w=wall575112916_6212", "label": " ", "shape": "dot", "title": "https://vk.com/id575112916?w=wall575112916_6212"}, {"color": "red", "id": "news-front.info", "label": "news-front.info", "shape": "dot", "size": 16.094379124341003, "title": "2"}, {"hidden": true, "id": "https://news-front.info/2020/08/28/rodion-miroshnik-kiev-na-belorussii-zarabatyvaet-bochku-varenya-i-korzinu-pechenya/", "label": " ", "shape": "dot", "title": "https://news-front.info/2020/08/28/rodion-miroshnik-kiev-na-belorussii-zarabatyvaet-bochku-varenya-i-korzinu-pechenya/"}, {"hidden": true, "id": "https://news-front.info/2020/08/24/evropa-otkrytym-tekstom-zayavlyaet-chto-vmeshivaetsya-v-dela-ukrainy-chto-skazhet-na-eto-ukrainskij-mid/", "label": " ", "shape": "dot", "title": "https://news-front.info/2020/08/24/evropa-otkrytym-tekstom-zayavlyaet-chto-vmeshivaetsya-v-dela-ukrainy-chto-skazhet-na-eto-ukrainskij-mid/"}]);
+        edges = new vis.DataSet([{"from": "news-front.info", "title": 19, "to": "vk.com", "width": 8.987196820661973}, {"from": "news-front.info", "title": 2, "to": "news-front.info", "width": 3.295836866004329}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

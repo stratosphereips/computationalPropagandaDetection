@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500;
+            height: 700px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2019-12-30", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2019-12-30", "x": 328, "y": 0}, {"color": "red", "fixed": {"x": true, "y": true}, "id": "2020-01-14", "label": " ", "physics": true, "shape": "diamond", "size": 25, "title": "original date2020-01-14", "x": 448, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2020-01-15", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2020-01-15", "x": 456, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2020-02-26", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2020-02-26", "x": 792, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2020-07-29", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2020-07-29", "x": 2024, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-20", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-20", "x": 4632, "y": 0}, {"color": "#cccccc", "fixed": {"x": true, "y": true}, "id": "2021-06-21", "label": " ", "physics": false, "shape": "diamond", "size": 20, "title": "2021-06-21", "x": 4640, "y": 0}, {"color": "#555555", "fixed": {"x": true, "y": true}, "id": "2346-06-22", "label": " ", "physics": false, "shape": "diamond", "size": 15, "title": "2346-06-22", "x": 954272, "y": 0}, {"color": "green", "fixed": {"x": true, "y": true}, "id": "2021-11-18", "label": " ", "physics": false, "shape": "diamond", "size": 25, "title": "Query date 2021-11-18", "x": 5840, "y": 0}, {"color": "yellow", "fixed": {"x": true, "y": true}, "id": "Old article", "label": " ", "physics": true, "shape": "diamond", "size": 35, "title": "Old article", "x": 0, "y": 0}, {"color": "blue", "fixed": {"x": false, "y": true}, "id": "https://allafrica.com/stories/202001150049.html", "label": "allafrica.com", "length": 150, "mass": 2, "shape": "dot", "size": 30, "title": "5", "y": -150}, {"fixed": {"x": true, "y": true}, "id": "https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe", "x": 448, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.voanews.com/middle-east/migrants-stuck-libya-demand-evacuation-conflict-escalates", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.voanews.com/middle-east/migrants-stuck-libya-demand-evacuation-conflict-escalates", "x": 0, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://www.pbs.org/wgbh/frontline/article/the-human-cost-of-the-eus-response-to-the-refugee-crisis/", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.pbs.org/wgbh/frontline/article/the-human-cost-of-the-eus-response-to-the-refugee-crisis/", "x": 4640, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://www.unhcr.org/en-us/news/press/2020/7/5f1ee9314/thousands-refugees-migrants-suffer-extreme-rights-abuses-journeys-africas.html", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.unhcr.org/en-us/news/press/2020/7/5f1ee9314/thousands-refugees-migrants-suffer-extreme-rights-abuses-journeys-africas.html", "x": 2024, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://en.wikipedia.org/wiki/First_Libyan_Civil_War", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://en.wikipedia.org/wiki/First_Libyan_Civil_War", "x": 954272, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://www.acaps.org/country/libya/crisis/complex-crisis", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.acaps.org/country/libya/crisis/complex-crisis", "x": 4632, "y": 30}, {"fixed": {"x": true, "y": true}, "id": "https://apnews.com/article/united-nations-tripoli-ap-top-news-international-news-immigration-9d9e8d668ae4b73a336a636a86bdf27f", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://apnews.com/article/united-nations-tripoli-ap-top-news-international-news-immigration-9d9e8d668ae4b73a336a636a86bdf27f", "x": 328, "y": -30}, {"fixed": {"x": true, "y": true}, "id": "https://www.thenewhumanitarian.org/news/2020/02/26/Libya-migrants-refugees-Italy-EU-Europe-detention", "label": " ", "physics": false, "shape": "dot", "size": 10, "title": "https://www.thenewhumanitarian.org/news/2020/02/26/Libya-migrants-refugees-Italy-EU-Europe-detention", "x": 792, "y": 30}]);
+        edges = new vis.DataSet([{"color": "red", "from": "https://allafrica.com/stories/202001150049.html", "title": "1", "to": "2020-01-15", "width": 1}, {"from": "https://allafrica.com/stories/202001150049.html", "label": "title", "physics": true, "title": "1", "to": "2020-07-29", "width": 1}, {"from": "https://allafrica.com/stories/202001150049.html", "label": "title", "physics": true, "title": "1", "to": "2346-06-22", "width": 1}, {"from": "https://allafrica.com/stories/202001150049.html", "label": "title", "physics": true, "title": "1", "to": "2021-06-20", "width": 1}, {"from": "https://allafrica.com/stories/202001150049.html", "label": "title", "physics": true, "title": "1", "to": "2019-12-30", "width": 1}, {"from": "https://allafrica.com/stories/202001150049.html", "label": "title", "physics": true, "title": "1", "to": "2020-02-26", "width": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "smooth"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
