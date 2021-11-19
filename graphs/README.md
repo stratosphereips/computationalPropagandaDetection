@@ -1,11 +1,12 @@
 All graphs in the experiments folder are created by jupyter notebooks in folder jupyter notebooks.
 
-color_scheme is the same in all the graphs (with exception of TIMELINE_GRAPH)
+
+## DOMAIN-CENTERED-GRAPH
+color_scheme of nodes
 red: level 0 url
 blue: level 1 url
 green: level 2 url
 
-## DOMAIN-CENTERED-GRAPH
 The final version, function graph.create_domain_centered,  generated automatically when using web-network-mapper 
 Here the concept of a date and levels is dropped. Nodes represent a domain. If in our database is bbc.com multiple times 
 (in multiple links, might be different urls: bbc.com/X, bbc.com/Y) the size of the node is increased. Colors correspond to the lowest level of the domain 
