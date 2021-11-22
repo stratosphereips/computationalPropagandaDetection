@@ -414,49 +414,49 @@ def download_content_newspaper3k(url):
     """
     publication_date = None
     try:
-
         article = Article(url)
-        article.download()
-        article.parse()
-
-        text_content = article.text
-        title = article.title
+        # article.download()
+        # article.parse()
+        #
+        # text_content = article.text
+        # title = article.title
         publication_date = article.publish_date
         if not publication_date:
             raise Exception("Article.date not found")
     except Exception as e:
-        print(f"\t\t{Fore.MAGENTA}! Article error:")
-        print(f"\t\t{e}")
-        print(f"\t\t Downloading using the old approach {Style.RESET_ALL}")
-
-        try:
-            headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
-            # Timeout waiting for an answer is 15 seconds
-            page_content = requests.get(url, timeout=10, headers=headers)
-            text_content = page_content.text
+        # print(f"\t\t{Fore.MAGENTA}! Article error:")
+        # print(f"\t\t{e}")
+        # print(f"\t\t Downloading using the old approach {Style.RESET_ALL}")
+        pass
+    try:
+        headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
+        # Timeout waiting for an answer is 15 seconds
+        page_content = requests.get(url, timeout=10, headers=headers)
+        text_content = page_content.text
+        if publication_date is None:
             publication_date = extract_date_from_webpage(url, page_content)
-            tree = fromstring(page_content.content)
-            title = tree.findtext(".//title")
-        except requests.exceptions.ConnectionError:
-            print(
-                f"\t\t{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}"
-            )
-            return None, None, None, None
-        except requests.exceptions.ReadTimeout:
-            print(
-                f"\t\t{Fore.MAGENTA}! Timeout waiting for the web server to answer.  We ignore and continue.{Style.RESET_ALL}"
-            )
-            return None, None, None, None
-        except requests.exceptions.MissingSchema:
-            print('Please add https:// or http:// to your URL')
-            return None, None, None, None
-        except Exception as e:
-            print(
-                f"\t\t{Fore.MAGENTA}! Error getting the content of the web.{Style.RESET_ALL}"
-            )
-            print(f"\t\t{Fore.MAGENTA}! {e}{Style.RESET_ALL}")
-            print(f"\t\t{type(e)}")
-            return None, None, None, None
+        tree = fromstring(page_content.content)
+        title = tree.findtext(".//title")
+    except requests.exceptions.ConnectionError:
+        print(
+            f"\t\t{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}"
+        )
+        return None, None, None, None
+    except requests.exceptions.ReadTimeout:
+        print(
+            f"\t\t{Fore.MAGENTA}! Timeout waiting for the web server to answer.  We ignore and continue.{Style.RESET_ALL}"
+        )
+        return None, None, None, None
+    except requests.exceptions.MissingSchema:
+        print('Please add https:// or http:// to your URL')
+        return None, None, None, None
+    except Exception as e:
+        print(
+            f"\t\t{Fore.MAGENTA}! Error getting the content of the web.{Style.RESET_ALL}"
+        )
+        print(f"\t\t{Fore.MAGENTA}! {e}{Style.RESET_ALL}")
+        print(f"\t\t{type(e)}")
+        return None, None, None, None
 
     url_hash = get_hash_for_url(url)
 
