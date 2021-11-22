@@ -193,6 +193,7 @@ def create_domain_centered(urls, db_path, id=0):
         from_to_edges[filtered_source].append(filtered_target)
 
     colors = ["red", "blue", "green"]
+    colors = ["#9060690", "#9060690", "#9060690"]
     g = Network('700px', '1500px')
 
     for n in centers.keys():
