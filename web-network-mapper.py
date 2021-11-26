@@ -10,7 +10,7 @@ from utils import (
     get_dates_from_api_result_data,
     add_child_to_db,
 )
-from serpapi_utils import download_content_newspaper3k, trigger_api, process_data_from_api, downloadContent
+from serpapi_utils import trigger_api, process_data_from_api, downloadContent
 from twitter_api import get_twitter_data
 from vk_api import get_vk_data
 import graph
@@ -180,8 +180,7 @@ if __name__ == "__main__":
 
         # Store the main URL as an url in our DB
         URLs.add_url(args.link, int(args.is_propaganda))
-        (main_content, main_title, content_file, publication_date) = download_content_newspaper3k(main_url)
-        # (main_content, main_title, content_file, publication_date) = downloadContent(main_url)
+        (main_content, main_title, content_file, publication_date) = downloadContent(main_url)
         print(f'Main title: {main_title}')
 
         URLs.store_content(main_url, main_content)

@@ -88,7 +88,6 @@ def trigger_api(search_keyword, engine="google"):
             "q": search_keyword,
             "api_key": SERPAPI_KEY
         }
-
     else:
         print(f"Error in trigger_api(): wrong engine: {engine}")
         return False, False
@@ -355,6 +354,16 @@ def downloadContent(url):
     """
     Downlod the content of the web page
     """
+    # firstly use newspaper3k just to get publication date
+    publication_date = None
+    try:
+        article = Article(url)
+        article.download()
+        article.parse()
+
+        publication_date = article.publish_date
+    except Exception as e:
+        pass
     try:
         # Download up to 5MB per page
         headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
@@ -364,8 +373,11 @@ def downloadContent(url):
 
         tree = fromstring(page_content.content)
         title = tree.findtext(".//title")
-        # Get the date of publication of the webpage
-        publication_date = extract_date_from_webpage(url, page_content)
+        # Get the date of publication of the webpage if newspaper3k didn't find any
+        if publication_date is None:
+            publication_date = parse_date_from_string(find_date(url))
+        if publication_date is None:
+            publication_date = find_date(text_content)
     except requests.exceptions.ConnectionError:
         print(
             f"\t\t{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}"
@@ -404,76 +416,6 @@ def downloadContent(url):
         print(f"\t\t{type(e)}")
         return None, None, None, None
         # return False, False, False, False
-
-    return text_content, title, file_name, publication_date
-
-
-def download_content_newspaper3k(url):
-    """
-    Downlod the content of the web page
-    """
-    publication_date = None
-    try:
-        article = Article(url)
-        # article.download()
-        # article.parse()
-        #
-        # text_content = article.text
-        # title = article.title
-        publication_date = article.publish_date
-        if not publication_date:
-            raise Exception("Article.date not found")
-    except Exception as e:
-        # print(f"\t\t{Fore.MAGENTA}! Article error:")
-        # print(f"\t\t{e}")
-        # print(f"\t\t Downloading using the old approach {Style.RESET_ALL}")
-        pass
-    try:
-        headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
-        # Timeout waiting for an answer is 15 seconds
-        page_content = requests.get(url, timeout=10, headers=headers)
-        text_content = page_content.text
-        if publication_date is None:
-            publication_date = extract_date_from_webpage(url, page_content)
-        tree = fromstring(page_content.content)
-        title = tree.findtext(".//title")
-    except requests.exceptions.ConnectionError:
-        print(
-            f"\t\t{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}"
-        )
-        return None, None, None, None
-    except requests.exceptions.ReadTimeout:
-        print(
-            f"\t\t{Fore.MAGENTA}! Timeout waiting for the web server to answer.  We ignore and continue.{Style.RESET_ALL}"
-        )
-        return None, None, None, None
-    except requests.exceptions.MissingSchema:
-        print('Please add https:// or http:// to your URL')
-        return None, None, None, None
-    except Exception as e:
-        print(
-            f"\t\t{Fore.MAGENTA}! Error getting the content of the web.{Style.RESET_ALL}"
-        )
-        print(f"\t\t{Fore.MAGENTA}! {e}{Style.RESET_ALL}")
-        print(f"\t\t{type(e)}")
-        return None, None, None, None
-
-    url_hash = get_hash_for_url(url)
-
-    try:
-        # Store the file
-        timemodifier = str(datetime.now()).replace(" ", "_").replace(":", "_")
-        file_name = "contents/" + url_hash + "_" + timemodifier + "-content.html"
-        # if args.verbosity > 1:
-        #     print(f"\t\tStoring the content of url {url} in file {file_name}")
-        file = open(file_name, "w", encoding='utf-8')
-        file.write(text_content)
-        file.close()
-    except Exception as e:
-        print("\t\tError saving the content of the webpage.")
-        print(f"\t\t{e}")
-        print(f"\t\t{type(e)}")
-        return None, None, None, None
 
     return text_content, title, file_name, publication_date
 
@@ -522,8 +464,7 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False, 
                 f"\t\t{Fore.YELLOW}Blacklisted{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} "
             )
             continue
-        (content, title, content_file, content_publication_date) = download_content_newspaper3k(child_url)
-        # (content, title, content_file, content_publication_date) = downloadContent(child_url)
+        (content, title, content_file, content_publication_date) = downloadContent(child_url)
 
         # 3. Check similarity of content of pages
         if content_similarity:
