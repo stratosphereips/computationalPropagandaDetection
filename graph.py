@@ -5,15 +5,11 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 from DB.propaganda_db import DB
-# from serpapi_utils import get_hash_for_url
+from serpapi_utils import get_hash_for_url
 from pyvis.network import Network
 from datetime import datetime, date, timedelta
 
 TIMELINE_WIDTH = 8  # scale of the x-axis of the timeline
-
-
-def get_hash_for_url(a):
-    return " "
 
 
 def filter_name(url):
@@ -32,12 +28,14 @@ def filter_name(url):
     return basename
 
 
-def create_date_centered(url, db_path, time_window, id=0):
+def create_date_centered(url, db_path, time_window=2, id=0):
     db = DB(db_path)
     edges, nodes = db.get_tree(url)
 
     # find what dates are used and erase duplicates and None
-    original_date = datetime.strptime(nodes[url][0][:10], '%Y-%m-%d').date() if nodes[url][0] is not None else None
+    original_date = None
+    if nodes[url][0]:
+        original_date = datetime.strptime(nodes[url][0][:10], '%Y-%m-%d').date()
     dates = [str(nodes[url][0][:10]) if nodes[url][0] is not None else None for url in nodes]
     dates.append(None)
     dates_set = {str(d) for d in dates}
@@ -158,11 +156,13 @@ def create_date_centered(url, db_path, time_window, id=0):
     # g.set_edge_smooth('smooth')
     if not os.path.exists("graphs"):
         os.makedirs("graphs")
-
+    print(url)
+    print(get_hash_for_url(url))
     graph_name = os.path.join("graphs", f"{get_hash_for_url(url)}_TIMELINE_CENTERED_GRAPH.html")
     if id:
         graph_name = os.path.join("graphs",
                                   f"{id}_{'Propaganda' if id <= 20 else 'Not_propaganda'}_TIMELINE_CENTERED_GRAPH.html")
+    print(graph_name)
     g.save_graph(graph_name)
     # g.save_graph(os.path.join("graphs", f"{get_hash_for_url(url)}_TIMELINE_CENTERED_GRAPH.html"))
     # g.show(f'level_timeline.html')
@@ -170,20 +170,16 @@ def create_date_centered(url, db_path, time_window, id=0):
 
 def create_domain_centered(urls, db_path, id=0):
     db = DB(db_path)
-    if isinstance(urls, string):
-        urls = [urls]
     edges = list()
-    nodes = dict()
     centers = dict()
-    for url in urls:
-        cur_edges, cur_nodes = db.get_tree(url)
-        cur_centers = {
-            filter_name(url): (nodes[url][1], [n for n in cur_nodes.keys() if filter_name(n) == filter_name(url)]) for
-            url in list(cur_nodes.keys())[::-1]}
-        for e in cur_edges:
-            edges.append(e)
-        nodes = {**nodes, **cur_nodes}
-        centers = {**centers, **cur_center}
+
+    cur_edges, cur_nodes = db.get_tree(urls)
+    cur_centers = {
+        filter_name(url): (cur_nodes[url][1], [n for n in cur_nodes.keys() if filter_name(n) == filter_name(url)]) for
+        url in list(cur_nodes.keys())[::-1]}
+    for e in cur_edges:
+        edges.append(e)
+    centers = {**centers, **cur_centers}
 
     from_to_edges = dict()
     for _, source, target, _ in edges:
@@ -193,7 +189,8 @@ def create_domain_centered(urls, db_path, id=0):
         from_to_edges[filtered_source].append(filtered_target)
 
     colors = ["red", "blue", "green"]
-    colors = ["#9060690", "#9060690", "#9060690"]
+    # colors = ["#9060690", "#9060690", "#9060690"]
+
     g = Network('700px', '1500px')
 
     for n in centers.keys():
@@ -213,10 +210,11 @@ def create_domain_centered(urls, db_path, id=0):
     g.show_buttons()
     if not os.path.exists("graphs"):
         os.makedirs("graphs")
-    graph_name = os.path.join("graphs", f"{get_hash_for_url(url)}_DOMAIN_CENTERED_GRAPH.html")
     if id:
         graph_name = os.path.join("graphs",
                                   f"{id}_{'Propaganda' if id <= 20 else 'Not_propaganda'}_DOMAIN_CENTERED_GRAPH.html")
+    else:
+        graph_name = os.path.join("graphs", f"{get_hash_for_url(urls)}_DOMAIN_CENTERED_GRAPH.html")
     g.save_graph(graph_name)
     # g.show(f'web-centered-graph.html')
 
@@ -320,31 +318,34 @@ DATA = ["PLACEHOLDER TO INDEX FROM 1",
         ]
 
 if __name__ == "__main__":
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument("-l", "--link", help="URL to check is distribution pattern", type=str, required=True)
-    # parser.add_argument("-d", "--path_to_db", default="DB/databases/propaganda.db", help="Path to Database", type=str)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-l", "--link", help="URL to check is distribution pattern", type=str, required=False)
+    parser.add_argument("-d", "--path_to_db", default="DB/databases/propaganda.db", help="Path to Database", type=str)
+
+    args = parser.parse_args()
+
+    print(args.path_to_db)
+    db = DB(args.path_to_db)
+
+    all_links, _ = db.get_tree(args.link)
+    links_without_level = [(from_id, to_id) for (_, from_id, to_id, _) in all_links]
+    build_a_graph(links_without_level, args.link)
+    create_domain_centered(args.link, args.path_to_db)
+    create_date_centered(args.link, args.path_to_db)
+    # for i in range(1, 2):
+    #     print(i)
+    #     # try:
+    #     link = DATA[i]
     #
-    # args = parser.parse_args()
+    #     db_path = f"DB/v2/propaganda.{i}.db"
+    #     db = DB(db_path)
+    #     print("db loaded")
     #
-    # db = DB(args.path_to_db)
-
-    # all_links, _ = db.get_tree(args.link)
-    # links_without_level = [(from_id, to_id) for (_, from_id, to_id, _) in all_links]
-    # build_a_graph(links_without_level, args.link)
-    print("start")
-    for i in range(1, 41):
-        print(i)
-        try:
-            link = DATA[i]
-
-            db_path = f"DB/v2/propaganda.{i}.db"
-            db = DB(db_path)
-
-            all_links, _ = db.get_tree(link)
-            links_without_level = [(from_id, to_id) for (_, from_id, to_id, _) in all_links]
-            build_a_graph(links_without_level, link, i)
-
-            create_domain_centered(link, db_path, i)
-            create_date_centered(link, db_path, 2, i)
-        except Exception as e:
-            print(f"{i} failed {e}s")
+    #     all_links, _ = db.get_tree(link)
+    #     # links_without_level = [(from_id, to_id) for (_, from_id, to_id, _) in all_links]
+    #     # build_a_graph(links_without_level, link, i)
+    #
+    #     create_domain_centered(link, db_path, i)
+    #     create_date_centered(link, db_path, 2, i)
+    #     # except Exception as e:
+    #     #     print(f"{i} failed {e}")
