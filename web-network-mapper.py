@@ -3,6 +3,7 @@ from datetime import datetime
 import traceback
 import argparse
 from urls import URLs
+from os.path import isfile
 from colorama import init as init_colorama
 from colorama import Fore, Style
 from utils import (
@@ -14,7 +15,7 @@ from serpapi_utils import trigger_api, process_data_from_api, downloadContent
 from twitter_api import get_twitter_data
 from vk_api import get_vk_data
 import graph
-
+from DB.create_db import create_main_db
 # Init colorama
 init_colorama()
 
@@ -23,7 +24,6 @@ f = open("credentials.yaml", "r")
 SERAPI_KEY = f.readline()
 f.close()
 
-PROPAGANDA_DB_PATH = "DB/databases/propaganda.db"
 SEARCH_ENGINES = ["google", "yandex", "yahoo", "bing"]  # , "baidu"]  # baidu seems really bad
 COLORS = [Fore.CYAN, Fore.LIGHTGREEN_EX, Fore.MAGENTA, Fore.LIGHTBLUE_EX, Fore.GREEN, Fore.BLUE, Fore.LIGHTCYAN_EX,
           Fore.LIGHTMAGENTA_EX]
@@ -138,6 +138,7 @@ if __name__ == "__main__":
         "-c", "--dont_store_content", help="Do not store the content of pages to disk", action="store_true",
         default=False,
     )
+    parser.add_argument("-d", "--database", help="Path to database", type=str, default="DB/databases/propaganda.db")
     parser.add_argument("-v", "--verbosity", help="Verbosity level", type=int, default=0)
     parser.add_argument(
         "-u",
@@ -174,9 +175,10 @@ if __name__ == "__main__":
     try:
 
         print(f"Searching the distribution graph of URL {args.link}. Using {args.number_of_levels} levels.\n")
-
+        if not isfile(args.database):
+            create_main_db(args.database)
         # Get the URLs object
-        URLs = URLs(PROPAGANDA_DB_PATH, args.verbosity)
+        URLs = URLs(args.database, args.verbosity)
 
         # Store the main URL as an url in our DB
         URLs.add_url(args.link, int(args.is_propaganda))
@@ -236,5 +238,5 @@ if __name__ == "__main__":
         print(f"Error in main(): {e}")
         print(f"{type(e)}")
         print(traceback.format_exc())
-    graph.create_date_centered(main_url, PROPAGANDA_DB_PATH, args.graph_timewindow)
-    graph.create_domain_centered(main_url, PROPAGANDA_DB_PATH)
+    graph.create_date_centered(main_url, args.database, args.graph_timewindow)
+    graph.create_domain_centered(main_url, args.database)

@@ -11,6 +11,7 @@ import dateutil.parser
 import re
 import locale
 import numpy as np
+import yaml
 from utils import (
     url_in_content,
     check_text_similiarity,
@@ -18,7 +19,6 @@ from utils import (
     url_blacklisted,
 )
 from newspaper import Article
-import yaml
 from htmldate import find_date
 
 try:
@@ -119,7 +119,7 @@ def trigger_api(search_keyword, engine="google"):
         # print(results["organic_results"])
         # Threshold of maxium amount of results to retrieve. Now 300.
         # Some pages can have 100000's
-        max_results = 40
+        max_results = 300
 
         # some APIs need search page instead of offset
         search_page = 0
@@ -434,9 +434,9 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False, 
     results = []
     for result in data:
         # To have some control on how many result we process
-        max_results_to_process -= 1
-        if max_results_to_process <= 0:
-            break
+        # max_results_to_process -= 1
+        # if max_results_to_process <= 0:
+        #     break
 
         # this is because of baidu
         if "link" not in result.keys():
