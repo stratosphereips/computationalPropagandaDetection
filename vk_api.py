@@ -12,8 +12,9 @@ except FileNotFoundError:
 
 
 # TODO: To get VK API, put to browser
-# https://oauth.vk.com/authorize?client_id=7674454&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=friends&response_type=token&v=5.52
-# https://oauth.vk.com/authorize?client_id=7674454&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=0&response_type=token&v=5.52
+# use the second one!
+# https://oauth.vk.com/authorize?client_id=7674454&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=friends&response_type=token&v=5.131
+# https://oauth.vk.com/authorize?client_id=7674454&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=0&response_type=token&v=5.131
 # And copy access_token
 VK_DB_PATH = "DB/databases/vk.db"
 
@@ -83,7 +84,7 @@ def get_vk_data(searched_phrase) -> list:
         session = vk.Session(access_token=VK_KEY)
 
         api = vk.API(session)
-        reports = api.newsfeed.search(q=searched_phrase, v="5.52")
+        reports = api.newsfeed.search(q=searched_phrase, v="5.131")
         vkdb = VKDB(VK_DB_PATH)
         vk_info = []
         search_date = datetime.now()
