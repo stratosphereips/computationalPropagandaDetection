@@ -182,10 +182,10 @@ def main(main_url, is_propaganda=False, database="DB/databases/propaganda.db", v
                 pass
         # print(f"Finished with all the graph of URLs. Total number of unique links are {len(all_links)}")
 
-    except KeyboardInterrupt:
-        # If ctrl-c is pressed, do the graph anyway
-        # build_a_graph(all_links, args.link)
-        pass
+    # except KeyboardInterrupt:
+    #     # If ctrl-c is pressed, do the graph anyway
+    #     # build_a_graph(all_links, args.link)
+    #     pass
     except Exception as e:
         print(f"Error in main(): {e}")
         print(f"{type(e)}")

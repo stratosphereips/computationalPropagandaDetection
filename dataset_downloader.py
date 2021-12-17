@@ -14,6 +14,8 @@ def main(data, idx_from):
             try:
                 wnm.main(link, is_propaganda=True, database=f'DB/databases/propaganda_{idx}.db', number_of_levels=1)
                 log_file.write(f'{idx} OK\n')
+            except KeyboardInterrupt:
+                break
             except Exception as e:
                 log_file.write(f'{idx} FAIL {e}\n')
 
