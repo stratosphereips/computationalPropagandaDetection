@@ -74,7 +74,7 @@ def get_number_of_intereaction(report, name_of_interaction):
 
 def get_vk_data(searched_phrase) -> list:
     try:
-        with open("credentials.yaml", "r") as f:
+        with open("vk_credentials.yaml", "r") as f:
             VK_KEY = yaml.load(f, Loader=yaml.SafeLoader)["vk"]
     except FileNotFoundError:
         print(f'no credentials.yaml file. stop')
