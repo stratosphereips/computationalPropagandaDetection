@@ -25,7 +25,7 @@ f = open("credentials.yaml", "r")
 SERAPI_KEY = f.readline()
 f.close()
 
-SEARCH_ENGINES = ["google", "yandex", "yahoo", "bing"]  # , "baidu"]  # baidu seems really bad
+SEARCH_ENGINES = ["google"]  # , "yandex", "yahoo", "bing"]  # , "baidu"]  # baidu seems really bad
 COLORS = [Fore.CYAN, Fore.LIGHTGREEN_EX, Fore.MAGENTA, Fore.LIGHTBLUE_EX, Fore.GREEN, Fore.BLUE, Fore.LIGHTCYAN_EX,
           Fore.LIGHTMAGENTA_EX]
 
@@ -162,20 +162,20 @@ def main(main_url, is_propaganda=False, database="DB/databases/propaganda.db", v
                     vk_results_urls = extract_and_save_vk_data(URLs_object, url, url, "link")
                     all_urls_by_urls.extend(vk_results_urls)
 
-                    if title is not None:
-                        print("TITLE ", title)
-                        for color, engine in zip(COLORS, SEARCH_ENGINES):
-                            print(f"\n{color}== Level {level}. Search {engine} by TITLE as {title}{Style.RESET_ALL}")
-                            results_urls_title = search_by_title(title, url, URLs_object, search_engine=engine,
-                                                                 threshold=urls_threshold)
-                            all_urls_by_titles.extend(results_urls_title)
-
-                        twitter_results_urls_title = extract_and_save_twitter_data(URLs_object, title, url, "title")
-                        all_urls_by_titles.extend(twitter_results_urls_title)
-                        print(f"\n{Fore.GREEN}== Level {level}. VK search by title as {title}{Style.RESET_ALL}")
-                        vk_results_urls_title = extract_and_save_vk_data(URLs_object, title, url, "title")
-                        all_urls_by_titles.extend(vk_results_urls_title)
-
+                    # if title is not None:
+                    #     print("TITLE ", title)
+                    #     for color, engine in zip(COLORS, SEARCH_ENGINES):
+                    #         print(f"\n{color}== Level {level}. Search {engine} by TITLE as {title}{Style.RESET_ALL}")
+                    #         results_urls_title = search_by_title(title, url, URLs_object, search_engine=engine,
+                    #                                              threshold=urls_threshold)
+                    #         all_urls_by_titles.extend(results_urls_title)
+                    #
+                    #     twitter_results_urls_title = extract_and_save_twitter_data(URLs_object, title, url, "title")
+                    #     all_urls_by_titles.extend(twitter_results_urls_title)
+                    #     print(f"\n{Fore.GREEN}== Level {level}. VK search by title as {title}{Style.RESET_ALL}")
+                    #     vk_results_urls_title = extract_and_save_vk_data(URLs_object, title, url, "title")
+                    #     all_urls_by_titles.extend(vk_results_urls_title)
+                    #
                     urls_to_search_by_level[level + 1] = all_urls_by_urls
             except KeyError:
                 # No urls in the level
@@ -190,8 +190,8 @@ def main(main_url, is_propaganda=False, database="DB/databases/propaganda.db", v
         print(f"Error in main(): {e}")
         print(f"{type(e)}")
         print(traceback.format_exc())
-    graph.create_date_centered(main_url, database, 2)
-    graph.create_domain_centered(main_url, database)
+    # graph.create_date_centered(main_url, database, 2)
+    # graph.create_domain_centered(main_url, database)
 
 
 if __name__ == "__main__":

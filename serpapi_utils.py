@@ -119,7 +119,7 @@ def trigger_api(search_keyword, engine="google"):
         # print(results["organic_results"])
         # Threshold of maxium amount of results to retrieve. Now 300.
         # Some pages can have 100000's
-        max_results = 300
+        max_results = 10
 
         # some APIs need search page instead of offset
         search_page = 0
