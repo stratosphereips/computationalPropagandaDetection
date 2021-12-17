@@ -122,6 +122,76 @@ def search_by_link(url, URLs, search_engine, threshold=0.3):
     return child_urls_found
 
 
+def main(main_url, is_propaganda=False, database="DB/databases/propaganda.db", verbosity=0, number_of_levels=2, urls_threshold=0.3):
+    try:
+        print(f"Searching the distribution graph of URL {main_url}. Using {number_of_levels} levels.\n")
+        if not isfile(database):
+            create_main_db(database)
+        # Get the URLs object
+        URLs_object = URLs(database, verbosity)
+
+        # Store the main URL as an url in our DB
+        URLs_object.add_url(main_url, int(is_propaganda))
+        (main_content, main_title, content_file, publication_date) = downloadContent(main_url)
+        print(f'Main title: {main_title}')
+
+        URLs_object.store_content(main_url, main_content)
+        URLs_object.store_title(main_url, main_title)
+        URLs_object.set_query_datetime(main_url, datetime.now())
+        URLs_object.set_publication_datetime(main_url, publication_date)
+
+        # Search by URLs, and by levels
+        urls_to_search_by_level = {0: [main_url]}
+        for level in range(number_of_levels):
+            try:
+                print(f"In level {level} were found {len(urls_to_search_by_level[level])} urls including original")
+                for url in urls_to_search_by_level[level]:
+                    title = URLs_object.get_title_by_url(url)
+                    all_urls_by_urls, all_urls_by_titles = [], []
+                    # Search by link
+                    for i, engine in enumerate(SEARCH_ENGINES):
+                        print(f"\n{COLORS[i]}== Level {level}. Search {engine} by LINKS to {url}{Style.RESET_ALL}")
+                        results_urls = search_by_link(url, URLs_object, search_engine=engine,
+                                                      threshold=urls_threshold)
+                        all_urls_by_urls.extend(results_urls)
+                    twitter_results_urls = extract_and_save_twitter_data(URLs_object, url, url, "link")
+                    all_urls_by_urls.extend(twitter_results_urls)
+
+                    vk_results_urls = extract_and_save_vk_data(URLs_object, url, url, "link")
+                    all_urls_by_urls.extend(vk_results_urls)
+
+                    if title is not None:
+                        print("TITLE ", title)
+                        for color, engine in zip(COLORS, SEARCH_ENGINES):
+                            print(f"\n{color}== Level {level}. Search {engine} by TITLE as {title}{Style.RESET_ALL}")
+                            results_urls_title = search_by_title(title, url, URLs_object, search_engine=engine,
+                                                                 threshold=urls_threshold)
+                            all_urls_by_titles.extend(results_urls_title)
+
+                        twitter_results_urls_title = extract_and_save_twitter_data(URLs_object, title, url, "title")
+                        all_urls_by_titles.extend(twitter_results_urls_title)
+                        print(f"\n{Fore.GREEN}== Level {level}. VK search by title as {title}{Style.RESET_ALL}")
+                        vk_results_urls_title = extract_and_save_vk_data(URLs_object, title, url, "title")
+                        all_urls_by_titles.extend(vk_results_urls_title)
+
+                    urls_to_search_by_level[level + 1] = all_urls_by_urls
+            except KeyError:
+                # No urls in the level
+                pass
+        # print(f"Finished with all the graph of URLs. Total number of unique links are {len(all_links)}")
+
+    except KeyboardInterrupt:
+        # If ctrl-c is pressed, do the graph anyway
+        # build_a_graph(all_links, args.link)
+        pass
+    except Exception as e:
+        print(f"Error in main(): {e}")
+        print(f"{type(e)}")
+        print(traceback.format_exc())
+    graph.create_date_centered(main_url, database, 2)
+    graph.create_domain_centered(main_url, database)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
