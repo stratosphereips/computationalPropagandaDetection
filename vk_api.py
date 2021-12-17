@@ -4,13 +4,6 @@ import sqlite3
 from colorama import Fore, Style
 import yaml
 
-try:
-    with open("credentials.yaml", "r") as f:
-        VK_KEY = yaml.load(f, Loader=yaml.SafeLoader)["vk"]
-except FileNotFoundError:
-    print(f'no credentials.yaml file. stop')
-
-
 # TODO: To get VK API, put to browser
 # use the second one!
 # https://oauth.vk.com/authorize?client_id=7674454&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=friends&response_type=token&v=5.131
@@ -81,6 +74,11 @@ def get_number_of_intereaction(report, name_of_interaction):
 
 def get_vk_data(searched_phrase) -> list:
     try:
+        with open("credentials.yaml", "r") as f:
+            VK_KEY = yaml.load(f, Loader=yaml.SafeLoader)["vk"]
+    except FileNotFoundError:
+        print(f'no credentials.yaml file. stop')
+    try:
         session = vk.Session(access_token=VK_KEY)
 
         api = vk.API(session)
@@ -141,8 +139,6 @@ def get_vk_data(searched_phrase) -> list:
     except vk.exceptions.VkAPIError:
         print(f'Wrong VK credentials, please check.')
         return False
-
-
 
 # info = get_vk_data("https://www.fondsk.ru/news/2020/03/25/borba-s-koronavirusom-i-bolshoj-brat-50441.html")
 # print(info)
