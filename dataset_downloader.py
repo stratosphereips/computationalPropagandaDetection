@@ -1,23 +1,27 @@
 import importlib
 import argparse
 import os
+import sys
 
 wnm = importlib.import_module("web-network-mapper")
 
 
 def main(data, idx_from):
-    if not os.path.exists('logs'):
-        os.makedirs('logs')
+
     for idx in range(idx_from, len(data)):
+        data_root = '/data/propagandadetection/EuVsDisinfo_dataset/'
+
+        sys.stdout = open(f'{data_root}logs/{idx}.log', 'w')
         link = data[idx]
-        with open('logs/dataset_downloader_log.txt', 'a') as log_file:
+        with open(f'{data_root}logs/dataset_downloader.log', 'a') as log_file:
             try:
-                wnm.main(link, is_propaganda=True, database=f'DB/databases/propaganda_{idx}.db', number_of_levels=1)
+                wnm.main(link, is_propaganda=True, database=f'{data_root}databases/propaganda{idx}.db', number_of_levels=1)
                 log_file.write(f'{idx} OK\n')
             except KeyboardInterrupt:
                 break
             except Exception as e:
                 log_file.write(f'{idx} FAIL {e}\n')
+        sys.stdout.close()
 
 
 if __name__ == '__main__':
