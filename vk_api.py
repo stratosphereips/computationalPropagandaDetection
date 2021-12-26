@@ -136,8 +136,8 @@ def get_vk_data(searched_phrase) -> list:
         vkdb.close()
         print(f"In total was found {len(found_urls)}")
         return vk_info
-    except vk.exceptions.VkAPIError:
-        print(f'Wrong VK credentials, please check.')
+    except vk.exceptions.VkAPIError as e:
+        print(f'Wrong VK credentials, please check. {e}')
         return False
 
 # info = get_vk_data("https://www.fondsk.ru/news/2020/03/25/borba-s-koronavirusom-i-bolshoj-brat-50441.html")
