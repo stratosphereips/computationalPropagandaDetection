@@ -17,7 +17,7 @@ def main(data, idx_from):
         with open(f'{data_root}logs/dataset_downloader.log', 'a') as log_file:
             try:
                 db_path = f'{data_root}databases/propaganda{idx}.db'
-                wnm.main(link, is_propaganda=True, database=db_path, number_of_levels=1)
+                wnm.main(link, is_propaganda=True, database=db_path, number_of_levels=2)
                 log_file.write(f'{idx} OK\n')
             except KeyboardInterrupt:
                 break
