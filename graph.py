@@ -28,7 +28,7 @@ def filter_name(url):
     return basename
 
 
-def create_date_centered(url, db_path, time_window=2, id=0):
+def create_date_centered(url, db_path, time_window=2, id=0, graph_name=None):
     db = DB(db_path)
     edges, nodes = db.get_tree(url)
 
@@ -154,21 +154,19 @@ def create_date_centered(url, db_path, time_window=2, id=0):
 
     g.show_buttons()
     # g.set_edge_smooth('smooth')
-    if not os.path.exists("graphs"):
-        os.makedirs("graphs")
-    print(url)
-    print(get_hash_for_url(url))
-    graph_name = os.path.join("graphs", f"{get_hash_for_url(url)}_TIMELINE_CENTERED_GRAPH.html")
-    if id:
-        graph_name = os.path.join("graphs",
-                                  f"{id}_{'Propaganda' if id <= 20 else 'Not_propaganda'}_TIMELINE_CENTERED_GRAPH.html")
-    print(graph_name)
+    if graph_name is None:
+        if not os.path.exists("graphs"):
+            os.makedirs("graphs")
+        graph_name = os.path.join("graphs", f"{get_hash_for_url(url)}_TIMELINE_CENTERED_GRAPH.html")
+        if id:
+            graph_name = os.path.join("graphs",
+                                      f"{id}_{'Propaganda' if id <= 20 else 'Not_propaganda'}_TIMELINE_CENTERED_GRAPH.html")
     g.save_graph(graph_name)
     # g.save_graph(os.path.join("graphs", f"{get_hash_for_url(url)}_TIMELINE_CENTERED_GRAPH.html"))
     # g.show(f'level_timeline.html')
 
 
-def create_domain_centered(urls, db_path, id=0):
+def create_domain_centered(urls, db_path, id=0, graph_name=None):
     db = DB(db_path)
     edges = list()
     centers = dict()
@@ -208,13 +206,14 @@ def create_domain_centered(urls, db_path, id=0):
         g.add_edge(filter_name(source), filter_name(target), width=3 * np.log(to_count + from_count + 1),
                    title=from_count + to_count)
     g.show_buttons()
-    if not os.path.exists("graphs"):
-        os.makedirs("graphs")
-    if id:
-        graph_name = os.path.join("graphs",
-                                  f"{id}_{'Propaganda' if id <= 20 else 'Not_propaganda'}_DOMAIN_CENTERED_GRAPH.html")
-    else:
-        graph_name = os.path.join("graphs", f"{get_hash_for_url(urls)}_DOMAIN_CENTERED_GRAPH.html")
+    if graph_name is None:
+        if not os.path.exists("graphs"):
+            os.makedirs("graphs")
+        if id:
+            graph_name = os.path.join("graphs",
+                                      f"{id}_{'Propaganda' if id <= 20 else 'Not_propaganda'}_DOMAIN_CENTERED_GRAPH.html")
+        else:
+            graph_name = os.path.join("graphs", f"{get_hash_for_url(urls)}_DOMAIN_CENTERED_GRAPH.html")
     g.save_graph(graph_name)
     # g.show(f'web-centered-graph.html')
 
