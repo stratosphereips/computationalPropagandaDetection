@@ -32,7 +32,7 @@ def get_hash_for_url(url):
     return hashlib.md5(url.encode()).hexdigest()
 
 
-def trigger_api(search_keyword, engine="google"):
+def trigger_api(search_keyword, engine="google", max_results=100):
     """
     Access to the API of serapi
 
@@ -119,7 +119,6 @@ def trigger_api(search_keyword, engine="google"):
         # print(results["organic_results"])
         # Threshold of maxium amount of results to retrieve. Now 300.
         # Some pages can have 100000's
-        max_results = 300
 
         # some APIs need search page instead of offset
         search_page = 0
@@ -420,7 +419,7 @@ def downloadContent(url):
     return text_content, title, file_name, publication_date
 
 
-def process_data_from_api(data, url, URLs, link_type, content_similarity=False, threshold=0.3):
+def process_data_from_api(data, url, URLs, link_type, content_similarity=False, threshold=0.3, max_results_to_process=100):
     """
     Receive data from SerAPI and process it
     It can be from results by link or title
@@ -429,14 +428,13 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False, 
     """
     # print(f"LEN DATA PROCESS_DATA_FROM_API {len(data)}, {data}")
     # max_results_to_process = 1000000
-    max_results_to_process = 300
     result_shown = 1
     results = []
     for result in data:
         # To have some control on how many result we process
-        # max_results_to_process -= 1
-        # if max_results_to_process <= 0:
-        #     break
+        max_results_to_process -= 1
+        if max_results_to_process <= 0:
+            break
 
         # this is because of baidu
         if "link" not in result.keys():

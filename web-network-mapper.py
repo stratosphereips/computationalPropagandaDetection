@@ -25,7 +25,7 @@ f = open("credentials.yaml", "r")
 SERAPI_KEY = f.readline()
 f.close()
 
-SEARCH_ENGINES = ["google" , "yandex", "yahoo", "bing"]  # , "baidu"]  # baidu seems really bad
+SEARCH_ENGINES = ["google", "yandex", "yahoo", "bing"]  # , "baidu"]  # baidu seems really bad
 COLORS = [Fore.CYAN, Fore.LIGHTGREEN_EX, Fore.MAGENTA, Fore.LIGHTBLUE_EX, Fore.GREEN, Fore.BLUE, Fore.LIGHTCYAN_EX,
           Fore.LIGHTMAGENTA_EX]
 
@@ -73,7 +73,7 @@ def extract_and_save_vk_data(URLs, searched_string, parent_url, type_of_link):
     return update_urls_with_results(URLs, vk_results)
 
 
-def search_by_title(title, url, URLs, search_engine, threshold=0.3):
+def search_by_title(title, url, URLs, search_engine, threshold=0.3, max_results=100):
     """
     Search results in SerAPI by title
     - Current engines: ["google", "yandex"]
@@ -83,16 +83,16 @@ def search_by_title(title, url, URLs, search_engine, threshold=0.3):
     """
 
     # Use API to get links to this URL
-    data = trigger_api(title, search_engine)
+    data = trigger_api(title, search_engine, max_results)
     child_urls_found = []
     if data:
         google_results = process_data_from_api(data, url, URLs, link_type="title", content_similarity=True,
-                                               threshold=threshold)
+                                               threshold=threshold, max_results_to_process=max_results)
         child_urls_found = update_urls_with_results(URLs, google_results)
     return child_urls_found
 
 
-def search_by_link(url, URLs, search_engine, threshold=0.3):
+def search_by_link(url, URLs, search_engine, threshold=0.3, max_results=100):
     """
     Search google results in SerAPI by link
     - Process the results to extract data for each url
@@ -101,11 +101,12 @@ def search_by_link(url, URLs, search_engine, threshold=0.3):
     """
 
     # Use API to get links to this URL
-    data = trigger_api(url, search_engine)
+    data = trigger_api(url, search_engine, max_results=100)
     child_urls_found = []
     # For each url in the results do
     if data:
-        google_results = process_data_from_api(data, url, URLs, link_type="link", threshold=threshold)
+        google_results = process_data_from_api(data, url, URLs, link_type="link", threshold=threshold,
+                                               max_results_to_process=max_results)
         child_urls_found = update_urls_with_results(URLs, google_results)
 
         # Special situation to extract date of the main url
@@ -124,7 +125,7 @@ def search_by_link(url, URLs, search_engine, threshold=0.3):
 
 
 def main(main_url, is_propaganda=False, database="DB/databases/propaganda.db", verbosity=0, number_of_levels=2,
-         urls_threshold=0.3):
+         urls_threshold=0.3, max_results=100):
     try:
         print(f"Searching the distribution graph of URL {main_url}. Using {number_of_levels} levels.\n")
         if not isfile(database):
@@ -154,7 +155,7 @@ def main(main_url, is_propaganda=False, database="DB/databases/propaganda.db", v
                     for i, engine in enumerate(SEARCH_ENGINES):
                         print(f"\n{COLORS[i]}== Level {level}. Search {engine} by LINKS to {url}{Style.RESET_ALL}")
                         results_urls = search_by_link(url, URLs_object, search_engine=engine,
-                                                      threshold=urls_threshold)
+                                                      threshold=urls_threshold, max_results=max_results)
                         all_urls_by_urls.extend(results_urls)
                     twitter_results_urls = extract_and_save_twitter_data(URLs_object, url, url, "link")
                     all_urls_by_urls.extend(twitter_results_urls)
@@ -167,7 +168,7 @@ def main(main_url, is_propaganda=False, database="DB/databases/propaganda.db", v
                         for color, engine in zip(COLORS, SEARCH_ENGINES):
                             print(f"\n{color}== Level {level}. Search {engine} by TITLE as {title}{Style.RESET_ALL}")
                             results_urls_title = search_by_title(title, url, URLs_object, search_engine=engine,
-                                                                 threshold=urls_threshold)
+                                                                 threshold=urls_threshold, max_results=max_results)
                             all_urls_by_titles.extend(results_urls_title)
 
                         twitter_results_urls_title = extract_and_save_twitter_data(URLs_object, title, url, "title")
@@ -219,6 +220,8 @@ if __name__ == "__main__":
         type=float,
         default=0.3,
     )
+    parser.add_argument("-nu", "--number_processed_urls",
+                        help="Number of results to be processed when searching on an engine", type=int, default=100)
     parser.add_argument("-e", "--engines", help=f"What engines to use, currently possible (default) {SEARCH_ENGINES}",
                         type=str)
     parser.add_argument("-gt", "--graph_timewindow", type=int,
@@ -235,5 +238,6 @@ if __name__ == "__main__":
                     f"choose from implemented engines {SEARCH_ENGINES}")
                 raise NotImplemented
         SEARCH_ENGINES = args_engines
-
-    main(args.link, args.is_propaganda, args.database, args.verbosity, args.number_of_levels, args.urls_threshold)
+    # print(args)
+    main(args.link, args.is_propaganda, args.database, args.verbosity, args.number_of_levels, args.urls_threshold,
+         args.number_processed_urls)
