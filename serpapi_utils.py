@@ -20,6 +20,8 @@ from utils import (
 )
 from newspaper import Article
 from htmldate import find_date
+from bs4 import BeautifulSoup
+import re
 
 try:
     with open("credentials.yaml", "r") as f:
@@ -368,7 +370,11 @@ def downloadContent(url):
         headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
         # Timeout waiting for an answer is 15 seconds
         page_content = requests.get(url, timeout=10, headers=headers)
-        text_content = page_content.text
+        text_content = BeautifulSoup(page_content.text, features="lxml").get_text()
+        text_content = re.sub(r'\s{2,}', r'\n', text_content)
+        text_content = re.sub('\n(\S+\s?){1,6}\n', '\n\n\n', text_content)
+        text_content = re.sub('\n(\S+\s?){1,6}\n', '\n\n\n', text_content)
+        text_content = re.sub(r'\s{2,}', r'\n', text_content)
 
         tree = fromstring(page_content.content)
         title = tree.findtext(".//title")
