@@ -50,29 +50,43 @@ class DB:
             return content
         return False
 
+    def get_clear_content_by_url(self, url):
+        """
+        Get the content from a URL
+        """
+        (clear_content,) = self.c.execute("""SELECT clear_content FROM URLS WHERE url=(?)""", (url,)).fetchall()[0]
+        if len(clear_content) > 0:
+            return clear_content
+        return False
+
+
     def update_url_content(self, url, content):
         self.c.execute("""UPDATE URLS SET content = ?  WHERE url = ?""", (content, url))
         self.commit()
 
-    def insert_url(self, url, content=None, date_published=None, date_of_query=None, is_propaganda=None):
+    def update_url_clear_content(self, url, clear_content):
+        self.c.execute("""UPDATE URLS SET clear_content = ?  WHERE url = ?""", (clear_content, url))
+        self.commit()
+
+    def insert_url(self, url, content=None, date_published=None, date_of_query=None, is_propaganda=None, clear_content='____'):
         url_exist = self.url_exist(url)
 
         if not url_exist:
             self.c.execute(
-                """INSERT INTO URLS(url, content, date_published, date_of_query, is_propaganda) VALUES  (?, ?, ?, ?, ?) """,
-                (url, content, date_published, date_of_query, is_propaganda),
+                """INSERT INTO URLS(url, content, date_published, date_of_query, is_propaganda, clear_content) VALUES  (?, ?, ?, ?, ?, ?) """,
+                (url, content, date_published, date_of_query, is_propaganda, clear_content),
             )
             self.commit()
         else:
             # assuming that the new date_of_query will be always newer which is already in DB, we will change it with the new date
             self.update_date_of_query(url, date_of_query)
 
-    def insert_link_id(self, parent_id: int, child_id: int, link_date: str, source: str = None):
-        self.c.execute("""INSERT INTO LINKS(parent_id, child_id, date, source) VALUES (?, ?, ?, ?) """,
-                       (parent_id, child_id, link_date, source))
+    def insert_link_id(self, parent_id: int, child_id: int, link_date: str, source: str = None, similarity: float=1.):
+        self.c.execute("""INSERT INTO LINKS(parent_id, child_id, date, source, similarity) VALUES (?, ?, ?, ?, ?) """,
+                       (parent_id, child_id, link_date, source, similarity))
         self.commit()
 
-    def insert_link_urls(self, parent_url: str, child_url: str, link_date: str, source: str = None):
+    def insert_link_urls(self, parent_url: str, child_url: str, link_date: str, source: str = None, similarity: float=1.):
         parent_url_exist = self.url_exist(parent_url)
         child_url_exist = self.url_exist(child_url)
         if not parent_url_exist:
@@ -83,12 +97,12 @@ class DB:
         child_id = self.get_url_id(child_url)
         parent_id = self.get_url_id(parent_url)
         if not self.link_exist(parent_id=parent_id, child_id=child_id):
-            self.insert_link_id(parent_id=parent_id, child_id=child_id, link_date=link_date, source=source)
+            self.insert_link_id(parent_id=parent_id, child_id=child_id, link_date=link_date, source=source, similarity=similarity)
         else:
             # If the link types are different, insert
             old_link_type = self.get_type_of_link_by_ids(parent_id=parent_id, child_id=child_id)
             if source != old_link_type:
-                self.insert_link_id(parent_id=parent_id, child_id=child_id, link_date=link_date, source=source)
+                self.insert_link_id(parent_id=parent_id, child_id=child_id, link_date=link_date, source=source, similarity=similarity)
             else:
                 # If the link types are the same, check the date
                 old_link_date = self.get_date_of_link_by_ids(parent_id=parent_id,

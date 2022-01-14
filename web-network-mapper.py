@@ -25,7 +25,7 @@ f = open("credentials.yaml", "r")
 SERAPI_KEY = f.readline()
 f.close()
 
-SEARCH_ENGINES = ["google", "yandex", "yahoo", "bing"]  # , "baidu"]  # baidu seems really bad
+SEARCH_ENGINES = ["google"] #, "yandex", "yahoo", "bing"]  # , "baidu"]  # baidu seems really bad
 COLORS = [Fore.CYAN, Fore.LIGHTGREEN_EX, Fore.MAGENTA, Fore.LIGHTBLUE_EX, Fore.GREEN, Fore.BLUE, Fore.LIGHTCYAN_EX,
           Fore.LIGHTMAGENTA_EX]
 
@@ -43,6 +43,8 @@ def update_urls_with_results(URLs, results):
             content=result["content"],
             link_type=result["link_type"],
             title=result["title"],
+            similarity=result["similarity"],
+            clear_content=result["clear_content"],
         )
     return child_urls_found
 
@@ -60,6 +62,8 @@ def extract_and_save_twitter_data(URLs, searched_string, parent_url, type_of_lin
     for result in twitter_result:
         result["parent_url"] = parent_url
         result["link_type"] = type_of_link
+        result["similarity"] = None
+        result["clear_content"] = None
     return update_urls_with_results(URLs, twitter_result)
 
 
@@ -70,6 +74,8 @@ def extract_and_save_vk_data(URLs, searched_string, parent_url, type_of_link):
     for result in vk_results:
         result["parent_url"] = parent_url
         result["link_type"] = type_of_link
+        result["similarity"] = None
+        result["clear_content"] = None
     return update_urls_with_results(URLs, vk_results)
 
 
@@ -101,13 +107,15 @@ def search_by_link(url, URLs, search_engine, threshold=0.3, max_results=100):
     """
 
     # Use API to get links to this URL
-    data = trigger_api(url, search_engine, max_results=100)
+    data = trigger_api(url, search_engine, max_results=max_results)
     child_urls_found = []
     # For each url in the results do
     if data:
         google_results = process_data_from_api(data, url, URLs, link_type="link", threshold=threshold,
                                                max_results_to_process=max_results)
+        print("updating")
         child_urls_found = update_urls_with_results(URLs, google_results)
+        print("finished update")
 
         # Special situation to extract date of the main url
         # from the API. This is not available after asking
@@ -135,10 +143,11 @@ def main(main_url, is_propaganda=False, database="DB/databases/propaganda.db", v
 
         # Store the main URL as an url in our DB
         URLs_object.add_url(main_url, int(is_propaganda))
-        (main_content, main_title, content_file, publication_date) = downloadContent(main_url)
+        (main_content, main_title, content_file, publication_date, clear_content) = downloadContent(main_url)
         print(f'Main title: {main_title}')
 
         URLs_object.store_content(main_url, main_content)
+        URLs_object.store_clear_content(main_url, clear_content)
         URLs_object.store_title(main_url, main_title)
         URLs_object.set_query_datetime(main_url, datetime.now())
         URLs_object.set_publication_datetime(main_url, publication_date)
@@ -146,41 +155,41 @@ def main(main_url, is_propaganda=False, database="DB/databases/propaganda.db", v
         # Search by URLs, and by levels
         urls_to_search_by_level = {0: [main_url]}
         for level in range(number_of_levels):
-            try:
-                print(f"In level {level} were found {len(urls_to_search_by_level[level])} urls including original")
-                for url in urls_to_search_by_level[level]:
-                    title = URLs_object.get_title_by_url(url)
-                    all_urls_by_urls, all_urls_by_titles = [], []
-                    # Search by link
-                    for i, engine in enumerate(SEARCH_ENGINES):
-                        print(f"\n{COLORS[i]}== Level {level}. Search {engine} by LINKS to {url}{Style.RESET_ALL}")
-                        results_urls = search_by_link(url, URLs_object, search_engine=engine,
-                                                      threshold=urls_threshold, max_results=max_results)
-                        all_urls_by_urls.extend(results_urls)
-                    twitter_results_urls = extract_and_save_twitter_data(URLs_object, url, url, "link")
-                    all_urls_by_urls.extend(twitter_results_urls)
+            # try:
+            print(f"In level {level} were found {len(urls_to_search_by_level[level])} urls including original")
+            for url in urls_to_search_by_level[level]:
+                title = URLs_object.get_title_by_url(url)
+                all_urls_by_urls, all_urls_by_titles = [], []
+                # Search by link
+                for i, engine in enumerate(SEARCH_ENGINES):
+                    print(f"\n{COLORS[i]}== Level {level}. Search {engine} by LINKS to {url}{Style.RESET_ALL}")
+                    results_urls = search_by_link(url, URLs_object, search_engine=engine,
+                                                  threshold=urls_threshold, max_results=max_results)
+                    all_urls_by_urls.extend(results_urls)
+                twitter_results_urls = extract_and_save_twitter_data(URLs_object, url, url, "link")
+                all_urls_by_urls.extend(twitter_results_urls)
 
-                    vk_results_urls = extract_and_save_vk_data(URLs_object, url, url, "link")
-                    all_urls_by_urls.extend(vk_results_urls)
+                vk_results_urls = extract_and_save_vk_data(URLs_object, url, url, "link")
+                all_urls_by_urls.extend(vk_results_urls)
 
-                    if title is not None:
-                        print("TITLE ", title)
-                        for color, engine in zip(COLORS, SEARCH_ENGINES):
-                            print(f"\n{color}== Level {level}. Search {engine} by TITLE as {title}{Style.RESET_ALL}")
-                            results_urls_title = search_by_title(title, url, URLs_object, search_engine=engine,
-                                                                 threshold=urls_threshold, max_results=max_results)
-                            all_urls_by_titles.extend(results_urls_title)
+                if title is not None:
+                    print("TITLE ", title)
+                    for color, engine in zip(COLORS, SEARCH_ENGINES):
+                        print(f"\n{color}== Level {level}. Search {engine} by TITLE as {title}{Style.RESET_ALL}")
+                        results_urls_title = search_by_title(title, url, URLs_object, search_engine=engine,
+                                                             threshold=urls_threshold, max_results=max_results)
+                        all_urls_by_titles.extend(results_urls_title)
 
-                        twitter_results_urls_title = extract_and_save_twitter_data(URLs_object, title, url, "title")
-                        all_urls_by_titles.extend(twitter_results_urls_title)
-                        print(f"\n{Fore.GREEN}== Level {level}. VK search by title as {title}{Style.RESET_ALL}")
-                        vk_results_urls_title = extract_and_save_vk_data(URLs_object, title, url, "title")
-                        all_urls_by_titles.extend(vk_results_urls_title)
+                    twitter_results_urls_title = extract_and_save_twitter_data(URLs_object, title, url, "title")
+                    all_urls_by_titles.extend(twitter_results_urls_title)
+                    print(f"\n{Fore.GREEN}== Level {level}. VK search by title as {title}{Style.RESET_ALL}")
+                    vk_results_urls_title = extract_and_save_vk_data(URLs_object, title, url, "title")
+                    all_urls_by_titles.extend(vk_results_urls_title)
 
-                    urls_to_search_by_level[level + 1] = all_urls_by_urls
-            except KeyError:
-                # No urls in the level
-                pass
+                urls_to_search_by_level[level + 1] = all_urls_by_urls
+            # except KeyError:
+            #     # No urls in the level
+            #     pass
         # print(f"Finished with all the graph of URLs. Total number of unique links are {len(all_links)}")
 
     # except KeyboardInterrupt:

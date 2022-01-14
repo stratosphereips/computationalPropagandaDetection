@@ -370,11 +370,12 @@ def downloadContent(url):
         headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
         # Timeout waiting for an answer is 15 seconds
         page_content = requests.get(url, timeout=10, headers=headers)
-        text_content = BeautifulSoup(page_content.text, features="lxml").get_text()
-        text_content = re.sub(r'\s{2,}', r'\n', text_content)
-        text_content = re.sub('\n(\S+\s?){1,6}\n', '\n\n\n', text_content)
-        text_content = re.sub('\n(\S+\s?){1,6}\n', '\n\n\n', text_content)
-        text_content = re.sub(r'\s{2,}', r'\n', text_content)
+        text_content = page_content.text
+        clear_content = BeautifulSoup(page_content.text, features="lxml").get_text()
+        clear_content = re.sub(r'\s{2,}', r'\n', clear_content)
+        clear_content = re.sub('\n(\S+\s?){1,6}\n', '\n\n\n', clear_content)
+        clear_content = re.sub('\n(\S+\s?){1,6}\n', '\n\n\n', clear_content)
+        clear_content = re.sub(r'\s{2,}', r'\n', clear_content)
 
         tree = fromstring(page_content.content)
         title = tree.findtext(".//title")
@@ -387,22 +388,22 @@ def downloadContent(url):
         print(
             f"\t\t{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}"
         )
-        return None, None, None, None
+        return None, None, None, None, None
     except requests.exceptions.ReadTimeout:
         print(
             f"\t\t{Fore.MAGENTA}! Timeout waiting for the web server to answer.  We ignore and continue.{Style.RESET_ALL}"
         )
-        return None, None, None, None
+        return None, None, None, None, None
     except requests.exceptions.MissingSchema:
         print('Please add https:// or http:// to your URL')
-        return None, None, None, None
+        return None, None, None, None, None
     except Exception as e:
         print(
             f"\t\t{Fore.MAGENTA}! Error getting the content of the web.{Style.RESET_ALL}"
         )
         print(f"\t\t{Fore.MAGENTA}! {e}{Style.RESET_ALL}")
         print(f"\t\t{type(e)}")
-        return None, None, None, None
+        return None, None, None, None, None
 
     url_hash = get_hash_for_url(url)
 
@@ -419,13 +420,14 @@ def downloadContent(url):
         print("\t\tError saving the content of the webpage.")
         print(f"\t\t{e}")
         print(f"\t\t{type(e)}")
-        return None, None, None, None
+        return None, None, None, None, None
         # return False, False, False, False
 
-    return text_content, title, file_name, publication_date
+    return text_content, title, file_name, publication_date, clear_content
 
 
-def process_data_from_api(data, url, URLs, link_type, content_similarity=False, threshold=0.3, max_results_to_process=100):
+def process_data_from_api(data, url, URLs, link_type, content_similarity=False, threshold=0.3,
+                          max_results_to_process=100):
     """
     Receive data from SerAPI and process it
     It can be from results by link or title
@@ -468,20 +470,24 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False, 
                 f"\t\t{Fore.YELLOW}Blacklisted{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} "
             )
             continue
-        (content, title, content_file, content_publication_date) = downloadContent(child_url)
+        (content, title, content_file, content_publication_date, clear_content) = downloadContent(child_url)
 
         # 3. Check similarity of content of pages
         if content_similarity:
             # Check the current content to the content of the parent url
             parent_content = URLs.get_content_by_url(url)
-            if not check_text_similiarity(
-                    main_content=parent_content,
-                    content=content,
-                    main_url=url,
-                    child_url=child_url,
-                    threshold=threshold
-            ):
+            parent_clear_content = URLs.get_clear_content_by_url(url)
+            similarity = check_text_similiarity(
+                main_content=parent_content,
+                content=clear_content,
+                main_url=url,
+                child_url=child_url,
+                threshold=threshold
+            )
+            if similarity is None:
                 continue
+        else:
+            similarity = 1
 
         # If we dont have a publication date from the api
         # use the one from the content
@@ -516,6 +522,8 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False, 
                 "link_type": link_type,
                 "content": content,
                 "title": title,
+                "similarity": similarity,
+                "clear_content": clear_content,
             }
         )
     return results

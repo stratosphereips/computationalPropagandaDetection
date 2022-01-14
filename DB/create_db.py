@@ -12,6 +12,7 @@ def create_main_db(file_path):
         url_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         url TEXT NOT NULL,
         content TEXT,
+        clear_content TEXT,
         title TEXT,
         date_published DATE,
         date_of_query DATE,
@@ -24,6 +25,7 @@ def create_main_db(file_path):
         link_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         parent_id INTEGER NOT NULL,
         child_id INTEGER NOT NULL,
+        similarity FLOAT,
         date DATE,
         SOURCE TEXT,
         FOREIGN KEY (parent_id)

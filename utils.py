@@ -203,9 +203,9 @@ def check_text_similiarity(main_content, main_url, child_url, content, threshold
             f"has distance with {child_url} of: {urls_distance}. {Fore.RED}Discarding.{Style.RESET_ALL}"
         )
         # Consider deleting the downloaded content from disk
-        return False
+        return None
     print(f"\t\tThe content of {main_url} has distance with {child_url} of : {urls_distance}. {Fore.BLUE}Keeping.{Style.RESET_ALL}")
-    return True
+    return urls_distance
 
 
 def url_in_content(url, content, content_file):
@@ -251,12 +251,12 @@ def url_in_content(url, content, content_file):
         return False
 
 
-def add_child_to_db(URLs, child_url, parent_url, search_date, publication_date, link_type, content, title):
+def add_child_to_db(URLs, child_url, parent_url, search_date, publication_date, link_type, content, title, similarity=-1., clear_content='_____'):
     """
     Add a webpage to the DB as child of a parent URL
     """
     # Add the children to the DB
-    URLs.set_child(parent_url, child_url, search_date, link_type)
+    URLs.set_child(parent_url, child_url, search_date, link_type, similarity, clear_content)
     # Store the date of the publication of the URL
     formated_date = convert_date(publication_date)
     URLs.set_publication_datetime(child_url, formated_date)
@@ -264,6 +264,7 @@ def add_child_to_db(URLs, child_url, parent_url, search_date, publication_date, 
     URLs.add_url(child_url)
     # Store the content (after storing the child)
     URLs.store_content(child_url, content)
+    URLs.store_clear_content(child_url, clear_content)
     # Store the search date
     URLs.set_query_datetime(child_url, search_date)
     URLs.store_title(child_url, title)
