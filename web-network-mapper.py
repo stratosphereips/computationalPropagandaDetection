@@ -25,7 +25,7 @@ f = open("credentials.yaml", "r")
 SERAPI_KEY = f.readline()
 f.close()
 
-SEARCH_ENGINES = ["google"] #, "yandex", "yahoo", "bing"]  # , "baidu"]  # baidu seems really bad
+SEARCH_ENGINES = ["google", "yandex", "yahoo", "bing"]  # , "baidu"]  # baidu seems really bad
 COLORS = [Fore.CYAN, Fore.LIGHTGREEN_EX, Fore.MAGENTA, Fore.LIGHTBLUE_EX, Fore.GREEN, Fore.BLUE, Fore.LIGHTCYAN_EX,
           Fore.LIGHTMAGENTA_EX]
 
