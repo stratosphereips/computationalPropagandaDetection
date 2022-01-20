@@ -29,6 +29,26 @@ try:
 except FileNotFoundError:
     print(f'No credentials.yaml file. Stop')
 
+import signal
+from contextlib import contextmanager
+
+
+class TimeoutException(Exception):
+    pass
+
+
+@contextmanager
+def time_limit(seconds):
+    def signal_handler(signum, frame):
+        raise TimeoutException("Timed out!")
+
+    signal.signal(signal.SIGALRM, signal_handler)
+    signal.alarm(seconds)
+    try:
+        yield
+    finally:
+        signal.alarm(0)
+
 
 def get_hash_for_url(url):
     return hashlib.md5(url.encode()).hexdigest()
@@ -470,7 +490,12 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False, 
                 f"\t\t{Fore.YELLOW}Blacklisted{Style.RESET_ALL} url: {child_url}. {Fore.RED} Discarding. {Style.RESET_ALL} "
             )
             continue
-        (content, title, content_file, content_publication_date, clear_content) = downloadContent(child_url)
+        try:
+            with time_limit(20):
+                (content, title, content_file, content_publication_date, clear_content) = downloadContent(child_url)
+        except TimeoutException as e:
+            print("Timed out!")
+            (content, title, content_file, content_publication_date, clear_content) = None, None, None, None, None
 
         # 3. Check similarity of content of pages
         if content_similarity:

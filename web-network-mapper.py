@@ -16,6 +16,25 @@ from twitter_api import get_twitter_data
 from vk_api import get_vk_data
 import graph
 from DB.create_db import create_main_db
+import signal
+from contextlib import contextmanager
+
+
+class TimeoutException(Exception):
+    pass
+
+
+@contextmanager
+def time_limit(seconds):
+    def signal_handler(signum, frame):
+        raise TimeoutException("Timed out!")
+
+    signal.signal(signal.SIGALRM, signal_handler)
+    signal.alarm(seconds)
+    try:
+        yield
+    finally:
+        signal.alarm(0)
 
 # Init colorama
 init_colorama()
@@ -89,7 +108,12 @@ def search_by_title(title, url, URLs, search_engine, threshold=0.3, max_results=
     """
 
     # Use API to get links to this URL
-    data = trigger_api(title, search_engine, max_results)
+
+    try:
+        with time_limit(300):
+            data = trigger_api(title, search_engine, max_results)
+    except TimeoutException as e:
+        data = None
     child_urls_found = []
     if data:
         google_results = process_data_from_api(data, url, URLs, link_type="title", content_similarity=True,
@@ -107,7 +131,11 @@ def search_by_link(url, URLs, search_engine, threshold=0.3, max_results=100):
     """
 
     # Use API to get links to this URL
-    data = trigger_api(url, search_engine, max_results=max_results)
+    try:
+        with time_limit(300):
+            data = trigger_api(url, search_engine, max_results=max_results)
+    except TimeoutException as e:
+        data = None
     child_urls_found = []
     # For each url in the results do
     if data:

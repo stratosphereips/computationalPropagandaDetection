@@ -77,7 +77,7 @@ def get_vk_data(searched_phrase) -> list:
         with open("vk_credentials.yaml", "r") as f:
             VK_KEY = yaml.load(f, Loader=yaml.SafeLoader)["vk"]
     except FileNotFoundError:
-        print(f'no credentials.yaml file. stop')
+        print(f'no scredentials.yaml file. stop')
     try:
         session = vk.Session(access_token=VK_KEY)
 
