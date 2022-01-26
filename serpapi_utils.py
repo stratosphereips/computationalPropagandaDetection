@@ -378,24 +378,43 @@ def downloadContent(url):
     # firstly use newspaper3k just to get publication date
     publication_date = None
     try:
-        article = Article(url)
-        article.download()
-        article.parse()
+        with time_limit(5):
+            print("Newspaper3k")
+            article = Article(url)
+            article.download()
+            article.parse()
 
-        publication_date = article.publish_date
+            publication_date = article.publish_date
     except Exception as e:
+        print("newspaper3k failed")
         pass
     try:
+        print("downloading content - requests")
         # Download up to 5MB per page
         headers = {"Range": "bytes=0-5000000"}  # first 5M bytes
         # Timeout waiting for an answer is 15 seconds
         page_content = requests.get(url, timeout=10, headers=headers)
         text_content = page_content.text
-        clear_content = BeautifulSoup(page_content.text, features="lxml").get_text()
-        clear_content = re.sub(r'\s{2,}', r'\n', clear_content)
-        clear_content = re.sub('\n(\S+\s?){1,6}\n', '\n\n\n', clear_content)
-        clear_content = re.sub('\n(\S+\s?){1,6}\n', '\n\n\n', clear_content)
-        clear_content = re.sub(r'\s{2,}', r'\n', clear_content)
+        print(f"content downloaded, length = {len(text_content)}")
+        bs_content = BeautifulSoup(page_content.text, features="lxml").get_text()
+        # try:
+        #     with time_limit(5):
+        #         print("BS done")
+        #         clear_content = re.sub(r'\s{2,}', r'\n', bs_content)
+        #         print("1")
+        #         clear_content = re.sub('\n(\S+\s?){1,6}\n', '\n\n\n', clear_content)
+        #         print("2")
+        #
+        #         clear_content = re.sub('\n(\S+\s?){1,6}\n', '\n\n\n', clear_content)
+        #         print("3")
+        #
+        #         clear_content = re.sub(r'\s{2,}', r'\n', clear_content)
+        #         print("4")
+        #
+        # except TimeoutException as e:
+        clear_content = bs_content
+
+        print("content cleared")
 
         tree = fromstring(page_content.content)
         title = tree.findtext(".//title")
