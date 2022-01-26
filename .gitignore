@@ -1,6 +1,7 @@
 api-google.txt
 rapidapi-api.txt
 *.db
+DB/databases/vk.db
 serapi.key
 *content.html
 results*.json
@@ -14,4 +15,6 @@ logs
 *gecko*
 vk.key
 *.yaml
+results/*
+*.html
 credentials.yaml
