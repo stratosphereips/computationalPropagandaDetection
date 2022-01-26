@@ -1,6 +1,3 @@
-All graphs in the experiments folder are created by jupyter notebooks in folder jupyter notebooks.
-
-
 ## DOMAIN-CENTERED-GRAPH
 color_scheme of nodes
 red: level 0 url
