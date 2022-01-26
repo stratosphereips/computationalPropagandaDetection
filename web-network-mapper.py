@@ -36,6 +36,7 @@ def time_limit(seconds):
     finally:
         signal.alarm(0)
 
+
 # Init colorama
 init_colorama()
 
@@ -76,7 +77,11 @@ def extract_and_save_twitter_data(URLs, searched_string, parent_url, type_of_lin
     """
     publication_date = URLs.get_publication_datetime(parent_url)
     is_link = type_of_link == "link"
-    twitter_result = get_twitter_data(searched_string, is_link, publication_date)
+    try:
+        twitter_result = get_twitter_data(searched_string, is_link, publication_date)
+    except Exception as e:
+        print(f"Twitter downloading failed: {e}")
+        return []
     # print(f'Results from Twitter: {twitter_result}')
     for result in twitter_result:
         result["parent_url"] = parent_url
@@ -141,9 +146,7 @@ def search_by_link(url, URLs, search_engine, threshold=0.3, max_results=100):
     if data:
         google_results = process_data_from_api(data, url, URLs, link_type="link", threshold=threshold,
                                                max_results_to_process=max_results)
-        print("updating")
         child_urls_found = update_urls_with_results(URLs, google_results)
-        print("finished update")
 
         # Special situation to extract date of the main url
         # from the API. This is not available after asking
@@ -171,7 +174,13 @@ def main(main_url, is_propaganda=False, database="DB/databases/propaganda.db", v
 
         # Store the main URL as an url in our DB
         URLs_object.add_url(main_url, int(is_propaganda))
-        (main_content, main_title, content_file, publication_date, clear_content) = downloadContent(main_url)
+        try:
+            with time_limit(30):
+                (main_content, main_title, content_file, publication_date, clear_content) = downloadContent(main_url)
+        except TimeoutException as e:
+            print(f"Main url: {main_url} download failed - timeout")
+            return
+            # (content, title, content_file, content_publication_date, clear_content) = None, None, None, None, None
         print(f'Main title: {main_title}')
 
         URLs_object.store_content(main_url, main_content)
