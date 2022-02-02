@@ -36,6 +36,7 @@ def connect_to_endpoint(headers, params):
         response = requests.request("GET", search_url, headers=headers, params=params)
 
     if response.status_code != 200:
+        print(f"Twitter download failed while searching for {params['query']}")
         raise Exception(response.status_code, response.text)
     return response.json()
 
