@@ -44,11 +44,11 @@ if __name__ == '__main__':
     )
     parser.add_argument(
         "-p", "--process_id", help="process id that is running (for logging purposes if running multiple scripts)",
-        default=0
+        default=0, type=int
     )
     parser.add_argument(
         "-n", "--number_to_download", help="Number of urls to download, it will download dataset [from -f to -f+-n]",
-        default=100
+        default=100, type=int
     )
     parser.add_argument("-r", "--redirect", help="redirect output to log file", action='store_true')
     args = parser.parse_args()
