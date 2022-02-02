@@ -27,7 +27,8 @@ def create_main_db(file_path):
         child_id INTEGER NOT NULL,
         similarity FLOAT,
         date DATE,
-        SOURCE TEXT,
+        source TEXT,
+        link_type TEXT,
         FOREIGN KEY (parent_id)
           REFERENCES URLS(url_id)
              ON DELETE CASCADE

@@ -113,6 +113,8 @@ def trigger_api(search_keyword, engine="google", max_results=100):
     else:
         print(f"Error in trigger_api(): wrong engine: {engine}")
         return False, False
+
+
     try:
 
         # Here we store all the results of all the search pages returned.
@@ -174,8 +176,6 @@ def trigger_api(search_keyword, engine="google", max_results=100):
                 # We dont have results. It can happen because search engines
                 # report an amount of results that has a lot of
                 # repetitions. So you can only access a part
-                # print(f'Error accessing organic results.
-                # Results: {new_results}')
                 break
             # print(results["organic_results"] if "organic_results" in results.keys() else "there are no results")
             # amount_of_results_so_far += len(results["organic_results"])
@@ -379,11 +379,9 @@ def downloadContent(url):
     publication_date = None
     try:
         with time_limit(5):
-            print("Newspaper3k")
             article = Article(url)
             article.download()
             article.parse()
-
             publication_date = article.publish_date
     except Exception as e:
         print("newspaper3k failed")
@@ -478,6 +476,11 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False, 
     result_shown = 1
     results = []
     for result in data:
+
+        # Check if there are any results back
+        if not result:
+            continue
+
         # To have some control on how many result we process
         max_results_to_process -= 1
         if max_results_to_process <= 0:

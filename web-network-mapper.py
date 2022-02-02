@@ -45,12 +45,12 @@ f = open("credentials.yaml", "r")
 SERAPI_KEY = f.readline()
 f.close()
 
-SEARCH_ENGINES = ["google", "yandex", "yahoo", "bing"]  # , "baidu"]  # baidu seems really bad
+SEARCH_ENGINES = ["google", "yandex", "yahoo", "bing",  "baidu"]  # baidu seems really bad
 COLORS = [Fore.CYAN, Fore.LIGHTGREEN_EX, Fore.MAGENTA, Fore.LIGHTBLUE_EX, Fore.GREEN, Fore.BLUE, Fore.LIGHTCYAN_EX,
           Fore.LIGHTMAGENTA_EX]
 
 
-def update_urls_with_results(URLs, results):
+def update_urls_with_results(URLs, results, source):
     child_urls_found = []
     for result in results:
         child_urls_found.append(result["child_url"])
@@ -65,6 +65,7 @@ def update_urls_with_results(URLs, results):
             title=result["title"],
             similarity=result["similarity"],
             clear_content=result["clear_content"],
+            source=source
         )
     return child_urls_found
 
@@ -88,8 +89,7 @@ def extract_and_save_twitter_data(URLs, searched_string, parent_url, type_of_lin
         result["link_type"] = type_of_link
         result["similarity"] = None
         result["clear_content"] = None
-    return update_urls_with_results(URLs, twitter_result)
-
+    return update_urls_with_results(URLs, twitter_result, 'twitter')
 
 def extract_and_save_vk_data(URLs, searched_string, parent_url, type_of_link):
     vk_results = get_vk_data(searched_string)
@@ -100,7 +100,7 @@ def extract_and_save_vk_data(URLs, searched_string, parent_url, type_of_link):
         result["link_type"] = type_of_link
         result["similarity"] = None
         result["clear_content"] = None
-    return update_urls_with_results(URLs, vk_results)
+    return update_urls_with_results(URLs, vk_results, 'vk')
 
 
 def search_by_title(title, url, URLs, search_engine, threshold=0.3, max_results=100):
@@ -123,7 +123,7 @@ def search_by_title(title, url, URLs, search_engine, threshold=0.3, max_results=
     if data:
         google_results = process_data_from_api(data, url, URLs, link_type="title", content_similarity=True,
                                                threshold=threshold, max_results_to_process=max_results)
-        child_urls_found = update_urls_with_results(URLs, google_results)
+        child_urls_found = update_urls_with_results(URLs, google_results, search_engine)
     return child_urls_found
 
 
@@ -134,7 +134,6 @@ def search_by_link(url, URLs, search_engine, threshold=0.3, max_results=100):
     - Store the results in the DB
     - Return list of results
     """
-
     # Use API to get links to this URL
     try:
         with time_limit(300):
@@ -143,10 +142,9 @@ def search_by_link(url, URLs, search_engine, threshold=0.3, max_results=100):
         data = None
     child_urls_found = []
     # For each url in the results do
-    if data:
-        google_results = process_data_from_api(data, url, URLs, link_type="link", threshold=threshold,
-                                               max_results_to_process=max_results)
-        child_urls_found = update_urls_with_results(URLs, google_results)
+    if data and data != (False, False):
+        google_results = process_data_from_api(data, url, URLs, link_type="link", threshold=threshold)
+        child_urls_found = update_urls_with_results(URLs, google_results, search_engine)
 
         # Special situation to extract date of the main url
         # from the API. This is not available after asking
@@ -171,7 +169,6 @@ def main(main_url, is_propaganda=False, database="DB/databases/propaganda.db", v
             create_main_db(database)
         # Get the URLs object
         URLs_object = URLs(database, verbosity)
-
         # Store the main URL as an url in our DB
         URLs_object.add_url(main_url, int(is_propaganda))
         try:
@@ -268,11 +265,17 @@ if __name__ == "__main__":
     )
     parser.add_argument("-nu", "--number_processed_urls",
                         help="Number of results to be processed when searching on an engine", type=int, default=100)
-    parser.add_argument("-e", "--engines", help=f"What engines to use, currently possible (default) {SEARCH_ENGINES}",
-                        type=str)
+    parser.add_argument("-e", "--engines", help=f"What engines to use, comma separated. Values: 'google', 'yandex', 'yahoo', 'bing', 'baidu'. Defaults to all of them.",
+                        type=str, default = "google,yandex,yahoo,bing")
+    parser.add_argument("-t", "--topic", help=f"These are specific topics that we focus on searching. Specify one to update on them and run the tool on every URL found..",
+                        type=str, default = None)
     parser.add_argument("-gt", "--graph_timewindow", type=int,
                         help="Number of years to show in graph generation, interval <-gt, today>", default=2)
     args = parser.parse_args()
+    if args.topic:
+        print("Searching topic not implemented at the moment")
+        raise NotImplemented
+        print(f"Searching the distribution graph of the topic {args.topic}. Using {args.number_of_levels} levels.\n")
 
     # choose what engines to use
     if args.engines:

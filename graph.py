@@ -254,6 +254,7 @@ def build_a_graph(all_links, search_link, id=0):
     # nx.draw_spring(G, labels=labels, node_color=colors)
     # nx.draw_kamada_kawai(G, node_color=colors)
     nx.draw_planar(G, labels=labels, node_color=colors)
+    #nx.draw(G, labels=labels, node_color=colors)
     # nx.draw_random(G, node_color=colors)
     # nx.draw_shell(G, node_color=colors)
     # nx.draw_spectral(G, node_color=colors)

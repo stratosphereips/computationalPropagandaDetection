@@ -5,6 +5,7 @@ import argparse
 from DB.propaganda_db import DB
 from typing import Dict, List
 from datetime import datetime
+import json
 
 
 def flatten(list_of_lists):
@@ -21,7 +22,7 @@ def get_number_of_urls_published_before_source(url_to_date: Dict[str, datetime],
     main_url_date = url_to_date[main_url]
     number_of_urls_published_before_source = 0
     for url, date in url_to_date.items():
-        if date is None:
+        if date is None or main_url_date is None:
             continue
         if date < main_url_date:
             number_of_urls_published_before_source += 1
@@ -55,7 +56,7 @@ def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[str, int]
     for url, date in url_to_date.items():
         if url == main_url:
             continue
-        if date is None:
+        if date is None or main_url_date is None:
             # TODO: not sure what to do if the date is None
             continue
         day = (date - main_url_date).days
@@ -105,17 +106,34 @@ def get_unique_urls(links: List[tuple]) -> List[str]:
 def get_date(url):
     return pd.to_datetime(db.get_date_published_url(url))
 
+def store_features_in_file(features):
+    """
+    Store the features in a file
+    """
+    # Open CSV file of features
+    f = open(args.csv_output_file, 'a+')
+    features = json.dumps(features)
+    f.write(features)
+    f.close()
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-l", "--link", help="URL to build features from graph", type=str, required=True)
     parser.add_argument("-d", "--database_path", help="Path to the database", type=str, required=True)
+    parser.add_argument("-w", "--csv_output_file", help="CSV output file", type=str, required=False, default='propaganda-graph-features.csv')
     args = parser.parse_args()
-
+    
     db = DB(args.database_path)
+    print(f'Generating the features for all the links in the DB {args.database_path}')
+    print('\t[+] Getting all the links...')
+
+
     main_url = args.link
+    print('\t[+] Getting the tree...')
     links, _ = db.get_tree(main_url)
     links = [(level, f, t) for level, f, t, _ in links]
+    print('\t[+] Getting unique URLS...')
     urls = get_unique_urls(links)
 
     url_to_date = {}
@@ -124,13 +142,16 @@ if __name__ == "__main__":
     max_level = 4
 
     for url in urls:
+        print(f'\t[+] Processing URL {url}')
         date = get_date(url)
+        print(f'\t\t - Date: {date}')
         url_to_date[url] = date
-    print(url_to_date)
 
+    print('\t[+] Getting the time features')
     hist_features = get_time_hist(url_to_date, url_to_level, main_url, max_level)
-    print(hist_features)
+    print('\t[+] Storing features in file')
+    store_features_in_file(hist_features)
     number_of_urls_published_before_source = get_number_of_urls_published_before_source(url_to_date, main_url)
-    print("Number of urls published before source", number_of_urls_published_before_source)
+    print(f'\t[+] Number of urls published before source: {number_of_urls_published_before_source}')
     number_of_urls_in_level = get_total_number_of_urls_in_level(url_to_level, max_level)
-    print("Number of urls in level", number_of_urls_in_level)
+    print(f'\t[+] Number of urls in level: {number_of_urls_in_level}')

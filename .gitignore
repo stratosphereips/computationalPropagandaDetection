@@ -1,7 +1,7 @@
 api-google.txt
 rapidapi-api.txt
 *.db
-DB/databases/vk.db
+DB/databases/*
 serapi.key
 *content.html
 results*.json

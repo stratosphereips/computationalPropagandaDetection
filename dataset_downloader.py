@@ -11,6 +11,8 @@ wnm = importlib.import_module("web-network-mapper")
 def main(data, idx_from, number_to_download, redirect, process_id):
     for idx in range(idx_from, min(idx_from + number_to_download, len(data))):
         data_root = '/data/propagandadetection/EuVsDisinfo_dataset/'
+
+        data_root = 'C:\\data\\'
         if redirect:
             sys.stdout = open(f'{data_root}logs/{idx}.log', 'w')
             sys.stderr = open(f'{data_root}logs/{idx}.err', 'w')
