@@ -213,11 +213,26 @@ def trigger_api(search_keyword, engine="google", max_results=100):
 
 
 def select_best_date_idx(date_idxs, text):
+    """
+    Selects the date closest to url title.
+    There are more dates in the HTML source and published_date usually is nearby the title or other keywords.
+
+    create distance matrix of every date indexes and every keyword, return the closest index to a keyword
+
+    Function not used
+
+    @params:
+        date_idxs: list(int),  indexes where a date is found
+        text: str, html source code of an url
+
+    returns index of a date that is closest to title of the url
+    """
     regex_words = ["date.{0,4}publish", "publish.{0,4}date", "time.{0,4}publish", "publish.{0,4}time",
                    "article.{0,4}time", "article.{0,4}date", "date", "time"]
     title_start = re.search(r'<title.*>', text).end()
     title_end = re.search('</title>', text).start()
     title = text[title_start:title_end]
+
     regex_words.append(title[:int(len(title) / 3)])
     titles = np.asarray([[x.end() for x in re.finditer("|".join(regex_words), text, flags=re.IGNORECASE)]])
     distance_matrix = np.abs(np.asarray([date_idxs]).T - titles)
@@ -522,10 +537,9 @@ def process_data_from_api(data, url, URLs, link_type, content_similarity=False, 
         # 3. Check similarity of content of pages
         if content_similarity:
             # Check the current content to the content of the parent url
-            parent_content = URLs.get_content_by_url(url)
-            parent_clear_content = URLs.get_clear_content_by_url(url)
+            parent_clear_content = URLs.get_clear_content_by_url(url) # cleared by BeatifulSoup - without HTML tags
             similarity = check_text_similiarity(
-                main_content=parent_content,
+                main_content=parent_clear_content,
                 content=clear_content,
                 main_url=url,
                 child_url=child_url,

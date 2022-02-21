@@ -44,7 +44,8 @@ def create_date_centered(url, db_path, time_window=2, id=0, graph_name=None):
     first_date = date.today() - timedelta(days=time_window * 365)
     pos = {d: TIMELINE_WIDTH * (datetime.strptime(d, '%Y-%m-%d').date() - first_date).days for d in unique_dates}
     pos["Old article"] = 0
-    today = date.today()
+    date_of_query_str = db.get_date_of_query_url(url).split(' ')[0]  # we are interested only in date not exact time
+    date_of_query = datetime.strptime(date_of_query_str, '%Y-%m-%d').date()
 
     g = Network('700px', '1500', notebook=False, directed=False)
 
@@ -56,13 +57,13 @@ def create_date_centered(url, db_path, time_window=2, id=0, graph_name=None):
                 g.add_node(str(original_date), label=' ', title='original date' + str(original_date), color="red",
                            x=pos[str(cur_date)], y=0, physics=True, shape='diamond', size=25,
                            fixed={'x': True, 'y': True})
-            elif cur_date == today:  # mark today on the timeline green
+            elif cur_date == date_of_query:  # mark today on the timeline green
                 g.add_node(n, label=' ', title=n, color="green", x=pos[str(cur_date)], y=0,
                            physics=False, shape='diamond', size=25, fixed={'x': True, 'y': True})
-            elif first_date < cur_date < today:  # the main timeline
+            elif first_date < cur_date < date_of_query:  # the main timeline
                 g.add_node(n, label=' ', title=n, color="#cccccc", x=pos[str(cur_date)], y=0, physics=False,
                            shape='diamond', size=20, fixed={'x': True, 'y': True})
-            elif cur_date >= today:  # different version for future dates
+            elif cur_date >= date_of_query:  # different version for future dates
                 g.add_node(n, label=' ', title=n, color="#555555", x=pos[str(cur_date)], y=0, physics=False,
                            shape='diamond', size=15, fixed={'x': True, 'y': True})
             elif cur_date <= first_date:  # add node to gather all articles older than time_window years
@@ -274,59 +275,17 @@ def build_a_graph(all_links, search_link, id=0):
     plt.close()
 
 
-DATA = ["PLACEHOLDER TO INDEX FROM 1",
-        "https://www.fondsk.ru/news/2020/03/25/borba-s-koronavirusom-i-bolshoj-brat-50441.html",
-        "https://news-front.info/2020/08/28/rodion-miroshnik-kiev-na-belorussii-zarabatyvaet-bochku-varenya-i-korzinu-pechenya/",
-        "https://rnbee.ru/post-wall/pozhilym-ukraincam-otkazyvajut-v-ispolzovanii-ivl-pri-koronaviruse/",
-        "https://forum.bakililar.az/topic/206228-%D0%B2-%D0%B0%D0%BB%D0%BC%D0%B0%D1%82%D1%8B-%D0%BF%D1%80%D0%B8%D0%B7%D0%BD%D0%B0%D0%BB%D0%B8%D1%81%D1%8C-%D0%B2-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5-%D0%BD%D0%B0%D0%B4-%D0%BA%D0%BE%D1%80%D0%BE%D0%BD%D0%B0%D0%B2%D0%B8%D1%80%D1%83%D1%81%D0%BE%D0%BC-%D0%B4%D0%BE-%D1%8D%D0%BF%D0%B8%D0%B4%D0%B5%D0%BC%D0%B8%D0%B8/",
-        "https://oko-planet.su/politik/politiklist/549229-novyy-migracionnyy-krizis-evropa-ne-gotova.html",
-        "https://www.change.org/p/the-international-olympic-committee-petition-to-relocate-the-2018-winter-olympics-from-south-korea",
-        "https://rnbee.ru/2019/12/18/evropejskaja-solidarnost-v-dejstvii-es-stroit-novye-centry-razmeshhenija-migrantov-v-jestonii/",
-        "https://sputnik-meedia.ee/opinion/20210516/467903/Nepriglyadnoe-litso-pochemu-demokraticheskaya-Estoniya-teryaet-lyudey.html",
-        "https://bgr.news-front.info/2021/04/28/volodin-koronavirust-e-delo-na-amerikanska-laboratoriya/",
-        "https://de.rt.com/programme/fasbender/116504-exklusiv-interview-mit-aussenamtssprecherin-maria/",
-        "https://eadaily.com/ru/news/2021/04/27/volodin-zapad-dolzhen-kompensirovat-rossii-ushcherb-ot-pandemii-covid-19",
-        "https://russian.rt.com/ussr/news/859197-gosduma-zelenskii-krym-donbass",
-        "https://mundo.sputniknews.com/20210611/la-linea-roja-como-las-ansias-de-unirse-a-la-otan-podrian-acabar-con-la-independencia-de-ucrania-1113130920.html",
-        "https://tsargrad.tv/articles/poddelka-pod-kolumbajn-kto-na-samom-dele-splaniroval-krovavuju-bojnju-v-kazani_353659",
-        "https://sputnik-ossetia.ru/South_Ossetia/20210511/12200003/Dopolnitelnaya-napryazhennost-yugoosetinskiy-ekspert-ob-ucheniyakh-NATO-v-Gruzii.html",
-        "https://sputnik.by/columnists/20210504/1047548484/Ot-illyuziy-k-obvineniyam-i-obratno-kak-Zapad-to-stroit-to-rushit-otnosheniya-s-RF.html",
-        "https://pl.sputniknews.com/opinie/2021051314268911-rosja-odtajnila-dokumenty-z-wiosny-1945-roku-nie-wszystkim-w-polsce-to-sie-podoba-Sputnik/",
-        "https://sputnik-ossetia.ru/radio/20210513/12214396/Ugroza-zhizni-zachem-Pentagonu-biolaboratorii-v-Gruzii.html",
-        "https://news-front.info/2021/05/12/finskij-politolog-zayavil-chto-ukrainy-kak-gosudarstva-ne-sushhestvuet/",
-        "https://asd.news/news/v-sovbeze-rossii-schitayut-chto-kiev-mozhet-poyti-na-voennuyu-avantyuru-v-krymu-s-pozvoleniya-ssha/",
-        "https://ipress.ua/ru/news/ukrayna_vvedet_tsyfrovie_covidsertyfykati_cherez_1014_dney_posle_es_323316.html",
-        "http://inpress.ua/ru/economics/65943-rf-zayavlyaet-chto-skoro-dostroit-i-zapustit-gazoprovod-severnyy-potok2",
-        "https://www.state.gov/united-states-trains-ukraine-to-identify-and-respond-to-the-use-of-weapons-of-mass-destruction-in-targeted-assassinations/",
-        "https://www.usaid.gov/news-information/press-releases/jun-4-2021-usaid-announces-57-million-urgent-tuberculosis-recovery-effort-seven-countries",
-        "https://www.bbc.com/news/science-environment-52318539",
-        "https://www.washingtonpost.com/politics/2020/05/01/was-new-coronavirus-accidentally-released-wuhan-lab-its-doubtful/",
-        "https://www.hindustantimes.com/world-news/us-asks-russia-to-explain-provocations-on-ukraine-border-state-department-101617645462774.html",
-        "https://www.reuters.com/world/europe/ukraine-says-it-could-be-provoked-by-russian-aggression-conflict-area-2021-04-10/",
-        "https://edition.cnn.com/2021/04/08/politics/ukraine-us-black-sea/index.html",
-        "https://www.cfr.org/backgrounder/ukraine-conflict-crossroads-europe-and-russia",
-        "https://m.economictimes.com/news/international/world-news/how-the-united-states-beat-the-coronavirus-variants-for-now/articleshow/82652253.cms",
-        "https://www.infomigrants.net/en/post/25880/germany-has-taken-nearly-10-000-migrants-under-eu-turkey-deal-since-2016-report",
-        "https://www.dw.com/en/uks-new-immigration-system-to-shut-door-on-low-skilled-eu-workers/a-52428669",
-        "https://www.voanews.com/africa/escalating-violence-libya-sends-migrants-fleeing-europe",
-        "https://abcnews.go.com/International/wireStory/eu-concerned-greek-anti-migrant-sound-cannon-78063237",
-        "https://gizmodo.com/u-s-hits-russia-with-heavy-sanctions-over-solarwinds-h-1846689148",
-        "https://edition.cnn.com/2021/06/11/europe/dmitry-peskov-putin-biden-summit-intl/index.html",
-        "https://www.rferl.org/a/nord-stream-2-is-russia-bad-deal-for-europe-also-a-done-deal-/31096487.html",
-        "https://www.reuters.com/article/us-health-coronavirus-eu-sputnik-idUSKBN2B91PP",
-        "https://www.intellinews.com/putin-promises-to-make-russians-lives-better-in-his-state-of-the-nation-speech-but-adds-threats-to-the-west-208696/"
-        ]
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-l", "--link", help="URL to check is distribution pattern", type=str, required=False)
-    parser.add_argument("-d", "--path_to_db", default="DB/databases/propaganda.db", help="Path to Database", type=str)
+    parser.add_argument("-l", "--link", help="URL to check is distribution pattern", type=str, required=True)
+    parser.add_argument("-d", "--path_to_db", help="Path to Database", type=str)
 
     args = parser.parse_args()
 
     print(args.path_to_db)
     db = DB(args.path_to_db)
 
+    print(args.link)
     all_links, _ = db.get_tree(args.link)
     links_without_level = [(from_id, to_id) for (_, from_id, to_id, _) in all_links]
     build_a_graph(links_without_level, args.link)
