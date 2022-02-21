@@ -5,6 +5,7 @@ import argparse
 from DB.propaganda_db import DB
 from typing import Dict, List
 from datetime import datetime
+import pytz
 import json
 
 
@@ -59,6 +60,11 @@ def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[str, int]
         if date is None or main_url_date is None:
             # TODO: not sure what to do if the date is None
             continue
+        if date.tz is not None or main_url_date.tz is not None:
+
+            date.tz_localize(pytz.FixedOffset(180))
+            main_url_date.tz_localize(pytz.FixedOffset(180))
+        print(date, main_url_date, date.tz, main_url_date.tz)
         day = (date - main_url_date).days
         if day < 2:  # for the first two days we are creating histogram for seconds
             minutes = int(((date - main_url_date).seconds) / 60)  # how many seconds from the main publication time
@@ -103,7 +109,7 @@ def get_unique_urls(links: List[tuple]) -> List[str]:
     return list(urls)
 
 
-def get_date(url):
+def get_date(url, db):
     return pd.to_datetime(db.get_date_published_url(url))
 
 def store_features_in_file(features):
@@ -143,7 +149,7 @@ if __name__ == "__main__":
 
     for url in urls:
         print(f'\t[+] Processing URL {url}')
-        date = get_date(url)
+        date = get_date(url, db)
         print(f'\t\t - Date: {date}')
         url_to_date[url] = date
 
