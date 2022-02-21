@@ -2,9 +2,12 @@ api-google.txt
 rapidapi-api.txt
 *.db
 DB/databases
-DB/dataset-databases
-serapi.key
+DB/dataset_databases/
+contents
+*.key
 *content.html
+*.html
+*.log
 results*.json
 .DS_store
 *.swp
@@ -17,4 +20,3 @@ logs
 vk.key
 *.yaml
 results
-*.html
