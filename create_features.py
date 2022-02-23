@@ -47,6 +47,7 @@ def get_total_number_of_urls_in_level(url_to_level: Dict[str, int], max_level) -
 def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[str, int], main_url: str, max_level: int) -> Dict:
     # we calculate time histogram for each level
     # by this we are saving as time information so connection
+    # print(url_to_date, main_url)
     main_url_date = url_to_date[main_url]
 
     minutes_hist_per_level = np.zeros((max_level, 24 * 60 * 2)).astype(int)  # 24h,60m, and 2 days
@@ -60,12 +61,14 @@ def get_time_hist(url_to_date: Dict[str, datetime], url_to_level: Dict[str, int]
         if date is None or main_url_date is None:
             # TODO: not sure what to do if the date is None
             continue
-        if date.tz is not None or main_url_date.tz is not None:
-
-            date.tz_localize(pytz.FixedOffset(180))
-            main_url_date.tz_localize(pytz.FixedOffset(180))
-        print(date, main_url_date, date.tz, main_url_date.tz)
+        # if date.tz is not None or main_url_date.tz is not None:
+        #
+        #     date.tz_localize(pytz.FixedOffset(180))
+        #     main_url_date.tz_localize(pytz.FixedOffset(180))
+        # print(date, main_url_date, date.tz, main_url_date.tz)
         day = (date - main_url_date).days
+        if day < 0:
+            continue
         if day < 2:  # for the first two days we are creating histogram for seconds
             minutes = int(((date - main_url_date).seconds) / 60)  # how many seconds from the main publication time
             level_url = url_to_level[url]  # calculating the level, level>1

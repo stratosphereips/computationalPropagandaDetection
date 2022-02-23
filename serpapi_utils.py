@@ -431,11 +431,12 @@ def downloadContent(url):
 
         tree = fromstring(page_content.content)
         title = tree.findtext(".//title")
-        # Get the date of publication of the webpage if newspaper3k didn't find any
+        # Get the date of publication of the webpage url
         if publication_date is None:
             publication_date = parse_date_from_string(find_date(url))
+        # Get the date of publication of the webpage content
         if publication_date is None:
-            publication_date = find_date(text_content)
+            publication_date = parse_date_from_string(find_date(text_content))
     except requests.exceptions.ConnectionError:
         print(
             f"\t\t{Fore.MAGENTA}! Error in getting content due to a Connection Error. Port closed, web down?{Style.RESET_ALL}"

@@ -36,16 +36,19 @@ def create_date_centered(url, db_path, time_window=2, id=0, graph_name=None):
     original_date = None
     if nodes[url][0]:
         original_date = datetime.strptime(nodes[url][0][:10], '%Y-%m-%d').date()
+
+    first_date = date.today() - timedelta(days=time_window * 365)
+
+    date_of_query_str = db.get_date_of_query_url(url).split(' ')[0]  # we are interested only in date not exact time
+    date_of_query = datetime.strptime(date_of_query_str, '%Y-%m-%d').date()
+
     dates = [str(nodes[url][0][:10]) if nodes[url][0] is not None else None for url in nodes]
     dates.append(None)
     dates_set = {str(d) for d in dates}
-    dates_set.add(str(date.today()))
+    dates_set.add(str(date_of_query))
     unique_dates = sorted(list(dates_set))[:-1]
-    first_date = date.today() - timedelta(days=time_window * 365)
     pos = {d: TIMELINE_WIDTH * (datetime.strptime(d, '%Y-%m-%d').date() - first_date).days for d in unique_dates}
     pos["Old article"] = 0
-    date_of_query_str = db.get_date_of_query_url(url).split(' ')[0]  # we are interested only in date not exact time
-    date_of_query = datetime.strptime(date_of_query_str, '%Y-%m-%d').date()
 
     g = Network('700px', '1500', notebook=False, directed=False)
 
@@ -255,7 +258,7 @@ def build_a_graph(all_links, search_link, id=0):
     # nx.draw_spring(G, labels=labels, node_color=colors)
     # nx.draw_kamada_kawai(G, node_color=colors)
     nx.draw_planar(G, labels=labels, node_color=colors)
-    #nx.draw(G, labels=labels, node_color=colors)
+    # nx.draw(G, labels=labels, node_color=colors)
     # nx.draw_random(G, node_color=colors)
     # nx.draw_shell(G, node_color=colors)
     # nx.draw_spectral(G, node_color=colors)
