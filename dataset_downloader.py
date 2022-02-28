@@ -47,7 +47,7 @@ if __name__ == '__main__':
         "-u", "--url_file", help="txt file containing urls", type=str, required=False, default="propaganda_data.txt"
     )
     parser.add_argument(
-        "-p", "--process_id", help="process id that is running (for logging purposes if running multiple scripts)",
+        "-pid", "--process_id", help="process id that is running (for logging purposes if running multiple scripts)",
         default=0, type=int
     )
     parser.add_argument(
