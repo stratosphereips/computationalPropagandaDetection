@@ -8,9 +8,13 @@ import graph
 wnm = importlib.import_module("web-network-mapper")
 
 
-def main(data, idx_from, number_to_download, redirect, process_id):
+def main(data, idx_from, number_to_download, redirect, process_id, propaganda):
     for idx in range(idx_from, min(idx_from + number_to_download, len(data))):
-        data_root = '/data/propagandadetection/EuVsDisinfo_dataset/'
+        if propaganda:
+            data_root = '/data/propagandadetection/EuVsDisinfo_dataset/propaganda/'
+        else:
+            data_root = '/data/propagandadetection/EuVsDisinfo_dataset/normal/'
+
 
         data_root = 'C:\\data\\'
         if redirect:
@@ -53,8 +57,9 @@ if __name__ == '__main__':
         default=100, type=int
     )
     parser.add_argument("-r", "--redirect", help="redirect output to log file", action='store_true')
+    parser.add_argument("-p", "--propaganda", help="is data file propaganda", action='store_true')
     args = parser.parse_args()
     with open(args.url_file) as file:
         all_links = file.read().splitlines()
         print(len(all_links))
-    main(all_links, args.from_idx, args.number_to_download, args.redirect, args.process_id)
+    main(all_links, args.from_idx, args.number_to_download, args.redirect, args.process_id, args.propaganda)
