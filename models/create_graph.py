@@ -6,6 +6,8 @@ from os import listdir
 from os.path import isfile, join
 import pickle
 
+import matplotlib.pyplot as plt
+
 import dgl
 
 
@@ -73,11 +75,10 @@ def get_graph_sna_feature_vector(graph):
 
     closeness = nx.algorithms.closeness_centrality(graph)
     eig = nx.algorithms.eigenvector_centrality(graph, max_iter=10000)
-
+    undirected_graph = graph.to_undirected()
     # clustering
-    triangles = nx.algorithms.triangles(graph)
     clustering = nx.algorithms.clustering(graph)
-    radius = nx.algorithms.distance_measures.radius(graph)
+    radius = nx.algorithms.distance_measures.radius(undirected_graph)
 
     transitivity = nx.algorithms.transitivity(graph)
 
@@ -85,8 +86,7 @@ def get_graph_sna_feature_vector(graph):
 
     link_num = edge_types.count("link")
     features = np.asarray([sum(closeness.values()) / len(degree), sum(degree.values()) / len(degree),
-                           sum(betweenness.values()) / len(degree), sum(eig.values()) / len(degree),
-                           sum(triangles.values()) / len(degree), sum(clustering.values()) / len(degree),
+                           sum(betweenness.values()) / len(degree), sum(eig.values()) / len(degree), sum(clustering.values()) / len(degree),
                            transitivity, radius, link_num / max(1, len(edge_types))])
 
     return list(features)
@@ -152,10 +152,12 @@ def get_dataset(domain, normal_databases, propaganda_databases):
         g = get_graph(db, domain)
         if g is None:
             continue
-        dgl_graph = dgl.from_networkx(g, node_attrs=["degree_centrality", "node_fv", "one"])
-        dgl_graph = dgl.add_self_loop(dgl_graph)
-        label = 1
-        dataset.append((dgl_graph, label))
+        fv = get_fv(db)
+        dataset.append((fv, 1))
+        # dgl_graph = dgl.from_networkx(g, node_attrs=["degree_centrality", "node_fv", "one"])
+        # dgl_graph = dgl.add_self_loop(dgl_graph)
+        # label = 1
+        # dataset.append((dgl_graph, label))
     ctr = len(dataset)
     print("propaganda: ", ctr)
 
@@ -163,10 +165,12 @@ def get_dataset(domain, normal_databases, propaganda_databases):
         g = get_graph(db, domain)
         if g is None:
             continue
-        dgl_graph = dgl.from_networkx(g, node_attrs=["degree_centrality", "node_fv", "one"])
-        dgl_graph = dgl.add_self_loop(dgl_graph)
-        label = 0
-        dataset.append((dgl_graph, label))
+        fv = get_fv(db)
+        dataset.append((fv, 0))
+        # dgl_graph = dgl.from_networkx(g, node_attrs=["degree_centrality", "node_fv", "one"])
+        # dgl_graph = dgl.add_self_loop(dgl_graph)
+        # label = 0
+        # dataset.append((dgl_graph, label))
     print("nodmal: ", len(dataset) - ctr)
     return dataset
 
@@ -181,8 +185,14 @@ if __name__ == '__main__':
                             isfile(join(propaganda_path, f)) and f.endswith(".db")][:-1]
 
     domain = True
+    #
+    # pickle_name = 'domain_dataset.pickle' if domain else 'url_dataset.pickle'
+    #
+    # dataset = get_dataset(domain, normal_databases, propaganda_databases)
+    # with open(pickle_name, 'wb') as f:
+    #     pickle.dump(dataset, f)
 
-    pickle_name = 'domain_dataset.pickle' if domain else 'url_dataset.pickle'
+        pickle_name = 'graph_fv_dataset.pickle'
 
     dataset = get_dataset(domain, normal_databases, propaganda_databases)
     with open(pickle_name, 'wb') as f:
