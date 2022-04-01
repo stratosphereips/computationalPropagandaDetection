@@ -108,27 +108,17 @@ def get_graph_time_vector(db_path):
     max_level = 4
 
     for url in urls:
-        # print(f'\t[+] Processing URL {url}')
         date = get_date(url, db)
         date = date.to_pydatetime()
         date = date.replace(tzinfo=None)
-        # print(f'\t\t - Date: {date}')
         url_to_date[url] = date
 
-    # print('\t[+] Getting the time features')
     hist_features = get_time_hist(url_to_date, url_to_level, main_url, max_level)
     list_features = [item for sublist in hist_features.values() for item in sublist]
-    # print(hist_features)
-    # print('\t[+] Storing features in file')
-    # store_features_in_file(hist_features)
     number_of_urls_published_before_source = get_number_of_urls_published_before_source(url_to_date, main_url)
     list_features.append(number_of_urls_published_before_source)
-    # print(number_of_urls_published_before_source)
-    # print(f'\t[+] Number of urls published before source: {number_of_urls_published_before_source}')
     number_of_urls_in_level = get_total_number_of_urls_in_level(url_to_level, max_level)
     list_features.extend(number_of_urls_in_level)
-    # print(number_of_urls_in_level)
-    # print(f'\t[+] Number of urls in level: {number_of_urls_in_level}')
     return list_features
 
 
@@ -145,33 +135,34 @@ def get_fv(db_path):
     return np.asarray(sna_fv)
 
 
-def get_dataset(domain, normal_databases, propaganda_databases):
-    # print(propaganda_databases)
+def get_dataset(domain, normal_databases, propaganda_databases, graph_fv=False):
     dataset = []
     for db in propaganda_databases:
         g = get_graph(db, domain)
         if g is None:
             continue
-        fv = get_fv(db)
-        dataset.append((fv, 1))
-        # dgl_graph = dgl.from_networkx(g, node_attrs=["degree_centrality", "node_fv", "one"])
-        # dgl_graph = dgl.add_self_loop(dgl_graph)
-        # label = 1
-        # dataset.append((dgl_graph, label))
+        if graph_fv:
+            fv = get_fv(db)
+            dataset.append((fv, 1))
+        else:
+            dgl_graph = dgl.from_networkx(g, node_attrs=["degree_centrality", "node_fv", "one"])
+            dgl_graph = dgl.add_self_loop(dgl_graph)
+            label = 1
+            dataset.append((dgl_graph, label))
     ctr = len(dataset)
-    print("propaganda: ", ctr)
 
     for db in normal_databases:
         g = get_graph(db, domain)
         if g is None:
             continue
-        fv = get_fv(db)
-        dataset.append((fv, 0))
-        # dgl_graph = dgl.from_networkx(g, node_attrs=["degree_centrality", "node_fv", "one"])
-        # dgl_graph = dgl.add_self_loop(dgl_graph)
-        # label = 0
-        # dataset.append((dgl_graph, label))
-    print("nodmal: ", len(dataset) - ctr)
+        if graph_fv:
+            fv = get_fv(db)
+            dataset.append((fv, 0))
+        else:
+            dgl_graph = dgl.from_networkx(g, node_attrs=["degree_centrality", "node_fv", "one"])
+            dgl_graph = dgl.add_self_loop(dgl_graph)
+            label = 0
+            dataset.append((dgl_graph, label))
     return dataset
 
 
@@ -184,16 +175,19 @@ if __name__ == '__main__':
     propaganda_databases = [propaganda_path + "\\" + f for f in listdir(propaganda_path) if
                             isfile(join(propaganda_path, f)) and f.endswith(".db")][:-1]
 
+    # this dataset contains graphs
+    # entries are (dgl.graph, class), graph nodes has features g.nfeat['node_fv'] of dim 4 as starting feature vector
     domain = True
-    #
-    # pickle_name = 'domain_dataset.pickle' if domain else 'url_dataset.pickle'
-    #
-    # dataset = get_dataset(domain, normal_databases, propaganda_databases)
-    # with open(pickle_name, 'wb') as f:
-    #     pickle.dump(dataset, f)
-
-        pickle_name = 'graph_fv_dataset.pickle'
+    pickle_name = 'domain_dataset.pickle' if domain else 'url_dataset.pickle'
 
     dataset = get_dataset(domain, normal_databases, propaganda_databases)
+    with open(pickle_name, 'wb') as f:
+        pickle.dump(dataset, f)
+
+    # this is dataset containing single vector for representation of entire graph
+    # entries are in form (np.array(), class)
+    pickle_name = 'graph_fv_dataset.pickle'
+
+    dataset = get_dataset(True, normal_databases, propaganda_databases, graph_fv=True)
     with open(pickle_name, 'wb') as f:
         pickle.dump(dataset, f)
