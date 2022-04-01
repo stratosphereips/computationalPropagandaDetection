@@ -101,8 +101,8 @@ class DB:
             self.insert_link_id(parent_id=parent_id, child_id=child_id, link_date=link_date, link_type=link_type, source=source, similarity=similarity)
         else:
             # If the link types are different, insert
-            old_link_type = self.get_type_of_link_by_ids(parent_id=parent_id, child_id=child_id)
-            if source != old_link_type:
+            existing_link_type = self.get_type_of_link_by_ids(parent_id=parent_id, child_id=child_id)
+            if source != existing_link_type:
                 self.insert_link_id(parent_id=parent_id, child_id=child_id, link_date=link_date, link_type=link_type, source=source, similarity=similarity)
             else:
                 # If the link types are the same, check the date
