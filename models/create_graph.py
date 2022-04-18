@@ -5,6 +5,7 @@ from create_features import *
 from os import listdir
 from os.path import isfile, join
 import pickle
+from sklearn.model_selection import train_test_split
 
 import matplotlib.pyplot as plt
 
@@ -23,46 +24,56 @@ def filter_name(url):
 
 
 def get_graph(db_path, domain=False):
-    print(db_path)
+    domain = False
     db = DB(db_path)
     urls = db.get_url_by_id(1)[0][0]
     cur_edges, cur_nodes = db.get_tree(urls)
 
-    new_nodes = set(cur_nodes.keys())
-    new_edges = [((source, target), {'edge_type': edge_type}) for _, source, target, edge_type
+    new_nodes = [(node, (*cur_nodes[node], filter_name(node))) for node in cur_nodes]
+    new_edges = [((referenced_by, url), edge_type) for _, url, referenced_by, edge_type
                  in cur_edges]
     if len(new_edges) <= 1:
         return None
-
+    n2i = dict()
+    i2n = dict()
+    ctr = 0
     if domain:
-        new_nodes = {filter_name(n) for n in new_nodes}
+        new_nodes = [(filter_name(n), attrs) for n, attrs in new_nodes]
+    for n, _ in new_nodes:
+        if n not in n2i:
+            n2i[n] = ctr
+            i2n[ctr] = n
+            ctr += 1
 
-    G = nx.DiGraph(label="prop")
-    G.add_nodes_from(new_nodes)
-    for e in new_edges:
-        f, t = e[0]
+    G = nx.MultiDiGraph()
+    for n, attrs in new_nodes:
+        G.add_node(n2i[n], publication_date=attrs[0], level=attrs[1], domain=attrs[2], url=n)
+    used_edges = dict()
+    for (f, t), link_type in new_edges:
         if domain:
             f = filter_name(f)
             t = filter_name(t)
-        G.add_edge(f, t, **e[1])
 
-    reversed_G = G.reverse(copy=True)
+        f = n2i[f]
+        t = n2i[t]
 
-    degree = nx.algorithms.degree_centrality(G)
-    betweenness = nx.algorithms.betweenness_centrality(G)
+        # there can be multiple edges from f to t found by title. This can happen because it was found by more engines (google, bing..)
+        # we stored this only for the non-propaganda part, propaganda part was downloaded before this was introduced
+        # it is therefore needed to add the link only once
+        if (f,t) not in used_edges.keys() or link_type not in used_edges[f, t]:
+            if link_type == 'link':
+                G.add_edge(f, t, link=1, link_type='link')
+            elif link_type == 'title':
+                G.add_edge(f, t, title=1, link_type='title')
+            else:
+                raise Exception(f"Unknown link type {link_type}")
 
-    eig = nx.algorithms.eigenvector_centrality(reversed_G, max_iter=10000)
+            if (f, t) not in used_edges.keys():
+                used_edges[(f, t)] = {link_type}
+            else:
+                used_edges[(f,t)].add(link_type)
 
-    degree_centrality = nx.algorithms.degree_centrality(G)
-    clustering = nx.algorithms.clustering(G)
-    nx.algorithms.transitivity(G)
 
-    for n in G.nodes:
-        print(n)
-        G.nodes[n]["degree_centrality"] = np.asarray([degree_centrality[n]], dtype=np.float32)
-        G.nodes[n]["node_fv"] = np.asarray([degree[n], betweenness[n], eig[n], clustering[n]], dtype=np.float32)
-        print(G.nodes[n]["node_fv"])
-        G.nodes[n]["one"] = np.ones(1, dtype=np.float32)
 
     return G
 
@@ -70,7 +81,8 @@ def get_graph(db_path, domain=False):
 def get_graph_sna_feature_vector(graph):
     if graph is None:
         return np.zeros(9)
-    degree = nx.algorithms.degree_centrality(graph)
+    in_degree = nx.algorithms.in_degree_centrality(graph)
+    out_degree = nx.algorithms.out_degree_centrality(graph)
     betweenness = nx.algorithms.betweenness_centrality(graph)
 
     closeness = nx.algorithms.closeness_centrality(graph)
@@ -79,15 +91,16 @@ def get_graph_sna_feature_vector(graph):
     # clustering
     clustering = nx.algorithms.clustering(graph)
     radius = nx.algorithms.distance_measures.radius(undirected_graph)
+    n = len(in_degree)
 
     transitivity = nx.algorithms.transitivity(graph)
 
     edge_types = [n[-1]["edge_type"] for n in graph.edges(data=True)]
 
     link_num = edge_types.count("link")
-    features = np.asarray([sum(closeness.values()) / len(degree), sum(degree.values()) / len(degree),
-                           sum(betweenness.values()) / len(degree), sum(eig.values()) / len(degree), sum(clustering.values()) / len(degree),
-                           transitivity, radius, link_num / max(1, len(edge_types))])
+    features = np.asarray([sum(closeness.values()) / n, sum(in_degree.values()) / n, sum(out_degree.values()) / n,
+                           sum(betweenness.values()) / n, sum(eig.values()) / n, sum(clustering.values()) / n,
+                           transitivity, radius, link_num / max(1, len(edge_types)), n, graph.number_of_edges()])
 
     return list(features)
 
@@ -146,7 +159,6 @@ def get_dataset(domain, normal_databases, propaganda_databases, graph_fv=False):
             dataset.append((fv, 1))
         else:
             dgl_graph = dgl.from_networkx(g, node_attrs=["degree_centrality", "node_fv", "one"])
-            dgl_graph = dgl.add_self_loop(dgl_graph)
             label = 1
             dataset.append((dgl_graph, label))
     ctr = len(dataset)
@@ -166,7 +178,29 @@ def get_dataset(domain, normal_databases, propaganda_databases, graph_fv=False):
     return dataset
 
 
+def get_nx_dataset(domain, normal_databases, propaganda_databases):
+    dataset = []
+    for db in normal_databases:
+        g = get_graph(db, domain)
+        if g is None:
+            continue
+        label = 0
+        dataset.append((g, label))
+
+    for db in propaganda_databases:
+        g = get_graph(db, domain)
+        if g is None:
+            continue
+        label = 1
+        dataset.append((g, label))
+    train_set, test_set = train_test_split(dataset, test_size=0.2, stratify=[l for _, l in dataset])
+    train_set, val_set = train_test_split(train_set, test_size=0.2, stratify=[l for _, l in train_set])
+    return train_set, val_set, test_set
+
+
 if __name__ == '__main__':
+    # you need to set paths to the databases, this is my stored at my local laptop
+
     normal_path = "C:\\EuVsDisinfo_dataset\\normal\\databases"
     normal_databases = [normal_path + "\\" + f for f in listdir(normal_path) if
                         isfile(join(normal_path, f)) and f.endswith(".db")]
@@ -175,19 +209,34 @@ if __name__ == '__main__':
     propaganda_databases = [propaganda_path + "\\" + f for f in listdir(propaganda_path) if
                             isfile(join(propaganda_path, f)) and f.endswith(".db")][:-1]
 
+    # generate different dataset based on commenting code
+
+
     # this dataset contains graphs
     # entries are (dgl.graph, class), graph nodes has features g.nfeat['node_fv'] of dim 4 as starting feature vector
-    domain = True
-    pickle_name = 'domain_dataset.pickle' if domain else 'url_dataset.pickle'
+    # domain = True
+    # pickle_name = 'domain_dataset.pickle' if domain else 'url_dataset.pickle'
+    #
+    # dataset = get_dataset(domain, normal_databases, propaganda_databases)
+    # with open(pickle_name, 'wb') as f:
+    #     pickle.dump(dataset, f)
+    #
+    # # this is dataset containing single vector for representation of entire graph
+    # # entries are in form (np.array(), class)
+    # pickle_name = 'graph_fv_dataset.pickle'
+    #
+    # dataset = get_dataset(True, normal_databases, propaganda_databases, graph_fv=True)
+    # with open(pickle_name, 'wb') as f:
+    #     pickle.dump(dataset, f)
+    #
+    # pickle_name = 'nx_domain_dataset.pickle'
+    #
+    # dataset = get_nx_dataset(True, normal_databases, propaganda_databases)
+    # with open(pickle_name, 'wb') as f:
+    #     pickle.dump(dataset, f)
 
-    dataset = get_dataset(domain, normal_databases, propaganda_databases)
-    with open(pickle_name, 'wb') as f:
-        pickle.dump(dataset, f)
+    pickle_name = 'nx_dataset.pickle'
 
-    # this is dataset containing single vector for representation of entire graph
-    # entries are in form (np.array(), class)
-    pickle_name = 'graph_fv_dataset.pickle'
-
-    dataset = get_dataset(True, normal_databases, propaganda_databases, graph_fv=True)
+    dataset = get_nx_dataset(False, normal_databases, propaganda_databases)
     with open(pickle_name, 'wb') as f:
         pickle.dump(dataset, f)
