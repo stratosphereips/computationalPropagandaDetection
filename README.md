@@ -1,4 +1,4 @@
-# Computational Propaganda Detection Tool
+# Werge: Web Reversed Graph Extractor
 
 A set of tools to work on computational propaganda detection
 
