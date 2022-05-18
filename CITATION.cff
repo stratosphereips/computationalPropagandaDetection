@@ -3,9 +3,16 @@ message: "If you use this software, please cite it as below."
 authors:
   - family-names: Garcia
     given-names: Sebastian 
+    email: sebastian.garcia@agents.fel.cvut.cz
+    affiliation: >-
+      Stratosphere Laboratory, AIC, FEL, Czech
+      Technical University in Prague
   - family-names: Babayeva
-    given-names: Elnaz     
+    given-names: Elnaz
+    email: elnazavr@gmail.com
+    affiliation: >-
+      Avast
 title: "Werge: Web Reverse Graph Extractor"
 version: 0.0.1
-
+url: "https://github.com/stratosphereips/computationalPropagandaDetection/"
 date-released: 2021-08-11
