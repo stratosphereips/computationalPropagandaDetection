@@ -21,7 +21,7 @@ def parse_date(text):
 
 def add_time_difference(dataset):
     for j in range(len(dataset)):
-        g = dataset[j][0]
+        g = dataset[j]
         g.nodes[0]["time_diff"] = 0
         g.nodes[0]["no_time"] = 0
         for e in g.edges:
@@ -39,10 +39,9 @@ def add_time_difference(dataset):
 
 def add_domain(dataset):
     for j in range(len(dataset)):
-        g = dataset[j][0]
+        g = dataset[j]
         node_domains = dict()
-        for i in g.nodes:
-            # print(i, g[i])
+        for i in g.nodes():
             if g.nodes[i]['domain'] not in node_domains:
                 node_domains[g.nodes[i]['domain']] = [i]
             else:
@@ -72,7 +71,7 @@ def add_backward_edges(dataset):
 
 def add_sna(dataset):
     for j in range(len(dataset)):
-        g = dataset[j][0]
+        g = dataset[j]
         unoriented_graph = nx.Graph(g)
         simple_graph = nx.DiGraph(g)
         reversesed_graph = simple_graph.reverse(copy=True)
@@ -123,8 +122,12 @@ def sna_node_embedding(dataset):
 
 
 def all_node_embedding(dataset):
+    is_list = True
+    if type(dataset) is not list:
+        is_list = False
+        dataset = [dataset]
     for j in range(len(dataset)):
-        g = dataset[j][0]
+        g = dataset[j]
         for i in range(len(g.nodes)):
             n = g.nodes[i]
             g.nodes[i]['h'] = torch.tensor([
@@ -133,8 +136,10 @@ def all_node_embedding(dataset):
                 *n['sna']
             ])
             g.nodes[i]['h'][n['level']] = 1.
-    return dataset
-
+    if is_list:
+        return dataset
+    else:
+        return dataset[0]
 
 def all_but_sna_node_embedding(dataset):
     for j in range(len(dataset)):

@@ -23,10 +23,12 @@ def filter_name(url):
     return basename
 
 
-def get_graph(db_path, domain=False):
-    domain = False
+def get_graph(db_path, domain=False, main_url=None):
     db = DB(db_path)
-    urls = db.get_url_by_id(1)[0][0]
+    if main_url is None:
+        urls = db.get_url_by_id(1)[0][0]
+    else:
+        urls = main_url
     cur_edges, cur_nodes = db.get_tree(urls)
 
     new_nodes = [(node, (*cur_nodes[node], filter_name(node))) for node in cur_nodes]
@@ -72,9 +74,6 @@ def get_graph(db_path, domain=False):
                 used_edges[(f, t)] = {link_type}
             else:
                 used_edges[(f,t)].add(link_type)
-
-
-
     return G
 
 
